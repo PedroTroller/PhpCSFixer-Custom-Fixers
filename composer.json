@@ -1,0 +1,17 @@
+{
+    "name": "pedrotroller/php-cs-custom-fixer",
+    "license": "MIT",
+    "require": {
+        "php": ">5.3.6",
+        "fabpot/php-cs-fixer": "^1.11"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^2.4"
+    },
+    "autoload": {
+        "psr-0": { "PedroTroller\\CS": "src/" }
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+}
