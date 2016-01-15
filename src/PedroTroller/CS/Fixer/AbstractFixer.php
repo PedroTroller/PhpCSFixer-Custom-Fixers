@@ -50,11 +50,7 @@ abstract class AbstractFixer extends BaseFixer
             return false;
         }
 
-        if (false === strpos($haystack, $needle, $temp)) {
-            return false;
-        }
-
-        return true;
+        return false !== strpos($haystack, $needle, $temp);
     }
 
     /**
@@ -87,7 +83,7 @@ abstract class AbstractFixer extends BaseFixer
      * @param Tokens          $tokens
      * @param string[]|string $fqcn
      *
-     * @return array
+     * @return array|null
      */
     protected function getUseStatements(Tokens $tokens, $fqcn)
     {
@@ -184,7 +180,7 @@ abstract class AbstractFixer extends BaseFixer
             $fqcn = explode('\\', $fqcn);
         }
 
-        if ( ! $this->hasUseStatements($tokens, $fqcn)) {
+        if (false === $this->hasUseStatements($tokens, $fqcn)) {
             return false;
         }
 
