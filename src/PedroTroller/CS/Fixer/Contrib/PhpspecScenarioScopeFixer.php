@@ -54,11 +54,7 @@ class PhpspecScenarioScopeFixer extends AbstractFixer
      */
     public function getDescription()
     {
-        return <<<DESCRIPTION
-[PHPSPEC]
-
-This fixer will ensure that your spec functions will never have a 'public' scope.
-DESCRIPTION;
+        return 'PHPSpec spec functions MUST NOT have a public scope.';
     }
 
     /**

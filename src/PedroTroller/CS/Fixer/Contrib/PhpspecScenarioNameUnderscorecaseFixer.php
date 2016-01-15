@@ -42,10 +42,6 @@ class PhpspecScenarioNameUnderscorecaseFixer extends AbstractFixer
      */
     public function getDescription()
     {
-        return <<<DESCRIPTION
-[PHPSPEC]
-
-This fixer will ensure that your spec functions names will always be underscore cased.
-DESCRIPTION;
+        return 'PHPSpec spec functions MUST be underscorecased.';
     }
 }
