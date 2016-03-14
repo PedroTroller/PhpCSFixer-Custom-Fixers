@@ -6,8 +6,10 @@ use PedroTroller\CS\Fixer\AbstractFixer;
 
 class SingleCommentInlinerFixer extends AbstractFixer
 {
+    /** @var string[] */
     private static $inlined = array('var');
 
+    /** @var string */
     private $regex = '/( *)\/[*]{1,2}\n( *)[*]{1,2} @%s (.+)\n( *)\*\//';
 
     /**
