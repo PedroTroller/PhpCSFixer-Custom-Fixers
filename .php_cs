@@ -5,7 +5,6 @@ $finder = Symfony\CS\Finder\DefaultFinder::create()
 ;
 
 return Symfony\CS\Config\Config::create()
-    ->setUsingCache(true)
     ->level(Symfony\CS\FixerInterface::SYMFONY_LEVEL)
     ->fixers(array(
         'align_double_arrow',
@@ -17,7 +16,9 @@ return Symfony\CS\Config\Config::create()
         'ordered_use',
         'phpdoc_order',
         'phpspec',
+        'single_comment_inliner',
     ))
     ->addCustomFixer(new PedroTroller\CS\Fixer\Contrib\PhpspecFixer())
+    ->addCustomFixer(new PedroTroller\CS\Fixer\Contrib\SingleCommentInlinerFixer())
     ->finder($finder)
 ;

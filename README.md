@@ -30,7 +30,7 @@ return Symfony\CS\Config\Config::create()
     ->level(Symfony\CS\FixerInterface::SYMFONY_LEVEL)
     ->fixers(array(
         //...
-        'phpspec-scenario-scope',
+        'phpspec_scenario_scope',
         //...
     ))
     ->addCustomFixer(new PedroTroller\CS\Fixer\Contrib\PhpspecScenarioScopeFixer())
@@ -55,7 +55,7 @@ return Symfony\CS\Config\Config::create()
     ->level(Symfony\CS\FixerInterface::SYMFONY_LEVEL)
     ->fixers(array(
         //...
-        'phpspec-name-underscorecase',
+        'phpspec_name_underscorecase',
         //...
     ))
     ->addCustomFixer(new PedroTroller\CS\Fixer\Contrib\PhpspecScenarioNameUnderscorecaseFixer())
@@ -85,6 +85,47 @@ return Symfony\CS\Config\Config::create()
         //...
     ))
     ->addCustomFixer(new PedroTroller\CS\Fixer\Contrib\PhpspecFixer())
+    ->finder($finder)
+;
+```
+
+###Single comment inliner fixer
+
+Transform multiline docblocks with only one comment into a multiline docblock.
+
+For example : 
+
+```php
+/**
+ * @var string
+ */
+```
+
+Becomes
+
+```php
+/** @var string */
+```
+
+Configuration
+-------------
+```php
+<?php
+
+$finder = Symfony\CS\Finder\DefaultFinder::create()
+    ->in(__DIR__)
+;
+
+return Symfony\CS\Config\Config::create()
+    ->setUsingCache(true)
+    ->level(Symfony\CS\FixerInterface::SYMFONY_LEVEL)
+    ->fixers(array(
+        //...
+        'single_comment_inliner',
+        //...
+    ))
+    ->addCustomFixer(new PedroTroller\CS\Fixer\Contrib\SingleCommentInlinerFixer())
+    ->finder($finder)
     ->finder($finder)
 ;
 ```

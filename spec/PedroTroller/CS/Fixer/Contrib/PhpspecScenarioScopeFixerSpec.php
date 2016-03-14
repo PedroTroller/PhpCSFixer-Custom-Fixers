@@ -13,7 +13,7 @@ class PhpspecScenarioScopeFixerSpec extends ObjectBehavior
 
     function it_returns_its_name()
     {
-        $this->getName()->shouldReturn('phpspec-scenario-scope');
+        $this->getName()->shouldReturn('phpspec_scenario_scope');
     }
 
     function it_fix_spec_file(\SplFileInfo $spl)

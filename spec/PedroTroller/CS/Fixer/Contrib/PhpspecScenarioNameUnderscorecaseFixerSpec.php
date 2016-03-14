@@ -13,7 +13,7 @@ class PhpspecScenarioNameUnderscorecaseFixerSpec extends ObjectBehavior
 
     function it_returns_its_name()
     {
-        $this->getName()->shouldReturn('phpspec-scenario-name-underscorecase');
+        $this->getName()->shouldReturn('phpspec_scenario_name_underscorecase');
     }
 
     function it_fix_spec_file(\SplFileInfo $spl)

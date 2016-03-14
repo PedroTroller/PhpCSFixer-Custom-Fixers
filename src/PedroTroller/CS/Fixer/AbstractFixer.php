@@ -29,7 +29,7 @@ abstract class AbstractFixer extends BaseFixer
             $shortname = substr($shortname, 0, -5);
         }
 
-        $shortname = preg_replace('/(?!^)([A-Z])/', '-$1', $shortname);
+        $shortname = preg_replace('/(?!^)([A-Z])/', '_$1', $shortname);
 
         return strtolower($shortname);
     }
