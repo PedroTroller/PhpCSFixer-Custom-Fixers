@@ -66,7 +66,7 @@ class CollectionFixer extends AbstractFixer
             return parent::getPriority();
         }
 
-        return max($priorities);
+        return min($priorities);
     }
 
     /**
