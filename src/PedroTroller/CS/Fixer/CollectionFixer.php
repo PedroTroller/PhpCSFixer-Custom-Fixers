@@ -6,7 +6,9 @@ use Symfony\CS\FixerInterface;
 
 class CollectionFixer extends AbstractFixer
 {
-    /** @var FixerInterface[] */
+    /**
+     * @var FixerInterface[]
+     */
     private $fixers;
 
     /**

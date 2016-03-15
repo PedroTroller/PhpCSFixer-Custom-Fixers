@@ -191,4 +191,22 @@ abstract class AbstractFixer extends BaseFixer
             array(T_STRING, array_pop($fqcn)),
         ));
     }
+
+    /**
+     * @param Tokens $tokens
+     *
+     * @return Token[]
+     */
+    protected function getComments(Tokens $tokens)
+    {
+        $comments = array();
+
+        foreach ($tokens as $index => $token) {
+            if (true === $token->isComment()) {
+                $comments[$index] = $token;
+            }
+        }
+
+        return $comments;
+    }
 }

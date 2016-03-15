@@ -2,19 +2,19 @@
 
 namespace spec\PedroTroller\CS\Fixer\Contrib;
 
-use PedroTroller\CS\Fixer\Contrib\SingleCommentInlinerFixer;
+use PedroTroller\CS\Fixer\Contrib\SingleCommentCollapsedFixer;
 use PhpSpec\ObjectBehavior;
 
-class SingleCommentInlinerFixerSpec extends ObjectBehavior
+class SingleCommentCollapsedFixerSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('PedroTroller\CS\Fixer\Contrib\SingleCommentInlinerFixer');
+        $this->shouldHaveType('PedroTroller\CS\Fixer\Contrib\SingleCommentCollapsedFixer');
     }
 
     function it_returns_its_name()
     {
-        $this->getName()->shouldReturn('single_comment_inliner');
+        $this->getName()->shouldReturn('single_comment_collapsed');
     }
 
     function it_fix_spec_file(\SplFileInfo $spl)
@@ -26,7 +26,9 @@ namespace Project\Namespace;
 
 class TheClass
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     private \$string;
 
     /** @var string */
@@ -77,7 +79,7 @@ class TheClass
 }
 SPEC;
 
-        SingleCommentInlinerFixer::setInlinedComments(array('var', 'param'));
+        SingleCommentCollapsedFixer::setCollapsedComments(array('@var', '@param'));
         $spl->getExtension()->willReturn('php');
 
         $this->fix($spl, $spec)->shouldReturn($expect);

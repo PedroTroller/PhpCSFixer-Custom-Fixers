@@ -16,9 +16,9 @@ return Symfony\CS\Config\Config::create()
         'ordered_use',
         'phpdoc_order',
         'phpspec',
-        'single_comment_inliner',
+        'single_comment_expanded',
     ))
     ->addCustomFixer(new PedroTroller\CS\Fixer\Contrib\PhpspecFixer())
-    ->addCustomFixer(new PedroTroller\CS\Fixer\Contrib\SingleCommentInlinerFixer())
+    ->addCustomFixer(new PedroTroller\CS\Fixer\Contrib\SingleCommentExpandedFixer())
     ->finder($finder)
 ;
