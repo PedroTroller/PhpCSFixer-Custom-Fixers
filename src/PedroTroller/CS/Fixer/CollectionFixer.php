@@ -4,7 +4,7 @@ namespace PedroTroller\CS\Fixer;
 
 use Symfony\CS\FixerInterface;
 
-class CollectionFixer extends AbstractFixer
+abstract class CollectionFixer extends AbstractFixer
 {
     /**
      * @var FixerInterface[]
