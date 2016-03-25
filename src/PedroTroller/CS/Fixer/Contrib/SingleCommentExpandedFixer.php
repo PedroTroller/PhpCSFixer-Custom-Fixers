@@ -42,6 +42,7 @@ class SingleCommentExpandedFixer extends AbstractFixer
                 $spaces = explode("\n", $tokens[$prev]->getContent());
                 $space  = end($spaces);
             }
+
             foreach (self::$expanded as $variable) {
                 $regex   = sprintf($this->regex, $variable);
                 $replace = sprintf("/**\n$space * %s $2\n$space */", $variable);
