@@ -5,6 +5,9 @@ Transform multiline docblocks with only one comment into a singleline docblock.
 For example : 
 
 ```php
+do {
+    // ...
+} while (true);
 for (['foo', 'bar'] as $str) {
     // ...
 }
@@ -21,6 +24,10 @@ while (true) {
 Becomes
 
 ```php
+do {
+    // ...
+} while (true);
+
 for (['foo', 'bar'] as $str) {
     // ...
 }

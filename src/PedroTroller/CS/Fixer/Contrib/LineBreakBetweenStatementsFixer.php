@@ -17,7 +17,7 @@ class LineBreakBetweenStatementsFixer extends AbstractFixer
         for ($index = 0; $index < $tokens->count() - 2; ++$index) {
             $token = $tokens[$index];
 
-            if ('}' !== $token->getContent()) {
+            if (false === $token->equals('}')) {
                 continue;
             }
 
@@ -30,11 +30,30 @@ class LineBreakBetweenStatementsFixer extends AbstractFixer
             $statement = $tokens[$index + 2];
 
             switch ($statement->getId()) {
+                case T_WHILE:
+                    $semicolon = $tokens->getNextTokenOfKind($index + 1, array(';'));
+                    $break     = false;
+
+                    if (null !== $semicolon) {
+                        $break = true;
+                        for ($next = $index + 1; $next < $semicolon; ++$next) {
+                            if ($tokens[$next]->equals('{')) {
+                                $break = false;
+                            }
+                        }
+                    }
+
+                    if (true === $break) {
+                        $nextSpace = $tokens->getNextTokenOfKind($semicolon, array(array(T_WHITESPACE)));
+
+                        if (null !== $nextSpace) {
+                            $space = $tokens[$nextSpace];
+                        }
+                    }
                 case T_IF:
                 case T_DO:
                 case T_FOREACH:
                 case T_FOR:
-                case T_WHILE:
                     $space->setContent($this->ensureNumberOfBreaks($space->getContent()));
             }
         }
