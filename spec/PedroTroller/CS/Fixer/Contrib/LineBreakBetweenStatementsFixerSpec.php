@@ -25,6 +25,9 @@ class TheClass
 {
     public function theFunction()
     {
+        do {
+            //yolo
+        } while (true);
         if (true) {
             return;
         }
@@ -49,6 +52,10 @@ class TheClass
 {
     public function theFunction()
     {
+        do {
+            //yolo
+        } while (true);
+
         if (true) {
             return;
         }

@@ -10,6 +10,7 @@ return Symfony\CS\Config\Config::create()
         'align_double_arrow',
         'align_equals',
         'concat_with_spaces',
+        'line_break_between_statements',
         'logical_not_operators_with_spaces',
         'long_array_syntax',
         'newline_after_open_tag',
@@ -17,10 +18,9 @@ return Symfony\CS\Config\Config::create()
         'phpdoc_order',
         'phpspec',
         'single_comment_expanded',
-        'line_break_between_statements',
     ))
+    ->addCustomFixer(new PedroTroller\CS\Fixer\Contrib\LineBreakBetweenStatementsFixer())
     ->addCustomFixer(new PedroTroller\CS\Fixer\Contrib\PhpspecFixer())
     ->addCustomFixer(new PedroTroller\CS\Fixer\Contrib\SingleCommentExpandedFixer())
-    ->addCustomFixer(new PedroTroller\CS\Fixer\Contrib\LineBreakBetweenStatementsFixer())
     ->finder($finder)
 ;
