@@ -86,4 +86,37 @@ PHP;
 
         $this->fix($spl, $class)->shouldReturn($expect);
     }
+
+    function it_supports_functions_with_default_argument(\SplFileInfo $spl)
+    {
+        $class = <<<PHP
+<?php
+
+class TheClass
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function start(Request \$request, AuthenticationException \$authException = null)
+    {
+    }
+}
+PHP;
+
+        $expect = <<<PHP
+<?php
+
+class TheClass
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function start(Request \$request, AuthenticationException \$authException = null)
+    {
+    }
+}
+PHP;
+
+        $this->fix($spl, $class)->shouldReturn($expect);
+    }
 }

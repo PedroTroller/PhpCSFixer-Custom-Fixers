@@ -24,30 +24,35 @@ class VariableAssignAndReturnFixer extends AbstractFixer
             ), $index);
 
             if (null !== $assign) {
-                $keys        = array_keys($assign);
-                $equals      = end($keys);
-                $endline     = $tokens->getNextTokenOfKind($equals, array(';'));
-                $valueTokens = array();
+                $keys                              = array_keys($assign);
+                list($variableIndex, $equalsIndex) = $keys;
+                $endline                           = $tokens->getNextTokenOfKind($equalsIndex, array(';'));
+                $variable                          = $tokens[$variableIndex];
 
-                for ($i = $tokens->getNextMeaningfulToken($equals); $i <= $endline; ++$i) {
-                    $valueTokens[$i] = $tokens[$i];
+                if (null !== $endline) {
+                    $valueTokens = array();
+
+                    for ($i = $tokens->getNextMeaningfulToken($equalsIndex); $i <= $endline; ++$i) {
+                        $valueTokens[$i] = $tokens[$i];
+                    }
+
+                    $next = $tokens->getNextMeaningfulToken($endline);
+
+                    if (T_RETURN === $tokens[$next]->getId()) {
+                        $all[] = array(
+                            'assign' => $assign,
+                            'value'  => $valueTokens,
+                            'return' => $tokens->findSequence(array(
+                                array(T_VARIABLE, $variable->getContent()),
+                                ';',
+                            ), $next + 2),
+                        );
+                    }
+
+                    $index = $next + 6;
+                } else {
+                    $assign = null;
                 }
-
-                $variable = $tokens[$keys[0]];
-                $next     = $tokens->getNextMeaningfulToken($endline);
-
-                if (T_RETURN === $tokens[$next]->getId()) {
-                    $all[] = array(
-                        'assign' => $assign,
-                        'value'  => $valueTokens,
-                        'return' => $tokens->findSequence(array(
-                            array(T_VARIABLE, $variable->getContent()),
-                            ';',
-                        ), $next + 2),
-                    );
-                }
-
-                $index = $next + 6;
             }
         } while (null !== $assign);
 
