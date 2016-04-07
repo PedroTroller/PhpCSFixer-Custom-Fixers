@@ -83,7 +83,7 @@ abstract class AbstractFixer extends BaseFixer
      * @param Tokens          $tokens
      * @param string[]|string $fqcn
      *
-     * @return array|null
+     * @return null|array
      */
     protected function getUseStatements(Tokens $tokens, $fqcn)
     {

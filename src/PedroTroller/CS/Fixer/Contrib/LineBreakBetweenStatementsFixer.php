@@ -30,6 +30,7 @@ class LineBreakBetweenStatementsFixer extends AbstractFixer
             $statement = $tokens[$index + 2];
 
             switch ($statement->getId()) {
+                // If it's a while, isolate the case of do {} while ();
                 case T_WHILE:
                     $semicolon = $tokens->getNextTokenOfKind($index + 1, array(';'));
                     $break     = false;
