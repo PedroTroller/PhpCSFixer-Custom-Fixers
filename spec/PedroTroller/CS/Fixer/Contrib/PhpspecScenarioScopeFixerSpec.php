@@ -42,6 +42,10 @@ class TheSpec extends ObjectBehavior
     public function itIsNotASpec(\$file) {
         return;
     }
+
+    public function its_other_function(\$file) {
+        return;
+    }
 }
 SPEC;
 
@@ -67,6 +71,10 @@ class TheSpec extends ObjectBehavior
     }
 
     public function itIsNotASpec(\$file) {
+        return;
+    }
+
+    function its_other_function(\$file) {
         return;
     }
 }

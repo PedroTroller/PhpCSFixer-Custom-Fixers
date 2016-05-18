@@ -33,17 +33,17 @@ class PhpspecScenarioScopeFixer extends AbstractFixer
             $name  = $tokens[$next];
             $scope = $tokens[$previous];
 
-            if (false === in_array($name->getContent(), array('let', 'letGo'))
-                && false === $this->startsWith($name->getContent(), 'it_')) {
-                continue;
-            }
+            switch (true) {
+                case in_array($name->getContent(), array('let', 'letGo')):
+                case $this->startsWith($name->getContent(), 'it_'):
+                case $this->startsWith($name->getContent(), 'its_'):
+                    if (T_PUBLIC !== $scope->getId()) {
+                        continue;
+                    }
 
-            if (T_PUBLIC !== $scope->getId()) {
-                continue;
+                    $tokens->overrideAt($previous, '');
+                    $tokens->removeTrailingWhitespace($previous);
             }
-
-            $tokens->overrideAt($previous, '');
-            $tokens->removeTrailingWhitespace($previous);
         }
 
         return $tokens->generateCode();
