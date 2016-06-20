@@ -1,9 +1,10 @@
 {
     "name": "pedrotroller/php-cs-custom-fixer",
+    "description": "PHP-CS-FIXER : my custom fixers",
     "license": "MIT",
     "require": {
         "php": ">5.3.6",
-        "fabpot/php-cs-fixer": "^1.11"
+        "friendsofphp/php-cs-fixer": "^1.11"
     },
     "require-dev": {
         "phpspec/phpspec": "^2.4"
@@ -12,11 +13,12 @@
         "psr-0": { "PedroTroller\\CS": "src/" }
     },
     "config": {
-        "bin-dir": "bin"
+        "bin-dir": "bin",
+        "sort-packages": true
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.x-dev"
+            "dev-master": "1.4.x-dev"
         }
     }
 }
