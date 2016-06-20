@@ -9,6 +9,7 @@ return Symfony\CS\Config\Config::create()
     ->fixers(array(
         'align_double_arrow',
         'align_equals',
+        'assign_and_return',
         'concat_with_spaces',
         'line_break_between_statements',
         'logical_not_operators_with_spaces',
@@ -22,5 +23,6 @@ return Symfony\CS\Config\Config::create()
     ->addCustomFixer(new PedroTroller\CS\Fixer\Contrib\LineBreakBetweenStatementsFixer())
     ->addCustomFixer(new PedroTroller\CS\Fixer\Contrib\PhpspecFixer())
     ->addCustomFixer(new PedroTroller\CS\Fixer\Contrib\SingleCommentExpandedFixer())
+    ->addCustomFixer(new PedroTroller\CS\Fixer\Contrib\AssignAndReturnFixer())
     ->finder($finder)
 ;
