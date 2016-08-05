@@ -21,7 +21,7 @@ class PhpspecScenarioScopeFixerSpec extends ObjectBehavior
         $spec = <<<SPEC
 <?php
 
-namespace spec\Project\Namespace;
+namespace spec\Project\TheNamespace;
 
 use PhpSpec\ObjectBehavior;
 
@@ -52,7 +52,7 @@ SPEC;
         $expect = <<<SPEC
 <?php
 
-namespace spec\Project\Namespace;
+namespace spec\Project\TheNamespace;
 
 use PhpSpec\ObjectBehavior;
 
@@ -88,7 +88,7 @@ SPEC;
         $spec = <<<SPEC
 <?php
 
-namespace spec\Project\Namespace;
+namespace spec\Project\TheNamespace;
 
 class TheSpec
 {
