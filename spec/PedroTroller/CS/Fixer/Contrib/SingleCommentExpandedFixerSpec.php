@@ -22,7 +22,7 @@ class SingleCommentExpandedFixerSpec extends ObjectBehavior
         $spec = <<<SPEC
 <?php
 
-namespace Project\Namespace;
+namespace Project\TheNamespace;
 
 class TheClass
 {
@@ -50,7 +50,7 @@ SPEC;
         $expect = <<<SPEC
 <?php
 
-namespace Project\Namespace;
+namespace Project\TheNamespace;
 
 class TheClass
 {

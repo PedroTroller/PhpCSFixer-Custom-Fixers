@@ -36,7 +36,7 @@ class TheClass
     {
         // ...
 
-        \$this->useless = FOO:bar();
+        \$this->useless = FOO::bar();
 
         return \$this->useless;
     }
@@ -68,7 +68,7 @@ class TheClass
     {
         // ...
 
-        return \$this->useless = FOO:bar();
+        return \$this->useless = FOO::bar();
     }
 
     public function theLastFunction()
