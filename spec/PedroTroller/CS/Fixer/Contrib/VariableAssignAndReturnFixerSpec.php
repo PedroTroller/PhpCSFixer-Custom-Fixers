@@ -18,7 +18,7 @@ class VariableAssignAndReturnFixerSpec extends ObjectBehavior
 
     function it_fix_assign_and_return(\SplFileInfo $spl)
     {
-        $class = <<<PHP
+        $class = <<<'PHP'
 <?php
 
 class TheClass
@@ -27,32 +27,32 @@ class TheClass
     {
         // ...
 
-        \$useless = 'yolo';
+        $useless = 'yolo';
 
-        return \$useless;
+        return $useless;
     }
 
     public function theOtherFunction()
     {
         // ...
 
-        \$this->useless = FOO::bar();
+        $this->useless = FOO::bar();
 
-        return \$this->useless;
+        return $this->useless;
     }
 
     public function theLastFunction()
     {
         // ...
 
-        \$this->useless2 = true;
+        $this->useless2 = true;
 
-        return \$this->useless2;
+        return $this->useless2;
     }
 }
 PHP;
 
-        $expect = <<<PHP
+        $expect = <<<'PHP'
 <?php
 
 class TheClass
@@ -68,18 +68,18 @@ class TheClass
     {
         // ...
 
-        \$this->useless = FOO::bar();
+        $this->useless = FOO::bar();
 
-        return \$this->useless;
+        return $this->useless;
     }
 
     public function theLastFunction()
     {
         // ...
 
-        \$this->useless2 = true;
+        $this->useless2 = true;
 
-        return \$this->useless2;
+        return $this->useless2;
     }
 }
 PHP;
@@ -89,7 +89,7 @@ PHP;
 
     function it_supports_functions_with_default_argument(\SplFileInfo $spl)
     {
-        $class = <<<PHP
+        $class = <<<'PHP'
 <?php
 
 class TheClass
@@ -97,13 +97,13 @@ class TheClass
     /**
      * {@inheritdoc}
      */
-    public function start(Request \$request, AuthenticationException \$authException = null)
+    public function start(Request $request, AuthenticationException $authException = null)
     {
     }
 }
 PHP;
 
-        $expect = <<<PHP
+        $expect = <<<'PHP'
 <?php
 
 class TheClass
@@ -111,7 +111,7 @@ class TheClass
     /**
      * {@inheritdoc}
      */
-    public function start(Request \$request, AuthenticationException \$authException = null)
+    public function start(Request $request, AuthenticationException $authException = null)
     {
     }
 }

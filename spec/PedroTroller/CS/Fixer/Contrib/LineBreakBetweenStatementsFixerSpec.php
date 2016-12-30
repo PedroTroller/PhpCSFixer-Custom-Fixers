@@ -18,7 +18,7 @@ class LineBreakBetweenStatementsFixerSpec extends ObjectBehavior
 
     function it_fix_userless_or_missing_blank_lines(\SplFileInfo $spl)
     {
-        $class = <<<PHP
+        $class = <<<'PHP'
 <?php
 
 class TheClass
@@ -31,21 +31,21 @@ class TheClass
         if (true) {
             return;
         }
-        foreach ([] as \$nothing) {
+        foreach ([] as $nothing) {
             continue;
         }
 
 
 
 
-        while(\$forever = true) {
+        while($forever = true) {
 
         }
     }
 }
 PHP;
 
-        $expect = <<<PHP
+        $expect = <<<'PHP'
 <?php
 
 class TheClass
@@ -60,11 +60,11 @@ class TheClass
             return;
         }
 
-        foreach ([] as \$nothing) {
+        foreach ([] as $nothing) {
             continue;
         }
 
-        while(\$forever = true) {
+        while($forever = true) {
 
         }
     }

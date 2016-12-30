@@ -18,7 +18,11 @@ class MbstringFixerSpec extends ObjectBehavior
 
     function it_replace_functions(\SplFileInfo $spl)
     {
-        $class = <<<PHP
+        if (false === extension_loaded('mbstring')) {
+            return;
+        }
+
+        $class = <<<'PHP'
 <?php
 
 class TheClass
@@ -40,7 +44,7 @@ class TheClass
 }
 PHP;
 
-        $expect = <<<PHP
+        $expect = <<<'PHP'
 <?php
 
 class TheClass
