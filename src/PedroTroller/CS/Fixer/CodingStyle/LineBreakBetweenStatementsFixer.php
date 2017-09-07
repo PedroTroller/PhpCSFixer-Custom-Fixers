@@ -1,19 +1,57 @@
 <?php
 
-namespace PedroTroller\CS\Fixer\Contrib;
+namespace PedroTroller\CS\Fixer\CodingStyle;
 
 use PedroTroller\CS\Fixer\AbstractFixer;
-use Symfony\CS\Tokenizer\Tokens;
+use PhpCsFixer\Tokenizer\Tokens;
+use SplFileInfo;
 
 class LineBreakBetweenStatementsFixer extends AbstractFixer
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function fix(\SplFileInfo $file, $content)
+    public function isCandidate(Tokens $tokens)
     {
-        $tokens = Tokens::fromCode($content);
+        return true;
+    }
 
+    public function getSampleCode(): string
+    {
+        return <<<PHP
+<?php
+
+namespace Project\TheNamespace;
+
+class TheClass
+{
+    /**
+     * @return null
+     */
+    public function fun() {
+        do {
+            // ...
+        } while (true);
+        foreach (['foo', 'bar'] as \$str) {
+            // ...
+        }
+        if (true === false) {
+            // ...
+        }
+
+
+        while (true) {
+            // ...
+        }
+    }
+}
+PHP;
+    }
+
+    public function getDocumentation(): string
+    {
+        return 'Transform multiline docblocks with only one comment into a singleline docblock.';
+    }
+
+    protected function applyFix(SplFileInfo $file, Tokens $tokens)
+    {
         for ($index = 0; $index < $tokens->count() - 2; ++$index) {
             $token = $tokens[$index];
 
@@ -32,9 +70,8 @@ class LineBreakBetweenStatementsFixer extends AbstractFixer
             switch ($statement->getId()) {
                 // If it's a while, isolate the case of do {} while ();
                 case T_WHILE:
-                    $semicolon = $tokens->getNextTokenOfKind($index + 1, array(';'));
+                    $semicolon = $tokens->getNextTokenOfKind($index + 1, [';']);
                     $break     = false;
-
                     if (null !== $semicolon) {
                         $break = true;
                         for ($next = $index + 1; $next < $semicolon; ++$next) {
@@ -45,37 +82,23 @@ class LineBreakBetweenStatementsFixer extends AbstractFixer
                     }
 
                     if (true === $break) {
-                        $nextSpace = $tokens->getNextTokenOfKind($semicolon, array(array(T_WHITESPACE)));
-
+                        $nextSpace = $tokens->getNextTokenOfKind((int) $semicolon, [[T_WHITESPACE]]);
                         if (null !== $nextSpace) {
                             $space = $tokens[$nextSpace];
                         }
                     }
+                    // no break
                 case T_IF:
                 case T_DO:
                 case T_FOREACH:
+                case T_SWITCH:
                 case T_FOR:
                     $space->setContent($this->ensureNumberOfBreaks($space->getContent()));
             }
         }
-
-        return $tokens->generateCode();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDescription()
-    {
-        return 'Each statements MUST be separated by a blank line.';
-    }
-
-    /**
-     * @param string $whitespace
-     *
-     * @return string
-     */
-    private function ensureNumberOfBreaks($whitespace)
+    private function ensureNumberOfBreaks(string $whitespace): string
     {
         $parts = explode("\n", $whitespace);
 

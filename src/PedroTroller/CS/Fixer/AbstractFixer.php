@@ -2,75 +2,51 @@
 
 namespace PedroTroller\CS\Fixer;
 
-use Symfony\CS\AbstractFixer as BaseFixer;
-use Symfony\CS\Tokenizer\Token;
-use Symfony\CS\Tokenizer\Tokens;
+use PhpCsFixer\AbstractFixer as PhpCsFixer;
+use PhpCsFixer\Tokenizer\Tokens;
+use PhpCsFixer\FixerDefinition\CodeSample;
+use PhpCsFixer\FixerDefinition\FixerDefinition;
 
-abstract class AbstractFixer extends BaseFixer
+abstract class AbstractFixer extends PhpCsFixer
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getLevel()
-    {
-        return self::CONTRIB_LEVEL;
-    }
-
     /**
      * {@inheritdoc}
      */
     public function getName()
     {
-        $class     = get_class($this);
-        $parts     = explode('\\', $class);
-        $shortname = end($parts);
-
-        if (true === $this->endsWith($shortname, 'Fixer')) {
-            $shortname = substr($shortname, 0, -5);
-        }
-
-        $shortname = preg_replace('/(?!^)([A-Z])/', '_$1', $shortname);
-
-        return strtolower($shortname);
+        return sprintf('PedroTroller/%s', parent::getName());
     }
 
-    /**
-     * @param string $haystack
-     * @param string $needle
-     *
-     * @return bool
-     */
-    protected function endsWith($haystack, $needle)
+    public function getSampleConfigurations(): array
     {
-        if (true === empty($needle)) {
-            return true;
-        }
-
-        if (0 >= ($temp = strlen($haystack) - strlen($needle))) {
-            return false;
-        }
-
-        return false !== strpos($haystack, $needle, $temp);
+        return [
+            null,
+        ];
     }
 
-    /**
-     * @param string $haystack
-     * @param string $needle
-     *
-     * @return bool
-     */
-    protected function startsWith($haystack, $needle)
-    {
-        if (true === empty($needle)) {
-            return true;
-        }
+    abstract public function getSampleCode(): string;
 
-        return false !== strrpos($haystack, $needle, -strlen($haystack));
+    abstract public function getDocumentation(): string;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDefinition()
+    {
+        return new FixerDefinition(
+            $this->getDocumentation(),
+            array_map(
+                function (array $configutation = null) {
+                    return new CodeSample($this->getSampleCode(), $configutation);
+                },
+                $this->getSampleConfigurations()
+            )
+        );
     }
 
     /**
      * @param Tokens          $tokens
-     * @param string[]|string $fqcn
+     * @param string|string[] $fqcn
      *
      * @return bool
      */
@@ -81,7 +57,7 @@ abstract class AbstractFixer extends BaseFixer
 
     /**
      * @param Tokens          $tokens
-     * @param string[]|string $fqcn
+     * @param string|string[] $fqcn
      *
      * @return null|array
      */
@@ -90,16 +66,13 @@ abstract class AbstractFixer extends BaseFixer
         if (false === is_array($fqcn)) {
             $fqcn = explode('\\', $fqcn);
         }
-
-        $sequence = array(array(T_USE));
-
+        $sequence = [[T_USE]];
         foreach ($fqcn as $component) {
             $sequence = array_merge(
                 $sequence,
-                array(array(T_STRING, $component), array(T_NS_SEPARATOR))
+                [[T_STRING, $component], [T_NS_SEPARATOR]]
             );
         }
-
         $sequence[count($sequence) - 1] = ';';
 
         return $tokens->findSequence($sequence);
@@ -107,70 +80,7 @@ abstract class AbstractFixer extends BaseFixer
 
     /**
      * @param Tokens          $tokens
-     * @param string[]|string $oldFqcn
-     * @param string          $newClassName
-     *
-     * @return bool
-     */
-    protected function renameUseStatements(Tokens $tokens, $oldFqcn, $newClassName)
-    {
-        $matchedTokens = $this->getUseStatements($tokens, $oldFqcn);
-
-        if (null === $matchedTokens) {
-            return false;
-        }
-
-        $matchedTokensIndexes = array_keys($matchedTokens);
-        $classNameToken       = $matchedTokens[$matchedTokensIndexes[count($matchedTokensIndexes) - 2]];
-        $classNameToken->setContent($newClassName);
-
-        return true;
-    }
-
-    /**
-     * @param Tokens   $tokens
-     * @param string[] $fqcn
-     */
-    protected function addUseStatement(Tokens $tokens, array $fqcn)
-    {
-        if ($this->hasUseStatements($tokens, $fqcn)) {
-            return;
-        }
-
-        $importUseIndexes = $tokens->getImportUseIndexes();
-
-        if ( ! isset($importUseIndexes[0])) {
-            return;
-        }
-
-        $fqcnTokens = array();
-
-        foreach ($fqcn as $fqcnComponent) {
-            $fqcnTokens[] = new Token(array(T_STRING, $fqcnComponent));
-            $fqcnTokens[] = new Token(array(T_NS_SEPARATOR, '\\'));
-        }
-
-        array_pop($fqcnTokens);
-
-        $tokens->insertAt(
-            $importUseIndexes[0],
-            array_merge(
-                array(
-                    new Token(array(T_USE, 'use')),
-                    new Token(array(T_WHITESPACE, ' ')),
-                ),
-                $fqcnTokens,
-                array(
-                    new Token(';'),
-                    new Token(array(T_WHITESPACE, PHP_EOL)),
-                )
-            )
-        );
-    }
-
-    /**
-     * @param Tokens          $tokens
-     * @param string[]|string $fqcn
+     * @param string|string[] $fqcn
      *
      * @return bool
      */
@@ -184,25 +94,23 @@ abstract class AbstractFixer extends BaseFixer
             return false;
         }
 
-        return null !== $tokens->findSequence(array(
-            array(T_CLASS),
-            array(T_STRING),
-            array(T_EXTENDS),
-            array(T_STRING, array_pop($fqcn)),
-        ));
+        return null !== $tokens->findSequence([
+            [T_CLASS],
+            [T_STRING],
+            [T_EXTENDS],
+            [T_STRING, array_pop($fqcn)],
+        ]);
     }
 
     /**
-     * @param Tokens $tokens
-     *
-     * @return Token[]
+     * @return PhpCsFixer\Tokenizer\Token[]
      */
-    protected function getComments(Tokens $tokens)
+    protected function getComments(Tokens $tokens): array
     {
-        $comments = array();
+        $comments = [];
 
         foreach ($tokens as $index => $token) {
-            if (true === $token->isComment()) {
+            if ($token->isComment()) {
                 $comments[$index] = $token;
             }
         }

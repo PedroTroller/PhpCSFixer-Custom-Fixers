@@ -1,0 +1,22 @@
+<?php
+
+$config = PhpCsFixer\Config::create()
+    ->setRiskyAllowed(true)
+    ->setRules([
+        '@Symfony' => true,
+        '@Symfony:risky' => true,
+        'PedroTroller/line_break_between_statements' => true,
+        'PedroTroller/phpspec' => true,
+        'array_syntax' => [ 'syntax' => 'short', ],
+        'binary_operator_spaces' => [ 'align_double_arrow' => true, 'align_equals' => true, ],
+        'blank_line_before_statement' => true,
+        'phpdoc_types_order' => true,
+        'semicolon_after_instruction' => true,
+        'single_line_comment_style' => true,
+    ])
+    ->setUsingCache(false)
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+    ->setFinder(PhpCsFixer\Finder::create()->in(__DIR__))
+;
+
+return $config;
