@@ -1,26 +1,22 @@
 <?php
 
-namespace spec\PedroTroller\CS\Fixer\Contrib;
+namespace tests\UseCase;
 
-use PhpSpec\ObjectBehavior;
+use PedroTroller\CS\Fixer\CodingStyle\LineBreakBetweenStatementsFixer;
+use PhpCsFixer\Fixer\FixerInterface;
+use tests\UseCase;
 
-class LineBreakBetweenStatementsFixerSpec extends ObjectBehavior
+class LineBreakBetweenStatements implements UseCase
 {
-    function it_is_initializable()
+    public function getFixer(): FixerInterface
     {
-        $this->shouldHaveType('PedroTroller\CS\Fixer\Contrib\LineBreakBetweenStatementsFixer');
+        return new LineBreakBetweenStatementsFixer();
     }
 
-    function it_returns_its_name()
+    public function getRawScript(): string
     {
-        $this->getName()->shouldReturn('line_break_between_statements');
-    }
-
-    function it_fix_userless_or_missing_blank_lines(\SplFileInfo $spl)
-    {
-        $class = <<<'PHP'
+        return '
 <?php
-
 class TheClass
 {
     public function theFunction()
@@ -34,20 +30,16 @@ class TheClass
         foreach ([] as $nothing) {
             continue;
         }
-
-
-
-
         while($forever = true) {
-
         }
     }
-}
-PHP;
+}';
+    }
 
-        $expect = <<<'PHP'
+    public function getExpectation(): string
+    {
+        return '
 <?php
-
 class TheClass
 {
     public function theFunction()
@@ -65,12 +57,8 @@ class TheClass
         }
 
         while($forever = true) {
-
         }
     }
-}
-PHP;
-
-        $this->fix($spl, $class)->shouldReturn($expect);
+}';
     }
 }
