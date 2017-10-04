@@ -3,24 +3,34 @@
     "description": "PHP-CS-FIXER : my custom fixers",
     "license": "MIT",
     "require": {
-        "php": ">=5.6",
-        "friendsofphp/php-cs-fixer": "~1.13",
-        "symfony/yaml": "~2.8|~3.0"
+        "php": ">=7.0",
+        "friendsofphp/php-cs-fixer": "~2.0"
     },
     "require-dev": {
-        "ext-mbstring": "*",
-        "phpspec/phpspec": "~3.0"
+        "mustache/mustache": "^2.12",
+        "phpspec/phpspec": "~3.0",
+        "phpstan/phpstan": "~0.8.5"
     },
     "autoload": {
-        "psr-0": { "PedroTroller\\CS": "src/" }
+        "psr-4": { "PedroTroller\\CS\\": "src/PedroTroller/CS/" }
+    },
+    "autoload-dev": {
+        "psr-4": { 
+            "tests\\": "tests/" 
+        }
     },
     "config": {
-        "bin-dir": "bin",
         "sort-packages": true
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.6.x-dev"
+            "dev-master": "2.0.x-dev"
         }
+    },
+    "scripts": {
+        "tests": [
+            "tests\\Runner::run",
+            "vendor/bin/phpspec run -fpretty -v"
+        ]
     }
 }
