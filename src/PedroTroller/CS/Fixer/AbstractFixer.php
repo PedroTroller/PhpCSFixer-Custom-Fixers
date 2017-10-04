@@ -50,8 +50,10 @@ abstract class AbstractFixer extends PhpCsFixer
      *
      * @return bool
      */
-    protected function hasUseStatements(Tokens $tokens, $fqcn)
-    {
+    protected function hasUseStatements(
+        Tokens $tokens,
+        $fqcn
+    ) {
         return null !== $this->getUseStatements($tokens, $fqcn);
     }
 
@@ -61,8 +63,10 @@ abstract class AbstractFixer extends PhpCsFixer
      *
      * @return null|array
      */
-    protected function getUseStatements(Tokens $tokens, $fqcn)
-    {
+    protected function getUseStatements(
+        Tokens $tokens,
+        $fqcn
+    ) {
         if (false === is_array($fqcn)) {
             $fqcn = explode('\\', $fqcn);
         }
@@ -84,8 +88,10 @@ abstract class AbstractFixer extends PhpCsFixer
      *
      * @return bool
      */
-    protected function extendsClass(Tokens $tokens, $fqcn)
-    {
+    protected function extendsClass(
+        Tokens $tokens,
+        $fqcn
+    ) {
         if (false === is_array($fqcn)) {
             $fqcn = explode('\\', $fqcn);
         }
@@ -116,5 +122,48 @@ abstract class AbstractFixer extends PhpCsFixer
         }
 
         return $comments;
+    }
+
+    protected function getBeginningOfTheLine(
+        Tokens $tokens,
+        int $index
+    ): int {
+        for ($i = $index; $i >= 0; --$i) {
+            if (false !== strpos($tokens[$i]->getContent(), "\n")) {
+                return $i;
+            }
+        }
+    }
+
+    protected function getEndOfTheLine(
+        Tokens $tokens,
+        int $index
+    ): int {
+        for ($i = $index; $i < $tokens->count(); ++$i) {
+            if (false !== strpos($tokens[$i]->getContent(), "\n")) {
+                return $i;
+            }
+        }
+    }
+
+    protected function getLineSize(
+        Tokens $tokens,
+        int $index
+    ): int {
+        $start = $this->getBeginningOfTheLine($tokens, $index);
+        $end   = $this->getEndOfTheLine($tokens, $index);
+        $size  = 0;
+
+        $parts = explode("\n", $tokens[$start]->getContent());
+        $size += strlen(end($parts));
+
+        $parts = explode("\n", $tokens[$end]->getContent());
+        $size += strlen(current($parts));
+
+        for ($i = $start + 1; $i < $end; ++$i) {
+            $size += mb_strlen($tokens[$i]->getContent());
+        }
+
+        return $size;
     }
 }

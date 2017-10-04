@@ -15,7 +15,7 @@ class LineBreakBetweenStatements implements UseCase
 
     public function getRawScript(): string
     {
-        return <<<'PHP'
+        return '
 <?php
 class TheClass
 {
@@ -33,13 +33,12 @@ class TheClass
         while($forever = true) {
         }
     }
-}
-PHP;
+}';
     }
 
     public function getExpectation(): string
     {
-        return <<<'PHP'
+        return '
 <?php
 class TheClass
 {
@@ -60,7 +59,6 @@ class TheClass
         while($forever = true) {
         }
     }
-}
-PHP;
+}';
     }
 }

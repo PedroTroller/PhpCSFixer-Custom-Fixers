@@ -30,8 +30,7 @@
     "scripts": {
         "tests": [
             "tests\\Runner::run",
-            "vendor/bin/phpspec run -fpretty -v",
-            "vendor/bin/phpstan analyze src/ --level=7"
+            "vendor/bin/phpspec run -fpretty -v"
         ]
     }
 }

@@ -27,6 +27,56 @@ return $config;
 # Fixers
 
 
+## PedroTroller/line_break_between_method_arguments
+
+Function methods MUST be splitted by a line break
+
+### Configuration
+
+```php
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules([
+        // ...
+        'PedroTroller/line_break_between_method_arguments' => [ "max-args" => 4, "max-length" => 80 ],
+        // ...
+    ])
+    // ...
+;
+
+return $config;
+```
+
+### Fixes
+
+```diff
+--- Original
++++ New
+@@ @@
+ 
+-    public function fun2($arg1, array $arg2 = [], \ArrayAccess $arg3 = null, bool $bool = true) {
++    public function fun2(
++        $arg1,
++        array $arg2 = [],
++        \ArrayAccess $arg3 = null,
++        bool $bool = true
++    ) {
+         return;
+     }
+ 
+     public function fun3(
+         $arg1,
+         array $arg2 = []
+     ) {
+         return;
+     }
+ }
+
+```
+
+
 ## PedroTroller/line_break_between_statements
 
 Transform multiline docblocks with only one comment into a singleline docblock.

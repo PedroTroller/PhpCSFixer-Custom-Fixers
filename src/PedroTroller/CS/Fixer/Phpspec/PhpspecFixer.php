@@ -70,7 +70,7 @@ SPEC;
     protected function applyFix(SplFileInfo $file, Tokens $tokens)
     {
         foreach ($tokens as $index => $token) {
-            if ($token->getId() !== T_FUNCTION) {
+            if (T_FUNCTION !== $token->getId()) {
                 continue;
             }
 
@@ -83,7 +83,7 @@ SPEC;
                 continue;
             }
 
-            if ($next->getId() !== T_STRING) {
+            if (T_STRING !== $next->getId()) {
                 continue;
             }
 
@@ -91,10 +91,18 @@ SPEC;
                 continue;
             }
 
-            if ($previous->getId() === T_PUBLIC) {
+            if (T_PUBLIC === $previous->getId()) {
                 $tokens->overrideAt($previousIndex, '');
                 $tokens->removeTrailingWhitespace($previousIndex);
             }
         }
+    }
+
+    public function test(
+        \DateTime $datetime,
+        $argument,
+        $test1 = 'foo',
+        $yolo = true
+    ) {
     }
 }
