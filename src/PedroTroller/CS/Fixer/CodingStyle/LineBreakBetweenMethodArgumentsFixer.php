@@ -14,6 +14,8 @@ use SplFileInfo;
 
 class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface, WhitespacesAwareFixerInterface
 {
+    const T_TYPEHINT_SEMI_COLON = 10025;
+
     /**
      * {@inheritdoc}
      */
@@ -160,6 +162,15 @@ SPEC;
                 $token->getId(),
                 ' '.trim($token->getContent()),
             ]);
+        }
+
+        if ($tokens[$tokens->getNextMeaningfulToken($closeBraceIndex)]->isGivenKind(self::T_TYPEHINT_SEMI_COLON)) {
+            $end = $tokens->getNextTokenOfKind($closeBraceIndex, [';', '{']);
+
+            for ($i = $closeBraceIndex + 1; $i < $end; ++$i) {
+                $content    = preg_replace('/ {2,}/', ' ', str_replace("\n", '', $tokens[$i]->getContent()));
+                $tokens[$i] = new Token([$tokens[$i]->getId(), $content]);
+            }
         }
 
         for ($i = $openBraceIndex + 1; $i < $closeBraceIndex; ++$i) {
