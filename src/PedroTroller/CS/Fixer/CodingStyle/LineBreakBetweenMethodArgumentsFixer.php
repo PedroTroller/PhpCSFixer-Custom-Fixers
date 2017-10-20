@@ -198,9 +198,23 @@ SPEC;
 
     private function mergeArgs(Tokens $tokens, int $index)
     {
-        // Not implemented yet.
+        $openBraceIndex  = $tokens->getNextTokenOfKind($index, ['(']);
+        $closeBraceIndex = $this->localizeNextCloseBrace($tokens, $index);
 
-        return;
+        for ($i = $openBraceIndex; $i <= $closeBraceIndex; ++$i) {
+            $content    = preg_replace('/ {2,}/', ' ', str_replace("\n", '', $tokens[$i]->getContent()));
+            $tokens[$i] = new Token([$tokens[$i]->getId(), $content]);
+        }
+
+        $tokens->removeTrailingWhitespace($openBraceIndex);
+        $tokens->removeLeadingWhitespace($closeBraceIndex);
+
+        $end = $tokens->getNextTokenOfKind($closeBraceIndex, [';', '{']);
+
+        if ($tokens[$end]->equals('{')) {
+            $tokens->removeLeadingWhitespace($end);
+            $tokens->insertAt($end, new Token("\n    "));
+        }
     }
 
     private function localizeNextCloseBrace(Tokens $tokens, $index): int
