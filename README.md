@@ -55,6 +55,12 @@ return $config;
 --- Original
 +++ New
 @@ @@
+ {
+-    public function fun1($arg1, array $arg2 = [], $arg3 = null) {
++    public function fun1($arg1, array $arg2 = [], $arg3 = null)
++    {
+         return;
+     }
  
 -    public function fun2($arg1, array $arg2 = [], \ArrayAccess $arg3 = null, bool $bool = true) {
 +    public function fun2(
@@ -66,10 +72,12 @@ return $config;
          return;
      }
  
-     public function fun3(
-         $arg1,
-         array $arg2 = []
-     ) {
+-    public function fun3(
+-        $arg1,
+-        array $arg2 = []
+-    ) {
++    public function fun3($arg1, array $arg2 = [])
++    {
          return;
      }
  }

@@ -14,6 +14,8 @@ use SplFileInfo;
 
 class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface, WhitespacesAwareFixerInterface
 {
+    const T_TYPEHINT_SEMI_COLON = 10025;
+
     /**
      * {@inheritdoc}
      */
@@ -162,6 +164,15 @@ SPEC;
             ]);
         }
 
+        if ($tokens[$tokens->getNextMeaningfulToken($closeBraceIndex)]->isGivenKind(self::T_TYPEHINT_SEMI_COLON)) {
+            $end = $tokens->getNextTokenOfKind($closeBraceIndex, [';', '{']);
+
+            for ($i = $closeBraceIndex + 1; $i < $end; ++$i) {
+                $content    = preg_replace('/ {2,}/', ' ', str_replace("\n", '', $tokens[$i]->getContent()));
+                $tokens[$i] = new Token([$tokens[$i]->getId(), $content]);
+            }
+        }
+
         for ($i = $openBraceIndex + 1; $i < $closeBraceIndex; ++$i) {
             if ($tokens[$i]->equals('(')) {
                 $i = $this->localizeNextCloseBrace($tokens, $i);
@@ -187,9 +198,23 @@ SPEC;
 
     private function mergeArgs(Tokens $tokens, int $index)
     {
-        // Not implemented yet.
+        $openBraceIndex  = $tokens->getNextTokenOfKind($index, ['(']);
+        $closeBraceIndex = $this->localizeNextCloseBrace($tokens, $index);
 
-        return;
+        for ($i = $openBraceIndex; $i <= $closeBraceIndex; ++$i) {
+            $content    = preg_replace('/ {2,}/', ' ', str_replace("\n", '', $tokens[$i]->getContent()));
+            $tokens[$i] = new Token([$tokens[$i]->getId(), $content]);
+        }
+
+        $tokens->removeTrailingWhitespace($openBraceIndex);
+        $tokens->removeLeadingWhitespace($closeBraceIndex);
+
+        $end = $tokens->getNextTokenOfKind($closeBraceIndex, [';', '{']);
+
+        if ($tokens[$end]->equals('{')) {
+            $tokens->removeLeadingWhitespace($end);
+            $tokens->insertAt($end, new Token("\n    "));
+        }
     }
 
     private function localizeNextCloseBrace(Tokens $tokens, $index): int

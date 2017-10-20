@@ -27,12 +27,15 @@ class TheClass
         return;
     }
 
-    public function fun2($arg1, array $arg2 = []) {
+    public function fun2(
+        $arg1,
+        array $arg2 = []
+    ) {
         return;
     }
 
-    public function fun3() {
-
+    public function fun3()
+    {
     }
 
     public function fun4(
@@ -43,7 +46,14 @@ class TheClass
         $integer = 1,
         $string = 'string'
     ) {
+    }
 
+    public function php70($arg1, array $arg2 = [], \ArrayAccess $arg3 = null, $foo = 'bar'): bool
+    {
+    }
+
+    public function php71($arg1, array $arg2 = [], \ArrayAccess $arg3 = null, $foo = 'bar'): ? bool
+    {
     }
 }
 PHP;
@@ -67,12 +77,13 @@ class TheClass
         return;
     }
 
-    public function fun2($arg1, array $arg2 = []) {
+    public function fun2($arg1, array $arg2 = [])
+    {
         return;
     }
 
-    public function fun3() {
-
+    public function fun3()
+    {
     }
 
     public function fun4(
@@ -83,7 +94,22 @@ class TheClass
         $integer = 1,
         $string = 'string'
     ) {
+    }
 
+    public function php70(
+        $arg1,
+        array $arg2 = [],
+        \ArrayAccess $arg3 = null,
+        $foo = 'bar'
+    ): bool {
+    }
+
+    public function php71(
+        $arg1,
+        array $arg2 = [],
+        \ArrayAccess $arg3 = null,
+        $foo = 'bar'
+    ): ? bool {
     }
 }
 PHP;
