@@ -76,11 +76,15 @@ SPEC;
      */
     protected function applyFix(SplFileInfo $file, Tokens $tokens)
     {
-        foreach ($tokens as $index => $token) {
-            if (T_FUNCTION !== $token->getId()) {
-                continue;
-            }
+        $functions = [];
 
+        foreach ($tokens as $index => $token) {
+            if (T_FUNCTION === $token->getId()) {
+                $functions[$index] = $token;
+            }
+        }
+
+        foreach (array_reverse($functions, true) as $index => $token) {
             $nextIndex     = $tokens->getNextMeaningfulToken($index);
             $next          = $tokens[$nextIndex];
 
@@ -111,10 +115,13 @@ SPEC;
                 continue;
             }
 
-            $this->mergeArgs($tokens, $index);
+            $clonedTokens = clone $tokens;
+            $this->mergeArgs($clonedTokens, $index);
 
-            if ($this->getLineSize($tokens, $index) > $this->configuration['max-length']) {
+            if ($this->getLineSize($clonedTokens, $index) > $this->configuration['max-length']) {
                 $this->splitArgs($tokens, $index);
+            } else {
+                $this->mergeArgs($tokens, $index);
             }
         }
     }

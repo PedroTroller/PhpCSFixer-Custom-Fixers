@@ -1,0 +1,91 @@
+<?php
+
+namespace Infrastructure\Doctrine\ORM\Mapping;
+
+use Doctrine\Common\Inflector\Inflector;
+use Doctrine\ORM\Mapping\NamingStrategy;
+
+class CamelizeNamingStrategy implements NamingStrategy
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function classToTableName($className)
+    {
+        $namespace = 'Domain\\Model\\';
+
+        if (mb_strlen($namespace) >= mb_strlen($className)) {
+            if (false !== mb_strpos($className, '\\')) {
+                $className = mb_substr($className, mb_strrpos($className, '\\') + 1);
+            }
+        } else {
+            $className = mb_substr($className, mb_strlen($namespace));
+        }
+
+        $names = explode('\\', $className);
+        $names = array_map(function (string $name) { return $this->camelize($name); }, $names);
+
+        return implode('_', $names);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function propertyToColumnName($propertyName, $className = null)
+    {
+        return $this->camelize($propertyName);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function embeddedFieldToColumnName(
+        $propertyName,
+        $embeddedColumnName,
+        $className = null,
+        $embeddedClassName = null
+    ) {
+        return $this->camelize($propertyName).'_'.$embeddedColumnName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function referenceColumnName()
+    {
+        return 'identifier';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function joinColumnName($propertyName, $className = null)
+    {
+        return $this->camelize($propertyName).'_'.$this->referenceColumnName();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function joinTableName(
+        $sourceEntity,
+        $targetEntity,
+        $propertyName = null
+    ) {
+        return $this->classToTableName($sourceEntity).'_'.$this->classToTableName($targetEntity);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function joinKeyColumnName($entityName, $referencedColumnName = null)
+    {
+        return $this->classToTableName($entityName).'_'.
+                ($referencedColumnName ?: $this->referenceColumnName());
+    }
+
+    private function camelize(string $string): string
+    {
+        return Inflector::camelize($string);
+    }
+}
