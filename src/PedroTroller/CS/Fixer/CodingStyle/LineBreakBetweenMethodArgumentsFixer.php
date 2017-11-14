@@ -53,11 +53,13 @@ namespace Project\TheNamespace;
 
 class TheClass
 {
-    public function fun1(\$arg1, array \$arg2 = [], \$arg3 = null) {
+    public function fun1(\$arg1, array \$arg2 = [], \$arg3 = null)
+    {
         return;
     }
 
-    public function fun2(\$arg1, array \$arg2 = [], \ArrayAccess \$arg3 = null, bool \$bool = true) {
+    public function fun2(\$arg1, array \$arg2 = [], \ArrayAccess \$arg3 = null, bool \$bool = true)
+    {
         return;
     }
 
