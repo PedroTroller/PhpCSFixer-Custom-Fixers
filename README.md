@@ -52,31 +52,27 @@ return $config;
 ### Fixes
 
 ```diff
---- Original
-+++ New
-@@ @@
- 
+--- Original                                                                     // 80 chars
++++ New                                                                          //
+@@ @@                                                                            //
 -    public function fun2($arg1, array $arg2 = [], \ArrayAccess $arg3 = null, bool $bool = true)
--    {
-+    public function fun2(
-+        $arg1,
-+        array $arg2 = [],
-+        \ArrayAccess $arg3 = null,
-+        bool $bool = true
-+    ) {
-         return;
-     }
- 
--    public function fun3(
--        $arg1,
--        array $arg2 = []
--    ) {
-+    public function fun3($arg1, array $arg2 = [])
-+    {
-         return;
-     }
- }
-
+-    {                                                                           //
++    public function fun2(                                                       //
++        $arg1,                                                                  //
++        array $arg2 = [],                                                       //
++        \ArrayAccess $arg3 = null,                                              //
++        bool $bool = true                                                       //
++    ) {                                                                         //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
+-    public function fun3(                                                       //
+-        $arg1,                                                                  //
+-        array $arg2 = []                                                        //
+-    ) {                                                                         //
++    public function fun3($arg1, array $arg2 = [])                               //
++    {                                                                           //
+                                                                                 //
 ```
 
 
@@ -105,26 +101,19 @@ return $config;
 ### Fixes
 
 ```diff
---- Original
-+++ New
-@@ @@
-         } while (true);
-+
-         foreach (['foo', 'bar'] as $str) {
-             // ...
-         }
-+
-         if (true === false) {
-             // ...
-         }
--
- 
-         while (true) {
-             // ...
-         }
-     }
- }
-
+--- Original                                                                     // 80 chars
++++ New                                                                          //
+@@ @@                                                                            //
++                                                                                //
+         foreach (['foo', 'bar'] as $str) {                                      //
+             // ...                                                              //
+         }                                                                       //
++                                                                                //
+         if (true === false) {                                                   //
+             // ...                                                              //
+         }                                                                       //
+-                                                                                //
+                                                                                 //
 ```
 
 
@@ -153,34 +142,14 @@ return $config;
 ### Fixes
 
 ```diff
---- Original
-+++ New
-@@ @@
- {
--    /** @var string */
-+    /**
-+     * @var string
-+     */
-     private $prop1;
- 
-     /**
-      * @var string
-      */
-     private $prop1;
- 
-     /**
-      * @return null
-      */
-     public function fun1($file) {
-         return;
-     }
- 
-     /** @return null */
-     public function fun2($file) {
-         return;
-     }
- }
-
+--- Original                                                                     // 80 chars
++++ New                                                                          //
+@@ @@                                                                            //
+-    /** @var string */                                                          //
++    /**                                                                         //
++     * @var string                                                              //
++     */                                                                         //
+                                                                                 //
 ```
 ### Configuration
 
@@ -203,29 +172,14 @@ return $config;
 ### Fixes
 
 ```diff
---- Original
-+++ New
-@@ @@
- 
--    /**
--     * @var string
--     */
-+    /** @var string */
-     private $prop1;
- 
-     /**
-      * @return null
-      */
-     public function fun1($file) {
-         return;
-     }
- 
-     /** @return null */
-     public function fun2($file) {
-         return;
-     }
- }
-
+--- Original                                                                     // 80 chars
++++ New                                                                          //
+@@ @@                                                                            //
+-    /**                                                                         //
+-     * @var string                                                              //
+-     */                                                                         //
++    /** @var string */                                                          //
+                                                                                 //
 ```
 ### Configuration
 
@@ -248,30 +202,20 @@ return $config;
 ### Fixes
 
 ```diff
---- Original
-+++ New
-@@ @@
- 
--    /**
--     * @var string
--     */
-+    /** @var string */
-     private $prop1;
- 
--    /**
--     * @return null
--     */
-+    /** @return null */
-     public function fun1($file) {
-         return;
-     }
- 
-     /** @return null */
-     public function fun2($file) {
-         return;
-     }
- }
-
+--- Original                                                                     // 80 chars
++++ New                                                                          //
+@@ @@                                                                            //
+-    /**                                                                         //
+-     * @var string                                                              //
+-     */                                                                         //
++    /** @var string */                                                          //
+     private $prop1;                                                             //
+                                                                                 //
+-    /**                                                                         //
+-     * @return null                                                             //
+-     */                                                                         //
++    /** @return null */                                                         //
+                                                                                 //
 ```
 
 
@@ -300,34 +244,22 @@ return $config;
 ### Fixes
 
 ```diff
---- Original
-+++ New
-@@ @@
- {
--    public function let($file) {
-+    function let($file) {
-         return;
-     }
- 
--    public function letGo($file) {
-+    function letGo($file) {
-         return;
-     }
- 
--    public function it_is_a_spec($file) {
-+    function it_is_a_spec($file) {
-         return;
-     }
- 
-     public function itIsNotASpec($file) {
-         return;
-     }
- 
-     public function its_other_function($file) {
-         return;
-     }
- }
-
+--- Original                                                                     // 80 chars
++++ New                                                                          //
+@@ @@                                                                            //
+-    public function let($file) {                                                //
++    function let($file) {                                                       //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
+-    public function letGo($file) {                                              //
++    function letGo($file) {                                                     //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
+-    public function it_is_a_spec($file) {                                       //
++    function it_is_a_spec($file) {                                              //
+                                                                                 //
 ```
 
 

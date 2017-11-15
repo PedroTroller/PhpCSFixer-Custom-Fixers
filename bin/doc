@@ -90,8 +90,28 @@ $fixers = array_map(function (FixerInterface $fixer) {
 
             $fixer->fix(new SplFileInfo(__FILE__), $tokens);
 
+            $diff = explode("\n", $differ->diff($sample->getCode(), $tokens->generateCode()));
+
+            foreach ($diff as $num => $line) {
+                if (strlen($line) > 80 + 1) {
+                    continue;
+                }
+
+                while (strlen($line) < 80 + 1) {
+                    $line = $line . " ";
+                }
+
+                if ($num === 0) {
+                    $line = $line . "// 80 chars";
+                } else {
+                    $line = $line . "//";
+                }
+
+                $diff[$num] = $line;
+            }
+
             return [
-                'diff' => $differ->diff($sample->getCode(), $tokens->generateCode()),
+                'diff' => implode("\n", $diff),
                 'configuration' => $sample->getConfiguration()
                     ? arrayToString($sample->getConfiguration())
                     : null
