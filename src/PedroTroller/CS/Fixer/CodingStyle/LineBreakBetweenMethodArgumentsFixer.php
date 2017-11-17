@@ -35,7 +35,10 @@ class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implements Conf
     public function getSampleConfigurations(): array
     {
         return [
-            ['max-args' => 4, 'max-length' => 80],
+            [
+                'max-args'   => 4,
+                'max-length' => 80,
+            ],
         ];
     }
 
@@ -87,8 +90,8 @@ SPEC;
         }
 
         foreach (array_reverse($functions, true) as $index => $token) {
-            $nextIndex     = $tokens->getNextMeaningfulToken($index);
-            $next          = $tokens[$nextIndex];
+            $nextIndex = $tokens->getNextMeaningfulToken($index);
+            $next      = $tokens[$nextIndex];
 
             if (null === $nextIndex) {
                 continue;

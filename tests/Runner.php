@@ -17,13 +17,12 @@ class Runner
         $finder = new Finder();
         $finder
             ->in($directory)
-            ->name('*.php')
-        ;
+            ->name('*.php');
 
         echo "\n";
 
         foreach ($finder as $file) {
-            $class = str_replace('/', '\\', substr($file->getPathName(), strlen(__DIR__) - 5, -4));
+            $class = str_replace('/', '\\', mb_substr($file->getPathName(), mb_strlen(__DIR__) - 5, -4));
 
             if (false === class_exists($class)) {
                 continue;

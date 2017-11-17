@@ -15,12 +15,11 @@ class Fixers implements IteratorAggregate
         $finder = new Finder();
         $finder
             ->in(__DIR__)
-            ->name('*.php')
-        ;
+            ->name('*.php');
         $classes = [];
 
         foreach ($finder as $file) {
-            $class = str_replace('/', '\\', substr($file->getPathname(), strlen(__DIR__) - 21, -4));
+            $class = str_replace('/', '\\', mb_substr($file->getPathname(), mb_strlen(__DIR__) - 21, -4));
 
             if (false === class_exists($class)) {
                 continue;

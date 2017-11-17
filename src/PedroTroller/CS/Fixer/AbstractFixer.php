@@ -121,7 +121,7 @@ abstract class AbstractFixer extends PhpCsFixer
     protected function getBeginningOfTheLine(Tokens $tokens, int $index): int
     {
         for ($i = $index; $i >= 0; --$i) {
-            if (false !== strpos($tokens[$i]->getContent(), "\n")) {
+            if (false !== mb_strpos($tokens[$i]->getContent(), "\n")) {
                 return $i;
             }
         }
@@ -130,7 +130,7 @@ abstract class AbstractFixer extends PhpCsFixer
     protected function getEndOfTheLine(Tokens $tokens, int $index): int
     {
         for ($i = $index; $i < $tokens->count(); ++$i) {
-            if (false !== strpos($tokens[$i]->getContent(), "\n")) {
+            if (false !== mb_strpos($tokens[$i]->getContent(), "\n")) {
                 return $i;
             }
         }
@@ -143,10 +143,10 @@ abstract class AbstractFixer extends PhpCsFixer
         $size  = 0;
 
         $parts = explode("\n", $tokens[$start]->getContent());
-        $size += strlen(end($parts));
+        $size += mb_strlen(end($parts));
 
         $parts = explode("\n", $tokens[$end]->getContent());
-        $size += strlen(current($parts));
+        $size += mb_strlen(current($parts));
 
         for ($i = $start + 1; $i < $end; ++$i) {
             $size += mb_strlen($tokens[$i]->getContent());
