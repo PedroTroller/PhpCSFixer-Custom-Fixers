@@ -64,14 +64,6 @@ SPEC;
         return (new VisibilityRequiredFixer())->getPriority() - 1;
     }
 
-    public function test(
-        \DateTime $datetime,
-        $argument,
-        $test1 = 'foo',
-        $yolo = true
-    ) {
-    }
-
     /**
      * {@inheritdoc}
      */
