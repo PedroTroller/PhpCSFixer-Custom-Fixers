@@ -108,6 +108,12 @@ SPEC;
                 continue;
             }
 
+            if (0 === $this->getNumberOfArguments($tokens, $index)) {
+                $this->mergeArgs($tokens, $index);
+
+                continue;
+            }
+
             if ($this->getLineSize($tokens, $index) > $this->configuration['max-length']) {
                 $this->splitArgs($tokens, $index);
 
