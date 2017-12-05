@@ -21,14 +21,6 @@ class SingleLineCommentFixer extends AbstractFixer implements ConfigurationDefin
      */
     private $expandRegex = '/( *)\/[*]{1,2} %s (.+) \*\//';
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isCandidate(Tokens $tokens)
-    {
-        return true;
-    }
-
     public function getSampleConfigurations(): array
     {
         return [

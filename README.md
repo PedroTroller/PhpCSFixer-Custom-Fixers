@@ -117,6 +117,83 @@ return $config;
 ```
 
 
+## PedroTroller/forbidden_functions
+
+Forbidden functions MUST BE commented
+
+### Configuration
+
+```php
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules([
+        // ...
+        'PedroTroller/forbidden_functions' => [ "comment" => "YOLO" ],
+        // ...
+    ])
+    // ...
+;
+
+return $config;
+```
+
+### Fixes
+
+```diff
+--- Original                                                                     // 80 chars
++++ New                                                                          //
+@@ @@                                                                            //
+ <?php                                                                           //
+                                                                                 //
+ class MyClass {                                                                 //
+     public function fun()                                                       //
+     {                                                                           //
+-        var_dump('this is a var_dump');                                         //
++        var_dump('this is a var_dump'); // YOLO                                 //
+                                                                                 //
+```
+### Configuration
+
+```php
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules([
+        // ...
+        'PedroTroller/forbidden_functions' => [ "comment" => "NEIN NEIN NEIN !!!", "functions" => [ "var_dump", "var_export" ] ],
+        // ...
+    ])
+    // ...
+;
+
+return $config;
+```
+
+### Fixes
+
+```diff
+--- Original                                                                     // 80 chars
++++ New                                                                          //
+@@ @@                                                                            //
+ <?php                                                                           //
+                                                                                 //
+ class MyClass {                                                                 //
+     public function fun()                                                       //
+     {                                                                           //
+-        var_dump('this is a var_dump');                                         //
++        var_dump('this is a var_dump'); // NEIN NEIN NEIN !!!                   //
+                                                                                 //
+         $this->dump($this);                                                     //
+                                                                                 //
+-        return var_export($this);                                               //
++        return var_export($this); // NEIN NEIN NEIN !!!                         //
+                                                                                 //
+```
+
+
 ## PedroTroller/single_line_comment
 
 PHPSpec spec functions MUST NOT have a public scope.

@@ -24,14 +24,6 @@ class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implements Conf
         return (new BracesFixer())->getPriority() - 1;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isCandidate(Tokens $tokens)
-    {
-        return true;
-    }
-
     public function getSampleConfigurations(): array
     {
         return [

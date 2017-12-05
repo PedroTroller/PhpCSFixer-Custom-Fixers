@@ -8,11 +8,6 @@ use SplFileInfo;
 
 class LineBreakBetweenStatementsFixer extends AbstractFixer
 {
-    public function isCandidate(Tokens $tokens)
-    {
-        return true;
-    }
-
     public function getSampleCode(): string
     {
         return <<<PHP

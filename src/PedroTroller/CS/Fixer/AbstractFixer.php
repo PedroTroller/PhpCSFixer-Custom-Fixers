@@ -12,6 +12,14 @@ abstract class AbstractFixer extends PhpCsFixer
     /**
      * {@inheritdoc}
      */
+    public function isCandidate(Tokens $tokens)
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return sprintf('PedroTroller/%s', parent::getName());
