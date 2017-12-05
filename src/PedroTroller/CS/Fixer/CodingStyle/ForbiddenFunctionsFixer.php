@@ -70,8 +70,8 @@ PHP;
             }
 
             if (in_array($token->getContent(), $this->configuration['functions'])) {
-                $end = $this->getEndOfTheLine($tokens, $index);
-                $tokens->insertAt($end, new Token(sprintf(' // %s', $this->configuration['comment'])));
+                $end          = $this->getEndOfTheLine($tokens, $index);
+                $tokens[$end] = new Token(sprintf(' // %s%s', $this->configuration['comment'], $tokens[$end]->getContent()));
             }
         }
     }
