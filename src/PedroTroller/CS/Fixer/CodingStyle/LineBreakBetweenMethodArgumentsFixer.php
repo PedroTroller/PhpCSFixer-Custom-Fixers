@@ -154,24 +154,21 @@ SPEC;
         }
 
         $token                   = $tokens[$openBraceIndex];
-        $tokens[$openBraceIndex] = new Token([
-            $token->getId(),
-            rtrim($token->getContent()).$this->whitespacesConfig->getLineEnding().$this->whitespacesConfig->getIndent().$this->whitespacesConfig->getIndent(),
-        ]);
+        $tokens[$openBraceIndex] = new Token(
+            rtrim($token->getContent()).$this->whitespacesConfig->getLineEnding().$this->whitespacesConfig->getIndent().$this->whitespacesConfig->getIndent()
+        );
 
         $token                    = $tokens[$closeBraceIndex];
-        $tokens[$closeBraceIndex] = new Token([
-            $token->getId(),
-            rtrim($this->whitespacesConfig->getLineEnding().$this->whitespacesConfig->getIndent().$token->getContent()),
-        ]);
+        $tokens[$closeBraceIndex] = new Token(
+            rtrim($this->whitespacesConfig->getLineEnding().$this->whitespacesConfig->getIndent().$token->getContent())
+        );
 
         if ($tokens[$tokens->getNextMeaningfulToken($closeBraceIndex)]->equals('{')) {
             $tokens->removeTrailingWhitespace($closeBraceIndex);
             $token                                                     = $tokens[$tokens->getNextMeaningfulToken($closeBraceIndex)];
-            $tokens[$tokens->getNextMeaningfulToken($closeBraceIndex)] = new Token([
-                $token->getId(),
-                ' '.trim($token->getContent()),
-            ]);
+            $tokens[$tokens->getNextMeaningfulToken($closeBraceIndex)] = new Token(
+                ' '.trim($token->getContent())
+            );
         }
 
         if ($tokens[$tokens->getNextMeaningfulToken($closeBraceIndex)]->isGivenKind(self::T_TYPEHINT_SEMI_COLON)) {
@@ -195,10 +192,9 @@ SPEC;
             if ($tokens[$i]->equals(',')) {
                 $tokens->removeTrailingWhitespace($i);
                 $token      = $tokens[$i];
-                $tokens[$i] = new Token([
-                    $token->getId(),
-                    trim($token->getContent())."\n".$this->whitespacesConfig->getIndent().$this->whitespacesConfig->getIndent(),
-                ]);
+                $tokens[$i] = new Token(
+                    trim($token->getContent())."\n".$this->whitespacesConfig->getIndent().$this->whitespacesConfig->getIndent()
+                );
             }
         }
 
@@ -213,7 +209,9 @@ SPEC;
 
         for ($i = $openBraceIndex; $i <= $closeBraceIndex; ++$i) {
             $content    = preg_replace('/ {2,}/', ' ', str_replace("\n", '', $tokens[$i]->getContent()));
-            $tokens[$i] = new Token([$tokens[$i]->getId(), $content]);
+            $tokens[$i] = $tokens[$i]->getId()
+                ? new Token([$tokens[$i]->getId(), $content])
+                : new Token($content);
         }
 
         $tokens->removeTrailingWhitespace($openBraceIndex);
