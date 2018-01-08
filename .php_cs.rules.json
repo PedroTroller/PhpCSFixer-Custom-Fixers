@@ -6,6 +6,7 @@
         "max-length": 80
     },
     "PedroTroller/line_break_between_statements": true,
+    "PedroTroller/ordered_spec_elements": true,
     "PedroTroller/phpspec": true,
     "PedroTroller/single_line_comment": {
         "action": "expanded"

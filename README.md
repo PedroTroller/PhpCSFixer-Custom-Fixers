@@ -340,6 +340,60 @@ return $config;
 ```
 
 
+## PedroTroller/ordered_spec_elements
+
+PHPSpec spec functions MUST BE ordered with specs first.
+
+### Configuration
+
+```php
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules([
+        // ...
+        'PedroTroller/ordered_spec_elements' => true,
+        // ...
+    ])
+    // ...
+;
+
+return $config;
+```
+
+### Fixes
+
+```diff
+--- Original                                                                     // 80 chars
++++ New                                                                          //
+@@ @@                                                                            //
+-    function letGo($file) {                                                     //
++    function let($file) {                                                       //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
+-    private function thePrivateMethod() {                                       //
++    function letGo($file) {                                                     //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
+-    public function itIsNotASpec($file) {                                       //
++    function it_is_a_spec($file) {                                              //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
+-    function it_is_a_spec($file) {                                              //
++    private function thePrivateMethod() {                                       //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
+-    function let($file) {                                                       //
++    public function itIsNotASpec($file) {                                       //
+                                                                                 //
+```
+
+
 # Contributions
 
 ## Run tests
