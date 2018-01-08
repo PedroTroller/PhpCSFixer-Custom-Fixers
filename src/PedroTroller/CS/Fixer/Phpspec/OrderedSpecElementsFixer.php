@@ -422,24 +422,48 @@ SPEC;
             if (false === $injected) {
                 if (null !== $let) {
                     $sorted[] = $let;
+
+                    $let = null;
                 }
 
                 if (null !== $letGo) {
                     $sorted[] = $letGo;
+
+                    $letGo = null;
                 }
 
                 if (null !== $initialise) {
                     $sorted[] = $initialise;
+
+                    $initialise = null;
                 }
 
                 foreach ($specs as $spec) {
                     $sorted[] = $spec;
                 }
 
+                $specs = [];
+
                 $injected = true;
             }
 
             $sorted[] = $element;
+        }
+
+        if (null !== $let) {
+            $sorted[] = $let;
+        }
+
+        if (null !== $letGo) {
+            $sorted[] = $letGo;
+        }
+
+        if (null !== $initialise) {
+            $sorted[] = $initialise;
+        }
+
+        foreach ($specs as $spec) {
+            $sorted[] = $spec;
         }
 
         return $sorted;
