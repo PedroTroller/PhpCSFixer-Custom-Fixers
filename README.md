@@ -342,7 +342,7 @@ return $config;
 
 ## PedroTroller/ordered_spec_elements
 
-PHPSpec spec functions MUST BE ordered with specs first.
+PHPSpec spec functions MUST BE ordered with specs first (order: let, letGo and it_* functons).
 
 ### Configuration
 
