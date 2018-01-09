@@ -296,6 +296,76 @@ return $config;
 ```
 
 
+## PedroTroller/ordered_with_getter_and_setter_first
+
+Class/interface/trait methods MUST BE ordered (getter and setters at the end, ordered following arguments order).
+
+### Configuration
+
+```php
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules([
+        // ...
+        'PedroTroller/ordered_with_getter_and_setter_first' => true,
+        // ...
+    ])
+    // ...
+;
+
+return $config;
+```
+
+### Fixes
+
+```diff
+--- Original                                                                     // 80 chars
++++ New                                                                          //
+@@ @@                                                                            //
+-    public function setFirstName($firstName)                                    //
++    public function enable()                                                    //
+     {                                                                           //
+-        $this->firstName = $firstName;                                          //
++        $this->enabled = true;                                                  //
+     }                                                                           //
+                                                                                 //
+-    public function setName($name)                                              //
++    public function disable()                                                   //
+     {                                                                           //
+-        $this->name = $name;                                                    //
++        $this->enabled = false;                                                 //
+     }                                                                           //
+                                                                                 //
+-    public function isEnabled()                                                 //
++    public function getIdentifier()                                             //
+     {                                                                           //
+-        return $this->enabled;                                                  //
++        return $this->identifier;                                               //
+@@ @@                                                                            //
+-    public function getIdentifier()                                             //
++    public function setName($name)                                              //
+     {                                                                           //
+-        return $this->identifier;                                               //
++        $this->name = $name;                                                    //
+@@ @@                                                                            //
+-    public function enable()                                                    //
++    public function setFirstName($firstName)                                    //
+     {                                                                           //
+-        $this->enabled = true;                                                  //
++        $this->firstName = $firstName;                                          //
+     }                                                                           //
+                                                                                 //
+-    public function disable()                                                   //
++    public function isEnabled()                                                 //
+     {                                                                           //
+-        $this->enabled = false;                                                 //
++        return $this->enabled;                                                  //
+                                                                                 //
+```
+
+
 ## PedroTroller/phpspec
 
 PHPSpec spec functions MUST NOT have a public scope.
