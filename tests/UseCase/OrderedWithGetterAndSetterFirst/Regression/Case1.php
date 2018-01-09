@@ -3,17 +3,22 @@
 namespace tests\UseCase\OrderedWithGetterAndSetterFirst\Regression;
 
 use PedroTroller\CS\Fixer\ClassNotation\OrderedWithGetterAndSetterFirstFixer;
-use PhpCsFixer\Fixer\FixerInterface;
 use tests\UseCase;
 
 class Case1 implements UseCase
 {
-    public function getFixer(): FixerInterface
+    /**
+     * {@inheritdoc}
+     */
+    public function getFixer()
     {
         return new OrderedWithGetterAndSetterFirstFixer();
     }
 
-    public function getRawScript(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getRawScript()
     {
         return <<<'PHP'
 <?php
@@ -768,7 +773,10 @@ class Attendee
 PHP;
     }
 
-    public function getExpectation(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getExpectation()
     {
         return <<<'PHP'
 <?php
@@ -1521,5 +1529,13 @@ class Attendee
     }
 }
 PHP;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMinSupportedPhpVersion()
+    {
+        return 70100;
     }
 }

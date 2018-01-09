@@ -16,12 +16,18 @@ class OrderedSpecElementsFixer extends AbstractOrderedClassElementsFixer
         return $this->extendsClass($tokens, 'PhpSpec\ObjectBehavior');
     }
 
-    public function getDocumentation(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getDocumentation()
     {
         return 'PHPSpec spec functions MUST BE ordered with specs first (order: let, letGo and it_* functons).';
     }
 
-    public function getSampleCode(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getSampleCode()
     {
         return <<<SPEC
 <?php

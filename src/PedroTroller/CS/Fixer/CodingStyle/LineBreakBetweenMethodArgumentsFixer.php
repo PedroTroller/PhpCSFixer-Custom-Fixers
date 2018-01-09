@@ -24,7 +24,10 @@ class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implements Conf
         return (new BracesFixer())->getPriority() - 1;
     }
 
-    public function getSampleConfigurations(): array
+    /**
+     * {@inheritdoc}
+     */
+    public function getSampleConfigurations()
     {
         return [
             [
@@ -34,12 +37,18 @@ class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implements Conf
         ];
     }
 
-    public function getDocumentation(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getDocumentation()
     {
         return 'Function methods MUST be splitted by a line break';
     }
 
-    public function getSampleCode(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getSampleCode()
     {
         return <<<SPEC
 <?php
@@ -144,7 +153,7 @@ SPEC;
         ]);
     }
 
-    private function splitArgs(Tokens $tokens, int $index)
+    private function splitArgs(Tokens $tokens, $index)
     {
         $openBraceIndex  = $tokens->getNextTokenOfKind($index, ['(']);
         $closeBraceIndex = $this->localizeNextCloseBrace($tokens, $index);
@@ -202,7 +211,7 @@ SPEC;
         $tokens->removeTrailingWhitespace($tokens->getPrevMeaningfulToken($closeBraceIndex));
     }
 
-    private function mergeArgs(Tokens $tokens, int $index)
+    private function mergeArgs(Tokens $tokens, $index)
     {
         $openBraceIndex  = $tokens->getNextTokenOfKind($index, ['(']);
         $closeBraceIndex = $this->localizeNextCloseBrace($tokens, $index);
@@ -225,7 +234,7 @@ SPEC;
         }
     }
 
-    private function localizeNextCloseBrace(Tokens $tokens, $index): int
+    private function localizeNextCloseBrace(Tokens $tokens, $index)
     {
         $opening = 0;
 
@@ -246,7 +255,7 @@ SPEC;
         return 0;
     }
 
-    private function localizeNextCloseBracket(Tokens $tokens, $index): int
+    private function localizeNextCloseBracket(Tokens $tokens, $index)
     {
         $opening = 0;
 
@@ -267,7 +276,7 @@ SPEC;
         return 0;
     }
 
-    private function getNumberOfArguments(Tokens $tokens, int $index): int
+    private function getNumberOfArguments(Tokens $tokens, $index)
     {
         if (T_FUNCTION !== $tokens[$index]->getId()) {
             return 0;

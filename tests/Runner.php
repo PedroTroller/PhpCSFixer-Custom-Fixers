@@ -34,6 +34,10 @@ class Runner
 
             $usecase = new $class();
 
+            if ($usecase->getMinSupportedPhpVersion() > PHP_VERSION_ID) {
+                continue;
+            }
+
             $fixer  = $usecase->getFixer();
             $tokens = Tokens::fromCode($usecase->getRawScript());
 

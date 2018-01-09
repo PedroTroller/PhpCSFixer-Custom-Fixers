@@ -21,7 +21,10 @@ class SingleLineCommentFixer extends AbstractFixer implements ConfigurationDefin
      */
     private $expandRegex = '/( *)\/[*]{1,2} %s (.+) \*\//';
 
-    public function getSampleConfigurations(): array
+    /**
+     * {@inheritdoc}
+     */
+    public function getSampleConfigurations()
     {
         return [
             ['action' => 'expanded'],
@@ -30,12 +33,18 @@ class SingleLineCommentFixer extends AbstractFixer implements ConfigurationDefin
         ];
     }
 
-    public function getDocumentation(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getDocumentation()
     {
         return 'PHPSpec spec functions MUST NOT have a public scope.';
     }
 
-    public function getSampleCode(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getSampleCode()
     {
         return <<<SPEC
 <?php

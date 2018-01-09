@@ -3,17 +3,22 @@
 namespace tests\UseCase\OrderedSpecElements\Regression;
 
 use PedroTroller\CS\Fixer\Phpspec\OrderedSpecElementsFixer;
-use PhpCsFixer\Fixer\FixerInterface;
 use tests\UseCase;
 
 class Case1 implements UseCase
 {
-    public function getFixer(): FixerInterface
+    /**
+     * {@inheritdoc}
+     */
+    public function getFixer()
     {
         return new OrderedSpecElementsFixer();
     }
 
-    public function getRawScript(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getRawScript()
     {
         return <<<'PHP'
 <?php
@@ -53,7 +58,10 @@ class HotelSpec extends ObjectBehavior
 PHP;
     }
 
-    public function getExpectation(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getExpectation()
     {
         return <<<'PHP'
 <?php
@@ -91,5 +99,13 @@ class HotelSpec extends ObjectBehavior
     }
 }
 PHP;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMinSupportedPhpVersion()
+    {
+        return 0;
     }
 }
