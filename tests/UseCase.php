@@ -6,9 +6,23 @@ use PhpCsFixer\Fixer\FixerInterface;
 
 interface UseCase
 {
-    public function getFixer(): FixerInterface;
+    /**
+     * @return FixerInterface
+     */
+    public function getFixer();
 
-    public function getRawScript(): string;
+    /**
+     * @return string
+     */
+    public function getRawScript();
 
-    public function getExpectation(): string;
+    /**
+     * @return string
+     */
+    public function getExpectation();
+
+    /**
+     * @return int
+     */
+    public function getMinSupportedPhpVersion();
 }

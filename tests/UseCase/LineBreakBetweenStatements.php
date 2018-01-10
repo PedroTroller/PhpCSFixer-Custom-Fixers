@@ -3,17 +3,22 @@
 namespace tests\UseCase;
 
 use PedroTroller\CS\Fixer\CodingStyle\LineBreakBetweenStatementsFixer;
-use PhpCsFixer\Fixer\FixerInterface;
 use tests\UseCase;
 
 class LineBreakBetweenStatements implements UseCase
 {
-    public function getFixer(): FixerInterface
+    /**
+     * {@inheritdoc}
+     */
+    public function getFixer()
     {
         return new LineBreakBetweenStatementsFixer();
     }
 
-    public function getRawScript(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getRawScript()
     {
         return '
 <?php
@@ -36,7 +41,10 @@ class TheClass
 }';
     }
 
-    public function getExpectation(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getExpectation()
     {
         return '
 <?php
@@ -60,5 +68,13 @@ class TheClass
         }
     }
 }';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMinSupportedPhpVersion()
+    {
+        return 0;
     }
 }

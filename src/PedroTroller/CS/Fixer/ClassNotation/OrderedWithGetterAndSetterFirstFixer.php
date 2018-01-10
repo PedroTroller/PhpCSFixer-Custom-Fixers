@@ -29,12 +29,18 @@ class OrderedWithGetterAndSetterFirstFixer extends AbstractOrderedClassElementsF
         ]) - 1;
     }
 
-    public function getDocumentation(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getDocumentation()
     {
         return 'Class/interface/trait methods MUST BE ordered (getter and setters at the end, ordered following arguments order).';
     }
 
-    public function getSampleCode(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getSampleCode()
     {
         return <<<'PHP'
 <?php
@@ -113,17 +119,6 @@ class User
 PHP;
     }
 
-    public function getMethodsNames(array $elements)
-    {
-        foreach ($this->getPropertiesNames($elements) as $name) {
-            $methods[] = sprintf('get%s', ucfirst($name));
-            $methods[] = sprintf('is%s', ucfirst($name));
-            $methods[] = sprintf('set%s', ucfirst($name));
-        }
-
-        return $methods;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -152,6 +147,17 @@ PHP;
         }
 
         return $elements;
+    }
+
+    private function getMethodsNames(array $elements)
+    {
+        foreach ($this->getPropertiesNames($elements) as $name) {
+            $methods[] = sprintf('get%s', ucfirst($name));
+            $methods[] = sprintf('is%s', ucfirst($name));
+            $methods[] = sprintf('set%s', ucfirst($name));
+        }
+
+        return $methods;
     }
 
     private function getPropertiesNames(array $elements)

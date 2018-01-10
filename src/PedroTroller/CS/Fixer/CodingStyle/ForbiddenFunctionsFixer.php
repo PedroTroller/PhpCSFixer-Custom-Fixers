@@ -12,7 +12,10 @@ use SplFileInfo;
 
 class ForbiddenFunctionsFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface
 {
-    public function getSampleCode(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getSampleCode()
     {
         return <<<'PHP'
 <?php
@@ -37,7 +40,10 @@ class MyClass {
 PHP;
     }
 
-    public function getSampleConfigurations(): array
+    /**
+     * {@inheritdoc}
+     */
+    public function getSampleConfigurations()
     {
         return [
             ['comment' => 'YOLO'],
@@ -45,7 +51,10 @@ PHP;
         ];
     }
 
-    public function getDocumentation(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getDocumentation()
     {
         return 'Forbidden functions MUST BE commented';
     }

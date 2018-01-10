@@ -38,6 +38,6 @@ class Fixers implements IteratorAggregate
             $classes[] = $class;
         }
 
-        return new ArrayIterator(array_map(function (string $class) { return new $class(); }, $classes));
+        return new ArrayIterator(array_map(function ($class) { return new $class(); }, $classes));
     }
 }

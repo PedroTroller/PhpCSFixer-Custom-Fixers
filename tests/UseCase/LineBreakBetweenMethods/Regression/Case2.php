@@ -3,12 +3,14 @@
 namespace tests\UseCase\LineBreakBetweenMethods\Regression;
 
 use PedroTroller\CS\Fixer\CodingStyle\LineBreakBetweenMethodArgumentsFixer;
-use PhpCsFixer\Fixer\FixerInterface;
 use tests\UseCase;
 
 class Case2 implements UseCase
 {
-    public function getFixer(): FixerInterface
+    /**
+     * {@inheritdoc}
+     */
+    public function getFixer()
     {
         $fixer = new LineBreakBetweenMethodArgumentsFixer();
 
@@ -20,7 +22,10 @@ class Case2 implements UseCase
         return $fixer;
     }
 
-    public function getRawScript(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getRawScript()
     {
         return <<<'PHP'
 <?php
@@ -36,7 +41,10 @@ class TheClass
 PHP;
     }
 
-    public function getExpectation(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getExpectation()
     {
         return <<<'PHP'
 <?php
@@ -50,5 +58,13 @@ class TheClass
     }
 }
 PHP;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMinSupportedPhpVersion()
+    {
+        return 0;
     }
 }

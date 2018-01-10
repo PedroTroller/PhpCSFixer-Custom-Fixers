@@ -25,16 +25,25 @@ abstract class AbstractFixer extends PhpCsFixer
         return sprintf('PedroTroller/%s', parent::getName());
     }
 
-    public function getSampleConfigurations(): array
+    /**
+     * @return array
+     */
+    public function getSampleConfigurations()
     {
         return [
             null,
         ];
     }
 
-    abstract public function getSampleCode(): string;
+    /**
+     * @return string
+     */
+    abstract public function getSampleCode();
 
-    abstract public function getDocumentation(): string;
+    /**
+     * @return string
+     */
+    abstract public function getDocumentation();
 
     /**
      * {@inheritdoc}
@@ -113,7 +122,7 @@ abstract class AbstractFixer extends PhpCsFixer
     /**
      * @return PhpCsFixer\Tokenizer\Token[]
      */
-    protected function getComments(Tokens $tokens): array
+    protected function getComments(Tokens $tokens)
     {
         $comments = [];
 
@@ -126,7 +135,12 @@ abstract class AbstractFixer extends PhpCsFixer
         return $comments;
     }
 
-    protected function getBeginningOfTheLine(Tokens $tokens, int $index): int
+    /**
+     * @param mixed $index
+     *
+     * @return int
+     */
+    protected function getBeginningOfTheLine(Tokens $tokens, $index)
     {
         for ($i = $index; $i >= 0; --$i) {
             if (false !== mb_strpos($tokens[$i]->getContent(), "\n")) {
@@ -135,7 +149,12 @@ abstract class AbstractFixer extends PhpCsFixer
         }
     }
 
-    protected function getEndOfTheLine(Tokens $tokens, int $index): int
+    /**
+     * @param mixed $index
+     *
+     * @return int
+     */
+    protected function getEndOfTheLine(Tokens $tokens, $index)
     {
         for ($i = $index; $i < $tokens->count(); ++$i) {
             if (false !== mb_strpos($tokens[$i]->getContent(), "\n")) {
@@ -144,7 +163,12 @@ abstract class AbstractFixer extends PhpCsFixer
         }
     }
 
-    protected function getLineSize(Tokens $tokens, int $index): int
+    /**
+     * @param mixed $index
+     *
+     * @return int
+     */
+    protected function getLineSize(Tokens $tokens, $index)
     {
         $start = $this->getBeginningOfTheLine($tokens, $index);
         $end   = $this->getEndOfTheLine($tokens, $index);

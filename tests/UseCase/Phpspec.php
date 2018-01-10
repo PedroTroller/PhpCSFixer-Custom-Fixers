@@ -3,17 +3,22 @@
 namespace tests\Usecase;
 
 use PedroTroller\CS\Fixer\Phpspec\PhpspecFixer;
-use PhpCsFixer\Fixer\FixerInterface;
 use tests\UseCase;
 
 class Phpspec implements UseCase
 {
-    public function getFixer(): FixerInterface
+    /**
+     * {@inheritdoc}
+     */
+    public function getFixer()
     {
         return new PhpspecFixer();
     }
 
-    public function getRawScript(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getRawScript()
     {
         return <<<SPEC
 <?php
@@ -47,7 +52,10 @@ class TheSpec extends ObjectBehavior
 SPEC;
     }
 
-    public function getExpectation(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getExpectation()
     {
         return <<<SPEC
 <?php
@@ -79,5 +87,13 @@ class TheSpec extends ObjectBehavior
     }
 }
 SPEC;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMinSupportedPhpVersion()
+    {
+        return 0;
     }
 }

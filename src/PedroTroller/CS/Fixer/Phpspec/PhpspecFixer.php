@@ -17,12 +17,18 @@ class PhpspecFixer extends AbstractFixer
         return $this->extendsClass($tokens, 'PhpSpec\ObjectBehavior');
     }
 
-    public function getDocumentation(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getDocumentation()
     {
         return 'PHPSpec spec functions MUST NOT have a public scope.';
     }
 
-    public function getSampleCode(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getSampleCode()
     {
         return <<<SPEC
 <?php

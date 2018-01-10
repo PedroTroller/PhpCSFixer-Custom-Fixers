@@ -8,7 +8,10 @@ use SplFileInfo;
 
 class LineBreakBetweenStatementsFixer extends AbstractFixer
 {
-    public function getSampleCode(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getSampleCode()
     {
         return <<<PHP
 <?php
@@ -40,7 +43,10 @@ class TheClass
 PHP;
     }
 
-    public function getDocumentation(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getDocumentation()
     {
         return 'Transform multiline docblocks with only one comment into a singleline docblock.';
     }
@@ -93,7 +99,7 @@ PHP;
         }
     }
 
-    private function ensureNumberOfBreaks(string $whitespace): string
+    private function ensureNumberOfBreaks($whitespace)
     {
         $parts = explode("\n", $whitespace);
 

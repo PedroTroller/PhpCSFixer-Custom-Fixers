@@ -3,12 +3,14 @@
 namespace tests\UseCase;
 
 use PedroTroller\CS\Fixer\CodingStyle\ForbiddenFunctionsFixer;
-use PhpCsFixer\Fixer\FixerInterface;
 use tests\UseCase;
 
 class ForbiddenFunctions implements UseCase
 {
-    public function getFixer(): FixerInterface
+    /**
+     * {@inheritdoc}
+     */
+    public function getFixer()
     {
         $fixer = new ForbiddenFunctionsFixer();
 
@@ -20,7 +22,10 @@ class ForbiddenFunctions implements UseCase
         return $fixer;
     }
 
-    public function getRawScript(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getRawScript()
     {
         return <<<'PHP'
 <?php
@@ -47,7 +52,10 @@ class MyClass {
 PHP;
     }
 
-    public function getExpectation(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getExpectation()
     {
         return <<<'PHP'
 <?php
@@ -72,5 +80,13 @@ class MyClass {
     }
 }
 PHP;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMinSupportedPhpVersion()
+    {
+        return 0;
     }
 }
