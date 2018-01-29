@@ -93,7 +93,7 @@ SPEC;
                 continue;
             }
 
-            if (0 === preg_match('/^(let(Go)?|it_.+)$/', $next->getContent())) {
+            if (0 === preg_match('/^(let(Go)?|it_.+|its_.+)$/', $next->getContent())) {
                 continue;
             }
 

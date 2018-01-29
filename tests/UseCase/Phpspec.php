@@ -45,7 +45,7 @@ class TheSpec extends ObjectBehavior
         return;
     }
 
-    public function its_other_function(\$file) {
+    public function its_other_function_as_a_spec(\$file) {
         return;
     }
 }
@@ -82,7 +82,7 @@ class TheSpec extends ObjectBehavior
         return;
     }
 
-    public function its_other_function(\$file) {
+    function its_other_function_as_a_spec(\$file) {
         return;
     }
 }

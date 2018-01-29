@@ -49,7 +49,7 @@ class TheSpec extends ObjectBehavior
         return;
     }
 
-    public function its_other_function($file) {
+    public function its_other_function_as_a_spec($file) {
         return;
     }
 }
@@ -82,15 +82,15 @@ class TheSpec extends ObjectBehavior
         return;
     }
 
+    public function its_other_function_as_a_spec($file) {
+        return;
+    }
+
     private function thePrivateMethod() {
         return;
     }
 
     public function itIsNotASpec($file) {
-        return;
-    }
-
-    public function its_other_function($file) {
         return;
     }
 }

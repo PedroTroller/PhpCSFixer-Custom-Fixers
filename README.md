@@ -406,13 +406,16 @@ return $config;
                                                                                  //
 -    public function it_is_a_spec($file) {                                       //
 +    function it_is_a_spec($file) {                                              //
+@@ @@                                                                            //
+-    public function its_other_function($file) {                                 //
++    function its_other_function($file) {                                        //
                                                                                  //
 ```
 
 
 ## PedroTroller/ordered_spec_elements
 
-PHPSpec spec functions MUST BE ordered with specs first (order: let, letGo and it_* functons).
+PHPSpec spec functions MUST BE ordered with specs first (order: let, letGo, its_* and it_* functons).
 
 ### Configuration
 
@@ -454,11 +457,16 @@ return $config;
      }                                                                           //
                                                                                  //
 -    function it_is_a_spec($file) {                                              //
-+    private function thePrivateMethod() {                                       //
++    public function its_other_function($file) {                                 //
          return;                                                                 //
      }                                                                           //
                                                                                  //
 -    function let($file) {                                                       //
++    private function thePrivateMethod() {                                       //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
+-    public function its_other_function($file) {                                 //
 +    public function itIsNotASpec($file) {                                       //
                                                                                  //
 ```

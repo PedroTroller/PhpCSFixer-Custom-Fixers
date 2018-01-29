@@ -21,7 +21,7 @@ class OrderedSpecElementsFixer extends AbstractOrderedClassElementsFixer
      */
     public function getDocumentation()
     {
-        return 'PHPSpec spec functions MUST BE ordered with specs first (order: let, letGo and it_* functons).';
+        return 'PHPSpec spec functions MUST BE ordered with specs first (order: let, letGo, its_* and it_* functons).';
     }
 
     /**
@@ -107,7 +107,7 @@ SPEC;
                 continue;
             }
 
-            if (0 !== preg_match('/^it_.+$/', $element['methodName'])) {
+            if (0 !== preg_match('/^(it_|its_).+$/', $element['methodName'])) {
                 $portions[$index + 3] = $element;
                 unset($elements[$index]);
 
