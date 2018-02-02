@@ -151,6 +151,8 @@ PHP;
 
     private function getMethodsNames(array $elements)
     {
+        $methods = [];
+
         foreach ($this->getPropertiesNames($elements) as $name) {
             $methods[] = sprintf('get%s', ucfirst($name));
             $methods[] = sprintf('is%s', ucfirst($name));
