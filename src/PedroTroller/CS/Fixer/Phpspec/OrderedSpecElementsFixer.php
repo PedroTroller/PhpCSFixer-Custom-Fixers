@@ -79,7 +79,8 @@ SPEC;
      */
     protected function sortElements(array $elements)
     {
-        $portions = [];
+        $portions         = [];
+        $numberOfElements = count($elements);
 
         foreach ($elements as $index => $element) {
             if ('method' !== $element['type']) {
@@ -87,28 +88,35 @@ SPEC;
             }
 
             if ('let' === $element['methodName']) {
-                $portions[0] = $element;
+                $portions[-4] = $element;
                 unset($elements[$index]);
 
                 continue;
             }
 
             if ('letGo' === $element['methodName']) {
-                $portions[1] = $element;
+                $portions[-3] = $element;
                 unset($elements[$index]);
 
                 continue;
             }
 
             if ('it_is_initializable' === $element['methodName']) {
-                $portions[2] = $element;
+                $portions[-1] = $element;
                 unset($elements[$index]);
 
                 continue;
             }
 
             if (0 !== preg_match('/^(it_|its_).+$/', $element['methodName'])) {
-                $portions[$index + 3] = $element;
+                $portions[$index] = $element;
+                unset($elements[$index]);
+
+                continue;
+            }
+
+            if ('getMatchers' === $element['methodName']) {
+                $portions[$numberOfElements] = $element;
                 unset($elements[$index]);
 
                 continue;

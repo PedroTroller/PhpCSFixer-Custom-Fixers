@@ -49,8 +49,13 @@ class TheSpec extends ObjectBehavior
         return;
     }
 
-    public function its_other_function_as_a_spec($file) {
+    function its_other_function_as_a_spec($file) {
         return;
+    }
+
+    public function getMatchers()
+    {
+        return [];
     }
 }
 PHP;
@@ -82,8 +87,13 @@ class TheSpec extends ObjectBehavior
         return;
     }
 
-    public function its_other_function_as_a_spec($file) {
+    function its_other_function_as_a_spec($file) {
         return;
+    }
+
+    public function getMatchers()
+    {
+        return [];
     }
 
     private function thePrivateMethod() {
