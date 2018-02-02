@@ -142,11 +142,25 @@ PHP;
 
         ksort($portions);
 
-        foreach ($portions as $portion) {
-            $elements[] = $portion;
+        $result = [];
+
+        foreach ($elements as $element) {
+            if ('method' !== $element['type']) {
+                $result[] = $element;
+            }
         }
 
-        return $elements;
+        foreach ($portions as $portion) {
+            $result[] = $portion;
+        }
+
+        foreach ($elements as $element) {
+            if ('method' === $element['type']) {
+                $result[] = $element;
+            }
+        }
+
+        return $result;
     }
 
     private function getMethodsNames(array $elements)

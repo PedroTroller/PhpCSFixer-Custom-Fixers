@@ -23,13 +23,12 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0.x-dev"
+            "dev-master": "2.6.x-dev"
         }
     },
     "scripts": {
         "tests": [
-            "tests\\Runner::run",
-            "vendor/bin/phpspec run -fpretty -v"
+            "tests\\Runner::run"
         ]
     }
 }

@@ -1028,6 +1028,251 @@ class Attendee
         throw new LogicException('$workFor have to be an Organisation or a Sponsor');
     }
 
+    public function getIdentifier(): string
+    {
+        return $this->identifier;
+    }
+
+    public function getGivenName(): ?string
+    {
+        return $this->givenName;
+    }
+
+    public function setGivenName(string $givenName)
+    {
+        $this->givenName = $givenName;
+    }
+
+    public function getFamilyName(): ?string
+    {
+        return $this->familyName;
+    }
+
+    public function setFamilyName(string $familyName)
+    {
+        $this->familyName = $familyName;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email)
+    {
+        if ($email !== $this->email) {
+            $this->emailVerified = false;
+        }
+
+        $this->email = $email;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password)
+    {
+        $this->password = $password;
+    }
+
+    public function getTelephone(): ?Telephone
+    {
+        if (null === $this->telephone) {
+            return null;
+        }
+
+        return empty($this->telephone->getRegion()) || empty($this->telephone->getNationalNumber())
+            ? null
+            : $this->telephone;
+    }
+
+    public function setTelephone(Telephone $telephone)
+    {
+        $this->telephone = $telephone;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status)
+    {
+        $this->status = $status;
+
+        $this->pushStatusHistory($status);
+    }
+
+    public function getRegisteredAt(): DateTimeImmutable
+    {
+        return $this->registeredAt;
+    }
+
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(string $country)
+    {
+        $this->country = $country;
+    }
+
+    public function getCountriesInCharge(): array
+    {
+        return $this->countriesInCharge;
+    }
+
+    public function setCountriesInCharge(array $countriesInCharge)
+    {
+        $this->countriesInCharge = $countriesInCharge;
+    }
+
+    public function getAreasOfExpertise(): array
+    {
+        return $this->areasOfExpertise;
+    }
+
+    public function setAreasOfExpertise(array $areasOfExpertise)
+    {
+        $this->areasOfExpertise = $areasOfExpertise;
+    }
+
+    public function getLinkedIn(): LinkedIn\Profile
+    {
+        return $this->linkedIn;
+    }
+
+    public function setLinkedIn(LinkedIn\Profile $linkedIn)
+    {
+        $this->linkedIn = $linkedIn;
+    }
+
+    public function getPassType(): ?string
+    {
+        return $this->passType;
+    }
+
+    public function setPassType(string $passType = self::PASS_MEMBER)
+    {
+        Assert::oneOf($passType, [
+            self::PASS_MEMBER,
+            self::PASS_ATTENDEE,
+            self::PASS_1_TO_1,
+        ]);
+
+        $this->passType = $passType;
+    }
+
+    public function getJobTitle(): ?string
+    {
+        return $this->jobTitle;
+    }
+
+    public function setJobTitle(string $jobTitle)
+    {
+        $this->jobTitle = $jobTitle;
+    }
+
+    public function getIndustry(): ?string
+    {
+        return $this->industry;
+    }
+
+    public function setIndustry(string $industry)
+    {
+        $this->industry = $industry;
+    }
+
+    public function getSeniority(): ?string
+    {
+        return $this->seniority;
+    }
+
+    public function setSeniority(string $seniority)
+    {
+        $this->seniority = $seniority;
+    }
+
+    public function getChallenge(): ?string
+    {
+        return $this->challenge;
+    }
+
+    public function setChallenge(string $challenge)
+    {
+        $this->challenge = $challenge;
+    }
+
+    public function getInvitation(): ?Invitation
+    {
+        return $this->invitation;
+    }
+
+    public function getAssistant(): ?Assistant
+    {
+        if (null === $this->assistant || $this->assistant->empty()) {
+            return null;
+        }
+
+        return $this->assistant;
+    }
+
+    public function setAssistant(Assistant $assistant)
+    {
+        $this->assistant = $assistant;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function getSentInvitations(): ?iterable
+    {
+        return $this->sentInvitations;
+    }
+
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(string $picture)
+    {
+        $this->picture = $picture;
+    }
+
+    public function getTripDetails(): ?TripDetails
+    {
+        return $this->tripDetails;
+    }
+
+    public function setTripDetails(TripDetails $tripDetails)
+    {
+        $this->tripDetails = $tripDetails;
+    }
+
+    public function getStatusHistory(): array
+    {
+        $history = [];
+
+        foreach ($this->statusHistory as $row) {
+            list($status, $dateStr) = $row;
+            $date                   = new DateTimeImmutable($dateStr);
+
+            if (false === isset($history[$status]) || $history[$status] < $date) {
+                $history[$status] = $date;
+            }
+        }
+
+        asort($history);
+
+        return $history;
+    }
+
     public static function createASponsor(
         string $email,
         string $givenName = null,
@@ -1281,251 +1526,6 @@ class Attendee
             $status,
             date('c'),
         ];
-    }
-
-    public function getIdentifier(): string
-    {
-        return $this->identifier;
-    }
-
-    public function getGivenName(): ?string
-    {
-        return $this->givenName;
-    }
-
-    public function setGivenName(string $givenName)
-    {
-        $this->givenName = $givenName;
-    }
-
-    public function getFamilyName(): ?string
-    {
-        return $this->familyName;
-    }
-
-    public function setFamilyName(string $familyName)
-    {
-        $this->familyName = $familyName;
-    }
-
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email)
-    {
-        if ($email !== $this->email) {
-            $this->emailVerified = false;
-        }
-
-        $this->email = $email;
-    }
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password)
-    {
-        $this->password = $password;
-    }
-
-    public function getTelephone(): ?Telephone
-    {
-        if (null === $this->telephone) {
-            return null;
-        }
-
-        return empty($this->telephone->getRegion()) || empty($this->telephone->getNationalNumber())
-            ? null
-            : $this->telephone;
-    }
-
-    public function setTelephone(Telephone $telephone)
-    {
-        $this->telephone = $telephone;
-    }
-
-    public function getStatus(): string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status)
-    {
-        $this->status = $status;
-
-        $this->pushStatusHistory($status);
-    }
-
-    public function getRegisteredAt(): DateTimeImmutable
-    {
-        return $this->registeredAt;
-    }
-
-    public function getCountry(): ?string
-    {
-        return $this->country;
-    }
-
-    public function setCountry(string $country)
-    {
-        $this->country = $country;
-    }
-
-    public function getCountriesInCharge(): array
-    {
-        return $this->countriesInCharge;
-    }
-
-    public function setCountriesInCharge(array $countriesInCharge)
-    {
-        $this->countriesInCharge = $countriesInCharge;
-    }
-
-    public function getAreasOfExpertise(): array
-    {
-        return $this->areasOfExpertise;
-    }
-
-    public function setAreasOfExpertise(array $areasOfExpertise)
-    {
-        $this->areasOfExpertise = $areasOfExpertise;
-    }
-
-    public function getLinkedIn(): LinkedIn\Profile
-    {
-        return $this->linkedIn;
-    }
-
-    public function setLinkedIn(LinkedIn\Profile $linkedIn)
-    {
-        $this->linkedIn = $linkedIn;
-    }
-
-    public function getPassType(): ?string
-    {
-        return $this->passType;
-    }
-
-    public function setPassType(string $passType = self::PASS_MEMBER)
-    {
-        Assert::oneOf($passType, [
-            self::PASS_MEMBER,
-            self::PASS_ATTENDEE,
-            self::PASS_1_TO_1,
-        ]);
-
-        $this->passType = $passType;
-    }
-
-    public function getJobTitle(): ?string
-    {
-        return $this->jobTitle;
-    }
-
-    public function setJobTitle(string $jobTitle)
-    {
-        $this->jobTitle = $jobTitle;
-    }
-
-    public function getIndustry(): ?string
-    {
-        return $this->industry;
-    }
-
-    public function setIndustry(string $industry)
-    {
-        $this->industry = $industry;
-    }
-
-    public function getSeniority(): ?string
-    {
-        return $this->seniority;
-    }
-
-    public function setSeniority(string $seniority)
-    {
-        $this->seniority = $seniority;
-    }
-
-    public function getChallenge(): ?string
-    {
-        return $this->challenge;
-    }
-
-    public function setChallenge(string $challenge)
-    {
-        $this->challenge = $challenge;
-    }
-
-    public function getInvitation(): ?Invitation
-    {
-        return $this->invitation;
-    }
-
-    public function getAssistant(): ?Assistant
-    {
-        if (null === $this->assistant || $this->assistant->empty()) {
-            return null;
-        }
-
-        return $this->assistant;
-    }
-
-    public function setAssistant(Assistant $assistant)
-    {
-        $this->assistant = $assistant;
-    }
-
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    public function getSentInvitations(): ?iterable
-    {
-        return $this->sentInvitations;
-    }
-
-    public function getPicture(): ?string
-    {
-        return $this->picture;
-    }
-
-    public function setPicture(string $picture)
-    {
-        $this->picture = $picture;
-    }
-
-    public function getTripDetails(): ?TripDetails
-    {
-        return $this->tripDetails;
-    }
-
-    public function setTripDetails(TripDetails $tripDetails)
-    {
-        $this->tripDetails = $tripDetails;
-    }
-
-    public function getStatusHistory(): array
-    {
-        $history = [];
-
-        foreach ($this->statusHistory as $row) {
-            list($status, $dateStr) = $row;
-            $date                   = new DateTimeImmutable($dateStr);
-
-            if (false === isset($history[$status]) || $history[$status] < $date) {
-                $history[$status] = $date;
-            }
-        }
-
-        asort($history);
-
-        return $history;
     }
 }
 PHP;

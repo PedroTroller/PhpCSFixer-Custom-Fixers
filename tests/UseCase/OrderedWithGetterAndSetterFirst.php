@@ -136,16 +136,6 @@ class User
         }
     }
 
-    public function enable()
-    {
-        $this->enabled = true;
-    }
-
-    public function disable()
-    {
-        $this->enabled = false;
-    }
-
     public function getIdentifier()
     {
         return $this->identifier;
@@ -174,6 +164,16 @@ class User
     public function isEnabled()
     {
         return $this->enabled;
+    }
+
+    public function enable()
+    {
+        $this->enabled = true;
+    }
+
+    public function disable()
+    {
+        $this->enabled = false;
     }
 }
 PHP;
