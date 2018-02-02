@@ -7,6 +7,7 @@
     },
     "PedroTroller/line_break_between_statements": true,
     "PedroTroller/ordered_spec_elements": true,
+    "PedroTroller/ordered_with_getter_and_setter_first": true,
     "PedroTroller/phpspec": true,
     "PedroTroller/single_line_comment": {
         "action": "expanded"

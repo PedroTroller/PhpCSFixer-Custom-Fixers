@@ -325,42 +325,44 @@ return $config;
 +++ New                                                                          //
 @@ @@                                                                            //
 -    public function setFirstName($firstName)                                    //
-+    public function enable()                                                    //
++    public function getIdentifier()                                             //
      {                                                                           //
 -        $this->firstName = $firstName;                                          //
-+        $this->enabled = true;                                                  //
++        return $this->identifier;                                               //
      }                                                                           //
                                                                                  //
 -    public function setName($name)                                              //
-+    public function disable()                                                   //
++    public function getName()                                                   //
      {                                                                           //
 -        $this->name = $name;                                                    //
-+        $this->enabled = false;                                                 //
++        return $this->name;                                                     //
      }                                                                           //
                                                                                  //
 -    public function isEnabled()                                                 //
-+    public function getIdentifier()                                             //
-     {                                                                           //
--        return $this->enabled;                                                  //
-+        return $this->identifier;                                               //
-@@ @@                                                                            //
--    public function getIdentifier()                                             //
 +    public function setName($name)                                              //
      {                                                                           //
--        return $this->identifier;                                               //
+-        return $this->enabled;                                                  //
 +        $this->name = $name;                                                    //
-@@ @@                                                                            //
--    public function enable()                                                    //
+     }                                                                           //
+                                                                                 //
+-    public function getName()                                                   //
++    public function getFirstName()                                              //
+     {                                                                           //
+-        return $this->name;                                                     //
++        return $this->firstName;                                                //
+     }                                                                           //
+                                                                                 //
+-    public function getIdentifier()                                             //
 +    public function setFirstName($firstName)                                    //
      {                                                                           //
--        $this->enabled = true;                                                  //
+-        return $this->identifier;                                               //
 +        $this->firstName = $firstName;                                          //
      }                                                                           //
                                                                                  //
--    public function disable()                                                   //
+-    public function getFirstName()                                              //
 +    public function isEnabled()                                                 //
      {                                                                           //
--        $this->enabled = false;                                                 //
+-        return $this->firstName;                                                //
 +        return $this->enabled;                                                  //
                                                                                  //
 ```
