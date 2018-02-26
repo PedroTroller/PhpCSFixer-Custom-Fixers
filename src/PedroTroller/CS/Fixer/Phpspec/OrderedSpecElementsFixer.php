@@ -71,7 +71,7 @@ SPEC;
      */
     public function getPriority()
     {
-        return (new OrderedClassElementsFixer())->getPriority() - 1;
+        return (new OrderedClassElementsFixer())->getPriority() + 1;
     }
 
     /**

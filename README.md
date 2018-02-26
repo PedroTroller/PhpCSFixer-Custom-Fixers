@@ -55,6 +55,9 @@ return $config;
 --- Original                                                                     // 80 chars
 +++ New                                                                          //
 @@ @@                                                                            //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
 -    public function fun2($arg1, array $arg2 = [], \ArrayAccess $arg3 = null, bool $bool = true)
 -    {                                                                           //
 +    public function fun2(                                                       //
@@ -72,6 +75,9 @@ return $config;
 -    ) {                                                                         //
 +    public function fun3($arg1, array $arg2 = [])                               //
 +    {                                                                           //
+         return;                                                                 //
+     }                                                                           //
+ }                                                                               //
                                                                                  //
 ```
 
@@ -104,6 +110,9 @@ return $config;
 --- Original                                                                     // 80 chars
 +++ New                                                                          //
 @@ @@                                                                            //
+         do {                                                                    //
+             // ...                                                              //
+         } while (true);                                                         //
 +                                                                                //
          foreach (['foo', 'bar'] as $str) {                                      //
              // ...                                                              //
@@ -113,6 +122,9 @@ return $config;
              // ...                                                              //
          }                                                                       //
 -                                                                                //
+                                                                                 //
+         while (true) {                                                          //
+             // ...                                                              //
                                                                                  //
 ```
 
@@ -145,13 +157,14 @@ return $config;
 --- Original                                                                     // 80 chars
 +++ New                                                                          //
 @@ @@                                                                            //
- <?php                                                                           //
-                                                                                 //
  class MyClass {                                                                 //
      public function fun()                                                       //
      {                                                                           //
 -        var_dump('this is a var_dump');                                         //
 +        var_dump('this is a var_dump'); // YOLO                                 //
+                                                                                 //
+         $this->dump($this);                                                     //
+                                                                                 //
                                                                                  //
 ```
 ### Configuration
@@ -178,8 +191,6 @@ return $config;
 --- Original                                                                     // 80 chars
 +++ New                                                                          //
 @@ @@                                                                            //
- <?php                                                                           //
-                                                                                 //
  class MyClass {                                                                 //
      public function fun()                                                       //
      {                                                                           //
@@ -190,6 +201,9 @@ return $config;
                                                                                  //
 -        return var_export($this);                                               //
 +        return var_export($this); // NEIN NEIN NEIN !!!                         //
+     }                                                                           //
+                                                                                 //
+     public function dump($data)                                                 //
                                                                                  //
 ```
 
@@ -222,10 +236,16 @@ return $config;
 --- Original                                                                     // 80 chars
 +++ New                                                                          //
 @@ @@                                                                            //
+                                                                                 //
+ class TheClass                                                                  //
+ {                                                                               //
 -    /** @var string */                                                          //
 +    /**                                                                         //
 +     * @var string                                                              //
 +     */                                                                         //
+     private $prop1;                                                             //
+                                                                                 //
+     /**                                                                         //
                                                                                  //
 ```
 ### Configuration
@@ -252,10 +272,16 @@ return $config;
 --- Original                                                                     // 80 chars
 +++ New                                                                          //
 @@ @@                                                                            //
+     /** @var string */                                                          //
+     private $prop1;                                                             //
+                                                                                 //
 -    /**                                                                         //
 -     * @var string                                                              //
 -     */                                                                         //
 +    /** @var string */                                                          //
+     private $prop1;                                                             //
+                                                                                 //
+     /**                                                                         //
                                                                                  //
 ```
 ### Configuration
@@ -282,6 +308,9 @@ return $config;
 --- Original                                                                     // 80 chars
 +++ New                                                                          //
 @@ @@                                                                            //
+     /** @var string */                                                          //
+     private $prop1;                                                             //
+                                                                                 //
 -    /**                                                                         //
 -     * @var string                                                              //
 -     */                                                                         //
@@ -292,6 +321,9 @@ return $config;
 -     * @return null                                                             //
 -     */                                                                         //
 +    /** @return null */                                                         //
+     public function fun1($file) {                                               //
+         return;                                                                 //
+     }                                                                           //
                                                                                  //
 ```
 
@@ -324,6 +356,9 @@ return $config;
 --- Original                                                                     // 80 chars
 +++ New                                                                          //
 @@ @@                                                                            //
+         }                                                                       //
+     }                                                                           //
+                                                                                 //
 -    public function setFirstName($firstName)                                    //
 +    public function getIdentifier()                                             //
      {                                                                           //
@@ -364,6 +399,9 @@ return $config;
      {                                                                           //
 -        return $this->firstName;                                                //
 +        return $this->enabled;                                                  //
+     }                                                                           //
+                                                                                 //
+     public function enable()                                                    //
                                                                                  //
 ```
 
@@ -396,6 +434,9 @@ return $config;
 --- Original                                                                     // 80 chars
 +++ New                                                                          //
 @@ @@                                                                            //
+                                                                                 //
+ class TheSpec extends ObjectBehavior                                            //
+ {                                                                               //
 -    public function let($file) {                                                //
 +    function let($file) {                                                       //
          return;                                                                 //
@@ -408,9 +449,18 @@ return $config;
                                                                                  //
 -    public function it_is_a_spec($file) {                                       //
 +    function it_is_a_spec($file) {                                              //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
 @@ @@                                                                            //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
 -    public function its_other_function($file) {                                 //
 +    function its_other_function($file) {                                        //
+         return;                                                                 //
+     }                                                                           //
+ }                                                                               //
                                                                                  //
 ```
 
@@ -443,6 +493,9 @@ return $config;
 --- Original                                                                     // 80 chars
 +++ New                                                                          //
 @@ @@                                                                            //
+ class TheSpec extends ObjectBehavior                                            //
+ {                                                                               //
+                                                                                 //
 -    function letGo($file) {                                                     //
 +    function let($file) {                                                       //
          return;                                                                 //
@@ -470,6 +523,9 @@ return $config;
                                                                                  //
 -    public function its_other_function($file) {                                 //
 +    public function itIsNotASpec($file) {                                       //
+         return;                                                                 //
+     }                                                                           //
+ }                                                                               //
                                                                                  //
 ```
 

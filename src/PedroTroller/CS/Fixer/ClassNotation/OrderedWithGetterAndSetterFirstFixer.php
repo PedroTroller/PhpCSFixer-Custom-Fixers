@@ -23,10 +23,10 @@ class OrderedWithGetterAndSetterFirstFixer extends AbstractOrderedClassElementsF
      */
     public function getPriority()
     {
-        return min([
+        return max([
             (new OrderedClassElementsFixer())->getPriority(),
             (new OrderedSpecElementsFixer())->getPriority(),
-        ]) - 1;
+        ]) + 1;
     }
 
     /**
