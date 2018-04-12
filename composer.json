@@ -7,8 +7,7 @@
         "friendsofphp/php-cs-fixer": "~2.0"
     },
     "require-dev": {
-        "mustache/mustache": "^2.12",
-        "phpspec/phpspec": "~3.0"
+        "mustache/mustache": "^2.12"
     },
     "autoload": {
         "psr-4": { "PedroTroller\\CS\\": "src/PedroTroller/CS/" }
@@ -23,7 +22,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.6.x-dev"
+            "dev-master": "2.7.x-dev"
         }
     },
     "scripts": {

@@ -8,7 +8,7 @@ use PhpCsFixer\Fixer\FixerInterface;
 use ReflectionClass;
 use Symfony\Component\Finder\Finder;
 
-class Fixers implements IteratorAggregate
+final class Fixers implements IteratorAggregate
 {
     public function getIterator()
     {

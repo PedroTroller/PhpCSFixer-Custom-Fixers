@@ -2,17 +2,17 @@
 
 namespace tests\Usecase;
 
-use PedroTroller\CS\Fixer\Phpspec\PhpspecFixer;
+use PedroTroller\CS\Fixer\Phpspec\PhpspecScenarioScopeFixer;
 use tests\UseCase;
 
-class Phpspec implements UseCase
+class PhpspecScenarioScope implements UseCase
 {
     /**
      * {@inheritdoc}
      */
     public function getFixer()
     {
-        return new PhpspecFixer();
+        return new PhpspecScenarioScopeFixer();
     }
 
     /**

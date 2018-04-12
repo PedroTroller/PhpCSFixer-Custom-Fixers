@@ -6,7 +6,7 @@ use PedroTroller\CS\Fixer\AbstractOrderedClassElementsFixer;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Tokenizer\Tokens;
 
-class OrderedSpecElementsFixer extends AbstractOrderedClassElementsFixer
+final class OrderedSpecElementsFixer extends AbstractOrderedClassElementsFixer
 {
     /**
      * {@inheritdoc}

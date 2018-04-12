@@ -44,6 +44,7 @@ $config = PhpCsFixer\Config::create()
         // ...
     ])
     // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
 ;
 
 return $config;
@@ -99,6 +100,7 @@ $config = PhpCsFixer\Config::create()
         // ...
     ])
     // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
 ;
 
 return $config;
@@ -146,6 +148,7 @@ $config = PhpCsFixer\Config::create()
         // ...
     ])
     // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
 ;
 
 return $config;
@@ -180,6 +183,7 @@ $config = PhpCsFixer\Config::create()
         // ...
     ])
     // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
 ;
 
 return $config;
@@ -225,6 +229,7 @@ $config = PhpCsFixer\Config::create()
         // ...
     ])
     // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
 ;
 
 return $config;
@@ -261,6 +266,7 @@ $config = PhpCsFixer\Config::create()
         // ...
     ])
     // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
 ;
 
 return $config;
@@ -297,6 +303,7 @@ $config = PhpCsFixer\Config::create()
         // ...
     ])
     // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
 ;
 
 return $config;
@@ -345,6 +352,7 @@ $config = PhpCsFixer\Config::create()
         // ...
     ])
     // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
 ;
 
 return $config;
@@ -408,7 +416,7 @@ return $config;
 
 ## PedroTroller/phpspec
 
-PHPSpec spec functions MUST NOT have a public scope.
+PHPSpec spec functions MUST NOT have a public scope AND PHPSpec spec functions MUST BE ordered with specs first (order: let, letGo, its_* and it_* functons).
 
 ### Configuration
 
@@ -423,6 +431,7 @@ $config = PhpCsFixer\Config::create()
         // ...
     ])
     // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
 ;
 
 return $config;
@@ -434,30 +443,36 @@ return $config;
 --- Original                                                                     // 80 chars
 +++ New                                                                          //
 @@ @@                                                                            //
-                                                                                 //
  class TheSpec extends ObjectBehavior                                            //
  {                                                                               //
--    public function let($file) {                                                //
+                                                                                 //
+-    public function letGo($file) {                                              //
 +    function let($file) {                                                       //
          return;                                                                 //
      }                                                                           //
                                                                                  //
--    public function letGo($file) {                                              //
+-    private function thePrivateMethod() {                                       //
 +    function letGo($file) {                                                     //
          return;                                                                 //
      }                                                                           //
                                                                                  //
--    public function it_is_a_spec($file) {                                       //
+-    public function itIsNotASpec($file) {                                       //
 +    function it_is_a_spec($file) {                                              //
          return;                                                                 //
      }                                                                           //
                                                                                  //
-@@ @@                                                                            //
+-    public function it_is_a_spec($file) {                                       //
++    function its_other_function($file) {                                        //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
+-    public function let($file) {                                                //
++    private function thePrivateMethod() {                                       //
          return;                                                                 //
      }                                                                           //
                                                                                  //
 -    public function its_other_function($file) {                                 //
-+    function its_other_function($file) {                                        //
++    public function itIsNotASpec($file) {                                       //
          return;                                                                 //
      }                                                                           //
  }                                                                               //
@@ -482,6 +497,7 @@ $config = PhpCsFixer\Config::create()
         // ...
     ])
     // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
 ;
 
 return $config;
@@ -523,6 +539,66 @@ return $config;
                                                                                  //
 -    public function its_other_function($file) {                                 //
 +    public function itIsNotASpec($file) {                                       //
+         return;                                                                 //
+     }                                                                           //
+ }                                                                               //
+                                                                                 //
+```
+
+
+## PedroTroller/phpspec_scenario_scope
+
+PHPSpec spec functions MUST NOT have a public scope.
+
+### Configuration
+
+```php
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules([
+        // ...
+        'PedroTroller/phpspec_scenario_scope' => true,
+        // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+### Fixes
+
+```diff
+--- Original                                                                     // 80 chars
++++ New                                                                          //
+@@ @@                                                                            //
+                                                                                 //
+ class TheSpec extends ObjectBehavior                                            //
+ {                                                                               //
+-    public function let($file) {                                                //
++    function let($file) {                                                       //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
+-    public function letGo($file) {                                              //
++    function letGo($file) {                                                     //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
+-    public function it_is_a_spec($file) {                                       //
++    function it_is_a_spec($file) {                                              //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
+@@ @@                                                                            //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
+-    public function its_other_function($file) {                                 //
++    function its_other_function($file) {                                        //
          return;                                                                 //
      }                                                                           //
  }                                                                               //

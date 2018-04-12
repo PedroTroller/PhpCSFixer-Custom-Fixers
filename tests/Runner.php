@@ -3,8 +3,8 @@
 namespace tests;
 
 use Exception;
+use PhpCsFixer\Diff\v3_0\Differ;
 use PhpCsFixer\Tokenizer\Tokens;
-use SebastianBergmann\Diff\Differ;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 

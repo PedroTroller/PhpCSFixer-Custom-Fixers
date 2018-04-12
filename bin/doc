@@ -3,7 +3,7 @@
 
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
-use SebastianBergmann\Diff\Differ;
+use PhpCsFixer\Diff\v3_0\Differ;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 

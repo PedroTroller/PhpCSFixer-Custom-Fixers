@@ -3,18 +3,38 @@
 namespace PedroTroller\CS\Fixer\Phpspec;
 
 use PedroTroller\CS\Fixer\AbstractFixer;
-use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-class PhpspecFixer extends AbstractFixer
+final class PhpspecFixer extends AbstractFixer
 {
+    /**
+     * @var AbstractFixer[]
+     */
+    private $fixers;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->fixers = [
+            new PhpspecScenarioScopeFixer(),
+            new OrderedSpecElementsFixer(),
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
     public function isCandidate(Tokens $tokens)
     {
-        return $this->extendsClass($tokens, 'PhpSpec\ObjectBehavior');
+        foreach ($this->fixers as $fixer) {
+            if (false === $fixer->isCandidate($tokens)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -22,7 +42,15 @@ class PhpspecFixer extends AbstractFixer
      */
     public function getDocumentation()
     {
-        return 'PHPSpec spec functions MUST NOT have a public scope.';
+        return implode(
+            ' AND ',
+            array_map(
+                function (AbstractFixer $fixer) {
+                    return trim($fixer->getDocumentation(), ' .');
+                },
+                $this->fixers
+            )
+        ).'.';
     }
 
     /**
@@ -39,11 +67,16 @@ use PhpSpec\ObjectBehavior;
 
 class TheSpec extends ObjectBehavior
 {
-    public function let(\$file) {
+
+    public function letGo(\$file) {
         return;
     }
 
-    public function letGo(\$file) {
+    private function thePrivateMethod() {
+        return;
+    }
+
+    public function itIsNotASpec(\$file) {
         return;
     }
 
@@ -51,7 +84,7 @@ class TheSpec extends ObjectBehavior
         return;
     }
 
-    public function itIsNotASpec(\$file) {
+    public function let(\$file) {
         return;
     }
 
@@ -67,7 +100,14 @@ SPEC;
      */
     public function getPriority()
     {
-        return (new VisibilityRequiredFixer())->getPriority() - 1;
+        return min(
+            array_map(
+                function (AbstractFixer $fixer) {
+                    return $fixer->getPriority();
+                },
+                $this->fixers
+            )
+        ) - 1;
     }
 
     /**
@@ -75,32 +115,8 @@ SPEC;
      */
     protected function applyFix(SplFileInfo $file, Tokens $tokens)
     {
-        foreach ($tokens as $index => $token) {
-            if (T_FUNCTION !== $token->getId()) {
-                continue;
-            }
-
-            $nextIndex     = $tokens->getNextMeaningfulToken($index);
-            $next          = $tokens[$nextIndex];
-            $previousIndex = $tokens->getPrevMeaningfulToken($index);
-            $previous      = $tokens[$previousIndex];
-
-            if (null === $nextIndex || null === $previousIndex) {
-                continue;
-            }
-
-            if (T_STRING !== $next->getId()) {
-                continue;
-            }
-
-            if (0 === preg_match('/^(let(Go)?|it_.+|its_.+)$/', $next->getContent())) {
-                continue;
-            }
-
-            if (T_PUBLIC === $previous->getId()) {
-                $tokens->overrideAt($previousIndex, '');
-                $tokens->removeTrailingWhitespace($previousIndex);
-            }
+        foreach ($this->fixers as $fixer) {
+            $fixer->applyFix($file, $tokens);
         }
     }
 }

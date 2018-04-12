@@ -8,7 +8,7 @@ use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
-class OrderedWithGetterAndSetterFirstFixer extends AbstractOrderedClassElementsFixer
+final class OrderedWithGetterAndSetterFirstFixer extends AbstractOrderedClassElementsFixer
 {
     /**
      * {@inheritdoc}
@@ -23,10 +23,10 @@ class OrderedWithGetterAndSetterFirstFixer extends AbstractOrderedClassElementsF
      */
     public function getPriority()
     {
-        return max([
+        return min([
             (new OrderedClassElementsFixer())->getPriority(),
             (new OrderedSpecElementsFixer())->getPriority(),
-        ]) + 1;
+        ]) - 1;
     }
 
     /**

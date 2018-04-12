@@ -10,7 +10,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-class ForbiddenFunctionsFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface
+final class ForbiddenFunctionsFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface
 {
     /**
      * {@inheritdoc}

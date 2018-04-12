@@ -51,6 +51,7 @@ $config = PhpCsFixer\Config::create()
         // ...
     ])
     // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
 ;
 
 return $config;

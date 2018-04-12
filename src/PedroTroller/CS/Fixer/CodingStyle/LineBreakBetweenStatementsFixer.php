@@ -6,7 +6,7 @@ use PedroTroller\CS\Fixer\AbstractFixer;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-class LineBreakBetweenStatementsFixer extends AbstractFixer
+final class LineBreakBetweenStatementsFixer extends AbstractFixer
 {
     /**
      * {@inheritdoc}

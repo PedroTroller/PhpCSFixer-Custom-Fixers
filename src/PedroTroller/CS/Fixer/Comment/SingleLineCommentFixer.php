@@ -9,7 +9,7 @@ use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-class SingleLineCommentFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface
+final class SingleLineCommentFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface
 {
     /**
      * @var string
