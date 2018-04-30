@@ -40,7 +40,7 @@ $config = PhpCsFixer\Config::create()
     // ...
     ->setRules([
         // ...
-        'PedroTroller/line_break_between_method_arguments' => [ "max-args" => 4, "max-length" => 80 ],
+        'PedroTroller/line_break_between_method_arguments' => [ "max-args" => 4, "max-length" => 120 ],
         // ...
     ])
     // ...
@@ -56,17 +56,6 @@ return $config;
 --- Original                                                                     // 80 chars
 +++ New                                                                          //
 @@ @@                                                                            //
-         return;                                                                 //
-     }                                                                           //
-                                                                                 //
--    public function fun2($arg1, array $arg2 = [], \ArrayAccess $arg3 = null, bool $bool = true)
--    {                                                                           //
-+    public function fun2(                                                       //
-+        $arg1,                                                                  //
-+        array $arg2 = [],                                                       //
-+        \ArrayAccess $arg3 = null,                                              //
-+        bool $bool = true                                                       //
-+    ) {                                                                         //
          return;                                                                 //
      }                                                                           //
                                                                                  //
@@ -251,6 +240,18 @@ return $config;
      private $prop1;                                                             //
                                                                                  //
      /**                                                                         //
+@@ @@                                                                            //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
+-    /** @return null */                                                         //
++    /**                                                                         //
++     * @return null                                                             //
++     */                                                                         //
+     public function fun2($file) {                                               //
+         return;                                                                 //
+     }                                                                           //
+ }                                                                               //
                                                                                  //
 ```
 ### Configuration
@@ -287,7 +288,13 @@ return $config;
 +    /** @var string */                                                          //
      private $prop1;                                                             //
                                                                                  //
-     /**                                                                         //
+-    /**                                                                         //
+-     * @return null                                                             //
+-     */                                                                         //
++    /** @return null */                                                         //
+     public function fun1($file) {                                               //
+         return;                                                                 //
+     }                                                                           //
                                                                                  //
 ```
 ### Configuration

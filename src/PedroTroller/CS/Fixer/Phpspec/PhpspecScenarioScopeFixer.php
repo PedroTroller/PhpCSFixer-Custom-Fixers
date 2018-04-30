@@ -30,7 +30,7 @@ final class PhpspecScenarioScopeFixer extends AbstractFixer
      */
     public function getSampleCode()
     {
-        return <<<SPEC
+        return <<<'SPEC'
 <?php
 
 namespace spec\Project\TheNamespace;
@@ -39,23 +39,23 @@ use PhpSpec\ObjectBehavior;
 
 class TheSpec extends ObjectBehavior
 {
-    public function let(\$file) {
+    public function let($file) {
         return;
     }
 
-    public function letGo(\$file) {
+    public function letGo($file) {
         return;
     }
 
-    public function it_is_a_spec(\$file) {
+    public function it_is_a_spec($file) {
         return;
     }
 
-    public function itIsNotASpec(\$file) {
+    public function itIsNotASpec($file) {
         return;
     }
 
-    public function its_other_function(\$file) {
+    public function its_other_function($file) {
         return;
     }
 }

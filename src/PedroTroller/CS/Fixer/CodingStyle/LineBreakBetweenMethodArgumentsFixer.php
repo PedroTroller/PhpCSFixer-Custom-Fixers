@@ -32,7 +32,7 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
         return [
             [
                 'max-args'   => 4,
-                'max-length' => 80,
+                'max-length' => 120,
             ],
         ];
     }
@@ -50,26 +50,26 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
      */
     public function getSampleCode()
     {
-        return <<<SPEC
+        return <<<'SPEC'
 <?php
 
 namespace Project\TheNamespace;
 
 class TheClass
 {
-    public function fun1(\$arg1, array \$arg2 = [], \$arg3 = null)
+    public function fun1($arg1, array $arg2 = [], $arg3 = null)
     {
         return;
     }
 
-    public function fun2(\$arg1, array \$arg2 = [], \ArrayAccess \$arg3 = null, bool \$bool = true)
+    public function fun2($arg1, array $arg2 = [], \ArrayAccess $arg3 = null, bool $bool = true)
     {
         return;
     }
 
     public function fun3(
-        \$arg1,
-        array \$arg2 = []
+        $arg1,
+        array $arg2 = []
     ) {
         return;
     }

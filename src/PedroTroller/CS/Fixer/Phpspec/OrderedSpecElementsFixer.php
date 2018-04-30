@@ -29,7 +29,7 @@ final class OrderedSpecElementsFixer extends AbstractOrderedClassElementsFixer
      */
     public function getSampleCode()
     {
-        return <<<SPEC
+        return <<<'SPEC'
 <?php
 
 namespace spec\Project\TheNamespace;
@@ -39,7 +39,7 @@ use PhpSpec\ObjectBehavior;
 class TheSpec extends ObjectBehavior
 {
 
-    function letGo(\$file) {
+    function letGo($file) {
         return;
     }
 
@@ -47,19 +47,19 @@ class TheSpec extends ObjectBehavior
         return;
     }
 
-    public function itIsNotASpec(\$file) {
+    public function itIsNotASpec($file) {
         return;
     }
 
-    function it_is_a_spec(\$file) {
+    function it_is_a_spec($file) {
         return;
     }
 
-    function let(\$file) {
+    function let($file) {
         return;
     }
 
-    public function its_other_function(\$file) {
+    public function its_other_function($file) {
         return;
     }
 }

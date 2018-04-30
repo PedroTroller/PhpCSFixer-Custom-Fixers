@@ -46,7 +46,7 @@ final class SingleLineCommentFixer extends AbstractFixer implements Configuratio
      */
     public function getSampleCode()
     {
-        return <<<SPEC
+        return <<<'SPEC'
 <?php
 
 namespace Project\TheNamespace;
@@ -54,22 +54,22 @@ namespace Project\TheNamespace;
 class TheClass
 {
     /** @var string */
-    private \$prop1;
+    private $prop1;
 
     /**
      * @var string
      */
-    private \$prop1;
+    private $prop1;
 
     /**
      * @return null
      */
-    public function fun1(\$file) {
+    public function fun1($file) {
         return;
     }
 
     /** @return null */
-    public function fun2(\$file) {
+    public function fun2($file) {
         return;
     }
 }
@@ -92,10 +92,10 @@ SPEC;
         return new FixerConfigurationResolver([
             (new FixerOptionBuilder('action', 'Collapse or expand the single line comments'))
                 ->setAllowedValues(['expanded', 'collapsed'])
-                ->setDefault('collapsed')
+                ->setDefault('expanded')
                 ->getOption(),
             (new FixerOptionBuilder('types', 'Collapse or expand the single line comments'))
-                ->setDefault(['@var'])
+                ->setDefault(['@var', '@return', '@param'])
                 ->getOption(),
         ]);
     }

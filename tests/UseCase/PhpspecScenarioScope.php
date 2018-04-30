@@ -20,7 +20,7 @@ class PhpspecScenarioScope implements UseCase
      */
     public function getRawScript()
     {
-        return <<<SPEC
+        return <<<'SPEC'
 <?php
 
 namespace spec\Project\TheNamespace;
@@ -29,23 +29,23 @@ use PhpSpec\ObjectBehavior;
 
 class TheSpec extends ObjectBehavior
 {
-    public function let(\$file) {
+    public function let($file) {
         return;
     }
 
-    public function letGo(\$file) {
+    public function letGo($file) {
         return;
     }
 
-    public function it_is_a_spec(\$file) {
+    public function it_is_a_spec($file) {
         return;
     }
 
-    public function itIsNotASpec(\$file) {
+    public function itIsNotASpec($file) {
         return;
     }
 
-    public function its_other_function_as_a_spec(\$file) {
+    public function its_other_function_as_a_spec($file) {
         return;
     }
 }
@@ -57,7 +57,7 @@ SPEC;
      */
     public function getExpectation()
     {
-        return <<<SPEC
+        return <<<'SPEC'
 <?php
 
 namespace spec\Project\TheNamespace;
@@ -66,23 +66,23 @@ use PhpSpec\ObjectBehavior;
 
 class TheSpec extends ObjectBehavior
 {
-    function let(\$file) {
+    function let($file) {
         return;
     }
 
-    function letGo(\$file) {
+    function letGo($file) {
         return;
     }
 
-    function it_is_a_spec(\$file) {
+    function it_is_a_spec($file) {
         return;
     }
 
-    public function itIsNotASpec(\$file) {
+    public function itIsNotASpec($file) {
         return;
     }
 
-    function its_other_function_as_a_spec(\$file) {
+    function its_other_function_as_a_spec($file) {
         return;
     }
 }

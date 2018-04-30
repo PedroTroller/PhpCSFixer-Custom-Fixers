@@ -13,7 +13,7 @@ final class LineBreakBetweenStatementsFixer extends AbstractFixer
      */
     public function getSampleCode()
     {
-        return <<<PHP
+        return <<<'PHP'
 <?php
 
 namespace Project\TheNamespace;
@@ -27,7 +27,7 @@ class TheClass
         do {
             // ...
         } while (true);
-        foreach (['foo', 'bar'] as \$str) {
+        foreach (['foo', 'bar'] as $str) {
             // ...
         }
         if (true === false) {
