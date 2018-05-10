@@ -44,8 +44,7 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
     abstract protected function sortElements(array $elements);
 
     /**
-     * @param Tokens $tokens
-     * @param int    $startIndex
+     * @param int $startIndex
      *
      * @return array[]
      */
@@ -110,8 +109,7 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
     }
 
     /**
-     * @param Tokens $tokens
-     * @param int    $index
+     * @param int $index
      *
      * @return array|string type or array of type and name
      */
@@ -160,8 +158,7 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
     }
 
     /**
-     * @param Tokens $tokens
-     * @param int    $index
+     * @param int $index
      *
      * @return int
      */

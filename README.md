@@ -201,9 +201,51 @@ return $config;
 ```
 
 
+## PedroTroller/useless_comment
+
+Remove useless comments regarding the method definition
+
+### Configuration
+
+```php
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules([
+        // ...
+        'PedroTroller/useless_comment' => true,
+        // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+### Fixes
+
+```diff
+--- Original                                                                     // 80 chars
++++ New                                                                          //
+@@ @@                                                                            //
+                                                                                 //
+ class TheClass                                                                  //
+ {                                                                               //
+-    /**                                                                         //
+-     * @param Model\User $user                                                  //
+-     */                                                                         //
+     public function fun1(Model\User $user, Model\Address $address = null) {     //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
+```
+
+
 ## PedroTroller/single_line_comment
 
-PHPSpec spec functions MUST NOT have a public scope.
+Collapse/expand PHP single line comments
 
 ### Configuration
 
