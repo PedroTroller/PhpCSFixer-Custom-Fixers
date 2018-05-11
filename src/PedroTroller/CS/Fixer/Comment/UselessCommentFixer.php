@@ -81,13 +81,28 @@ PHP;
             $commentText     = $tokens[$comment]->getContent();
             $lines           = explode("\n", $commentText);
             $changed         = false;
+            $previous        = null;
 
             foreach ($lines as $index => $line) {
+                if (false === array_key_exists($index, $lines)) {
+                    continue;
+                }
+
                 $text = trim(ltrim(trim($line), '/*'));
 
                 if (in_array($text, $uselessComments)) {
                     unset($lines[$index]);
                     $changed = true;
+
+                    if (null !== $previous) {
+                        $next = $index + 1;
+
+                        if (array_key_exists($next, $lines) && empty(trim($lines[$previous], '/* ')) && empty(trim($lines[$next], '/* '))) {
+                            unset($lines[$next]);
+                        }
+                    }
+                } else {
+                    $previous = $index;
                 }
             }
 
