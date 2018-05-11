@@ -30,4 +30,4 @@ before_script:
 
 script:
     - composer tests
-    - bin/doc > README.md
+    - bin/doc

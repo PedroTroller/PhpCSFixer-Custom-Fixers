@@ -38,7 +38,7 @@ final class SingleLineCommentFixer extends AbstractFixer implements Configuratio
      */
     public function getDocumentation()
     {
-        return 'PHPSpec spec functions MUST NOT have a public scope.';
+        return 'Collapse/expand PHP single line comments';
     }
 
     /**
