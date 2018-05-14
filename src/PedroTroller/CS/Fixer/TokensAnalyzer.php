@@ -89,6 +89,8 @@ final class TokensAnalyzer
 
             $position = $nextComma;
         }
+
+        return $arguments;
     }
 
     /**
@@ -108,16 +110,16 @@ final class TokensAnalyzer
             return 0;
         }
 
-        $close     = $this->getClosingParenthesis($this->tokens, $open);
+        $close     = $this->getClosingParenthesis($open);
         $arguments = 1;
 
         for ($i = $open + 1; $i < $close; ++$i) {
             if ($this->tokens[$i]->equals('(')) {
-                $i = $this->getClosingParenthesis($this->tokens, $i);
+                $i = $this->getClosingParenthesis($i);
             }
 
             if ($this->tokens[$i]->equals('[')) {
-                $i = $this->getClosingBracket($this->tokens, $i);
+                $i = $this->getClosingBracket($i);
             }
 
             if ($this->tokens[$i]->equals(',')) {
@@ -159,6 +161,39 @@ final class TokensAnalyzer
                     return;
             }
         } while (false === $this->tokens[$index]->equals(','));
+
+        return $index;
+    }
+
+    /**
+     * @param int $index
+     *
+     * @return null|int
+     */
+    public function getNextSemiColon($index)
+    {
+        do {
+            $index = $this->tokens->getNextMeaningfulToken($index);
+
+            if (null === $index) {
+                return;
+            }
+
+            switch (true) {
+                case $this->tokens[$index]->equals('('):
+                    $index = $this->getClosingParenthesis($index);
+
+                    break;
+                case $this->tokens[$index]->equals('['):
+                    $index = $this->getClosingBracket($index);
+
+                    break;
+                case $this->tokens[$index]->equals('{'):
+                    $index = $this->getClosingCurlyBracket($index);
+
+                    break;
+            }
+        } while (false === $this->tokens[$index]->equals(';'));
 
         return $index;
     }
@@ -213,7 +248,7 @@ final class TokensAnalyzer
      *
      * @return int | null
      */
-    private function getClosingParenthesis($index)
+    public function getClosingParenthesis($index)
     {
         $opening = 0;
 
@@ -235,9 +270,61 @@ final class TokensAnalyzer
     /**
      * @param int $index
      *
+     * @return int
+     */
+    public function getBeginningOfTheLine($index)
+    {
+        for ($i = $index; $i >= 0; --$i) {
+            if (false !== mb_strpos($this->tokens[$i]->getContent(), "\n")) {
+                return $i;
+            }
+        }
+    }
+
+    /**
+     * @param int $index
+     *
+     * @return int
+     */
+    public function getEndOfTheLine($index)
+    {
+        for ($i = $index; $i < $this->tokens->count(); ++$i) {
+            if (false !== mb_strpos($this->tokens[$i]->getContent(), "\n")) {
+                return $i;
+            }
+        }
+    }
+
+    /**
+     * @param int $index
+     *
+     * @return int
+     */
+    public function getSizeOfTheLine($index)
+    {
+        $start = $this->getBeginningOfTheLine($index);
+        $end   = $this->getEndOfTheLine($index);
+        $size  = 0;
+
+        $parts = explode("\n", $this->tokens[$start]->getContent());
+        $size += mb_strlen(end($parts));
+
+        $parts = explode("\n", $this->tokens[$end]->getContent());
+        $size += mb_strlen(current($parts));
+
+        for ($i = $start + 1; $i < $end; ++$i) {
+            $size += mb_strlen($this->tokens[$i]->getContent());
+        }
+
+        return $size;
+    }
+
+    /**
+     * @param int $index
+     *
      * @return int | null
      */
-    private function getClosingBracket($index)
+    public function getClosingBracket($index)
     {
         $opening = 0;
 
@@ -261,7 +348,7 @@ final class TokensAnalyzer
      *
      * @return int | null
      */
-    private function getClosingCurlyBracket($index)
+    public function getClosingCurlyBracket($index)
     {
         $opening = 0;
 
@@ -278,5 +365,35 @@ final class TokensAnalyzer
                 return $i;
             }
         }
+    }
+
+    /**
+     * @param int $index
+     *
+     * @return bool
+     */
+    public function isInsideSwitchCase($index)
+    {
+        $switch = null;
+        $ids    = array_keys($this->tokens->toArray());
+
+        for ($i = $index; $i >= current($ids); --$i) {
+            if (null !== $switch) {
+                continue;
+            }
+
+            if (T_SWITCH === $this->tokens[$i]->getId()) {
+                $switch = $i;
+            }
+        }
+
+        if (null === $switch) {
+            return false;
+        }
+
+        $open  = $this->tokens->getNextTokenOfKind($index, ['{']);
+        $close = $this->getClosingCurlyBracket($open + 1);
+
+        return $open < $index && $close > $index;
     }
 }

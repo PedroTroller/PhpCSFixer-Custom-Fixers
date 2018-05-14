@@ -62,6 +62,14 @@ abstract class AbstractFixer extends PhpCsFixer
     }
 
     /**
+     * @return TokensAnalyzer
+     */
+    protected function analyze(Tokens $tokens)
+    {
+        return new TokensAnalyzer($tokens);
+    }
+
+    /**
      * @param Tokens          $tokens
      * @param string|string[] $fqcn
      *
@@ -133,57 +141,5 @@ abstract class AbstractFixer extends PhpCsFixer
         }
 
         return $comments;
-    }
-
-    /**
-     * @param mixed $index
-     *
-     * @return int
-     */
-    protected function getBeginningOfTheLine(Tokens $tokens, $index)
-    {
-        for ($i = $index; $i >= 0; --$i) {
-            if (false !== mb_strpos($tokens[$i]->getContent(), "\n")) {
-                return $i;
-            }
-        }
-    }
-
-    /**
-     * @param mixed $index
-     *
-     * @return int
-     */
-    protected function getEndOfTheLine(Tokens $tokens, $index)
-    {
-        for ($i = $index; $i < $tokens->count(); ++$i) {
-            if (false !== mb_strpos($tokens[$i]->getContent(), "\n")) {
-                return $i;
-            }
-        }
-    }
-
-    /**
-     * @param mixed $index
-     *
-     * @return int
-     */
-    protected function getLineSize(Tokens $tokens, $index)
-    {
-        $start = $this->getBeginningOfTheLine($tokens, $index);
-        $end   = $this->getEndOfTheLine($tokens, $index);
-        $size  = 0;
-
-        $parts = explode("\n", $tokens[$start]->getContent());
-        $size += mb_strlen(end($parts));
-
-        $parts = explode("\n", $tokens[$end]->getContent());
-        $size += mb_strlen(current($parts));
-
-        for ($i = $start + 1; $i < $end; ++$i) {
-            $size += mb_strlen($tokens[$i]->getContent());
-        }
-
-        return $size;
     }
 }

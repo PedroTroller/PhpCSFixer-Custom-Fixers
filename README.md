@@ -655,6 +655,68 @@ return $config;
 ```
 
 
+## PedroTroller/useless_code_after_return
+
+Remove useless code after a returned value
+
+### Configuration
+
+```php
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules([
+        // ...
+        'PedroTroller/useless_code_after_return' => true,
+        // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+### Fixes
+
+```diff
+--- Original                                                                     // 80 chars
++++ New                                                                          //
+@@ @@                                                                            //
+      */                                                                         //
+     public function fun1(Model\User $user, Model\Address $address = null) {     //
+         return;                                                                 //
+-                                                                                //
+-        $user->setName('foo');                                                  //
+-                                                                                //
+-        return $this;                                                           //
+     }                                                                           //
+                                                                                 //
+     /**                                                                         //
+@@ @@                                                                            //
+         switch ($this->status) {                                                //
+             case 1:                                                             //
+                 return $this->name;                                             //
+-                break;                                                          //
+             default:                                                            //
+                 return $this;                                                   //
+-                return $this;                                                   //
+         }                                                                       //
+     }                                                                           //
+                                                                                 //
+@@ @@                                                                            //
+      */                                                                         //
+     public function buildCallable()                                             //
+     {                                                                           //
+-        return function () { return true; return false; };                      //
++        return function () { return true; };                                    //
+     }                                                                           //
+ }                                                                               //
+                                                                                 //
+```
+
+
 # Contributions
 
 ## Run tests

@@ -3,6 +3,7 @@
 namespace tests;
 
 use Exception;
+use PedroTroller\CS\Fixer\TokensAnalyzer;
 use PhpCsFixer\Diff\v3_0\Differ;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
@@ -12,14 +13,20 @@ class Runner
 {
     public static function run()
     {
+        echo "\n";
+
+        self::runAnalyzerIntegrations();
+        self::runUseCases();
+    }
+
+    private static function runUseCases()
+    {
         $directory = sprintf('%s/UseCase', __DIR__);
 
         $finder = new Finder();
         $finder
             ->in($directory)
             ->name('*.php');
-
-        echo "\n";
 
         foreach ($finder as $file) {
             $class = str_replace('/', '\\', mb_substr($file->getPathName(), mb_strlen(__DIR__) - 5, -4));
@@ -53,6 +60,43 @@ class Runner
             if ($usecase->getExpectation() !== $tokens->generateCode()) {
                 throw new Exception($differ->diff($usecase->getExpectation(), $tokens->generateCode()));
             }
+        }
+    }
+
+    private static function runAnalyzerIntegrations()
+    {
+        $directory = sprintf('%s/TokensAnalyzerIntegration', __DIR__);
+
+        $finder = new Finder();
+        $finder
+            ->in($directory)
+            ->name('*.php');
+
+        foreach ($finder as $file) {
+            $class = str_replace('/', '\\', mb_substr($file->getPathName(), mb_strlen(__DIR__) - 5, -4));
+
+            if (false === class_exists($class)) {
+                continue;
+            }
+
+            if (false === is_subclass_of($class, TokensAnalyzerIntegration::class)) {
+                continue;
+            }
+
+            $integration = new $class();
+
+            if ($integration->getMinSupportedPhpVersion() > PHP_VERSION_ID) {
+                continue;
+            }
+
+            $tokens = Tokens::fromCode($integration->getCode());
+
+            echo "#######################################################################################\n";
+            echo "{$class}\n";
+            echo "#######################################################################################\n";
+            echo "\n";
+
+            $integration->assertions(new TokensAnalyzer($tokens), $tokens);
         }
     }
 }

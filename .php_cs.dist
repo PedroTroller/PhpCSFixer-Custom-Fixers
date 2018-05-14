@@ -2,12 +2,13 @@
 
 use PedroTroller\CS\Fixer\ConfigurationBuilder;
 
-$config = PhpCsFixer\Config::create()
+return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
-    ->setRules(ConfigurationBuilder::buildCustomConfiguration())
+    ->setRules(array_merge(
+        ConfigurationBuilder::buildCustomConfiguration(),
+        ConfigurationBuilder::php(5.6)
+    ))
     ->setUsingCache(false)
     ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
     ->setFinder(PhpCsFixer\Finder::create()->in(__DIR__))
 ;
-
-return $config;
