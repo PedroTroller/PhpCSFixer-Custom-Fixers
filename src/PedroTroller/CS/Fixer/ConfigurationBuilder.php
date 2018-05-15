@@ -11,6 +11,36 @@ final class ConfigurationBuilder
     }
 
     /**
+     * @param float $version
+     *
+     * @return array
+     */
+    public static function php($version)
+    {
+        $config = [];
+
+        switch (true) {
+            case $version >= 7.1:
+                $config = array_merge(['list_syntax' => ['syntax' => 'short']], $config);
+                $config = array_merge(['@PHP71Migration' => true], $config);
+                // no break
+            case $version >= 7.0:
+                $config = array_merge(['@PHP70Migration' => true], $config);
+                // no break
+            case $version >= 5.6:
+                $config = array_merge(['@PHP56Migration' => true], $config);
+                // no break
+            case $version >= 5.4:
+                $config = array_merge(['array_syntax' => ['syntax' => 'short']], $config);
+        }
+
+        $config = array_merge(['list_syntax' => ['syntax' => 'long']], $config);
+        $config = array_merge(['array_syntax' => ['syntax' => 'long']], $config);
+
+        return $config;
+    }
+
+    /**
      * @return array
      */
     public static function buildBasicConfiguration()
@@ -35,7 +65,6 @@ final class ConfigurationBuilder
                 '@Symfony'                                  => true,
                 'align_multiline_comment'                   => true,
                 'array_indentation'                         => true,
-                'array_syntax'                              => ['syntax' => 'short'],
                 'binary_operator_spaces'                    => ['operators' => ['=' => 'align_single_space_minimal', '=>' => 'align_single_space_minimal']],
                 'blank_line_before_statement'               => true,
                 'combine_consecutive_issets'                => true,
@@ -47,7 +76,6 @@ final class ConfigurationBuilder
                 'general_phpdoc_annotation_remove'          => true,
                 'heredoc_to_nowdoc'                         => true,
                 'linebreak_after_opening_tag'               => true,
-                'list_syntax'                               => ['syntax' => 'short'],
                 'mb_str_functions'                          => true,
                 'method_chaining_indentation'               => true,
                 'multiline_comment_opening_closing'         => true,

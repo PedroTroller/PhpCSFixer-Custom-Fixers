@@ -3,7 +3,6 @@
 namespace PedroTroller\CS\Fixer\Comment;
 
 use PedroTroller\CS\Fixer\AbstractFixer;
-use PedroTroller\CS\Fixer\TokensAnalyzer;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
@@ -64,9 +63,7 @@ PHP;
      */
     protected function applyFix(SplFileInfo $file, Tokens $tokens)
     {
-        $analyzer = new TokensAnalyzer($tokens);
-
-        foreach ($analyzer->getClassyElements() as $index => $element) {
+        foreach ($this->analyze($tokens)->getClassyElements() as $index => $element) {
             if ('method' !== $element['type']) {
                 continue;
             }
@@ -145,8 +142,8 @@ PHP;
 
     private function getUselessComments($index, Tokens $tokens)
     {
-        $analyzer  = new TokensAnalyzer($tokens);
-        $arguments = $analyzer->getMethodArguments($index) ?: [];
+        $arguments = $this->analyze($tokens)->getMethodArguments($index) ?: [];
+        $return    = $this->analyze($tokens)->getReturnedType($index);
         $useless   = [];
 
         foreach ($arguments as $argument) {
@@ -163,8 +160,6 @@ PHP;
                 }
             }
         }
-
-        $return = $analyzer->getReturnedType($index);
 
         if (null === $return) {
             $useless[] = '@return null';

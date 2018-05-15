@@ -79,7 +79,7 @@ PHP;
             }
 
             if (in_array($token->getContent(), $this->configuration['functions'])) {
-                $end          = $this->getEndOfTheLine($tokens, $index);
+                $end          = $this->analyze($tokens)->getEndOfTheLine($index);
                 $tokens[$end] = new Token(sprintf(' // %s%s', $this->configuration['comment'], $tokens[$end]->getContent()));
             }
         }

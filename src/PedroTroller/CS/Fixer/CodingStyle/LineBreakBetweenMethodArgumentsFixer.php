@@ -109,19 +109,19 @@ SPEC;
                 continue;
             }
 
-            if (0 === $this->getNumberOfArguments($tokens, $index)) {
+            if (0 === $this->analyze($tokens)->getNumberOfArguments($index)) {
                 $this->mergeArgs($tokens, $index);
 
                 continue;
             }
 
-            if ($this->getLineSize($tokens, $index) > $this->configuration['max-length']) {
+            if ($this->analyze($tokens)->getSizeOfTheLine($index) > $this->configuration['max-length']) {
                 $this->splitArgs($tokens, $index);
 
                 continue;
             }
 
-            if ($this->getNumberOfArguments($tokens, $index) > $this->configuration['max-args']) {
+            if ($this->analyze($tokens)->getNumberOfArguments($index) > $this->configuration['max-args']) {
                 $this->splitArgs($tokens, $index);
 
                 continue;
@@ -130,7 +130,7 @@ SPEC;
             $clonedTokens = clone $tokens;
             $this->mergeArgs($clonedTokens, $index);
 
-            if ($this->getLineSize($clonedTokens, $index) > $this->configuration['max-length']) {
+            if ($this->analyze($clonedTokens)->getSizeOfTheLine($index) > $this->configuration['max-length']) {
                 $this->splitArgs($tokens, $index);
             } else {
                 $this->mergeArgs($tokens, $index);
@@ -156,7 +156,7 @@ SPEC;
     private function splitArgs(Tokens $tokens, $index)
     {
         $openBraceIndex  = $tokens->getNextTokenOfKind($index, ['(']);
-        $closeBraceIndex = $this->localizeNextCloseBrace($tokens, $index);
+        $closeBraceIndex = $this->analyze($tokens)->getClosingParenthesis($index);
 
         if (0 === $closeBraceIndex) {
             return;
@@ -191,11 +191,11 @@ SPEC;
 
         for ($i = $openBraceIndex + 1; $i < $closeBraceIndex; ++$i) {
             if ($tokens[$i]->equals('(')) {
-                $i = $this->localizeNextCloseBrace($tokens, $i);
+                $i = $this->analyze($tokens)->getClosingParenthesis($i);
             }
 
             if ($tokens[$i]->equals('[')) {
-                $i = $this->localizeNextCloseBracket($tokens, $i);
+                $i = $this->analyze($tokens)->getClosingBracket($i);
             }
 
             if ($tokens[$i]->equals(',')) {
@@ -214,7 +214,7 @@ SPEC;
     private function mergeArgs(Tokens $tokens, $index)
     {
         $openBraceIndex  = $tokens->getNextTokenOfKind($index, ['(']);
-        $closeBraceIndex = $this->localizeNextCloseBrace($tokens, $index);
+        $closeBraceIndex = $this->analyze($tokens)->getClosingParenthesis($index);
 
         for ($i = $openBraceIndex; $i <= $closeBraceIndex; ++$i) {
             $content    = preg_replace('/ {2,}/', ' ', str_replace("\n", '', $tokens[$i]->getContent()));
@@ -288,16 +288,16 @@ SPEC;
             return 0;
         }
 
-        $close     = $this->localizeNextCloseBrace($tokens, $open);
+        $close     = $this->analyze($tokens)->getClosingParenthesis($open);
         $arguments = 1;
 
         for ($i = $open + 1; $i < $close; ++$i) {
             if ($tokens[$i]->equals('(')) {
-                $i = $this->localizeNextCloseBrace($tokens, $i);
+                $i = $this->analyze($tokens)->getClosingParenthesis($i);
             }
 
             if ($tokens[$i]->equals('[')) {
-                $i = $this->localizeNextCloseBracket($tokens, $i);
+                $i = $this->analyze($tokens)->getClosingBracket($i);
             }
 
             if ($tokens[$i]->equals(',')) {
