@@ -148,7 +148,7 @@ SPEC;
                 ->setDefault(3)
                 ->getOption(),
             (new FixerOptionBuilder('max-length', 'Then maximum line size authorized'))
-                ->setDefault(180)
+                ->setDefault(120)
                 ->getOption(),
         ]);
     }
