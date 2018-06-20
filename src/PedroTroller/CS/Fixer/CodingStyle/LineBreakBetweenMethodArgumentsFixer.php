@@ -33,6 +33,7 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
             [
                 'max-args'   => 4,
                 'max-length' => 120,
+                'automatic-argument-merge' => true,
             ],
         ];
     }
@@ -132,7 +133,7 @@ SPEC;
 
             if ($this->analyze($clonedTokens)->getSizeOfTheLine($index) > $this->configuration['max-length']) {
                 $this->splitArgs($tokens, $index);
-            } else {
+            } elseif ($this->configuration['automatic-argument-merge']) {
                 $this->mergeArgs($tokens, $index);
             }
         }
@@ -149,6 +150,9 @@ SPEC;
                 ->getOption(),
             (new FixerOptionBuilder('max-length', 'Then maximum line size authorized'))
                 ->setDefault(120)
+                ->getOption(),
+            (new FixerOptionBuilder('automatic-argument-merge', 'Does arguments have to be merged when line is shorter than max-args and/or max-length'))
+                ->setDefault(true)
                 ->getOption(),
         ]);
     }
