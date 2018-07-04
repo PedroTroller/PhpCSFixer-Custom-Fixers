@@ -31,8 +31,8 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
     {
         return [
             [
-                'max-args'   => 4,
-                'max-length' => 120,
+                'max-args'                 => 4,
+                'max-length'               => 120,
                 'automatic-argument-merge' => true,
             ],
         ];
@@ -168,12 +168,12 @@ SPEC;
 
         $token                   = $tokens[$openBraceIndex];
         $tokens[$openBraceIndex] = new Token(
-            rtrim($token->getContent()).$this->whitespacesConfig->getLineEnding().$this->whitespacesConfig->getIndent().$this->whitespacesConfig->getIndent()
+            trim($token->getContent())."\n".$this->analyze($tokens)->getLineIndentation($index).$this->whitespacesConfig->getIndent()
         );
 
         $token                    = $tokens[$closeBraceIndex];
         $tokens[$closeBraceIndex] = new Token(
-            rtrim($this->whitespacesConfig->getLineEnding().$this->whitespacesConfig->getIndent().$token->getContent())
+            rtrim($this->whitespacesConfig->getLineEnding().$this->analyze($tokens)->getLineIndentation($index).$token->getContent())
         );
 
         if ($tokens[$tokens->getNextMeaningfulToken($closeBraceIndex)]->equals('{')) {
@@ -206,7 +206,7 @@ SPEC;
                 $tokens->removeTrailingWhitespace($i);
                 $token      = $tokens[$i];
                 $tokens[$i] = new Token(
-                    trim($token->getContent())."\n".$this->whitespacesConfig->getIndent().$this->whitespacesConfig->getIndent()
+                    trim($token->getContent())."\n".$this->analyze($tokens)->getLineIndentation($index).$this->whitespacesConfig->getIndent()
                 );
             }
         }
@@ -234,7 +234,7 @@ SPEC;
 
         if ($tokens[$end]->equals('{')) {
             $tokens->removeLeadingWhitespace($end);
-            $tokens->insertAt($end, new Token("\n    "));
+            $tokens->insertAt($end, new Token("\n".$this->analyze($tokens)->getLineIndentation($index)));
         }
     }
 
