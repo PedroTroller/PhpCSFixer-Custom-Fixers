@@ -88,27 +88,31 @@ $fixers = array_map(function (FixerInterface $fixer) {
             $tokens = Tokens::fromCode($sample->getCode());
             $differ = new Differ();
 
-            $fixer->fix(new SplFileInfo(__FILE__), $tokens);
+            if ($fixer->isCandidate($tokens)) {
+                $fixer->fix(new SplFileInfo(__FILE__), $tokens);
+                $diff = explode("\n", $differ->diff($sample->getCode(), $tokens->generateCode()));
 
-            $diff = explode("\n", $differ->diff($sample->getCode(), $tokens->generateCode()));
+                foreach ($diff as $num => $line) {
+                    if (strlen($line) > 80 + 1) {
+                        continue;
+                    }
 
-            foreach ($diff as $num => $line) {
-                if (strlen($line) > 80 + 1) {
-                    continue;
+                    while (strlen($line) < 80 + 1) {
+                        $line = $line . " ";
+                    }
+
+                    if ($num === 0) {
+                        $line = $line . "// 80 chars";
+                    } else {
+                        $line = $line . "//";
+                    }
+
+                    $diff[$num] = $line;
                 }
-
-                while (strlen($line) < 80 + 1) {
-                    $line = $line . " ";
-                }
-
-                if ($num === 0) {
-                    $line = $line . "// 80 chars";
-                } else {
-                    $line = $line . "//";
-                }
-
-                $diff[$num] = $line;
+            } else {
+                $diff = ['+ Fixing not supported by your PHP version.'];
             }
+
 
             return [
                 'diff' => implode("\n", $diff),

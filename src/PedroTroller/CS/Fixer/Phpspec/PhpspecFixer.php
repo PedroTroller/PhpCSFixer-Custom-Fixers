@@ -18,8 +18,9 @@ final class PhpspecFixer extends AbstractFixer
         parent::__construct();
 
         $this->fixers = [
-            new PhpspecScenarioScopeFixer(),
             new OrderedSpecElementsFixer(),
+            new PhpspecScenarioReturnTypeDeclarationFixer(),
+            new PhpspecScenarioScopeFixer(),
         ];
     }
 
@@ -43,10 +44,10 @@ final class PhpspecFixer extends AbstractFixer
     public function getDocumentation()
     {
         return implode(
-            ' AND ',
+            "\n",
             array_map(
                 function (AbstractFixer $fixer) {
-                    return trim($fixer->getDocumentation(), ' .');
+                    return ' - '.trim($fixer->getDocumentation(), ' .');
                 },
                 $this->fixers
             )
@@ -116,7 +117,9 @@ SPEC;
     protected function applyFix(SplFileInfo $file, Tokens $tokens)
     {
         foreach ($this->fixers as $fixer) {
-            $fixer->applyFix($file, $tokens);
+            if ($fixer->isCandidate($tokens)) {
+                $fixer->applyFix($file, $tokens);
+            }
         }
     }
 }

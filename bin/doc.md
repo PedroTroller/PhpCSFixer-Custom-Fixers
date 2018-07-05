@@ -68,8 +68,18 @@ return $config;
 
 # Contributions
 
-## Run tests
+Before to create a pull request to submit your contributon, you must:
+ - run tests and be sure nothing is broken
+ - rebuilt the documentation
+
+## How to run tests
 
 ```bash
 composer tests
+```
+
+## How to rebuild the documentation
+
+```bash
+bin/doc > README.md
 ```
