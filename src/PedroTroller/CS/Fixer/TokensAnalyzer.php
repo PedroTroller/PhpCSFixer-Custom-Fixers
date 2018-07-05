@@ -213,7 +213,7 @@ final class TokensAnalyzer
             return;
         }
 
-        if (false === $this->tokens[$next]->isGivenKind(TokenSignatures::TYPINT_DOUCLE_DOTS)) {
+        if (false === $this->tokens[$next]->isGivenKind(TokenSignatures::TYPINT_DOUBLE_DOTS)) {
             return;
         }
 
@@ -395,5 +395,19 @@ final class TokensAnalyzer
         $close = $this->getClosingCurlyBracket($open + 1);
 
         return $open < $index && $close > $index;
+    }
+
+    /**
+     * @param int $index
+     *
+     * @return string
+     */
+    public function getLineIndentation($index)
+    {
+        $start = $this->getBeginningOfTheLine($index);
+        $token = $this->tokens[$start];
+        $parts = explode("\n", $token->getContent());
+
+        return end($parts);
     }
 }
