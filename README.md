@@ -40,11 +40,7 @@ $config = PhpCsFixer\Config::create()
     // ...
     ->setRules([
         // ...
-        'PedroTroller/line_break_between_method_arguments' => [
-            "max-args" => 4,
-            "max-length" => 120,
-            "automatic-argument-merge" => true, 
-        ],
+        'PedroTroller/line_break_between_method_arguments' => [ "max-args" => 4, "max-length" => 120, "automatic-argument-merge" => true ],
         // ...
     ])
     // ...
@@ -481,7 +477,9 @@ return $config;
 
 ## PedroTroller/phpspec
 
-PHPSpec spec functions MUST NOT have a public scope AND PHPSpec spec functions MUST BE ordered with specs first (order: let, letGo, its_* and it_* functons).
+ - PHPSpec spec functions MUST BE ordered with specs first (order: let, letGo, its_* and it_* functons)
+ - PHPSpec spec functions MUST NOT have a return type declaration
+ - PHPSpec spec functions MUST NOT have a public scope.
 
 ### Configuration
 
@@ -671,6 +669,61 @@ return $config;
 ```
 
 
+## PedroTroller/phpspec_scenario_return_type_declaration
+
+PHPSpec spec functions MUST NOT have a return type declaration.
+
+### Configuration
+
+```php
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules([
+        // ...
+        'PedroTroller/phpspec_scenario_return_type_declaration' => true,
+        // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+### Fixes
+
+```diff
+--- Original                                                                     // 80 chars
++++ New                                                                          //
+@@ @@                                                                            //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
+-    function letGo($file): void {                                               //
++    function letGo($file) {                                                     //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
+-    function it_is_a_spec($file): void {                                        //
++    function it_is_a_spec($file) {                                              //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
+@@ @@                                                                            //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
+-    public function its_other_function($file): array {                          //
++    public function its_other_function($file) {                                 //
+         return [];                                                              //
+     }                                                                           //
+ }                                                                               //
+                                                                                 //
+```
+
+
 ## PedroTroller/useless_code_after_return
 
 Remove useless code after a returned value
@@ -735,8 +788,18 @@ return $config;
 
 # Contributions
 
-## Run tests
+Before to create a pull request to submit your contributon, you must:
+ - run tests and be sure nothing is broken
+ - rebuilt the documentation
+
+## How to run tests
 
 ```bash
 composer tests
+```
+
+## How to rebuild the documentation
+
+```bash
+bin/doc > README.md
 ```
