@@ -18,8 +18,17 @@ final class Fixers implements IteratorAggregate
             ->name('*.php');
         $classes = [];
 
-        foreach ($finder as $file) {
-            $class = str_replace('/', '\\', mb_substr($file->getPathname(), mb_strlen(__DIR__) - 21, -4));
+        $files = array_map(
+            function ($file) {
+                return $file->getPathname();
+            },
+            iterator_to_array($finder)
+        );
+
+        sort($files);
+
+        foreach ($files as $file) {
+            $class = str_replace('/', '\\', mb_substr($file, mb_strlen(__DIR__) - 21, -4));
 
             if (false === class_exists($class)) {
                 continue;

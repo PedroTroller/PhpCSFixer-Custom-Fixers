@@ -1,0 +1,114 @@
+---
+version: 2
+
+composer-lowest: &composer-lowest
+  run: |
+    composer self-update
+    composer update --prefer-lowest --prefer-stable
+
+composer: &composer
+  run: |
+    composer self-update
+    composer update
+
+test: &test
+  run: |
+      composer test
+      bin/doc
+
+jobs:
+  php 5.6:
+    docker:
+      - image: circleci/php:5.6
+    steps:
+      - checkout
+      - <<: *composer
+      - <<: *test
+
+  php 5.6 with lowest dependencies:
+    docker:
+      - image: circleci/php:5.6
+    steps:
+      - checkout
+      - <<: *composer-lowest
+      - <<: *test
+
+  php 7.0:
+    docker:
+      - image: circleci/php:7.0
+    steps:
+      - checkout
+      - <<: *composer
+      - <<: *test
+
+  php 7.0 with lowest dependencies:
+    docker:
+      - image: circleci/php:7.0
+    steps:
+      - checkout
+      - <<: *composer-lowest
+      - <<: *test
+
+  php 7.1:
+    docker:
+      - image: circleci/php:7.1
+    steps:
+      - checkout
+      - <<: *composer
+      - <<: *test
+
+  php 7.1 with lowest dependencies:
+    docker:
+      - image: circleci/php:7.1
+    steps:
+      - checkout
+      - <<: *composer-lowest
+      - <<: *test
+
+  php 7.2:
+    docker:
+      - image: circleci/php:7.2
+    steps:
+      - checkout
+      - <<: *composer
+      - <<: *test
+
+  php 7.2 with lowest dependencies:
+    docker:
+      - image: circleci/php:7.2
+    steps:
+      - checkout
+      - <<: *composer-lowest
+      - <<: *test
+
+  documentation is up to date:
+    docker:
+      - image: circleci/php:7.2
+    steps:
+      - checkout
+      - <<: *composer
+      - run: bin/doc > README.new.md
+      - run: cmp --silent README.md README.new.md || cmp README.md README.new.md || (echo "Documentation is outdated. Run 'bin/doc > README.md'" && exit 1)
+
+
+workflows:
+  version: 2
+  tests:
+    jobs:
+      - php 5.6
+      - php 5.6 with lowest dependencies:
+          requires:
+            - php 5.6
+      - php 7.0
+      - php 7.0 with lowest dependencies:
+          requires:
+            - php 7.0
+      - php 7.1
+      - php 7.1 with lowest dependencies:
+          requires:
+            - php 7.1
+      - php 7.2
+      - php 7.2 with lowest dependencies:
+          requires:
+            - php 7.2
+      - documentation is up to date
