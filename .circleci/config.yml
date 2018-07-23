@@ -1,0 +1,172 @@
+---
+version: 2
+
+composer_with_lowest_dependencies: &composer_with_lowest_dependencies
+  run: |
+    composer self-update
+    composer global require hirak/prestissimo --no-progress
+    composer update --prefer-lowest --prefer-stable
+
+composer: &composer
+  run: |
+    composer self-update
+    composer global require hirak/prestissimo --no-progress
+    composer update
+
+run_tests: &run_tests
+  run: |
+      composer test
+      bin/doc
+
+run_tests_with_future_mode: &run_tests_with_future_mode
+  run: |
+      #PHP_CS_FIXER_FUTURE_MODE=1 composer test
+      bin/doc
+
+jobs:
+  php 5.6:
+    docker:
+      - image: circleci/php:5.6
+    steps:
+      - checkout
+      - <<: *composer
+      - <<: *run_tests
+
+  php 5.6 with future mode:
+    docker:
+      - image: circleci/php:5.6
+    steps:
+      - checkout
+      - <<: *composer
+      - <<: *run_tests
+
+  php 5.6 with lowest dependencies:
+    docker:
+      - image: circleci/php:5.6
+    steps:
+      - checkout
+      - <<: *composer_with_lowest_dependencies
+      - <<: *run_tests
+
+  php 7.0:
+    docker:
+      - image: circleci/php:7.0
+    steps:
+      - checkout
+      - <<: *composer
+      - <<: *run_tests
+
+  php 7.0 with future mode:
+    docker:
+      - image: circleci/php:7.0
+    steps:
+      - checkout
+      - <<: *composer
+      - <<: *run_tests_with_future_mode
+
+  php 7.0 with lowest dependencies:
+    docker:
+      - image: circleci/php:7.0
+    steps:
+      - checkout
+      - <<: *composer_with_lowest_dependencies
+      - <<: *run_tests
+
+  php 7.1:
+    docker:
+      - image: circleci/php:7.1
+    steps:
+      - checkout
+      - <<: *composer
+      - <<: *run_tests
+
+  php 7.1 with future mode:
+    docker:
+      - image: circleci/php:7.1
+    steps:
+      - checkout
+      - <<: *composer
+      - <<: *run_tests_with_future_mode
+
+  php 7.1 with lowest dependencies:
+    docker:
+      - image: circleci/php:7.1
+    steps:
+      - checkout
+      - <<: *composer_with_lowest_dependencies
+      - <<: *run_tests
+
+  php 7.2:
+    docker:
+      - image: circleci/php:7.2
+    steps:
+      - checkout
+      - <<: *composer
+      - <<: *run_tests
+
+  php 7.2 with future mode:
+    docker:
+      - image: circleci/php:7.2
+    steps:
+      - checkout
+      - <<: *composer
+      - <<: *run_tests_with_future_mode
+
+  php 7.2 with lowest dependencies:
+    docker:
+      - image: circleci/php:7.2
+    steps:
+      - checkout
+      - <<: *composer_with_lowest_dependencies
+      - <<: *run_tests
+
+  documentation is up to date:
+    docker:
+      - image: circleci/php:7.2
+    steps:
+      - checkout
+      - <<: *composer
+      - run: bin/doc > README.new.md
+      - run: cmp --silent README.md README.new.md || cmp README.md README.new.md || (echo "Documentation is outdated. Run 'bin/doc > README.md'" && exit 1)
+
+workflows:
+  version: 2
+  php 5.6:
+    jobs:
+      - php 5.6
+      - php 5.6 with future mode:
+          requires:
+            - php 5.6
+      - php 5.6 with lowest dependencies:
+          requires:
+            - php 5.6
+  php 7.0:
+    jobs:
+      - php 7.0
+      - php 7.0 with future mode:
+          requires:
+            - php 7.0
+      - php 7.0 with lowest dependencies:
+          requires:
+            - php 7.0
+  php 7.1:
+    jobs:
+      - php 7.1
+      - php 7.1 with future mode:
+          requires:
+            - php 7.1
+      - php 7.1 with lowest dependencies:
+          requires:
+            - php 7.1
+  php 7.2:
+    jobs:
+      - php 7.2
+      - php 7.2 with future mode:
+          requires:
+            - php 7.2
+      - php 7.2 with lowest dependencies:
+          requires:
+            - php 7.2
+  documentation:
+    jobs:
+      - documentation is up to date
