@@ -7,9 +7,7 @@ use tests\UseCase;
 
 class Case1 implements UseCase
 {
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getFixer()
     {
         $fixer = new LineBreakBetweenMethodArgumentsFixer();
@@ -22,25 +20,19 @@ class Case1 implements UseCase
         return $fixer;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getRawScript()
     {
         return file_get_contents(sprintf('%s/Case1/CamelizeNamingStrategy.php.text', __DIR__));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getExpectation()
     {
         return file_get_contents(sprintf('%s/Case1/CamelizeNamingStrategy.php.text', __DIR__));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getMinSupportedPhpVersion()
     {
         return 70100;

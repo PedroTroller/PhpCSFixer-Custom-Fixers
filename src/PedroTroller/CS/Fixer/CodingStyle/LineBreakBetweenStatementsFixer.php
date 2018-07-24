@@ -3,14 +3,13 @@
 namespace PedroTroller\CS\Fixer\CodingStyle;
 
 use PedroTroller\CS\Fixer\AbstractFixer;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
 final class LineBreakBetweenStatementsFixer extends AbstractFixer
 {
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getSampleCode()
     {
         return <<<'PHP'
@@ -43,9 +42,7 @@ class TheClass
 PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getDocumentation()
     {
         return 'Transform multiline docblocks with only one comment into a singleline docblock.';
@@ -60,9 +57,9 @@ PHP;
                 continue;
             }
 
-            $space = $tokens[$index + 1];
+            $spaceIndex = $index + 1;
 
-            if (false === $space->isGivenKind(T_WHITESPACE)) {
+            if (false === $tokens[$spaceIndex]->isGivenKind(T_WHITESPACE)) {
                 continue;
             }
 
@@ -85,7 +82,7 @@ PHP;
                     if (true === $break) {
                         $nextSpace = $tokens->getNextTokenOfKind((int) $semicolon, [[T_WHITESPACE]]);
                         if (null !== $nextSpace) {
-                            $space = $tokens[$nextSpace];
+                            $spaceIndex = $nextSpace;
                         }
                     }
                     // no break
@@ -94,7 +91,7 @@ PHP;
                 case T_FOREACH:
                 case T_SWITCH:
                 case T_FOR:
-                    $space->setContent($this->ensureNumberOfBreaks($space->getContent()));
+                    $tokens[$spaceIndex] = new Token([T_WHITESPACE, $this->ensureNumberOfBreaks($tokens[$spaceIndex]->getContent())]);
             }
         }
     }

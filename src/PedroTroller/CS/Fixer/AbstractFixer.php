@@ -9,25 +9,19 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 abstract class AbstractFixer extends PhpCsFixer
 {
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function isCandidate(Tokens $tokens)
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getName()
     {
         return sprintf('PedroTroller/%s', parent::getName());
     }
 
-    /**
-     * @return array
-     */
+    // @return array
     public function getSampleConfigurations()
     {
         return [
@@ -35,19 +29,13 @@ abstract class AbstractFixer extends PhpCsFixer
         ];
     }
 
-    /**
-     * @return string
-     */
+    // @return string
     abstract public function getSampleCode();
 
-    /**
-     * @return string
-     */
+    // @return string
     abstract public function getDocumentation();
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getDefinition()
     {
         return new FixerDefinition(
@@ -61,30 +49,24 @@ abstract class AbstractFixer extends PhpCsFixer
         );
     }
 
-    /**
-     * @return bool
-     */
+    // @return bool
     public function isDeprecated()
     {
         return false;
     }
 
-    /**
-     * @return null|string
-     */
+    // @return null|string
     public function getDeprecationReplacement()
     {
     }
 
-    /**
-     * @return TokensAnalyzer
-     */
+    // @return TokensAnalyzer
     protected function analyze(Tokens $tokens)
     {
         return new TokensAnalyzer($tokens);
     }
 
-    /**
+    /*
      * @param Tokens          $tokens
      * @param string|string[] $fqcn
      *
@@ -95,7 +77,7 @@ abstract class AbstractFixer extends PhpCsFixer
         return null !== $this->getUseStatements($tokens, $fqcn);
     }
 
-    /**
+    /*
      * @param Tokens          $tokens
      * @param string|string[] $fqcn
      *
@@ -118,7 +100,7 @@ abstract class AbstractFixer extends PhpCsFixer
         return $tokens->findSequence($sequence);
     }
 
-    /**
+    /*
      * @param Tokens          $tokens
      * @param string|string[] $fqcn
      *
@@ -142,9 +124,7 @@ abstract class AbstractFixer extends PhpCsFixer
         ]);
     }
 
-    /**
-     * @return PhpCsFixer\Tokenizer\Token[]
-     */
+    // @return PhpCsFixer\Tokenizer\Token[]
     protected function getComments(Tokens $tokens)
     {
         $comments = [];

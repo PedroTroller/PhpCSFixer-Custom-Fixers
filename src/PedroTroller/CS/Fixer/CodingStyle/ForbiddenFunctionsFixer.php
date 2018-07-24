@@ -12,9 +12,7 @@ use SplFileInfo;
 
 final class ForbiddenFunctionsFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getSampleCode()
     {
         return <<<'PHP'
@@ -40,9 +38,7 @@ class MyClass {
 PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getSampleConfigurations()
     {
         return [
@@ -51,9 +47,7 @@ PHP;
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getDocumentation()
     {
         return 'Forbidden functions MUST BE commented';
@@ -80,14 +74,12 @@ PHP;
 
             if (in_array($token->getContent(), $this->configuration['functions'])) {
                 $end          = $this->analyze($tokens)->getEndOfTheLine($index);
-                $tokens[$end] = new Token(sprintf(' // %s%s', $this->configuration['comment'], $tokens[$end]->getContent()));
+                $tokens[$end] = new Token([T_WHITESPACE, sprintf(' // %s%s', $this->configuration['comment'], $tokens[$end]->getContent())]);
             }
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     protected function createConfigurationDefinition()
     {
         return new FixerConfigurationResolver([

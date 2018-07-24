@@ -64,11 +64,13 @@ $config = PhpCsFixer\Config::create()
 return $config;
 ```
 
+{{^deprecated}}
 ### Fixes
 
 ```diff
 {{{diff}}}
 ```
+{{/deprecated}}
 {{/samples}}
 
 {{/fixers}}

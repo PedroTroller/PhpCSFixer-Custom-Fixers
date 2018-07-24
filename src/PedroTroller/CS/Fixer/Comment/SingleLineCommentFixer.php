@@ -7,47 +7,37 @@ use PhpCsFixer\Fixer\Comment\SingleLineCommentStyleFixer;
 use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
 final class SingleLineCommentFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface
 {
-    /**
-     * @var string
-     */
+    // @var string
     private $collapseRegex = '/( *)\/[*]{1,2}\n( *)[*]{1,2} %s (.+)\n( *)\*\//';
 
-    /**
-     * @var string
-     */
+    // @var string
     private $expandRegex = '/( *)\/[*]{1,2} %s (.+) \*\//';
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getSampleConfigurations()
     {
         return [
             ['action' => 'expanded'],
             ['action' => 'collapsed'],
-            ['action' => 'collapsed', 'types' => ['@var', '@return']],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getDocumentation()
     {
         return 'Collapse/expand PHP single line comments';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getSampleCode()
     {
-        return <<<'SPEC'
+        return <<<'PHP'
 <?php
 
 namespace Project\TheNamespace;
@@ -74,36 +64,28 @@ class TheClass
         return;
     }
 }
-SPEC;
+PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function isDeprecated()
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getDeprecationReplacement()
     {
         return (new SingleLineCommentStyleFixer())->getName();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     protected function applyFix(SplFileInfo $file, Tokens $tokens)
     {
         $this->{$this->configuration['action'].'Comment'}($tokens);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     protected function createConfigurationDefinition()
     {
         return new FixerConfigurationResolver([
@@ -117,18 +99,6 @@ SPEC;
         ]);
     }
 
-    private function collapsedComment(Tokens $tokens)
-    {
-        foreach ($this->getComments($tokens) as $index => $token) {
-            foreach ($this->configuration['types'] as $variable) {
-                $regex   = sprintf($this->collapseRegex, $variable);
-                $replace = sprintf('$1/** %s $3 */', $variable);
-                $comment = preg_replace($regex, $replace, $token->getContent());
-                $token->setContent($comment);
-            }
-        }
-    }
-
     private function expandedComment(Tokens $tokens)
     {
         foreach ($this->getComments($tokens) as $index => $token) {
@@ -139,10 +109,22 @@ SPEC;
             }
 
             foreach ($this->configuration['types'] as $variable) {
-                $regex   = sprintf($this->expandRegex, $variable);
-                $replace = sprintf("/**\n%s * %s $2\n%s */", $space, $variable, $space);
-                $comment = preg_replace($regex, $replace, $token->getContent());
-                $token->setContent($comment);
+                $regex          = sprintf($this->expandRegex, $variable);
+                $replace        = sprintf("/**\n%s * %s $2\n%s */", $space, $variable, $space);
+                $comment        = preg_replace($regex, $replace, $token->getContent());
+                $tokens[$index] = new Token([T_COMMENT, $comment]);
+            }
+        }
+    }
+
+    private function collapsedComment(Tokens $tokens)
+    {
+        foreach ($this->getComments($tokens) as $index => $token) {
+            foreach ($this->configuration['types'] as $variable) {
+                $regex          = sprintf($this->collapseRegex, $variable);
+                $replace        = sprintf('$1/** %s $3 */', $variable);
+                $comment        = preg_replace($regex, $replace, $token->getContent());
+                $tokens[$index] = new Token([T_COMMENT, $comment]);
             }
         }
     }

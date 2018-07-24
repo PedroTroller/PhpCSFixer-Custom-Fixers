@@ -7,17 +7,13 @@ use tests\UseCase;
 
 class OrderedWithGetterAndSetterFirst implements UseCase
 {
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getFixer()
     {
         return new OrderedWithGetterAndSetterFirstFixer();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getRawScript()
     {
         return <<<'PHP'
@@ -97,9 +93,7 @@ class User
 PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getExpectation()
     {
         return <<<'PHP'
@@ -179,9 +173,7 @@ class User
 PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getMinSupportedPhpVersion()
     {
         return 0;

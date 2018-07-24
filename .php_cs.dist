@@ -8,7 +8,9 @@ return PhpCsFixer\Config::create()
         ConfigurationBuilder::buildCustomConfiguration(),
         ConfigurationBuilder::php(5.6)
     ))
-    ->setUsingCache(false)
+    ->setUsingCache(true)
     ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-    ->setFinder(PhpCsFixer\Finder::create()->in(__DIR__))
+    ->setFinder(
+        PhpCsFixer\Finder::create()->in(__DIR__)
+    )
 ;

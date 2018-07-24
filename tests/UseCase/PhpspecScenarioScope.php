@@ -7,17 +7,13 @@ use tests\UseCase;
 
 class PhpspecScenarioScope implements UseCase
 {
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getFixer()
     {
         return new PhpspecScenarioScopeFixer();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getRawScript()
     {
         return <<<'SPEC'
@@ -52,9 +48,7 @@ class TheSpec extends ObjectBehavior
 SPEC;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getExpectation()
     {
         return <<<'SPEC'
@@ -89,9 +83,7 @@ class TheSpec extends ObjectBehavior
 SPEC;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getMinSupportedPhpVersion()
     {
         return 0;

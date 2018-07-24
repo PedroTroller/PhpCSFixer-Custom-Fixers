@@ -6,73 +6,14 @@ use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\Diff\v3_0\Differ;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
+use PedroTroller\CS\Fixer\Comment\SingleLineCommentFixer;
+use PedroTroller\CS\Fixer\AbstractFixer;
 
-function includeIfExists($file)
-{
-    return file_exists($file) ? include $file : null;
-}
 
-$autoloads = array(
-    sprintf('%s/../../../autoload.php', __DIR__),
-    sprintf('%s/../vendor/autoload.php', __DIR__),
-    sprintf('%s/../autoload.php', __DIR__),
-);
+include sprintf('%s/../vendor/autoload.php', __DIR__);
+include 'Utils.php';
 
-$loaded = false;
-
-foreach ($autoloads as $autoload) {
-    $loaded = null === includeIfExists($autoload) ? $loaded : true;
-
-    if (true === $loaded) {
-        break;
-    }
-}
-
-if (false === $loaded) {
-    throw new \Exception('Can\'t find autoload');
-}
-
-function valueToString ($value = null) {
-    if (is_string($value)) {
-        return sprintf('"%s"', $value);
-    }
-
-    if (is_bool($value)) {
-        return $value ? 'true' : 'false';
-    }
-
-    if (is_array($value)) {
-        return arrayToString($value);
-    }
-
-    if (is_null($value)) {
-        return '~';
-    }
-
-    return $value;
-}
-
-function arrayToString (array $array = null) {
-    if (null === $array) {
-        return;
-    }
-
-    $string = '[ ';
-
-    if (array_values($array) === $array) {
-        $string .= implode(', ', array_map('valueToString', $array));
-    } else {
-        $string .= implode(', ', array_map(function ($value, $key) {
-            return '"' . $key . '" => ' . valueToString($value);
-        }, $array, array_keys($array)));
-    }
-
-    $string .= ' ]';
-
-    return $string;
-}
-
-$fixers = array_map(function (FixerInterface $fixer) {
+$fixers = array_map(function (AbstractFixer $fixer) {
     $samples = $fixer->getDefinition()->getCodeSamples();
 
     return [
@@ -87,12 +28,12 @@ $fixers = array_map(function (FixerInterface $fixer) {
                 $fixer->configure($sample->getConfiguration());
             }
 
-            $tokens = Tokens::fromCode($sample->getCode());
+            $tokens = Tokens::fromCode($fixer->getSampleCode());
             $differ = new Differ();
 
             if ($fixer->isCandidate($tokens)) {
                 $fixer->fix(new SplFileInfo(__FILE__), $tokens);
-                $diff = explode("\n", $differ->diff($sample->getCode(), $tokens->generateCode()));
+                $diff = explode("\n", $differ->diff($fixer->getSampleCode(), $tokens->generateCode()));
 
                 foreach ($diff as $num => $line) {
                     if (strlen($line) > 80 + 1) {
@@ -115,18 +56,16 @@ $fixers = array_map(function (FixerInterface $fixer) {
                 $diff = ['+ Fixing not supported by your PHP version.'];
             }
 
-
             return [
                 'diff' => implode("\n", $diff),
                 'configuration' => $sample->getConfiguration()
-                    ? arrayToString($sample->getConfiguration())
+                    ? Utils::arrayToString($sample->getConfiguration())
                     : null
             ];
         }, $samples),
     ];
 }, iterator_to_array(new PedroTroller\CS\Fixer\Fixers()));
 
-$templating = new Mustache_Engine;
-echo $templating
+echo (new Mustache_Engine())
     ->render(file_get_contents(sprintf('%s/doc.md', __DIR__)), ['fixers' => $fixers])
 ;

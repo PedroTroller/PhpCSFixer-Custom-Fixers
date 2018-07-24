@@ -2,7 +2,6 @@
 
 namespace PedroTroller\CS\Fixer;
 
-use ArrayIterator;
 use IteratorAggregate;
 use PhpCsFixer\Fixer\FixerInterface;
 use ReflectionClass;
@@ -10,13 +9,13 @@ use Symfony\Component\Finder\Finder;
 
 final class Fixers implements IteratorAggregate
 {
+    // {@inheritdoc}
     public function getIterator()
     {
         $finder = new Finder();
         $finder
             ->in(__DIR__)
             ->name('*.php');
-        $classes = [];
 
         $files = array_map(
             function ($file) {
@@ -44,9 +43,7 @@ final class Fixers implements IteratorAggregate
                 continue;
             }
 
-            $classes[] = $class;
+            yield new $class();
         }
-
-        return new ArrayIterator(array_map(function ($class) { return new $class(); }, $classes));
     }
 }

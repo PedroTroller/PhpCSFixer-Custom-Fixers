@@ -3,22 +3,19 @@
 namespace PedroTroller\CS\Fixer\Comment;
 
 use PedroTroller\CS\Fixer\AbstractFixer;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
 final class UselessCommentFixer extends AbstractFixer
 {
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getDocumentation()
     {
         return 'Remove useless comments regarding the method definition';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getSampleCode()
     {
         return <<<'PHP'
@@ -58,9 +55,7 @@ class TheClass
 PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     protected function applyFix(SplFileInfo $file, Tokens $tokens)
     {
         foreach ($this->analyze($tokens)->getClassyElements() as $index => $element) {
@@ -113,12 +108,12 @@ PHP;
                 $tokens->clearAt($comment);
                 $tokens->removeTrailingWhitespace($comment);
             } else {
-                $tokens[$comment]->setContent($commentText);
+                $tokens[$comment] = new Token([T_COMMENT, $commentText]);
             }
         }
     }
 
-    /**
+    /*
      * @param int $index
      *
      * @return null|int

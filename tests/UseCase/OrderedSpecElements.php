@@ -7,17 +7,13 @@ use tests\UseCase;
 
 class OrderedSpecElements implements UseCase
 {
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getFixer()
     {
         return new OrderedSpecElementsFixer();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getRawScript()
     {
         return <<<'PHP'
@@ -61,9 +57,7 @@ class TheSpec extends ObjectBehavior
 PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getExpectation()
     {
         return <<<'PHP'
@@ -107,9 +101,7 @@ class TheSpec extends ObjectBehavior
 PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getMinSupportedPhpVersion()
     {
         return 0;
