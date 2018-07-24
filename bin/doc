@@ -80,6 +80,8 @@ $fixers = array_map(function (FixerInterface $fixer) {
         'doc' => [
             'summary' => $fixer->getDefinition()->getSummary(),
         ],
+        'deprecated' => $fixer->isDeprecated(),
+        'replacement' => $fixer->getDeprecationReplacement(),
         'samples' => array_map(function (CodeSample $sample) use ($fixer) {
             if ($fixer instanceof ConfigurableFixerInterface) {
                 $fixer->configure($sample->getConfiguration());

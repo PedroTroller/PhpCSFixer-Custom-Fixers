@@ -31,6 +31,13 @@ return $config;
 ## {{name}}
 
 {{doc.summary}}
+{{#deprecated}}
+
+**DEPRECATED**
+{{#replacement}}
+replaced by `{{replacement}}`.
+{{/replacement}}
+{{/deprecated}}
 
 {{#samples}}
 ### Configuration
