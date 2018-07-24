@@ -8,22 +8,18 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 abstract class TokensAnalyzerIntegration
 {
-    /**
-     * @return string
-     */
+    // @return string
     abstract public function getCode();
 
     abstract public function assertions(TokensAnalyzer $analyzer, Tokens $tokens);
 
-    /**
-     * @return int
-     */
+    // @return int
     public function getMinSupportedPhpVersion()
     {
         return 0;
     }
 
-    /**
+    /*
      * @param string $content
      *
      * @return int

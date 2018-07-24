@@ -16,17 +16,13 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
 {
     const T_TYPEHINT_SEMI_COLON = 10025;
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getPriority()
     {
         return (new BracesFixer())->getPriority() - 1;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getSampleConfigurations()
     {
         return [
@@ -38,17 +34,13 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getDocumentation()
     {
         return 'Function methods MUST be splitted by a line break';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getSampleCode()
     {
         return <<<'SPEC'
@@ -78,9 +70,7 @@ class TheClass
 SPEC;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     protected function applyFix(SplFileInfo $file, Tokens $tokens)
     {
         $functions = [];
@@ -139,9 +129,7 @@ SPEC;
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     protected function createConfigurationDefinition()
     {
         return new FixerConfigurationResolver([
@@ -167,21 +155,24 @@ SPEC;
         }
 
         $token                   = $tokens[$openBraceIndex];
-        $tokens[$openBraceIndex] = new Token(
-            trim($token->getContent())."\n".$this->analyze($tokens)->getLineIndentation($index).$this->whitespacesConfig->getIndent()
-        );
+        $tokens[$openBraceIndex] = new Token([
+            T_WHITESPACE,
+            trim($token->getContent())."\n".$this->analyze($tokens)->getLineIndentation($index).$this->whitespacesConfig->getIndent(),
+        ]);
 
         $token                    = $tokens[$closeBraceIndex];
-        $tokens[$closeBraceIndex] = new Token(
-            rtrim($this->whitespacesConfig->getLineEnding().$this->analyze($tokens)->getLineIndentation($index).$token->getContent())
-        );
+        $tokens[$closeBraceIndex] = new Token([
+            T_WHITESPACE,
+            rtrim($this->whitespacesConfig->getLineEnding().$this->analyze($tokens)->getLineIndentation($index).$token->getContent()),
+        ]);
 
         if ($tokens[$tokens->getNextMeaningfulToken($closeBraceIndex)]->equals('{')) {
             $tokens->removeTrailingWhitespace($closeBraceIndex);
             $token                                                     = $tokens[$tokens->getNextMeaningfulToken($closeBraceIndex)];
-            $tokens[$tokens->getNextMeaningfulToken($closeBraceIndex)] = new Token(
-                ' '.trim($token->getContent())
-            );
+            $tokens[$tokens->getNextMeaningfulToken($closeBraceIndex)] = new Token([
+                T_WHITESPACE,
+                ' '.trim($token->getContent()),
+            ]);
         }
 
         if ($tokens[$tokens->getNextMeaningfulToken($closeBraceIndex)]->isGivenKind(self::T_TYPEHINT_SEMI_COLON)) {
@@ -205,9 +196,10 @@ SPEC;
             if ($tokens[$i]->equals(',')) {
                 $tokens->removeTrailingWhitespace($i);
                 $token      = $tokens[$i];
-                $tokens[$i] = new Token(
-                    trim($token->getContent())."\n".$this->analyze($tokens)->getLineIndentation($index).$this->whitespacesConfig->getIndent()
-                );
+                $tokens[$i] = new Token([
+                    T_WHITESPACE,
+                    trim($token->getContent())."\n".$this->analyze($tokens)->getLineIndentation($index).$this->whitespacesConfig->getIndent(),
+                ]);
             }
         }
 
@@ -224,7 +216,7 @@ SPEC;
             $content    = preg_replace('/ {2,}/', ' ', str_replace("\n", '', $tokens[$i]->getContent()));
             $tokens[$i] = $tokens[$i]->getId()
                 ? new Token([$tokens[$i]->getId(), $content])
-                : new Token($content);
+                : new Token([T_WHITESPACE, $content]);
         }
 
         $tokens->removeTrailingWhitespace($openBraceIndex);
@@ -234,7 +226,7 @@ SPEC;
 
         if ($tokens[$end]->equals('{')) {
             $tokens->removeLeadingWhitespace($end);
-            $tokens->insertAt($end, new Token("\n".$this->analyze($tokens)->getLineIndentation($index)));
+            $tokens->insertAt($end, new Token([T_WHITESPACE, "\n".$this->analyze($tokens)->getLineIndentation($index)]));
         }
     }
 

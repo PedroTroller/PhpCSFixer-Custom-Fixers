@@ -318,36 +318,6 @@ $config = PhpCsFixer\Config::create()
 return $config;
 ```
 
-### Fixes
-
-```diff
---- Original                                                                     // 80 chars
-+++ New                                                                          //
-@@ @@                                                                            //
-                                                                                 //
- class TheClass                                                                  //
- {                                                                               //
--    /** @var string */                                                          //
-+    /**                                                                         //
-+     * @var string                                                              //
-+     */                                                                         //
-     private $prop1;                                                             //
-                                                                                 //
-     /**                                                                         //
-@@ @@                                                                            //
-         return;                                                                 //
-     }                                                                           //
-                                                                                 //
--    /** @return null */                                                         //
-+    /**                                                                         //
-+     * @return null                                                             //
-+     */                                                                         //
-     public function fun2($file) {                                               //
-         return;                                                                 //
-     }                                                                           //
- }                                                                               //
-                                                                                 //
-```
 ### Configuration
 
 ```php
@@ -367,73 +337,6 @@ $config = PhpCsFixer\Config::create()
 return $config;
 ```
 
-### Fixes
-
-```diff
---- Original                                                                     // 80 chars
-+++ New                                                                          //
-@@ @@                                                                            //
-     /** @var string */                                                          //
-     private $prop1;                                                             //
-                                                                                 //
--    /**                                                                         //
--     * @var string                                                              //
--     */                                                                         //
-+    /** @var string */                                                          //
-     private $prop1;                                                             //
-                                                                                 //
--    /**                                                                         //
--     * @return null                                                             //
--     */                                                                         //
-+    /** @return null */                                                         //
-     public function fun1($file) {                                               //
-         return;                                                                 //
-     }                                                                           //
-                                                                                 //
-```
-### Configuration
-
-```php
-<?php
-
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
-        // ...
-        'PedroTroller/single_line_comment' => [ "action" => "collapsed", "types" => [ "@var", "@return" ] ],
-        // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
-
-return $config;
-```
-
-### Fixes
-
-```diff
---- Original                                                                     // 80 chars
-+++ New                                                                          //
-@@ @@                                                                            //
-     /** @var string */                                                          //
-     private $prop1;                                                             //
-                                                                                 //
--    /**                                                                         //
--     * @var string                                                              //
--     */                                                                         //
-+    /** @var string */                                                          //
-     private $prop1;                                                             //
-                                                                                 //
--    /**                                                                         //
--     * @return null                                                             //
--     */                                                                         //
-+    /** @return null */                                                         //
-     public function fun1($file) {                                               //
-         return;                                                                 //
-     }                                                                           //
-                                                                                 //
-```
 
 
 ## PedroTroller/useless_comment

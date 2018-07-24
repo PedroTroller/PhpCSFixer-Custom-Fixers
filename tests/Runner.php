@@ -13,10 +13,42 @@ class Runner
 {
     public static function run()
     {
+        $deprecations = [];
+
+        set_error_handler(
+            function ($type, $message, $file, $line) use (&$deprecations) {
+                $deprecations[$message][] = sprintf('%s at line %d', $file, $line);
+                $deprecations[$message] = array_unique($deprecations[$message]);
+
+                sort($deprecations[$message]);
+            },
+            E_USER_DEPRECATED
+        );
+
         echo "\n";
 
         self::runAnalyzerIntegrations();
         self::runUseCases();
+
+        if (false === empty($deprecations)) {
+            ksort($deprecations);
+
+            $message = sprintf(
+                "Deprecations : \n\n%s",
+                join(
+                    "\n\n",
+                    array_map(
+                        function ($message, array $files) {
+                            return sprintf("%s\n%s", $message, join("\n", $files));
+                        },
+                        array_keys($deprecations),
+                        $deprecations
+                    )
+                )
+            );
+
+            throw new Exception($message);
+        }
     }
 
     private static function runUseCases()

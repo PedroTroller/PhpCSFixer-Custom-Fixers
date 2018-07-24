@@ -4,30 +4,25 @@ namespace PedroTroller\CS\Fixer\Phpspec;
 
 use PedroTroller\CS\Fixer\AbstractFixer;
 use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
 final class PhpspecScenarioScopeFixer extends AbstractFixer
 {
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function isCandidate(Tokens $tokens)
     {
         return $this->extendsClass($tokens, 'PhpSpec\ObjectBehavior');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getDocumentation()
     {
         return 'PHPSpec spec functions MUST NOT have a public scope.';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getSampleCode()
     {
         return <<<'SPEC'
@@ -62,17 +57,13 @@ class TheSpec extends ObjectBehavior
 SPEC;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getPriority()
     {
         return (new VisibilityRequiredFixer())->getPriority() - 1;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     protected function applyFix(SplFileInfo $file, Tokens $tokens)
     {
         foreach ($tokens as $index => $token) {
@@ -98,7 +89,7 @@ SPEC;
             }
 
             if (T_PUBLIC === $previous->getId()) {
-                $tokens->overrideAt($previousIndex, '');
+                $tokens[$previousIndex] = new Token('');
                 $tokens->removeTrailingWhitespace($previousIndex);
             }
         }

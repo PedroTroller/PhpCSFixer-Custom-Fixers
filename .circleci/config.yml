@@ -20,7 +20,7 @@ run_tests: &run_tests
 
 run_tests_with_future_mode: &run_tests_with_future_mode
   run: |
-      #PHP_CS_FIXER_FUTURE_MODE=1 composer test
+      PHP_CS_FIXER_FUTURE_MODE=1 composer test
       bin/doc
 
 jobs:

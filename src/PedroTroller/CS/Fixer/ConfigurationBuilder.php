@@ -10,7 +10,7 @@ final class ConfigurationBuilder
     {
     }
 
-    /**
+    /*
      * @param float $version
      *
      * @return array
@@ -40,23 +40,23 @@ final class ConfigurationBuilder
         return $config;
     }
 
-    /**
-     * @return array
-     */
+    // @return array
     public static function buildBasicConfiguration()
     {
         $config = [];
 
         foreach (new Fixers() as $fixer) {
+            if ($fixer->isDeprecated()) {
+                continue;
+            }
+
             $config[$fixer->getName()] = true;
         }
 
         return $config;
     }
 
-    /**
-     * @return array
-     */
+    // @return array
     public static function buildCustomConfiguration()
     {
         return array_merge(

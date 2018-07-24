@@ -7,17 +7,13 @@ use tests\UseCase;
 
 class Case1 implements UseCase
 {
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getFixer()
     {
         return new OrderedSpecElementsFixer();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getRawScript()
     {
         return <<<'PHP'
@@ -58,9 +54,7 @@ class HotelSpec extends ObjectBehavior
 PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getExpectation()
     {
         return <<<'PHP'
@@ -101,9 +95,7 @@ class HotelSpec extends ObjectBehavior
 PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getMinSupportedPhpVersion()
     {
         return 0;

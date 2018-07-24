@@ -5,19 +5,13 @@ namespace PedroTroller\CS\Fixer;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer as PhpCsFixerTokensAnalyzer;
 
-/**
- * @method getClassyElements()
- */
+// @method getClassyElements()
 final class TokensAnalyzer
 {
-    /**
-     * @var Tokens
-     */
+    // @var Tokens
     private $tokens;
 
-    /**
-     * @var PhpCsFixerTokensAnalyzer
-     */
+    // @var PhpCsFixerTokensAnalyzer
     private $analyzer;
 
     public function __construct(Tokens $tokens)
@@ -31,7 +25,7 @@ final class TokensAnalyzer
         return call_user_func_array([$this->analyzer, $name], $arguments);
     }
 
-    /**
+    /*
      * @param int $index
      *
      * @return array
@@ -93,7 +87,7 @@ final class TokensAnalyzer
         return $arguments;
     }
 
-    /**
+    /*
      * @param int $index
      *
      * @return int
@@ -130,7 +124,7 @@ final class TokensAnalyzer
         return $arguments;
     }
 
-    /**
+    /*
      * @param int $index
      *
      * @return null|int
@@ -165,7 +159,7 @@ final class TokensAnalyzer
         return $index;
     }
 
-    /**
+    /*
      * @param int $index
      *
      * @return null|int
@@ -198,9 +192,7 @@ final class TokensAnalyzer
         return $index;
     }
 
-    /**
-     * @param int $index
-     */
+    // @param int $index
     public function getReturnedType($index)
     {
         $methodName       = $this->tokens->getNextMeaningfulToken($index);
@@ -243,7 +235,7 @@ final class TokensAnalyzer
         } while (false === $this->tokens[$index]->equals(['{', ';']));
     }
 
-    /**
+    /*
      * @param int $index
      *
      * @return int | null
@@ -267,7 +259,7 @@ final class TokensAnalyzer
         }
     }
 
-    /**
+    /*
      * @param int $index
      *
      * @return int
@@ -281,7 +273,7 @@ final class TokensAnalyzer
         }
     }
 
-    /**
+    /*
      * @param int $index
      *
      * @return int
@@ -295,7 +287,7 @@ final class TokensAnalyzer
         }
     }
 
-    /**
+    /*
      * @param int $index
      *
      * @return int
@@ -319,7 +311,7 @@ final class TokensAnalyzer
         return $size;
     }
 
-    /**
+    /*
      * @param int $index
      *
      * @return int | null
@@ -343,7 +335,7 @@ final class TokensAnalyzer
         }
     }
 
-    /**
+    /*
      * @param int $index
      *
      * @return int | null
@@ -367,7 +359,7 @@ final class TokensAnalyzer
         }
     }
 
-    /**
+    /*
      * @param int $index
      *
      * @return bool
@@ -397,7 +389,7 @@ final class TokensAnalyzer
         return $open < $index && $close > $index;
     }
 
-    /**
+    /*
      * @param int $index
      *
      * @return string

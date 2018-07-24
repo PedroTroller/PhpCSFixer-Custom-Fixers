@@ -8,17 +8,13 @@ use SplFileInfo;
 
 final class UselessCodeAfterReturnFixer extends AbstractFixer
 {
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getDocumentation()
     {
         return 'Remove useless code after a returned value';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     public function getSampleCode()
     {
         return <<<'PHP'
@@ -69,9 +65,7 @@ class TheClass
 PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // {@inheritdoc}
     protected function applyFix(SplFileInfo $file, Tokens $tokens)
     {
         $returns  = $tokens->findGivenKind(T_RETURN);
