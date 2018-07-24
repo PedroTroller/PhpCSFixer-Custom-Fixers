@@ -3,6 +3,7 @@
 namespace PedroTroller\CS\Fixer\Comment;
 
 use PedroTroller\CS\Fixer\AbstractFixer;
+use PhpCsFixer\Fixer\Comment\SingleLineCommentStyleFixer;
 use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
@@ -74,6 +75,22 @@ class TheClass
     }
 }
 SPEC;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isDeprecated()
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDeprecationReplacement()
+    {
+        return (new SingleLineCommentStyleFixer())->getName();
     }
 
     /**

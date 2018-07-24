@@ -62,6 +62,21 @@ abstract class AbstractFixer extends PhpCsFixer
     }
 
     /**
+     * @return bool
+     */
+    public function isDeprecated()
+    {
+        return false;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getDeprecationReplacement()
+    {
+    }
+
+    /**
      * @return TokensAnalyzer
      */
     protected function analyze(Tokens $tokens)

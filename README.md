@@ -296,6 +296,9 @@ return $config;
 
 Collapse/expand PHP single line comments
 
+**DEPRECATED**
+replaced by `single_line_comment_style`.
+
 ### Configuration
 
 ```php
