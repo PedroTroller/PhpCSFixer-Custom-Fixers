@@ -342,7 +342,7 @@ return $config;
 
 ## PedroTroller/useless_comment
 
-Remove useless comments regarding the method definition
+Remove useless comments regarding the method definition. This fixer is complementary with `phpdoc_trim`, so enable it or use the `@Symfony` rule.
 
 ### Configuration
 

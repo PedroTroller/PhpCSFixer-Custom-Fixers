@@ -67,7 +67,6 @@ abstract class AbstractFixer extends PhpCsFixer
     }
 
     /*
-     * @param Tokens          $tokens
      * @param string|string[] $fqcn
      *
      * @return bool
@@ -78,7 +77,6 @@ abstract class AbstractFixer extends PhpCsFixer
     }
 
     /*
-     * @param Tokens          $tokens
      * @param string|string[] $fqcn
      *
      * @return null|array
@@ -101,7 +99,6 @@ abstract class AbstractFixer extends PhpCsFixer
     }
 
     /*
-     * @param Tokens          $tokens
      * @param string|string[] $fqcn
      *
      * @return bool
