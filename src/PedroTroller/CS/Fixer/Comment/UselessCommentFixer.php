@@ -3,6 +3,7 @@
 namespace PedroTroller\CS\Fixer\Comment;
 
 use PedroTroller\CS\Fixer\AbstractFixer;
+use PhpCsFixer\Fixer\Phpdoc\PhpdocTrimFixer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
@@ -12,7 +13,7 @@ final class UselessCommentFixer extends AbstractFixer
     // {@inheritdoc}
     public function getDocumentation()
     {
-        return 'Remove useless comments regarding the method definition';
+        return 'Remove useless comments regarding the method definition. This fixer is complementary with `phpdoc_trim`, so enable it or use the `@Symfony` rule.';
     }
 
     // {@inheritdoc}
@@ -55,6 +56,14 @@ class TheClass
 PHP;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function getPriority()
+    {
+        return (new PhpdocTrimFixer())->getPriority() - 1;
+    }
+
     // {@inheritdoc}
     protected function applyFix(SplFileInfo $file, Tokens $tokens)
     {
@@ -82,14 +91,18 @@ PHP;
 
                 $text = trim(ltrim(trim($line), '/*'));
 
-                if (in_array($text, $uselessComments)) {
+                $matches = array_filter($uselessComments, function ($pattern) use ($text) {
+                    return 1 === preg_match($pattern, $text);
+                });
+
+                if (false === empty($matches)) {
                     unset($lines[$index]);
                     $changed = true;
 
                     if (null !== $previous) {
                         $next = $index + 1;
 
-                        if (array_key_exists($next, $lines) && empty(trim($lines[$previous], '/* ')) && empty(trim($lines[$next], '/* '))) {
+                        if (array_key_exists($next, $lines) && empty(trim($lines[$previous], '/* ')) && empty(trim($lines[$next], '/* ')) && '*/' !== trim($lines[$next])) {
                             unset($lines[$next]);
                         }
                     }
@@ -143,30 +156,30 @@ PHP;
 
         foreach ($arguments as $argument) {
             if (null === $argument['type']) {
-                $useless[] = sprintf('@param %s', $argument['name']);
+                $useless[] = sprintf('/^@param +\%s/', $argument['name']);
             } else {
                 if ($argument['nullable']) {
-                    $useless[] = sprintf('@param %s|null %s', $argument['type'], $argument['name']);
-                    $useless[] = sprintf('@param null|%s %s', $argument['type'], $argument['name']);
-                    $useless[] = sprintf('@param %s | null %s', $argument['type'], $argument['name']);
-                    $useless[] = sprintf('@param null | %s %s', $argument['type'], $argument['name']);
+                    $useless[] = sprintf('/^@param +%s\|null +\%s$/', str_replace('\\', '\\\\', $argument['type']), $argument['name']);
+                    $useless[] = sprintf('/^@param +null\|%s +\%s$/', str_replace('\\', '\\\\', $argument['type']), $argument['name']);
+                    $useless[] = sprintf('/^@param +%s \| null +\%s$/', str_replace('\\', '\\\\', $argument['type']), $argument['name']);
+                    $useless[] = sprintf('/^@param +null \| %s +\%s$/', str_replace('\\', '\\\\', $argument['type']), $argument['name']);
                 } else {
-                    $useless[] = sprintf('@param %s %s', $argument['type'], $argument['name']);
+                    $useless[] = sprintf('/^@param +%s +\%s$/', str_replace('\\', '\\\\', $argument['type']), $argument['name']);
                 }
             }
         }
 
         if (null === $return) {
-            $useless[] = '@return null';
+            $useless[] = '/^@return null$/';
         } elseif (false === is_array($return)) {
-            $useless[] = sprintf('@return %s', $return);
+            $useless[] = sprintf('/^@return +%s$/', str_replace('\\', '\\\\', $return));
         } else {
             $return = array_map(function ($value) { return null === $value ? 'null' : $value; }, $return);
 
-            $useless[] = sprintf('@return %s', join('|', $return));
-            $useless[] = sprintf('@return %s', join(' | ', $return));
-            $useless[] = sprintf('@return %s', join('|', array_reverse($return)));
-            $useless[] = sprintf('@return %s', join(' | ', array_reverse($return)));
+            $useless[] = sprintf('/^@return +%s$/', str_replace('\\', '\\\\', join('|', $return)));
+            $useless[] = sprintf('/^@return +%s$/', str_replace('\\', '\\\\', join(' | ', $return)));
+            $useless[] = sprintf('/^@return +%s$/', str_replace('\\', '\\\\', join('|', array_reverse($return))));
+            $useless[] = sprintf('/^@return +%s$/', str_replace('\\', '\\\\', join(' | ', array_reverse($return))));
         }
 
         return $useless;

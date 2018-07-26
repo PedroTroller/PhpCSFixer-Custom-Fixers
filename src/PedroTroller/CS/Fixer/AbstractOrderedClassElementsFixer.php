@@ -176,7 +176,6 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
     }
 
     /*
-     * @param Tokens  $tokens
      * @param int     $startIndex
      * @param int     $endIndex
      * @param array[] $elements
