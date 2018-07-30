@@ -235,10 +235,8 @@ final class TokensAnalyzer
         } while (false === $this->tokens[$index]->equals(['{', ';']));
     }
 
-    /*
+    /**
      * @param int $index
-     *
-     * @return int | null
      */
     public function getClosingParenthesis($index)
     {

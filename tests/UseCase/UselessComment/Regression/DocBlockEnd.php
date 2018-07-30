@@ -74,7 +74,6 @@ final class TheClass
 {
     /**
      * @param mixed  $subject
-     *
      */
     public function canUnPublish(string $attribute, $subject, User $user): bool
     {
@@ -83,7 +82,6 @@ final class TheClass
 
     /**
      * @param mixed  $subject
-     *
      */
     public function canPublish(string $attribute, $subject, User $user): bool
     {
