@@ -7,13 +7,17 @@ use tests\UseCase;
 
 class UselessCodeAfterReturn implements UseCase
 {
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getFixer()
     {
         return new UselessCodeAfterReturnFixer();
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getRawScript()
     {
         return <<<'PHP'
@@ -60,7 +64,9 @@ class TheClass
 PHP;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getExpectation()
     {
         return <<<'PHP'
@@ -103,7 +109,9 @@ class TheClass
 PHP;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getMinSupportedPhpVersion()
     {
         return 0;

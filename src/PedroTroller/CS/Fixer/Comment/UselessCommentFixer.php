@@ -9,13 +9,17 @@ use SplFileInfo;
 
 final class UselessCommentFixer extends AbstractFixer
 {
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getDocumentation()
     {
         return 'Remove useless comments regarding the method definition.';
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getSampleCode()
     {
         return <<<'PHP'
@@ -71,7 +75,9 @@ PHP;
         return 'no_superfluous_phpdoc_tags';
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     protected function applyFix(SplFileInfo $file, Tokens $tokens)
     {
         foreach ($this->analyze($tokens)->getClassyElements() as $index => $element) {

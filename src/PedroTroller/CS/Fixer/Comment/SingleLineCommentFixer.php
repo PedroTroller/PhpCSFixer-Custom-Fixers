@@ -13,13 +13,19 @@ use SplFileInfo;
 
 final class SingleLineCommentFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface
 {
-    // @var string
+    /**
+     * @var string
+     */
     private $collapseRegex = '/( *)\/[*]{1,2}\n( *)[*]{1,2} %s (.+)\n( *)\*\//';
 
-    // @var string
+    /*
+     * @var string
+     */
     private $expandRegex = '/( *)\/[*]{1,2} %s (.+) \*\//';
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getSampleConfigurations()
     {
         return [
@@ -28,13 +34,17 @@ final class SingleLineCommentFixer extends AbstractFixer implements Configuratio
         ];
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getDocumentation()
     {
         return 'Collapse/expand PHP single line comments';
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getSampleCode()
     {
         return <<<'PHP'
@@ -67,25 +77,33 @@ class TheClass
 PHP;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function isDeprecated()
     {
         return true;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getDeprecationReplacement()
     {
         return (new SingleLineCommentStyleFixer())->getName();
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     protected function applyFix(SplFileInfo $file, Tokens $tokens)
     {
         $this->{$this->configuration['action'].'Comment'}($tokens);
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     protected function createConfigurationDefinition()
     {
         return new FixerConfigurationResolver([

@@ -9,13 +9,16 @@ use Symfony\Component\Finder\Finder;
 
 final class Fixers implements IteratorAggregate
 {
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getIterator()
     {
         $finder = new Finder();
         $finder
             ->in(__DIR__)
-            ->name('*.php');
+            ->name('*.php')
+        ;
 
         $files = array_map(
             function ($file) {

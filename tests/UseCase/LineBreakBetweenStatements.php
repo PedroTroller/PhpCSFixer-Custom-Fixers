@@ -7,13 +7,17 @@ use tests\UseCase;
 
 class LineBreakBetweenStatements implements UseCase
 {
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getFixer()
     {
         return new LineBreakBetweenStatementsFixer();
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getRawScript()
     {
         return '
@@ -37,7 +41,9 @@ class TheClass
 }';
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getExpectation()
     {
         return '
@@ -64,7 +70,9 @@ class TheClass
 }';
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getMinSupportedPhpVersion()
     {
         return 0;

@@ -9,7 +9,9 @@ use tests\UseCase;
 
 final class Expanded implements UseCase
 {
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getFixer()
     {
         $fixer = new SingleLineCommentFixer();
@@ -21,7 +23,9 @@ final class Expanded implements UseCase
         return $fixer;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getRawScript()
     {
         return <<<'PHP'
@@ -54,7 +58,9 @@ class TheClass
 PHP;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getExpectation()
     {
         return <<<'PHP'
@@ -89,7 +95,9 @@ class TheClass
 PHP;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getMinSupportedPhpVersion()
     {
         return 0;

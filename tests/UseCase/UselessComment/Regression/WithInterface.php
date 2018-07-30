@@ -9,13 +9,17 @@ use tests\UseCase;
 
 final class WithInterface implements UseCase
 {
-    // @return FixerInterface
+    /**
+     * @return FixerInterface
+     */
     public function getFixer()
     {
         return new UselessCommentFixer();
     }
 
-    // @return string
+    /**
+     * @return string
+     */
     public function getRawScript()
     {
         return <<<'PHP'
@@ -45,7 +49,9 @@ interface TokenGeneratorInterface
 PHP;
     }
 
-    // @return string
+    /**
+     * @return string
+     */
     public function getExpectation()
     {
         return <<<'PHP'

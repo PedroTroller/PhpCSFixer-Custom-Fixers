@@ -9,7 +9,9 @@ use SplFileInfo;
 
 final class LineBreakBetweenStatementsFixer extends AbstractFixer
 {
-    // {@inheritdoc}
+    /*
+     * {@inheritdoc}
+     */
     public function getSampleCode()
     {
         return <<<'PHP'
@@ -42,7 +44,9 @@ class TheClass
 PHP;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getDocumentation()
     {
         return 'Transform multiline docblocks with only one comment into a singleline docblock.';

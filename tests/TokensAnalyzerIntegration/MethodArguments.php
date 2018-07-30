@@ -9,7 +9,9 @@ use Webmozart\Assert\Assert;
 
 class MethodArguments extends TokensAnalyzerIntegration
 {
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getCode()
     {
         return <<<'PHP'
@@ -38,7 +40,9 @@ class TheClass
 PHP;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function assertions(TokensAnalyzer $analyzer, Tokens $tokens)
     {
         $methods = array_filter(

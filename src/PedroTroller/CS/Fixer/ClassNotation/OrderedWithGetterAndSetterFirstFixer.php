@@ -10,13 +10,17 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 final class OrderedWithGetterAndSetterFirstFixer extends AbstractOrderedClassElementsFixer
 {
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function isCandidate(Tokens $tokens)
     {
         return $tokens->isAnyTokenKindsFound(Token::getClassyTokenKinds());
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getPriority()
     {
         return min([
@@ -25,13 +29,17 @@ final class OrderedWithGetterAndSetterFirstFixer extends AbstractOrderedClassEle
         ]) - 1;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getDocumentation()
     {
         return 'Class/interface/trait methods MUST BE ordered (getter and setters at the end, ordered following arguments order).';
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getSampleCode()
     {
         return <<<'PHP'
@@ -111,7 +119,9 @@ class User
 PHP;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     protected function sortElements(array $elements)
     {
         $methods  = $this->getMethodsNames($elements);

@@ -8,19 +8,25 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 final class OrderedSpecElementsFixer extends AbstractOrderedClassElementsFixer
 {
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function isCandidate(Tokens $tokens)
     {
         return $this->extendsClass($tokens, 'PhpSpec\ObjectBehavior');
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getDocumentation()
     {
         return 'PHPSpec spec functions MUST BE ordered with specs first (order: let, letGo, its_* and it_* functons).';
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getSampleCode()
     {
         return <<<'SPEC'
@@ -60,13 +66,17 @@ class TheSpec extends ObjectBehavior
 SPEC;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getPriority()
     {
         return (new OrderedClassElementsFixer())->getPriority() + 1;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     protected function sortElements(array $elements)
     {
         $portions         = [];

@@ -295,6 +295,89 @@ return $config;
 ```
 
 
+## PedroTroller/comment_line_to_phpdoc_block
+
+Classy elements (method, property, ...) comments MUST BE a PhpDoc block.
+
+### Configuration
+
+```php
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules([
+        // ...
+        'PedroTroller/comment_line_to_phpdoc_block' => true,
+        // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+### Fixes
+
+```diff
+--- Original                                                                     // 80 chars
++++ New                                                                          //
+@@ @@                                                                            //
+      */                                                                         //
+     private $name;                                                              //
+                                                                                 //
+-    // @var string | null                                                       //
++    /**                                                                         //
++     * @var string | null                                                       //
++     */                                                                         //
+     private $value;                                                             //
+                                                                                 //
+     /**                                                                         //
+@@ @@                                                                            //
+         $this->name = $name;                                                    //
+     }                                                                           //
+                                                                                 //
+-    // Get the name                                                             //
+-    //                                                                          //
+-    // @return string                                                           //
++    /**                                                                         //
++     * Get the name                                                             //
++     *                                                                          //
++     * @return string                                                           //
++     */                                                                         //
+     public function getName()                                                   //
+     {                                                                           //
+         return $this->name;                                                     //
+     }                                                                           //
+                                                                                 //
+-    // Get the value                                                            //
+-    // @return null | string                                                    //
++    /**                                                                         //
++     * Get the value                                                            //
++     * @return null | string                                                    //
++     */                                                                         //
+     public function getValue()                                                  //
+     {                                                                           //
+         return $this->value;                                                    //
+     }                                                                           //
+                                                                                 //
+-    // Set the value                                                            //
+-                                                                                //
+-    // @param string $value                                                     //
++    /**                                                                         //
++     * Set the value                                                            //
++     * @param string $value                                                     //
++     */                                                                         //
+     public function setValue($value)                                            //
+     {                                                                           //
+         $this->value = $value;                                                  //
+     }                                                                           //
+ }                                                                               //
+                                                                                 //
+```
+
+
 ## PedroTroller/single_line_comment
 
 Collapse/expand PHP single line comments
