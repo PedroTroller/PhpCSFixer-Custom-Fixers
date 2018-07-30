@@ -3,7 +3,6 @@
 namespace PedroTroller\CS\Fixer\Comment;
 
 use PedroTroller\CS\Fixer\AbstractFixer;
-use PhpCsFixer\Fixer\Phpdoc\PhpdocTrimFixer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
@@ -13,7 +12,7 @@ final class UselessCommentFixer extends AbstractFixer
     // {@inheritdoc}
     public function getDocumentation()
     {
-        return 'Remove useless comments regarding the method definition. This fixer is complementary with `phpdoc_trim`, so enable it or use the `@Symfony` rule.';
+        return 'Remove useless comments regarding the method definition.';
     }
 
     // {@inheritdoc}
@@ -54,14 +53,6 @@ class TheClass
     }
 }
 PHP;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPriority()
-    {
-        return (new PhpdocTrimFixer())->getPriority() - 1;
     }
 
     // {@inheritdoc}
@@ -121,7 +112,10 @@ PHP;
                 $tokens->clearAt($comment);
                 $tokens->removeTrailingWhitespace($comment);
             } else {
-                $tokens[$comment] = new Token([T_COMMENT, $commentText]);
+                $tokens[$comment] = new Token([
+                    T_COMMENT,
+                    preg_replace('/ *\* *\n( *)\*\//', '$1*/', $commentText),
+                ]);
             }
         }
     }
