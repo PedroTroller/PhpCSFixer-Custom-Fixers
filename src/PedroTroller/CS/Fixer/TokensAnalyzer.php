@@ -227,7 +227,7 @@ final class TokensAnalyzer
             $return = $this->tokens[$next]->getContent();
             ++$next;
 
-            if ($this->tokens[$next]->isWhitespace()) {
+            if ($this->tokens[$next]->isWhitespace() || $this->tokens[$next]->equals(';')) {
                 return $optionnal
                     ? [$return, null]
                     : $return;
