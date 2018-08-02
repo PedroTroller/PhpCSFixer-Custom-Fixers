@@ -25,6 +25,8 @@ $config = PhpCsFixer\Config::create()
 return $config;
 ```
 
+You can also use my [rule list builder](doc/rule-set-factory.md).
+
 # Fixers
 
 {{#fixers}}

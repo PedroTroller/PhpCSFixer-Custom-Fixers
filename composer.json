@@ -8,6 +8,7 @@
     },
     "require-dev": {
         "mustache/mustache": "^2.12",
+        "phpspec/phpspec": "^3.4",
         "webmozart/assert": "^1.3"
     },
     "autoload": {
@@ -28,7 +29,8 @@
     },
     "scripts": {
         "tests": [
-            "tests\\Runner::run"
+            "tests\\Runner::run",
+            "phpspec run -fpretty"
         ]
     }
 }

@@ -1,16 +1,33 @@
 <?php
 
-use PedroTroller\CS\Fixer\ConfigurationBuilder;
+use PedroTroller\CS\Fixer\Fixers;
+use PedroTroller\CS\Fixer\RuleSetFactory;
 
 return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
-    ->setRules(array_merge(
-        ConfigurationBuilder::buildCustomConfiguration(),
-        ConfigurationBuilder::php(5.6)
-    ))
-    ->setUsingCache(true)
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+    ->setRules(RuleSetFactory::create()
+        ->symfony()
+        ->php(5.6, true)
+        ->pedrotroller(true)
+        ->enable('ordered_imports')
+        ->enable('align_multiline_comment')
+        ->enable('array_indentation')
+        ->enable('no_superfluous_phpdoc_tags')
+        ->enable('binary_operator_spaces', [
+            'operators' => [
+                '='  => 'align_single_space_minimal',
+                '=>' => 'align_single_space_minimal',
+            ],
+        ])
+        ->getRules()
+    )
+    ->setUsingCache(false)
+    ->registerCustomFixers(new Fixers())
     ->setFinder(
-        PhpCsFixer\Finder::create()->in(__DIR__)
+        PhpCsFixer\Finder::create()
+            ->in(__DIR__)
+            ->append([
+                __FILE__,
+            ])
     )
 ;
