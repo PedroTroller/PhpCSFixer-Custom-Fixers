@@ -9,6 +9,23 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 abstract class AbstractFixer extends PhpCsFixer
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        if ($this->isDeprecated()) {
+            $message = null === $this->getDeprecationReplacement()
+                ? sprintf('The fixer "%s" is deprecated.', $this->getName())
+                : sprintf('The fixer "%s" is deprecated. Please use "%s".', $this->getName(), $this->getDeprecationReplacement())
+            ;
+
+            @trigger_error($message, E_USER_DEPRECATED);
+        }
+    }
+
     // {@inheritdoc}
     public function isCandidate(Tokens $tokens)
     {
