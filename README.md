@@ -344,6 +344,9 @@ return $config;
 
 Remove useless comments regarding the method definition.
 
+**DEPRECATED**
+replaced by `no_superfluous_phpdoc_tags`.
+
 ### Configuration
 
 ```php
@@ -363,23 +366,6 @@ $config = PhpCsFixer\Config::create()
 return $config;
 ```
 
-### Fixes
-
-```diff
---- Original                                                                     // 80 chars
-+++ New                                                                          //
-@@ @@                                                                            //
-                                                                                 //
- class TheClass                                                                  //
- {                                                                               //
--    /**                                                                         //
--     * @param Model\User $user                                                  //
--     */                                                                         //
-     public function fun1(Model\User $user, Model\Address $address = null) {     //
-         return;                                                                 //
-     }                                                                           //
-                                                                                 //
-```
 
 
 ## PedroTroller/useless_code_after_return

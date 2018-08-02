@@ -55,6 +55,22 @@ class TheClass
 PHP;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function isDeprecated()
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDeprecationReplacement()
+    {
+        return 'no_superfluous_phpdoc_tags';
+    }
+
     // {@inheritdoc}
     protected function applyFix(SplFileInfo $file, Tokens $tokens)
     {
