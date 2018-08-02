@@ -7,13 +7,17 @@ use tests\UseCase;
 
 class UselessComment implements UseCase
 {
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getFixer()
     {
         return new UselessCommentFixer();
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getRawScript()
     {
         return <<<'PHP'
@@ -42,7 +46,9 @@ class MyClass {
 PHP;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getExpectation()
     {
         return <<<'PHP'
@@ -68,7 +74,9 @@ class MyClass {
 PHP;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getMinSupportedPhpVersion()
     {
         return 0;

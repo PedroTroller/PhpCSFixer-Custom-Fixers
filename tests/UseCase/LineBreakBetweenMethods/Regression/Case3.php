@@ -7,7 +7,9 @@ use tests\UseCase;
 
 class Case3 implements UseCase
 {
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getFixer()
     {
         $fixer = new LineBreakBetweenMethodArgumentsFixer();
@@ -20,7 +22,9 @@ class Case3 implements UseCase
         return $fixer;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getRawScript()
     {
         return <<<'PHP'
@@ -60,7 +64,9 @@ class TheClass
 PHP;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getExpectation()
     {
         return <<<'PHP'
@@ -102,7 +108,9 @@ class TheClass
 PHP;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getMinSupportedPhpVersion()
     {
         return 70000;

@@ -7,7 +7,9 @@ use tests\UseCase;
 
 class ForbiddenFunctions implements UseCase
 {
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getFixer()
     {
         $fixer = new ForbiddenFunctionsFixer();
@@ -20,7 +22,9 @@ class ForbiddenFunctions implements UseCase
         return $fixer;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getRawScript()
     {
         return <<<'PHP'
@@ -48,7 +52,9 @@ class MyClass {
 PHP;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getExpectation()
     {
         return <<<'PHP'
@@ -76,7 +82,9 @@ class MyClass {
 PHP;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getMinSupportedPhpVersion()
     {
         return 0;

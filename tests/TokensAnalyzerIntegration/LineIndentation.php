@@ -11,7 +11,9 @@ use Webmozart\Assert\Assert;
 
 final class LineIndentation extends TokensAnalyzerIntegration
 {
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getCode()
     {
         return <<<'PHP'
@@ -34,7 +36,9 @@ class TheClass
 PHP;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function assertions(TokensAnalyzer $analyzer, Tokens $tokens)
     {
         Assert::eq(

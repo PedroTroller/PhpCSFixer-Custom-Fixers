@@ -58,7 +58,8 @@ class Runner
         $finder = new Finder();
         $finder
             ->in($directory)
-            ->name('*.php');
+            ->name('*.php')
+        ;
 
         foreach ($finder as $file) {
             $class = str_replace('/', '\\', mb_substr($file->getPathName(), mb_strlen(__DIR__) - 5, -4));
@@ -102,7 +103,8 @@ class Runner
         $finder = new Finder();
         $finder
             ->in($directory)
-            ->name('*.php');
+            ->name('*.php')
+        ;
 
         foreach ($finder as $file) {
             $class = str_replace('/', '\\', mb_substr($file->getPathName(), mb_strlen(__DIR__) - 5, -4));

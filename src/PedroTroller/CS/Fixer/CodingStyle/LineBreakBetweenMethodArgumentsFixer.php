@@ -16,13 +16,17 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
 {
     const T_TYPEHINT_SEMI_COLON = 10025;
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getPriority()
     {
         return (new BracesFixer())->getPriority() - 1;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getSampleConfigurations()
     {
         return [
@@ -34,13 +38,17 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
         ];
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getDocumentation()
     {
         return 'Function methods MUST be splitted by a line break';
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getSampleCode()
     {
         return <<<'SPEC'
@@ -70,7 +78,9 @@ class TheClass
 SPEC;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     protected function applyFix(SplFileInfo $file, Tokens $tokens)
     {
         $functions = [];
@@ -129,7 +139,9 @@ SPEC;
         }
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     protected function createConfigurationDefinition()
     {
         return new FixerConfigurationResolver([

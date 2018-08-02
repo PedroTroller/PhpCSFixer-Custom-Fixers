@@ -8,7 +8,9 @@ use SplFileInfo;
 
 final class PhpspecFixer extends AbstractFixer
 {
-    // @var AbstractFixer[]
+    /**
+     * @var AbstractFixer[]
+     */
     private $fixers;
 
     public function __construct()
@@ -22,7 +24,9 @@ final class PhpspecFixer extends AbstractFixer
         ];
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function isCandidate(Tokens $tokens)
     {
         foreach ($this->fixers as $fixer) {
@@ -34,7 +38,9 @@ final class PhpspecFixer extends AbstractFixer
         return true;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getDocumentation()
     {
         return implode(
@@ -48,7 +54,9 @@ final class PhpspecFixer extends AbstractFixer
         ).'.';
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getSampleCode()
     {
         return <<<'SPEC'
@@ -88,7 +96,9 @@ class TheSpec extends ObjectBehavior
 SPEC;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getPriority()
     {
         return min(
@@ -101,7 +111,9 @@ SPEC;
         ) - 1;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     protected function applyFix(SplFileInfo $file, Tokens $tokens)
     {
         foreach ($this->fixers as $fixer) {

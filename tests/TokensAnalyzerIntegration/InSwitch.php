@@ -9,7 +9,9 @@ use Webmozart\Assert\Assert;
 
 class InSwitch extends TokensAnalyzerIntegration
 {
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getCode()
     {
         return <<<'PHP'
@@ -32,7 +34,9 @@ class TheClass
 PHP;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function assertions(TokensAnalyzer $analyzer, Tokens $tokens)
     {
         Assert::false(

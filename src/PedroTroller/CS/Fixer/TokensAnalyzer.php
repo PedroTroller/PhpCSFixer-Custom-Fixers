@@ -8,10 +8,14 @@ use PhpCsFixer\Tokenizer\TokensAnalyzer as PhpCsFixerTokensAnalyzer;
 // @method getClassyElements()
 final class TokensAnalyzer
 {
-    // @var Tokens
+    /**
+     * @var Tokens
+     */
     private $tokens;
 
-    // @var PhpCsFixerTokensAnalyzer
+    /**
+     * @var PhpCsFixerTokensAnalyzer
+     */
     private $analyzer;
 
     public function __construct(Tokens $tokens)
@@ -193,7 +197,9 @@ final class TokensAnalyzer
         return $index;
     }
 
-    // @param int $index
+    /**
+     * @param int $index
+     */
     public function getReturnedType($index)
     {
         $methodName       = $this->tokens->getNextMeaningfulToken($index);

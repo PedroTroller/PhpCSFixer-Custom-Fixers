@@ -10,19 +10,25 @@ use SplFileInfo;
 
 final class PhpspecScenarioReturnTypeDeclarationFixer extends AbstractFixer
 {
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function isCandidate(Tokens $tokens)
     {
         return \PHP_VERSION_ID >= 70100 && $this->extendsClass($tokens, 'PhpSpec\ObjectBehavior');
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getDocumentation()
     {
         return 'PHPSpec spec functions MUST NOT have a return type declaration.';
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getSampleCode()
     {
         return <<<'SPEC'
@@ -57,13 +63,17 @@ class TheSpec extends ObjectBehavior
 SPEC;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     public function getPriority()
     {
         return (new VoidReturnFixer())->getPriority() - 1;
     }
 
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     protected function applyFix(SplFileInfo $file, Tokens $tokens)
     {
         foreach ($tokens as $index => $token) {

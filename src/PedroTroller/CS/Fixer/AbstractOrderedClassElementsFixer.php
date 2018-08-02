@@ -8,7 +8,9 @@ use SplFileInfo;
 
 abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
 {
-    // {@inheritdoc}
+    /**
+     * {@inheritdoc}
+     */
     protected function applyFix(SplFileInfo $file, Tokens $tokens)
     {
         for ($i = 1, $count = $tokens->count(); $i < $count; ++$i) {
