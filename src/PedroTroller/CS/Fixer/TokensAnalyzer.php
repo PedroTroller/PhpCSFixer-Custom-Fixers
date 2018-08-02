@@ -58,6 +58,7 @@ final class TokensAnalyzer
 
                     ++$argumentName;
                 } while (!preg_match('/^\$.+/', $this->tokens[$argumentName]->getContent()));
+
             }
 
             $next = $this->tokens->getNextMeaningfulToken($argumentName);
@@ -233,6 +234,7 @@ final class TokensAnalyzer
                     : $return;
             }
         } while (false === $this->tokens[$index]->equals(['{', ';']));
+
     }
 
     /**

@@ -13,7 +13,7 @@ final class PhpspecScenarioReturnTypeDeclarationFixer extends AbstractFixer
     // {@inheritdoc}
     public function isCandidate(Tokens $tokens)
     {
-        return PHP_VERSION_ID >= 70100 && $this->extendsClass($tokens, 'PhpSpec\ObjectBehavior');
+        return \PHP_VERSION_ID >= 70100 && $this->extendsClass($tokens, 'PhpSpec\ObjectBehavior');
     }
 
     // {@inheritdoc}

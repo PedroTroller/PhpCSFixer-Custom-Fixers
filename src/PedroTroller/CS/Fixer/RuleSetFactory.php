@@ -33,7 +33,7 @@ final class RuleSetFactory
      */
     public static function create(array $rules = [])
     {
-        return new RuleSetFactory($rules);
+        return new self($rules);
     }
 
     /**
@@ -41,7 +41,7 @@ final class RuleSetFactory
      */
     public function psr0()
     {
-        return RuleSetFactory::create(array_merge(
+        return self::create(array_merge(
             $this->rules,
             ['@psr0' => true]
         ));
@@ -52,7 +52,7 @@ final class RuleSetFactory
      */
     public function psr1()
     {
-        return RuleSetFactory::create(array_merge(
+        return self::create(array_merge(
             $this->rules,
             ['@psr1' => true]
         ));
@@ -63,7 +63,7 @@ final class RuleSetFactory
      */
     public function psr2()
     {
-        return RuleSetFactory::create(array_merge(
+        return self::create(array_merge(
             $this->rules,
             ['@psr2' => true]
         ));
@@ -74,7 +74,7 @@ final class RuleSetFactory
      */
     public function psr4()
     {
-        return RuleSetFactory::create(array_merge(
+        return self::create(array_merge(
             $this->rules,
             ['@psr4' => true]
         ));
@@ -87,7 +87,7 @@ final class RuleSetFactory
      */
     public function symfony($risky = false)
     {
-        return RuleSetFactory::create(array_merge(
+        return self::create(array_merge(
             $this->rules,
             [($risky ? '@Symfony:risky' : '@Symfony') => true]
         ));
@@ -121,7 +121,7 @@ final class RuleSetFactory
         $config = array_merge(['list_syntax' => ['syntax' => 'long']], $config);
         $config = array_merge(['array_syntax' => ['syntax' => 'long']], $config);
 
-        return RuleSetFactory::create(array_merge(
+        return self::create(array_merge(
             $this->rules,
             $config
         ));
@@ -146,7 +146,7 @@ final class RuleSetFactory
 
         ksort($rules);
 
-        return RuleSetFactory::create(array_merge(
+        return self::create(array_merge(
             $this->rules,
             $rules
         ));
@@ -160,7 +160,7 @@ final class RuleSetFactory
      */
     public function enable($name, $config = true)
     {
-        return RuleSetFactory::create(array_merge(
+        return self::create(array_merge(
             $this->rules,
             [$name => $config]
         ));
@@ -173,7 +173,7 @@ final class RuleSetFactory
      */
     public function disable($name)
     {
-        return RuleSetFactory::create(array_merge(
+        return self::create(array_merge(
             $this->rules,
             [$name => false]
         ));

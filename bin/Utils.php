@@ -39,7 +39,7 @@ final class Utils
             return static::arrayToString($value);
         }
 
-        if (is_null($value)) {
+        if (null === $value) {
             return '~';
         }
 
