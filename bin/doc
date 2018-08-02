@@ -1,14 +1,11 @@
 #!/usr/bin/env php
 <?php
 
-use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\FixerDefinition\CodeSample;
-use PhpCsFixer\Diff\v3_0\Differ;
-use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\Fixer\ConfigurableFixerInterface;
-use PedroTroller\CS\Fixer\Comment\SingleLineCommentFixer;
 use PedroTroller\CS\Fixer\AbstractFixer;
-
+use PhpCsFixer\Diff\v3_0\Differ;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
+use PhpCsFixer\FixerDefinition\CodeSample;
+use PhpCsFixer\Tokenizer\Tokens;
 
 include sprintf('%s/../vendor/autoload.php', __DIR__);
 include 'Utils.php';
@@ -18,12 +15,12 @@ $fixers = array_map(function (AbstractFixer $fixer) {
 
     return [
         'name' => $fixer->getName(),
-        'doc' => [
+        'doc'  => [
             'summary' => $fixer->getDefinition()->getSummary(),
         ],
-        'deprecated' => $fixer->isDeprecated(),
+        'deprecated'  => $fixer->isDeprecated(),
         'replacement' => $fixer->getDeprecationReplacement(),
-        'samples' => array_map(function (CodeSample $sample) use ($fixer) {
+        'samples'     => array_map(function (CodeSample $sample) use ($fixer) {
             if ($fixer instanceof ConfigurableFixerInterface) {
                 $fixer->configure($sample->getConfiguration());
             }
@@ -41,13 +38,13 @@ $fixers = array_map(function (AbstractFixer $fixer) {
                     }
 
                     while (strlen($line) < 80 + 1) {
-                        $line = $line . " ";
+                        $line = $line.' ';
                     }
 
-                    if ($num === 0) {
-                        $line = $line . "// 80 chars";
+                    if (0 === $num) {
+                        $line = $line.'// 80 chars';
                     } else {
-                        $line = $line . "//";
+                        $line = $line.'//';
                     }
 
                     $diff[$num] = $line;
@@ -57,10 +54,10 @@ $fixers = array_map(function (AbstractFixer $fixer) {
             }
 
             return [
-                'diff' => implode("\n", $diff),
+                'diff'          => implode("\n", $diff),
                 'configuration' => $sample->getConfiguration()
                     ? Utils::arrayToString($sample->getConfiguration())
-                    : null
+                    : null,
             ];
         }, $samples),
     ];
