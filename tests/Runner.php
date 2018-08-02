@@ -35,11 +35,11 @@ class Runner
 
             $message = sprintf(
                 "Deprecations : \n\n%s",
-                join(
+                implode(
                     "\n\n",
                     array_map(
                         function ($message, array $files) {
-                            return sprintf("%s\n%s", $message, join("\n", $files));
+                            return sprintf("%s\n%s", $message, implode("\n", $files));
                         },
                         array_keys($deprecations),
                         $deprecations
@@ -73,7 +73,7 @@ class Runner
 
             $usecase = new $class();
 
-            if ($usecase->getMinSupportedPhpVersion() > PHP_VERSION_ID) {
+            if ($usecase->getMinSupportedPhpVersion() > \PHP_VERSION_ID) {
                 continue;
             }
 
@@ -117,7 +117,7 @@ class Runner
 
             $integration = new $class();
 
-            if ($integration->getMinSupportedPhpVersion() > PHP_VERSION_ID) {
+            if ($integration->getMinSupportedPhpVersion() > \PHP_VERSION_ID) {
                 continue;
             }
 

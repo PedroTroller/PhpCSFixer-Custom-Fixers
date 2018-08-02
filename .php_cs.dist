@@ -6,7 +6,7 @@ use PedroTroller\CS\Fixer\RuleSetFactory;
 return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
     ->setRules(RuleSetFactory::create()
-        ->symfony()
+        ->symfony(true)
         ->php(5.6, true)
         ->pedrotroller(true)
         ->enable('ordered_imports')

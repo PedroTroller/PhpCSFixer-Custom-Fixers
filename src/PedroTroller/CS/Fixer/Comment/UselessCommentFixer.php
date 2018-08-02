@@ -122,7 +122,7 @@ PHP;
                 continue;
             }
 
-            $commentText = join("\n", $lines);
+            $commentText = implode("\n", $lines);
 
             if (empty(trim($commentText, "/* \n"))) {
                 $tokens->clearAt($comment);
@@ -186,10 +186,10 @@ PHP;
         } else {
             $return = array_map(function ($value) { return null === $value ? 'null' : $value; }, $return);
 
-            $useless[] = sprintf('/^@return +%s$/', str_replace('\\', '\\\\', join('|', $return)));
-            $useless[] = sprintf('/^@return +%s$/', str_replace('\\', '\\\\', join(' | ', $return)));
-            $useless[] = sprintf('/^@return +%s$/', str_replace('\\', '\\\\', join('|', array_reverse($return))));
-            $useless[] = sprintf('/^@return +%s$/', str_replace('\\', '\\\\', join(' | ', array_reverse($return))));
+            $useless[] = sprintf('/^@return +%s$/', str_replace('\\', '\\\\', implode('|', $return)));
+            $useless[] = sprintf('/^@return +%s$/', str_replace('\\', '\\\\', implode(' | ', $return)));
+            $useless[] = sprintf('/^@return +%s$/', str_replace('\\', '\\\\', implode('|', array_reverse($return))));
+            $useless[] = sprintf('/^@return +%s$/', str_replace('\\', '\\\\', implode(' | ', array_reverse($return))));
         }
 
         return $useless;
