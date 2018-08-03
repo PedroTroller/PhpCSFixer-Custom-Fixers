@@ -1,7 +1,7 @@
 # PHP-CS-FIXER : Custom fixers
 
-[![Latest Stable Version](https://poser.pugx.org/pedrotroller/php-cs-custom-fixer/v/stable)](https://packagist.org/packages/pedrotroller/php-cs-custom-fixer)
 [![CircleCI](https://circleci.com/gh/PedroTroller/PhpCSFixer-Custom-Fixers.svg?style=svg)](https://circleci.com/gh/PedroTroller/PhpCSFixer-Custom-Fixers)
+[![Latest Stable Version](https://poser.pugx.org/pedrotroller/php-cs-custom-fixer/v/stable)](https://packagist.org/packages/pedrotroller/php-cs-custom-fixer)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/PedroTroller/PhpCSFixer-Custom-Fixers/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/PedroTroller/PhpCSFixer-Custom-Fixers/?branch=master)
 
 # Installation
@@ -13,7 +13,7 @@ composer require pedrotroller/php-cs-custom-fixer --dev
 ### Configuration
 
 ```php
-// .php_cs
+// .php_cs.dist
 <?php
 
 $config = PhpCsFixer\Config::create()
@@ -25,8 +25,6 @@ $config = PhpCsFixer\Config::create()
 return $config;
 ```
 
-You can also use my [rule list builder](doc/rule-set-factory.md).
-
 # Fixers
 
 
@@ -37,6 +35,7 @@ Class/interface/trait methods MUST BE ordered (getter and setters at the end, or
 ### Configuration
 
 ```php
+// .php_cs.dist
 <?php
 
 $config = PhpCsFixer\Config::create()
@@ -45,6 +44,25 @@ $config = PhpCsFixer\Config::create()
         // ...
         'PedroTroller/ordered_with_getter_and_setter_first' => true,
         // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/ordered_with_getter_and_setter_first')
+        ->getRules()
     ])
     // ...
     ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
@@ -108,7 +126,6 @@ return $config;
                                                                                  //
 ```
 
-
 ## PedroTroller/forbidden_functions
 
 Forbidden functions MUST BE commented
@@ -116,14 +133,34 @@ Forbidden functions MUST BE commented
 ### Configuration
 
 ```php
+// .php_cs.dist
 <?php
 
 $config = PhpCsFixer\Config::create()
     // ...
     ->setRules([
         // ...
-        'PedroTroller/forbidden_functions' => [ "comment" => "YOLO" ],
+        'PedroTroller/forbidden_functions' => [ 'comment' => 'YOLO' ],
         // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/forbidden_functions', [ 'comment' => 'YOLO' ])
+        ->getRules()
     ])
     // ...
     ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
@@ -151,14 +188,34 @@ return $config;
 ### Configuration
 
 ```php
+// .php_cs.dist
 <?php
 
 $config = PhpCsFixer\Config::create()
     // ...
     ->setRules([
         // ...
-        'PedroTroller/forbidden_functions' => [ "comment" => "NEIN NEIN NEIN !!!", "functions" => [ "var_dump", "var_export" ] ],
+        'PedroTroller/forbidden_functions' => [ 'comment' => 'NEIN NEIN NEIN !!!', 'functions' => [ 'var_dump', 'var_export' ] ],
         // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/forbidden_functions', [ 'comment' => 'NEIN NEIN NEIN !!!', 'functions' => [ 'var_dump', 'var_export' ] ])
+        ->getRules()
     ])
     // ...
     ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
@@ -189,7 +246,6 @@ return $config;
                                                                                  //
 ```
 
-
 ## PedroTroller/line_break_between_method_arguments
 
 Function methods MUST be splitted by a line break
@@ -197,14 +253,34 @@ Function methods MUST be splitted by a line break
 ### Configuration
 
 ```php
+// .php_cs.dist
 <?php
 
 $config = PhpCsFixer\Config::create()
     // ...
     ->setRules([
         // ...
-        'PedroTroller/line_break_between_method_arguments' => [ "max-args" => 4, "max-length" => 120, "automatic-argument-merge" => true ],
+        'PedroTroller/line_break_between_method_arguments' => [ 'max-args' => 4, 'max-length' => 120, 'automatic-argument-merge' => true ],
         // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/line_break_between_method_arguments', [ 'max-args' => 4, 'max-length' => 120, 'automatic-argument-merge' => true ])
+        ->getRules()
     ])
     // ...
     ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
@@ -246,7 +322,6 @@ return $config;
                                                                                  //
 ```
 
-
 ## PedroTroller/line_break_between_statements
 
 Transform multiline docblocks with only one comment into a singleline docblock.
@@ -254,6 +329,7 @@ Transform multiline docblocks with only one comment into a singleline docblock.
 ### Configuration
 
 ```php
+// .php_cs.dist
 <?php
 
 $config = PhpCsFixer\Config::create()
@@ -262,6 +338,25 @@ $config = PhpCsFixer\Config::create()
         // ...
         'PedroTroller/line_break_between_statements' => true,
         // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/line_break_between_statements')
+        ->getRules()
     ])
     // ...
     ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
@@ -294,7 +389,6 @@ return $config;
                                                                                  //
 ```
 
-
 ## PedroTroller/comment_line_to_phpdoc_block
 
 Classy elements (method, property, ...) comments MUST BE a PhpDoc block.
@@ -302,6 +396,7 @@ Classy elements (method, property, ...) comments MUST BE a PhpDoc block.
 ### Configuration
 
 ```php
+// .php_cs.dist
 <?php
 
 $config = PhpCsFixer\Config::create()
@@ -310,6 +405,25 @@ $config = PhpCsFixer\Config::create()
         // ...
         'PedroTroller/comment_line_to_phpdoc_block' => true,
         // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/comment_line_to_phpdoc_block')
+        ->getRules()
     ])
     // ...
     ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
@@ -377,7 +491,6 @@ return $config;
                                                                                  //
 ```
 
-
 ## PedroTroller/single_line_comment
 
 Collapse/expand PHP single line comments
@@ -388,14 +501,34 @@ replaced by `single_line_comment_style`.
 ### Configuration
 
 ```php
+// .php_cs.dist
 <?php
 
 $config = PhpCsFixer\Config::create()
     // ...
     ->setRules([
         // ...
-        'PedroTroller/single_line_comment' => [ "action" => "expanded" ],
+        'PedroTroller/single_line_comment' => [ 'action' => 'expanded' ],
         // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/single_line_comment', [ 'action' => 'expanded' ])
+        ->getRules()
     ])
     // ...
     ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
@@ -407,13 +540,14 @@ return $config;
 ### Configuration
 
 ```php
+// .php_cs.dist
 <?php
 
 $config = PhpCsFixer\Config::create()
     // ...
     ->setRules([
         // ...
-        'PedroTroller/single_line_comment' => [ "action" => "collapsed" ],
+        'PedroTroller/single_line_comment' => [ 'action' => 'collapsed' ],
         // ...
     ])
     // ...
@@ -423,6 +557,24 @@ $config = PhpCsFixer\Config::create()
 return $config;
 ```
 
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/single_line_comment', [ 'action' => 'collapsed' ])
+        ->getRules()
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
 
 
 ## PedroTroller/useless_comment
@@ -435,6 +587,7 @@ replaced by `no_superfluous_phpdoc_tags`.
 ### Configuration
 
 ```php
+// .php_cs.dist
 <?php
 
 $config = PhpCsFixer\Config::create()
@@ -451,6 +604,24 @@ $config = PhpCsFixer\Config::create()
 return $config;
 ```
 
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/useless_comment')
+        ->getRules()
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
 
 
 ## PedroTroller/useless_code_after_return
@@ -460,6 +631,7 @@ Remove useless code after a returned value
 ### Configuration
 
 ```php
+// .php_cs.dist
 <?php
 
 $config = PhpCsFixer\Config::create()
@@ -468,6 +640,25 @@ $config = PhpCsFixer\Config::create()
         // ...
         'PedroTroller/useless_code_after_return' => true,
         // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/useless_code_after_return')
+        ->getRules()
     ])
     // ...
     ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
@@ -514,7 +705,6 @@ return $config;
                                                                                  //
 ```
 
-
 ## PedroTroller/ordered_spec_elements
 
 PHPSpec spec functions MUST BE ordered with specs first (order: let, letGo, its_* and it_* functons).
@@ -522,6 +712,7 @@ PHPSpec spec functions MUST BE ordered with specs first (order: let, letGo, its_
 ### Configuration
 
 ```php
+// .php_cs.dist
 <?php
 
 $config = PhpCsFixer\Config::create()
@@ -530,6 +721,25 @@ $config = PhpCsFixer\Config::create()
         // ...
         'PedroTroller/ordered_spec_elements' => true,
         // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/ordered_spec_elements')
+        ->getRules()
     ])
     // ...
     ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
@@ -580,7 +790,6 @@ return $config;
                                                                                  //
 ```
 
-
 ## PedroTroller/phpspec
 
  - PHPSpec spec functions MUST BE ordered with specs first (order: let, letGo, its_* and it_* functons)
@@ -590,6 +799,7 @@ return $config;
 ### Configuration
 
 ```php
+// .php_cs.dist
 <?php
 
 $config = PhpCsFixer\Config::create()
@@ -598,6 +808,25 @@ $config = PhpCsFixer\Config::create()
         // ...
         'PedroTroller/phpspec' => true,
         // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/phpspec')
+        ->getRules()
     ])
     // ...
     ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
@@ -648,7 +877,6 @@ return $config;
                                                                                  //
 ```
 
-
 ## PedroTroller/phpspec_scenario_return_type_declaration
 
 PHPSpec spec functions MUST NOT have a return type declaration.
@@ -656,6 +884,7 @@ PHPSpec spec functions MUST NOT have a return type declaration.
 ### Configuration
 
 ```php
+// .php_cs.dist
 <?php
 
 $config = PhpCsFixer\Config::create()
@@ -664,6 +893,25 @@ $config = PhpCsFixer\Config::create()
         // ...
         'PedroTroller/phpspec_scenario_return_type_declaration' => true,
         // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/phpspec_scenario_return_type_declaration')
+        ->getRules()
     ])
     // ...
     ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
@@ -703,7 +951,6 @@ return $config;
                                                                                  //
 ```
 
-
 ## PedroTroller/phpspec_scenario_scope
 
 PHPSpec spec functions MUST NOT have a public scope.
@@ -711,6 +958,7 @@ PHPSpec spec functions MUST NOT have a public scope.
 ### Configuration
 
 ```php
+// .php_cs.dist
 <?php
 
 $config = PhpCsFixer\Config::create()
@@ -719,6 +967,25 @@ $config = PhpCsFixer\Config::create()
         // ...
         'PedroTroller/phpspec_scenario_scope' => true,
         // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/phpspec_scenario_scope')
+        ->getRules()
     ])
     // ...
     ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
@@ -762,7 +1029,6 @@ return $config;
  }                                                                               //
                                                                                  //
 ```
-
 
 # Contributions
 

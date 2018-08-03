@@ -63,6 +63,7 @@ $fixers = array_map(function (AbstractFixer $fixer) {
     ];
 }, iterator_to_array(new PedroTroller\CS\Fixer\Fixers()));
 
-echo (new Mustache_Engine())
-    ->render(file_get_contents(sprintf('%s/doc.md', __DIR__)), ['fixers' => $fixers])
-;
+$loader = new Twig_Loader_Filesystem(__DIR__);
+$twig   = new Twig_Environment($loader);
+
+echo $twig->render('doc.twig', ['fixers' => json_decode(json_encode($fixers))]);
