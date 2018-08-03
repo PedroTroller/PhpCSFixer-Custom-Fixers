@@ -16,7 +16,7 @@ final class Utils
             $string .= implode(', ', array_map([self::class, 'valueToString'], $array));
         } else {
             $string .= implode(', ', array_map(function ($value, $key) {
-                return '"'.$key.'" => '.static::valueToString($value);
+                return '\''.$key.'\' => '.static::valueToString($value);
             }, $array, array_keys($array)));
         }
 
@@ -28,7 +28,7 @@ final class Utils
     private static function valueToString($value = null)
     {
         if (is_string($value)) {
-            return sprintf('"%s"', $value);
+            return sprintf('\'%s\'', $value);
         }
 
         if (is_bool($value)) {

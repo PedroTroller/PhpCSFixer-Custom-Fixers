@@ -1,7 +1,7 @@
 # PHP-CS-FIXER : Custom fixers
 
-[![Latest Stable Version](https://poser.pugx.org/pedrotroller/php-cs-custom-fixer/v/stable)](https://packagist.org/packages/pedrotroller/php-cs-custom-fixer)
 [![CircleCI](https://circleci.com/gh/PedroTroller/PhpCSFixer-Custom-Fixers.svg?style=svg)](https://circleci.com/gh/PedroTroller/PhpCSFixer-Custom-Fixers)
+[![Latest Stable Version](https://poser.pugx.org/pedrotroller/php-cs-custom-fixer/v/stable)](https://packagist.org/packages/pedrotroller/php-cs-custom-fixer)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/PedroTroller/PhpCSFixer-Custom-Fixers/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/PedroTroller/PhpCSFixer-Custom-Fixers/?branch=master)
 
 # Installation
@@ -13,7 +13,7 @@ composer require pedrotroller/php-cs-custom-fixer --dev
 ### Configuration
 
 ```php
-// .php_cs
+// .php_cs.dist
 <?php
 
 $config = PhpCsFixer\Config::create()
@@ -25,39 +25,37 @@ $config = PhpCsFixer\Config::create()
 return $config;
 ```
 
-You can also use my [rule list builder](doc/rule-set-factory.md).
-
 # Fixers
 
-{{#fixers}}
+{% for fixer in fixers %}
 
-## {{name}}
+## {{ fixer.name }}
 
-{{doc.summary}}
-{{#deprecated}}
+{{ fixer.doc.summary}}
 
+{% if fixer.deprecated %}
 **DEPRECATED**
-{{#replacement}}
-replaced by `{{replacement}}`.
-{{/replacement}}
-{{/deprecated}}
+{% if fixer.replacement is not empty %}
+replaced by `{{ fixer.replacement }}`.
 
-{{#samples}}
+{% endif %}
+{% endif %}
+{% for sample in fixer.samples -%}
 ### Configuration
 
 ```php
+// .php_cs.dist
 <?php
 
 $config = PhpCsFixer\Config::create()
     // ...
     ->setRules([
         // ...
-        {{#configuration}}
-        '{{ name }}' => {{{configuration}}},
-        {{/configuration}}
-        {{^configuration}}
-        '{{ name }}' => true,
-        {{/configuration}}
+        {% if sample.configuration  -%}
+        '{{ fixer.name }}' => {{ sample.configuration|raw }},
+        {% else -%}
+        '{{ fixer.name }}' => true,
+        {% endif -%}
         // ...
     ])
     // ...
@@ -67,16 +65,38 @@ $config = PhpCsFixer\Config::create()
 return $config;
 ```
 
-{{^deprecated}}
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        {% if sample.configuration  -%}
+        ->enable('{{ fixer.name }}', {{ sample.configuration|raw }})
+        {% else -%}
+        ->enable('{{ fixer.name }}')
+        {% endif -%}
+        ->getRules()
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+{% if false == fixer.deprecated %}
 ### Fixes
 
 ```diff
-{{{diff}}}
+{{ sample.diff|raw }}
 ```
-{{/deprecated}}
-{{/samples}}
-
-{{/fixers}}
+{% endif %}
+{% endfor %}
+{% endfor %}
 
 # Contributions
 
