@@ -104,11 +104,11 @@ PHP;
     {
         $parts = explode("\n", $whitespace);
 
-        while (3 < count($parts)) {
+        while (3 < \count($parts)) {
             array_shift($parts);
         }
 
-        while (3 > count($parts)) {
+        while (3 > \count($parts)) {
             array_unshift($parts, '');
         }
 

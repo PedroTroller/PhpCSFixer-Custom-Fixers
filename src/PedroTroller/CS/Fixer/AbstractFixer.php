@@ -101,7 +101,7 @@ abstract class AbstractFixer extends PhpCsFixer
      */
     protected function getUseStatements(Tokens $tokens, $fqcn)
     {
-        if (false === is_array($fqcn)) {
+        if (false === \is_array($fqcn)) {
             $fqcn = explode('\\', $fqcn);
         }
         $sequence = [[T_USE]];
@@ -111,7 +111,7 @@ abstract class AbstractFixer extends PhpCsFixer
                 [[T_STRING, $component], [T_NS_SEPARATOR]]
             );
         }
-        $sequence[count($sequence) - 1] = ';';
+        $sequence[\count($sequence) - 1] = ';';
 
         return $tokens->findSequence($sequence);
     }
@@ -123,7 +123,7 @@ abstract class AbstractFixer extends PhpCsFixer
      */
     protected function extendsClass(Tokens $tokens, $fqcn)
     {
-        if (false === is_array($fqcn)) {
+        if (false === \is_array($fqcn)) {
             $fqcn = explode('\\', $fqcn);
         }
 

@@ -133,7 +133,7 @@ PHP;
                     continue;
                 }
 
-                if (in_array($element['methodName'], $methods)) {
+                if (\in_array($element['methodName'], $methods)) {
                     $portions[array_search($element['methodName'], $methods)] = $element;
                     unset($elements[$index]);
                 }

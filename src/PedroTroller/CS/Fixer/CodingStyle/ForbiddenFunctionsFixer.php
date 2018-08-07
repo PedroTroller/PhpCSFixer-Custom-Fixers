@@ -78,7 +78,7 @@ PHP;
                 continue;
             }
 
-            if (in_array($token->getContent(), $this->configuration['functions'])) {
+            if (\in_array($token->getContent(), $this->configuration['functions'])) {
                 $end          = $this->analyze($tokens)->getEndOfTheLine($index);
                 $tokens[$end] = new Token([T_WHITESPACE, sprintf(' // %s%s', $this->configuration['comment'], $tokens[$end]->getContent())]);
             }

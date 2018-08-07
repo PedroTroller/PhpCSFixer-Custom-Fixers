@@ -26,7 +26,7 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
             }
 
             $sorted   = $this->sortElements($elements);
-            $endIndex = $elements[count($elements) - 1]['end'];
+            $endIndex = $elements[\count($elements) - 1]['end'];
 
             if ($sorted !== $elements) {
                 $this->sortTokens($tokens, $i, $endIndex, $sorted);
