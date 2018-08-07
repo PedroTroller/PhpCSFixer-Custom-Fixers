@@ -26,7 +26,7 @@ final class TokensAnalyzer
 
     public function __call($name, $arguments)
     {
-        return call_user_func_array([$this->analyzer, $name], $arguments);
+        return \call_user_func_array([$this->analyzer, $name], $arguments);
     }
 
     /*

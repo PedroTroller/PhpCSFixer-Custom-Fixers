@@ -80,7 +80,7 @@ SPEC;
     protected function sortElements(array $elements)
     {
         $portions         = [];
-        $numberOfElements = count($elements);
+        $numberOfElements = \count($elements);
 
         foreach ($elements as $index => $element) {
             if ('method' !== $element['type']) {

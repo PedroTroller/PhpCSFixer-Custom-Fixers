@@ -187,7 +187,7 @@ PHP;
 
         if (null === $return) {
             $useless[] = '/^@return null$/';
-        } elseif (false === is_array($return)) {
+        } elseif (false === \is_array($return)) {
             $useless[] = sprintf('/^@return +%s$/', str_replace('\\', '\\\\', $return));
         } else {
             $return = array_map(function ($value) { return null === $value ? 'null' : $value; }, $return);
