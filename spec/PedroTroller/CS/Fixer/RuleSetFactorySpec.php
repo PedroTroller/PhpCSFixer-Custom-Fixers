@@ -40,7 +40,14 @@ class RuleSetFactorySpec extends ObjectBehavior
 
     function it_adds_a_symfony_strict_set()
     {
-        $this->symfony(true)->getRules()->shouldReturn(['@Symfony:risky' => true]);
+        $this->symfony()->getRules()->shouldReturn([
+            '@Symfony' => true,
+        ]);
+
+        $this->symfony(true)->getRules()->shouldReturn([
+            '@Symfony'       => true,
+            '@Symfony:risky' => true,
+        ]);
     }
 
     function it_adds_a_php_version_support()

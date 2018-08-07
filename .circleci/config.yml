@@ -3,13 +3,11 @@ version: 2
 
 composer_with_lowest_dependencies: &composer_with_lowest_dependencies
   run: |
-    composer self-update
     composer global require hirak/prestissimo --no-progress
     composer update --prefer-lowest --prefer-stable
 
 composer: &composer
   run: |
-    composer self-update
     composer global require hirak/prestissimo --no-progress
     composer update
 

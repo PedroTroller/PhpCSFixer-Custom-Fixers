@@ -87,9 +87,15 @@ final class RuleSetFactory
      */
     public function symfony($risky = false)
     {
+        $rules = ['@Symfony' => true];
+
+        if ($risky) {
+            $rules['@Symfony:risky'] = true;
+        }
+
         return self::create(array_merge(
             $this->rules,
-            [($risky ? '@Symfony:risky' : '@Symfony') => true]
+            $rules
         ));
     }
 
