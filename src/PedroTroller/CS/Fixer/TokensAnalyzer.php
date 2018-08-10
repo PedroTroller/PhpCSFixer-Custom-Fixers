@@ -62,7 +62,6 @@ final class TokensAnalyzer
 
                     ++$argumentName;
                 } while (!preg_match('/^\$.+/', $this->tokens[$argumentName]->getContent()));
-
             }
 
             $next = $this->tokens->getNextMeaningfulToken($argumentName);
@@ -240,7 +239,6 @@ final class TokensAnalyzer
                     : $return;
             }
         } while (false === $this->tokens[$index]->equals(['{', ';']));
-
     }
 
     /**
@@ -407,5 +405,31 @@ final class TokensAnalyzer
         $parts = explode("\n", $token->getContent());
 
         return end($parts);
+    }
+
+    /**
+     * @return array
+     */
+    public function findAllSequences(array $seqs)
+    {
+        $sequences = [];
+
+        foreach ($seqs as $seq) {
+            $index = 0;
+
+            do {
+                $extract = $this->tokens->findSequence($seq, (int) $index);
+
+                if (null !== $extract) {
+                    $keys                    = array_keys($extract);
+                    $index                   = end($keys) + 1;
+                    $sequences[reset($keys)] = $extract;
+                }
+            } while (null !== $extract);
+        }
+
+        ksort($sequences);
+
+        return $sequences;
     }
 }

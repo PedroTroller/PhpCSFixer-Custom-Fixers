@@ -126,6 +126,71 @@ return $config;
                                                                                  //
 ```
 
+## PedroTroller/exceptions_punctuation
+
+Exception messages MUST ends by ".", "…", "?" or "!".<br /><br /><i>Risky: will change the exception message.</i>
+
+### Configuration
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules([
+        // ...
+        'PedroTroller/exceptions_punctuation' => true,
+        // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/exceptions_punctuation')
+        ->getRules()
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+### Fixes
+
+```diff
+--- Original                                                                     // 80 chars
++++ New                                                                          //
+@@ @@                                                                            //
+ class MyClass {                                                                 //
+     public function fun1()                                                      //
+     {                                                                           //
+-        throw new \Exception('This is the message');                            //
++        throw new \Exception('This is the message.');                           //
+     }                                                                           //
+                                                                                 //
+     public function fun2($data)                                                 //
+     {                                                                           //
+-        throw new LogicException(sprintf('This is the %s', 'message'));         //
++        throw new LogicException(sprintf('This is the %s.', 'message'));        //
+     }                                                                           //
+ }                                                                               //
+                                                                                 //
+```
+
 ## PedroTroller/forbidden_functions
 
 Forbidden functions MUST BE commented
