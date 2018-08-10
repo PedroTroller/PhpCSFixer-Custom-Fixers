@@ -100,6 +100,17 @@ final class RuleSetFactory
     }
 
     /**
+     * @return RuleSetFactory
+     */
+    public function doctrineAnnotation()
+    {
+        return self::create(array_merge(
+            $this->rules,
+            ['@DoctrineAnnotation' => true]
+        ));
+    }
+
+    /**
      * @param float $version
      * @param bool  $risky
      *
@@ -112,13 +123,26 @@ final class RuleSetFactory
         switch (true) {
             case $version >= 7.1:
                 $config = array_merge(['list_syntax' => ['syntax' => 'short']], $config);
-                $config = array_merge([($risky ? '@PHP71Migration:risky' : '@PHP71Migration') => true], $config);
+
+                if ($risky) {
+                    $config = array_merge(['@PHP71Migration:risky' => true], $config);
+                }
+
+                $config = array_merge(['@PHP71Migration' => true], $config);
                 // no break
             case $version >= 7.0:
-                $config = array_merge([($risky ? '@PHP70Migration:risky' : '@PHP70Migration') => true], $config);
+                if ($risky) {
+                    $config = array_merge(['@PHP70Migration:risky' => true], $config);
+                }
+
+                $config = array_merge(['@PHP70Migration' => true], $config);
                 // no break
             case $version >= 5.6:
-                $config = array_merge([($risky ? '@PHP56Migration:risky' : '@PHP56Migration') => true], $config);
+                if ($risky) {
+                    $config = array_merge(['@PHP56Migration:risky' => true], $config);
+                }
+
+                $config = array_merge(['@PHP56Migration' => true], $config);
                 // no break
             case $version >= 5.4:
                 $config = array_merge(['array_syntax' => ['syntax' => 'short']], $config);
@@ -159,16 +183,15 @@ final class RuleSetFactory
     }
 
     /**
-     * @param string     $name
-     * @param array|bool $config
+     * @param string $name
      *
      * @return RuleSetFactory
      */
-    public function enable($name, $config = true)
+    public function enable($name, array $config = null)
     {
         return self::create(array_merge(
             $this->rules,
-            [$name => $config]
+            [$name => is_array($config) ? $config : true]
         ));
     }
 

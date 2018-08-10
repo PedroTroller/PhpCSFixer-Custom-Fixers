@@ -13,6 +13,7 @@ return PhpCsFixer\Config::create()
         ->php(5.6, true)            // Activate php 5.6 risky rules
         ->pedrotroller(true)        // Activate my own ruleset (with risky rules)
         ->enable('ordered_imports') // Add an other rule
+        ->disable('yoda_style')     // Disable a rule
         ->getRules()
     )
     ->registerCustomFixers(new Fixers())
@@ -26,29 +27,33 @@ return PhpCsFixer\Config::create()
 
 ### `->psr0()`
 
-Activate the `@psr0` ruleset.
+Activate the `@psr0` rule.
 
 ### `->psr1()`
 
-Activate the `@psr0` ruleset.
+Activate the `@psr0` rule.
 
 ### `->psr2()`
 
-Activate the `@psr0` ruleset.
+Activate the `@psr0` rule.
 
 ### `->psr4()`
 
-Activate the `@psr0` ruleset.
+Activate the `@psr0` rule.
 
 ### `->symfony([bool $risky = false])`
 
-Activate the `@Symfony` or `@Symfony:risky` depending of the `$risky` argument.
+Activate the `@Symfony` rule or `@Symfony:risky` rule depending of the `$risky` argument.
+
+### `->doctrineAnnotation()`
+
+Activate the `@DoctrineAnnotation` rule.
 
 ### `->php(float $version, [bool $risky = false])`
 
-Activate fixers related to a PHP version including risky of not depending of the `$risky` argument.
+Activate fixers and rules related to a PHP version including risky of not depending of the `$risky` argument.
 
-Example: 
+Example:
 
 ```php
     RuleSetFactory::create()
@@ -68,16 +73,16 @@ Example:
 
 Activate all rules of this library including risky of not depending of the `$risky` argument.
 
-### `->enable(string $name, [$config = true])`
+### `->enable(string $name, array $config = null)`
 
 Enable a rule.
 
-Example: 
+Example:
 
 ```php
     RuleSetFactory::create()
         ->enable('ordered_class_elements')
-        ->enable('ordered_imports', true) // Same as "->enable('ordered_imports')"
+        ->enable('ordered_imports')
         ->enable('phpdoc_add_missing_param_annotation', ['only_untyped' => true])
         ->getRules()
     ;
@@ -87,11 +92,11 @@ Example:
 
 Disable a rule.
 
-Example: 
+Example:
 
 ```php
     RuleSetFactory::create()
-        ->disable('ordered_class_elements') // Same as "->enable('ordered_class_elements', false)"
+        ->disable('ordered_class_elements')
         ->getRules()
     ;
 ```

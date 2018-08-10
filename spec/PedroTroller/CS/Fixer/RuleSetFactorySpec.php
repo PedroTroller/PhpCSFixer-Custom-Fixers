@@ -38,6 +38,11 @@ class RuleSetFactorySpec extends ObjectBehavior
         $this->symfony()->getRules()->shouldReturn(['@Symfony' => true]);
     }
 
+    function it_adds_a_doctrine_annotation_set()
+    {
+        $this->doctrineAnnotation()->getRules()->shouldReturn(['@DoctrineAnnotation' => true]);
+    }
+
     function it_adds_a_symfony_strict_set()
     {
         $this->symfony()->getRules()->shouldReturn([
@@ -59,6 +64,7 @@ class RuleSetFactorySpec extends ObjectBehavior
         ]);
 
         $this->php(5.6, true)->getRules()->shouldReturn([
+            '@PHP56Migration'       => true,
             '@PHP56Migration:risky' => true,
             'array_syntax'          => ['syntax' => 'short'],
             'list_syntax'           => ['syntax' => 'long'],
@@ -72,7 +78,9 @@ class RuleSetFactorySpec extends ObjectBehavior
         ]);
 
         $this->php(7.0, true)->getRules()->shouldReturn([
+            '@PHP56Migration'       => true,
             '@PHP56Migration:risky' => true,
+            '@PHP70Migration'       => true,
             '@PHP70Migration:risky' => true,
             'array_syntax'          => ['syntax' => 'short'],
             'list_syntax'           => ['syntax' => 'long'],
@@ -87,8 +95,11 @@ class RuleSetFactorySpec extends ObjectBehavior
         ]);
 
         $this->php(7.1, true)->getRules()->shouldReturn([
+            '@PHP56Migration'       => true,
             '@PHP56Migration:risky' => true,
+            '@PHP70Migration'       => true,
             '@PHP70Migration:risky' => true,
+            '@PHP71Migration'       => true,
             '@PHP71Migration:risky' => true,
             'array_syntax'          => ['syntax' => 'short'],
             'list_syntax'           => ['syntax' => 'short'],
@@ -103,8 +114,11 @@ class RuleSetFactorySpec extends ObjectBehavior
         ]);
 
         $this->php(7.2, true)->getRules()->shouldReturn([
+            '@PHP56Migration'       => true,
             '@PHP56Migration:risky' => true,
+            '@PHP70Migration'       => true,
             '@PHP70Migration:risky' => true,
+            '@PHP71Migration'       => true,
             '@PHP71Migration:risky' => true,
             'array_syntax'          => ['syntax' => 'short'],
             'list_syntax'           => ['syntax' => 'short'],
@@ -131,7 +145,7 @@ class RuleSetFactorySpec extends ObjectBehavior
     function it_enables_a_rule()
     {
         $this
-            ->enable('no_useless_else', true)
+            ->enable('no_useless_else')
             ->enable('ordered_imports')
             ->enable('phpdoc_add_missing_param_annotation', ['only_untyped' => true])
             ->getRules()
@@ -146,7 +160,7 @@ class RuleSetFactorySpec extends ObjectBehavior
     function it_disables_a_rule()
     {
         $this
-            ->enable('no_useless_else', true)
+            ->enable('no_useless_else')
             ->enable('ordered_imports')
             ->enable('phpdoc_add_missing_param_annotation', ['only_untyped' => true])
             ->disable('phpdoc_add_missing_param_annotation')
