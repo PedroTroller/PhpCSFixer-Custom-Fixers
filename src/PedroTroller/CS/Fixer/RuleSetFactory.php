@@ -100,6 +100,17 @@ final class RuleSetFactory
     }
 
     /**
+     * @return RuleSetFactory
+     */
+    public function doctrineAnnotation()
+    {
+        return self::create(array_merge(
+            $this->rules,
+            ['@DoctrineAnnotation' => true]
+        ));
+    }
+
+    /**
      * @param float $version
      * @param bool  $risky
      *
@@ -172,16 +183,15 @@ final class RuleSetFactory
     }
 
     /**
-     * @param string     $name
-     * @param array|bool $config
+     * @param string $name
      *
      * @return RuleSetFactory
      */
-    public function enable($name, $config = true)
+    public function enable($name, array $config = null)
     {
         return self::create(array_merge(
             $this->rules,
-            [$name => $config]
+            [$name => is_array($config) ? $config : true]
         ));
     }
 

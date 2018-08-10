@@ -38,6 +38,11 @@ class RuleSetFactorySpec extends ObjectBehavior
         $this->symfony()->getRules()->shouldReturn(['@Symfony' => true]);
     }
 
+    function it_adds_a_doctrine_annotation_set()
+    {
+        $this->doctrineAnnotation()->getRules()->shouldReturn(['@DoctrineAnnotation' => true]);
+    }
+
     function it_adds_a_symfony_strict_set()
     {
         $this->symfony()->getRules()->shouldReturn([
@@ -140,7 +145,7 @@ class RuleSetFactorySpec extends ObjectBehavior
     function it_enables_a_rule()
     {
         $this
-            ->enable('no_useless_else', true)
+            ->enable('no_useless_else')
             ->enable('ordered_imports')
             ->enable('phpdoc_add_missing_param_annotation', ['only_untyped' => true])
             ->getRules()
@@ -155,7 +160,7 @@ class RuleSetFactorySpec extends ObjectBehavior
     function it_disables_a_rule()
     {
         $this
-            ->enable('no_useless_else', true)
+            ->enable('no_useless_else')
             ->enable('ordered_imports')
             ->enable('phpdoc_add_missing_param_annotation', ['only_untyped' => true])
             ->disable('phpdoc_add_missing_param_annotation')
