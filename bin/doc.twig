@@ -31,7 +31,7 @@ return $config;
 
 ## {{ fixer.name }}
 
-{{ fixer.doc.summary}}
+{{ fixer.doc.summary|raw }}
 
 {% if fixer.deprecated %}
 **DEPRECATED**
