@@ -59,6 +59,7 @@ class RuleSetFactorySpec extends ObjectBehavior
         ]);
 
         $this->php(5.6, true)->getRules()->shouldReturn([
+            '@PHP56Migration'       => true,
             '@PHP56Migration:risky' => true,
             'array_syntax'          => ['syntax' => 'short'],
             'list_syntax'           => ['syntax' => 'long'],
@@ -72,7 +73,9 @@ class RuleSetFactorySpec extends ObjectBehavior
         ]);
 
         $this->php(7.0, true)->getRules()->shouldReturn([
+            '@PHP56Migration'       => true,
             '@PHP56Migration:risky' => true,
+            '@PHP70Migration'       => true,
             '@PHP70Migration:risky' => true,
             'array_syntax'          => ['syntax' => 'short'],
             'list_syntax'           => ['syntax' => 'long'],
@@ -87,8 +90,11 @@ class RuleSetFactorySpec extends ObjectBehavior
         ]);
 
         $this->php(7.1, true)->getRules()->shouldReturn([
+            '@PHP56Migration'       => true,
             '@PHP56Migration:risky' => true,
+            '@PHP70Migration'       => true,
             '@PHP70Migration:risky' => true,
+            '@PHP71Migration'       => true,
             '@PHP71Migration:risky' => true,
             'array_syntax'          => ['syntax' => 'short'],
             'list_syntax'           => ['syntax' => 'short'],
@@ -103,8 +109,11 @@ class RuleSetFactorySpec extends ObjectBehavior
         ]);
 
         $this->php(7.2, true)->getRules()->shouldReturn([
+            '@PHP56Migration'       => true,
             '@PHP56Migration:risky' => true,
+            '@PHP70Migration'       => true,
             '@PHP70Migration:risky' => true,
+            '@PHP71Migration'       => true,
             '@PHP71Migration:risky' => true,
             'array_syntax'          => ['syntax' => 'short'],
             'list_syntax'           => ['syntax' => 'short'],
