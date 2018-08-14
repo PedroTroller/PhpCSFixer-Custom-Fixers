@@ -191,7 +191,7 @@ final class RuleSetFactory
     {
         return self::create(array_merge(
             $this->rules,
-            [$name => is_array($config) ? $config : true]
+            [$name => \is_array($config) ? $config : true]
         ));
     }
 
