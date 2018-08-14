@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace PedroTroller\CS\Fixer;
 
 use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements ConfigurationDefinitionFixerInterface
+final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements ConfigurableFixerInterface
 {
     public function getSampleConfigurations()
     {
         return [
-            null,
+            [],
             ['instanceof' => ['PhpSpec\ObjectBehavior']],
         ];
     }

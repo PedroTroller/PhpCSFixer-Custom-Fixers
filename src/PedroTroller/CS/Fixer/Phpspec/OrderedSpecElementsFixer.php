@@ -8,17 +8,17 @@ use PedroTroller\CS\Fixer\AbstractOrderedClassElementsFixer;
 use PedroTroller\CS\Fixer\PhpspecFixer;
 use PedroTroller\CS\Fixer\Priority;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\Tokenizer\Tokens;
 
-final class OrderedSpecElementsFixer extends AbstractOrderedClassElementsFixer implements ConfigurationDefinitionFixerInterface
+final class OrderedSpecElementsFixer extends AbstractOrderedClassElementsFixer implements ConfigurableFixerInterface
 {
     public function getSampleConfigurations()
     {
         return [
-            null,
+            [],
             ['instanceof' => ['PhpSpec\ObjectBehavior']],
         ];
     }

@@ -8,19 +8,19 @@ use PedroTroller\CS\Fixer\AbstractFixer;
 use PedroTroller\CS\Fixer\PhpspecFixer;
 use PedroTroller\CS\Fixer\Priority;
 use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-final class PhpspecScenarioScopeFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface
+final class PhpspecScenarioScopeFixer extends AbstractFixer implements ConfigurableFixerInterface
 {
     public function getSampleConfigurations()
     {
         return [
-            null,
+            [],
             ['instanceof' => ['PhpSpec\ObjectBehavior']],
         ];
     }

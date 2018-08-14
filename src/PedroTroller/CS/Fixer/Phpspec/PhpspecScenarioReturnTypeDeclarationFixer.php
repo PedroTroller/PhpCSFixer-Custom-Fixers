@@ -7,7 +7,7 @@ namespace PedroTroller\CS\Fixer\Phpspec;
 use PedroTroller\CS\Fixer\AbstractFixer;
 use PedroTroller\CS\Fixer\PhpspecFixer;
 use PedroTroller\CS\Fixer\Priority;
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
@@ -15,12 +15,12 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-final class PhpspecScenarioReturnTypeDeclarationFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface
+final class PhpspecScenarioReturnTypeDeclarationFixer extends AbstractFixer implements ConfigurableFixerInterface
 {
     public function getSampleConfigurations()
     {
         return [
-            null,
+            [],
             ['instanceof' => ['PhpSpec\ObjectBehavior']],
         ];
     }

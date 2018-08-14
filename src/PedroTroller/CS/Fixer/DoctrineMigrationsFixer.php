@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PedroTroller\CS\Fixer;
 
 use PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer;
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer;
 use PhpCsFixer\Fixer\Whitespace\NoExtraBlankLinesFixer;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
@@ -14,7 +14,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-final class DoctrineMigrationsFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface
+final class DoctrineMigrationsFixer extends AbstractFixer implements ConfigurableFixerInterface
 {
     /**
      * @var string[]
@@ -28,7 +28,7 @@ final class DoctrineMigrationsFixer extends AbstractFixer implements Configurati
     public function getSampleConfigurations()
     {
         return [
-            null,
+            [],
             ['instanceof' => ['Doctrine\Migrations\AbstractMigration']],
         ];
     }

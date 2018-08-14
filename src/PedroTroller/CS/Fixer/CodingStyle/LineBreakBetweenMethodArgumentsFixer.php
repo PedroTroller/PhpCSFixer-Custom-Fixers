@@ -7,7 +7,7 @@ namespace PedroTroller\CS\Fixer\CodingStyle;
 use PedroTroller\CS\Fixer\AbstractFixer;
 use PedroTroller\CS\Fixer\Priority;
 use PhpCsFixer\Fixer\Basic\BracesFixer;
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
@@ -15,9 +15,9 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface, WhitespacesAwareFixerInterface
+final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implements ConfigurableFixerInterface, WhitespacesAwareFixerInterface
 {
-    private const T_TYPEHINT_SEMI_COLON = 10025;
+    public const T_TYPEHINT_SEMI_COLON = 10025;
 
     /**
      * {@inheritdoc}
@@ -89,6 +89,24 @@ SPEC;
     /**
      * {@inheritdoc}
      */
+    public function getConfigurationDefinition()
+    {
+        return new FixerConfigurationResolver([
+            (new FixerOptionBuilder('max-args', 'The maximum number of arguments allowed with splitting the arguments into several lines (use `false` to disable this feature)'))
+                ->setDefault(3)
+                ->getOption(),
+            (new FixerOptionBuilder('max-length', 'The maximum number of characters allowed with splitting the arguments into several lines'))
+                ->setDefault(120)
+                ->getOption(),
+            (new FixerOptionBuilder('automatic-argument-merge', 'If both conditions are met (the line is not too long and there are not too many arguments), then the arguments are put back inline'))
+                ->setDefault(true)
+                ->getOption(),
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         $functions = [];
@@ -130,7 +148,7 @@ SPEC;
                 continue;
             }
 
-            if (false !== $this->configuration['max-args'] && $this->analyze($tokens)->getNumberOfArguments($index) > $this->configuration['max-args']) {
+            if ($this->analyze($tokens)->getNumberOfArguments($index) > $this->configuration['max-args']) {
                 $this->splitArgs($tokens, $index);
 
                 continue;
@@ -145,24 +163,6 @@ SPEC;
                 $this->mergeArgs($tokens, $index);
             }
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function createConfigurationDefinition()
-    {
-        return new FixerConfigurationResolver([
-            (new FixerOptionBuilder('max-args', 'The maximum number of arguments allowed with splitting the arguments into several lines (use `false` to disable this feature)'))
-                ->setDefault(3)
-                ->getOption(),
-            (new FixerOptionBuilder('max-length', 'The maximum number of characters allowed with splitting the arguments into several lines'))
-                ->setDefault(120)
-                ->getOption(),
-            (new FixerOptionBuilder('automatic-argument-merge', 'If both conditions are met (the line is not too long and there are not too many arguments), then the arguments are put back inline.'))
-                ->setDefault(true)
-                ->getOption(),
-        ]);
     }
 
     private function splitArgs(Tokens $tokens, $index): void

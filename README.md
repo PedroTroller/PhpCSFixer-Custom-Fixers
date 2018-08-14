@@ -381,7 +381,7 @@ Prohibited functions MUST BE commented on as prohibited
 ### Available options
 
  - `functions` (*optional*): The function names to be marked how prohibited
-    - default: `var_dump`, `dump`
+    - default: `var_dump`, `dump`, `die`
 
  - `comment` (*optional*): The prohibition message to put in the comment
     - default: `@TODO remove this line`
@@ -511,7 +511,7 @@ If the declaration of a method is too long, the arguments of this method MUST BE
  - `max-length` (*optional*): The maximum number of characters allowed with splitting the arguments into several lines
     - default: `120`
 
- - `automatic-argument-merge` (*optional*): If both conditions are met (the line is not too long and there are not too many arguments), then the arguments are put back inline.
+ - `automatic-argument-merge` (*optional*): If both conditions are met (the line is not too long and there are not too many arguments), then the arguments are put back inline
     - default: `true`
 
 ### Configuration examples
@@ -557,6 +557,16 @@ return $config;
 --- Original                                                                     // 80 chars
 +++ New                                                                          //
 @@ @@                                                                            //
+                                                                                 //
+ class TheClass                                                                  //
+ {                                                                               //
+-    public function fun1($arg1, array $arg2 = [], $arg3 = null)                 //
+-    {                                                                           //
++    public function fun1(                                                       //
++        $arg1,                                                                  //
++        array $arg2 = [],                                                       //
++        $arg3 = null                                                            //
++    ) {                                                                         //
          return;                                                                 //
      }                                                                           //
                                                                                  //
@@ -641,15 +651,6 @@ return $config;
          return;                                                                 //
      }                                                                           //
                                                                                  //
--    public function fun3(                                                       //
--        $arg1,                                                                  //
--        array $arg2 = []                                                        //
--    ) {                                                                         //
-+    public function fun3($arg1, array $arg2 = [])                               //
-+    {                                                                           //
-         return;                                                                 //
-     }                                                                           //
- }                                                                               //
                                                                                  //
 ```
 
@@ -817,143 +818,6 @@ return $config;
  }                                                                               //
                                                                                  //
 ```
-
-## PedroTroller/single_line_comment
-
-PHP comments on a single line MUST BE reduced or expanded (according to the specified strategy)
-
-**DEPRECATED**
-replaced by `single_line_comment_style`.
-
-
-### Available options
-
- - `action` (*optional*): The strategy to be applied
-    - allowed: `expanded`, `collapsed`
-    - default: `expanded`
-
- - `types` (*optional*): The types of comments on which the strategy should be applied
-    - default: `@var`, `@return`, `@param`
-
-### Configuration examples
-
-```php
-// .php_cs.dist
-<?php
-
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
-        // ...
-        'PedroTroller/single_line_comment' => [ 'action' => 'expanded' ],
-        // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
-
-return $config;
-```
-**OR** using my [rule list builder](doc/rule-set-factory.md).
-```php
-// .php_cs.dist
-<?php
-
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
-        ->enable('PedroTroller/single_line_comment', [ 'action' => 'expanded' ])
-        ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
-
-return $config;
-```
-
-### Configuration examples
-
-```php
-// .php_cs.dist
-<?php
-
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
-        // ...
-        'PedroTroller/single_line_comment' => [ 'action' => 'collapsed' ],
-        // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
-
-return $config;
-```
-**OR** using my [rule list builder](doc/rule-set-factory.md).
-```php
-// .php_cs.dist
-<?php
-
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
-        ->enable('PedroTroller/single_line_comment', [ 'action' => 'collapsed' ])
-        ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
-
-return $config;
-```
-
-
-## PedroTroller/useless_comment
-
-Comments that do not provide more precision than the definition of a method MUST BE deleted
-
-**DEPRECATED**
-replaced by `no_superfluous_phpdoc_tags`.
-
-### Configuration examples
-
-```php
-// .php_cs.dist
-<?php
-
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
-        // ...
-        'PedroTroller/useless_comment' => true,
-        // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
-
-return $config;
-```
-**OR** using my [rule list builder](doc/rule-set-factory.md).
-```php
-// .php_cs.dist
-<?php
-
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
-        ->enable('PedroTroller/useless_comment')
-        ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
-
-return $config;
-```
-
 
 ## PedroTroller/useless_code_after_return
 

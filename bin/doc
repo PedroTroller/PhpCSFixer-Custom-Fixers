@@ -2,11 +2,10 @@
 <?php
 
 use PedroTroller\CS\Fixer\AbstractFixer;
-use PhpCsFixer\Diff\v3_0\Differ;
-use PhpCsFixer\FixerConfiguration\FixerOptionInterface;
+use PhpCsFixer\Diff\Differ;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
+use PhpCsFixer\FixerConfiguration\FixerOptionInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 
 include sprintf('%s/../vendor/autoload.php', __DIR__);
@@ -22,22 +21,22 @@ $fixers = array_map(function (AbstractFixer $fixer) {
         ],
         'deprecated'  => $fixer->isDeprecated(),
         'replacement' => $fixer->getDeprecationReplacement(),
-        'options' => array_map(
+        'options'     => array_map(
             function (FixerOptionInterface $option) {
                 return [
-                    'name' => $option->getName(),
-                    'description' => $option->getDescription(),
-                    'required' => false === $option->hasDefault(),
+                    'name'          => $option->getName(),
+                    'description'   => $option->getDescription(),
+                    'required'      => false === $option->hasDefault(),
                     'allowedValues' => $option->getAllowedValues(),
-                    'allowedTypes' => $option->getAllowedTypes(),
-                    'defaultValue' => $option->getDefault(),
+                    'allowedTypes'  => $option->getAllowedTypes(),
+                    'defaultValue'  => $option->getDefault(),
                 ];
             },
-            $fixer instanceof ConfigurationDefinitionFixerInterface
-                ? $fixer->getConfigurationDefinition() ->getOptions()
+            $fixer instanceof ConfigurableFixerInterface
+                ? $fixer->getConfigurationDefinition()->getOptions()
                 : []
         ),
-        'samples'     => array_map(function (CodeSample $sample) use ($fixer) {
+        'samples' => array_map(function (CodeSample $sample) use ($fixer) {
             if ($fixer instanceof ConfigurableFixerInterface) {
                 $fixer->configure($sample->getConfiguration());
             }
