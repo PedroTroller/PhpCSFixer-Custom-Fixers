@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace PedroTroller\CS\Fixer;
 
 use PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer;
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer;
 use PhpCsFixer\Fixer\Whitespace\NoExtraBlankLinesFixer;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-final class DoctrineMigrationsFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface
+final class DoctrineMigrationsFixer extends AbstractFixer implements ConfigurableFixerInterface
 {
     /**
      * @var string[]
@@ -25,18 +26,15 @@ final class DoctrineMigrationsFixer extends AbstractFixer implements Configurati
         'this down() migration is auto-generated, please modify it to your needs',
     ];
 
-    public function getSampleConfigurations()
+    public function getSampleConfigurations(): array
     {
         return [
-            null,
+            [],
             ['instanceof' => ['Doctrine\Migrations\AbstractMigration']],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isCandidate(Tokens $tokens)
+    public function isCandidate(Tokens $tokens): bool
     {
         foreach ($this->configuration['instanceof'] as $parent) {
             if ($this->extendsClass($tokens, $parent)) {
@@ -51,64 +49,58 @@ final class DoctrineMigrationsFixer extends AbstractFixer implements Configurati
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getSampleCode()
+    public function getSampleCode(): string
     {
         return <<<'SPEC'
-<?php
+            <?php
 
-declare(strict_types=1);
+            declare(strict_types=1);
 
-namespace Infrastructure\Doctrine\Migrations;
+            namespace Infrastructure\Doctrine\Migrations;
 
-use Doctrine\DBAL\Schema\Schema;
-use Doctrine\Migrations\AbstractMigration;
+            use Doctrine\DBAL\Schema\Schema;
+            use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
-final class Version20190323095102 extends AbstractMigration
-{
-    public function getDescription()
-    {
-        return '';
+            /**
+             * Auto-generated Migration: Please modify to your needs!
+             */
+            final class Version20190323095102 extends AbstractMigration
+            {
+                public function getDescription()
+                {
+                    return '';
+                }
+
+                public function up(Schema $schema)
+                {
+                    // this up() migration is auto-generated, please modify it to your needs
+                    $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
+
+                    $this->addSql('CREATE TABLE admin (identifier CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', PRIMARY KEY(identifier)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+                }
+
+                public function down(Schema $schema)
+                {
+                    // this down() migration is auto-generated, please modify it to your needs
+                    $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
+
+                    $this->addSql('DROP TABLE admin');
+                }
+            }
+            SPEC;
     }
 
-    public function up(Schema $schema)
-    {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
-
-        $this->addSql('CREATE TABLE admin (identifier CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', PRIMARY KEY(identifier)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
-    }
-
-    public function down(Schema $schema)
-    {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
-
-        $this->addSql('DROP TABLE admin');
-    }
-}
-SPEC;
-    }
-
-    public function getDocumentation()
+    public function getDocumentation(): string
     {
         return 'Unnecessary empty methods (`getDescription()`, `up()`, `down()`) and comments MUST BE removed from Doctrine migrations';
     }
 
-    public function getPriority()
+    public function getPriority(): int
     {
         return Priority::before(ClassAttributesSeparationFixer::class, NoEmptyPhpdocFixer::class, NoExtraBlankLinesFixer::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function createConfigurationDefinition()
+    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
     {
         return new FixerConfigurationResolver([
             (new FixerOptionBuilder('instanceof', 'The parent class of which Doctrine migrations extend'))
@@ -117,9 +109,6 @@ SPEC;
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         $this->removeUselessGetDocumentation($tokens);

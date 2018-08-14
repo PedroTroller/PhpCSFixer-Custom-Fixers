@@ -14,35 +14,35 @@ final class Parenthesis extends TokensAnalyzerIntegration
     public function getCode()
     {
         return <<<'PHP'
-<?php
+            <?php
 
-class MyClass {
+            class MyClass {
 
-    /**
-     * @var string|null
-     */
-    private $name;
+                /**
+                 * @var string|null
+                 */
+                private $name;
 
-    public function getId()
-    {
-    }
+                public function getId()
+                {
+                }
 
-    public function getType(): string
-    {
-        return 'class';
-    }
+                public function getType(): string
+                {
+                    return 'class';
+                }
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
+                public function getName(): ?string
+                {
+                    return $this->name;
+                }
 
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
-}
-PHP;
+                public function setName(string $name): void
+                {
+                    $this->name = $name;
+                }
+            }
+            PHP;
     }
 
     public function assertions(TokensAnalyzer $analyzer, Tokens $tokens): void

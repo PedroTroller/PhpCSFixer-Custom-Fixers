@@ -5,47 +5,42 @@ declare(strict_types=1);
 namespace PedroTroller\CS\Fixer\CodingStyle;
 
 use PedroTroller\CS\Fixer\AbstractFixer;
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-final class ForbiddenFunctionsFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface
+final class ForbiddenFunctionsFixer extends AbstractFixer implements ConfigurableFixerInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getSampleCode()
+    public function getSampleCode(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-class MyClass {
-    public function fun()
-    {
-        var_dump('this is a var_dump');
+            class MyClass {
+                public function fun()
+                {
+                    var_dump('this is a var_dump');
 
-        $this->dump($this);
+                    $this->dump($this);
 
-        return var_export($this);
+                    return var_export($this);
+                }
+
+                public function dump($data)
+                {
+                    parent::dump($this);
+
+                    return serialize($data);
+                }
+            }
+            PHP;
     }
 
-    public function dump($data)
-    {
-        parent::dump($this);
-
-        return serialize($data);
-    }
-}
-PHP;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getSampleConfigurations()
+    public function getSampleConfigurations(): array
     {
         return [
             ['comment' => 'YOLO'],
@@ -53,12 +48,21 @@ PHP;
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDocumentation()
+    public function getDocumentation(): string
     {
         return 'Prohibited functions MUST BE commented on as prohibited';
+    }
+
+    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
+    {
+        return new FixerConfigurationResolver([
+            (new FixerOptionBuilder('functions', 'The function names to be marked how prohibited'))
+                ->setDefault(['var_dump', 'dump', 'die'])
+                ->getOption(),
+            (new FixerOptionBuilder('comment', 'The prohibition message to put in the comment'))
+                ->setDefault('@TODO remove this line')
+                ->getOption(),
+        ]);
     }
 
     protected function applyFix(SplFileInfo $file, Tokens $tokens): void
@@ -85,20 +89,5 @@ PHP;
                 $tokens[$end] = new Token([T_WHITESPACE, sprintf(' // %s%s', $this->configuration['comment'], $tokens[$end]->getContent())]);
             }
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function createConfigurationDefinition()
-    {
-        return new FixerConfigurationResolver([
-            (new FixerOptionBuilder('functions', 'The function names to be marked how prohibited'))
-                ->setDefault(['var_dump', 'dump'])
-                ->getOption(),
-            (new FixerOptionBuilder('comment', 'The prohibition message to put in the comment'))
-                ->setDefault('@TODO remove this line')
-                ->getOption(),
-        ]);
     }
 }

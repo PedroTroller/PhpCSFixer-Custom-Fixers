@@ -27,19 +27,19 @@ final class Case5 implements UseCase
     public function getRawScript(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-return [\dirname(__DIR__) . '/definitions'];
-PHP;
+            return [\dirname(__DIR__) . '/definitions'];
+            PHP;
     }
 
     public function getExpectation(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-return [\dirname(__DIR__) . '/definitions'];
-PHP;
+            return [\dirname(__DIR__) . '/definitions'];
+            PHP;
     }
 
     public function getMinSupportedPhpVersion(): int

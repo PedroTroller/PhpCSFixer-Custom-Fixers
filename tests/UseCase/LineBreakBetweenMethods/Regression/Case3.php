@@ -24,81 +24,81 @@ final class Case3 implements UseCase
     public function getRawScript(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-namespace Project\TheNamespace;
+            namespace Project\TheNamespace;
 
-class TheClass
-{
-    public function functionReturningAnonymouseClass()
-    {
-        return new class('foo', 100) {
-
-            /**
-             * @var string
-             */
-            private $string;
-
-            /**
-             * @var string
-             */
-            private $int;
-
-            public function __construct(string $string, int $int)
+            class TheClass
             {
-                $this->string = $string;
-                $this->int = $int;
-            }
+                public function functionReturningAnonymouseClass()
+                {
+                    return new class('foo', 100) {
 
-            public function thisIsAVeryLongMethodNameAndItWillBeBreak(string $string, int $int)
-            {
-                return null;
+                        /**
+                         * @var string
+                         */
+                        private $string;
+
+                        /**
+                         * @var string
+                         */
+                        private $int;
+
+                        public function __construct(string $string, int $int)
+                        {
+                            $this->string = $string;
+                            $this->int = $int;
+                        }
+
+                        public function thisIsAVeryLongMethodNameAndItWillBeBreak(string $string, int $int)
+                        {
+                            return null;
+                        }
+                    };
+                }
             }
-        };
-    }
-}
-PHP;
+            PHP;
     }
 
     public function getExpectation(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-namespace Project\TheNamespace;
+            namespace Project\TheNamespace;
 
-class TheClass
-{
-    public function functionReturningAnonymouseClass()
-    {
-        return new class('foo', 100) {
-
-            /**
-             * @var string
-             */
-            private $string;
-
-            /**
-             * @var string
-             */
-            private $int;
-
-            public function __construct(string $string, int $int)
+            class TheClass
             {
-                $this->string = $string;
-                $this->int = $int;
-            }
+                public function functionReturningAnonymouseClass()
+                {
+                    return new class('foo', 100) {
 
-            public function thisIsAVeryLongMethodNameAndItWillBeBreak(
-                string $string,
-                int $int
-            ) {
-                return null;
+                        /**
+                         * @var string
+                         */
+                        private $string;
+
+                        /**
+                         * @var string
+                         */
+                        private $int;
+
+                        public function __construct(string $string, int $int)
+                        {
+                            $this->string = $string;
+                            $this->int = $int;
+                        }
+
+                        public function thisIsAVeryLongMethodNameAndItWillBeBreak(
+                            string $string,
+                            int $int
+                        ) {
+                            return null;
+                        }
+                    };
+                }
             }
-        };
-    }
-}
-PHP;
+            PHP;
     }
 
     public function getMinSupportedPhpVersion(): int

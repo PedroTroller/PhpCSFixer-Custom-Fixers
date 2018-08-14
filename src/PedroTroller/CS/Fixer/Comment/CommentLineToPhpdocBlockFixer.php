@@ -13,78 +13,69 @@ use SplFileInfo;
 
 final class CommentLineToPhpdocBlockFixer extends AbstractFixer
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getSampleCode()
+    public function getSampleCode(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-declare(strict_types=1);
+            declare(strict_types=1);
 
-namespace App;
+            namespace App;
 
-final class TheClass
-{
-    /**
-     * @var string
-     */
-    private $name;
+            final class TheClass
+            {
+                /**
+                 * @var string
+                 */
+                private $name;
 
-    // @var string | null
-    private $value;
+                // @var string | null
+                private $value;
 
-    /**
-     * @param string $name
-     */
-    public function __construct($name)
-    {
-        $this->name = $name;
+                /**
+                 * @param string $name
+                 */
+                public function __construct($name)
+                {
+                    $this->name = $name;
+                }
+
+                // Get the name
+                //
+                // @return string
+                public function getName()
+                {
+                    return $this->name;
+                }
+
+                // Get the value
+                // @return null | string
+                public function getValue()
+                {
+                    return $this->value;
+                }
+
+                // Set the value
+
+                // @param string $value
+                public function setValue($value)
+                {
+                    $this->value = $value;
+                }
+            }
+            PHP;
     }
 
-    // Get the name
-    //
-    // @return string
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    // Get the value
-    // @return null | string
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    // Set the value
-
-    // @param string $value
-    public function setValue($value)
-    {
-        $this->value = $value;
-    }
-}
-PHP;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDocumentation()
+    public function getDocumentation(): string
     {
         return 'Classy elements (method, property, ...) comments MUST BE a PhpDoc block';
     }
 
-    public function getPriority()
+    public function getPriority(): int
     {
         return Priority::after(SingleLineCommentStyleFixer::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         $elements = $this->analyze($tokens)->getClassyElements();
@@ -144,11 +135,8 @@ PHP;
 
     /**
      * @param string[] $comments
-     * @param int      $indentation
-     *
-     * @return string
      */
-    private function formatComments(array $comments, $indentation)
+    private function formatComments(array $comments, string $indentation): string
     {
         $comments = array_map('trim', $comments);
 

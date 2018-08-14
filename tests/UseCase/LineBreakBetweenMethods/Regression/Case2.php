@@ -24,33 +24,33 @@ final class Case2 implements UseCase
     public function getRawScript(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-namespace Project\TheNamespace;
+            namespace Project\TheNamespace;
 
-class TheClass
-{
-    public function thisIsAVeryLongMethodWithALengthHightThenFourtyCharsButNoArguments()
-    {
-    }
-}
-PHP;
+            class TheClass
+            {
+                public function thisIsAVeryLongMethodWithALengthHightThenFourtyCharsButNoArguments()
+                {
+                }
+            }
+            PHP;
     }
 
     public function getExpectation(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-namespace Project\TheNamespace;
+            namespace Project\TheNamespace;
 
-class TheClass
-{
-    public function thisIsAVeryLongMethodWithALengthHightThenFourtyCharsButNoArguments()
-    {
-    }
-}
-PHP;
+            class TheClass
+            {
+                public function thisIsAVeryLongMethodWithALengthHightThenFourtyCharsButNoArguments()
+                {
+                }
+            }
+            PHP;
     }
 
     public function getMinSupportedPhpVersion(): int

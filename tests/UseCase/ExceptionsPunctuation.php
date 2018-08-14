@@ -17,65 +17,65 @@ final class ExceptionsPunctuation implements UseCase
     public function getRawScript(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-use LogicException;
-use RuntimeException;
+            use LogicException;
+            use RuntimeException;
 
-class MyClass {
-    public function fun1()
-    {
-        throw new \Exception('This is the message');
-    }
+            class MyClass {
+                public function fun1()
+                {
+                    throw new \Exception('This is the message');
+                }
 
-    public function fun2($data)
-    {
-        throw new LogicException(sprintf('This is the %s', 'message'));
-    }
+                public function fun2($data)
+                {
+                    throw new LogicException(sprintf('This is the %s', 'message'));
+                }
 
-    public function fun3($data)
-    {
-        throw new RuntimeException('This is the '.message);
-    }
+                public function fun3($data)
+                {
+                    throw new RuntimeException('This is the '.message);
+                }
 
-    public function fun4($data)
-    {
-        throw new RuntimeException('Are you sure ?');
-    }
-}
-PHP;
+                public function fun4($data)
+                {
+                    throw new RuntimeException('Are you sure ?');
+                }
+            }
+            PHP;
     }
 
     public function getExpectation(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-use LogicException;
-use RuntimeException;
+            use LogicException;
+            use RuntimeException;
 
-class MyClass {
-    public function fun1()
-    {
-        throw new \Exception('This is the message.');
-    }
+            class MyClass {
+                public function fun1()
+                {
+                    throw new \Exception('This is the message.');
+                }
 
-    public function fun2($data)
-    {
-        throw new LogicException(sprintf('This is the %s.', 'message'));
-    }
+                public function fun2($data)
+                {
+                    throw new LogicException(sprintf('This is the %s.', 'message'));
+                }
 
-    public function fun3($data)
-    {
-        throw new RuntimeException('This is the '.message);
-    }
+                public function fun3($data)
+                {
+                    throw new RuntimeException('This is the '.message);
+                }
 
-    public function fun4($data)
-    {
-        throw new RuntimeException('Are you sure ?');
-    }
-}
-PHP;
+                public function fun4($data)
+                {
+                    throw new RuntimeException('Are you sure ?');
+                }
+            }
+            PHP;
     }
 
     public function getMinSupportedPhpVersion(): int

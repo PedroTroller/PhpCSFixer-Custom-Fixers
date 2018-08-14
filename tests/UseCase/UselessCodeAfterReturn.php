@@ -17,89 +17,89 @@ final class UselessCodeAfterReturn implements UseCase
     public function getRawScript(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-namespace Project\TheNamespace;
+            namespace Project\TheNamespace;
 
-use App\Model;
+            use App\Model;
 
-class TheClass
-{
-    /**
-     * @param Model\User $user
-     */
-    public function fun1(Model\User $user, Model\Address $address = null) {
-        return;
+            class TheClass
+            {
+                /**
+                 * @param Model\User $user
+                 */
+                public function fun1(Model\User $user, Model\Address $address = null) {
+                    return;
 
-        $user->setName('foo');
+                    $user->setName('foo');
 
-        return $this;
-    }
+                    return $this;
+                }
 
-    /**
-     * @return string|null
-     */
-    public function getName()
-    {
-        switch (empty($this->name)) {
-            case true:
-                return '';
-            case false:
-                return $this->name;
-        }
-    }
+                /**
+                 * @return string|null
+                 */
+                public function getName()
+                {
+                    switch (empty($this->name)) {
+                        case true:
+                            return '';
+                        case false:
+                            return $this->name;
+                    }
+                }
 
-    /**
-     * @return callable
-     */
-    public function buildCallable()
-    {
-        return function () { return true; return false; };
-    }
-}
-PHP;
+                /**
+                 * @return callable
+                 */
+                public function buildCallable()
+                {
+                    return function () { return true; return false; };
+                }
+            }
+            PHP;
     }
 
     public function getExpectation(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-namespace Project\TheNamespace;
+            namespace Project\TheNamespace;
 
-use App\Model;
+            use App\Model;
 
-class TheClass
-{
-    /**
-     * @param Model\User $user
-     */
-    public function fun1(Model\User $user, Model\Address $address = null) {
-        return;
-    }
+            class TheClass
+            {
+                /**
+                 * @param Model\User $user
+                 */
+                public function fun1(Model\User $user, Model\Address $address = null) {
+                    return;
+                }
 
-    /**
-     * @return string|null
-     */
-    public function getName()
-    {
-        switch (empty($this->name)) {
-            case true:
-                return '';
-            case false:
-                return $this->name;
-        }
-    }
+                /**
+                 * @return string|null
+                 */
+                public function getName()
+                {
+                    switch (empty($this->name)) {
+                        case true:
+                            return '';
+                        case false:
+                            return $this->name;
+                    }
+                }
 
-    /**
-     * @return callable
-     */
-    public function buildCallable()
-    {
-        return function () { return true; };
-    }
-}
-PHP;
+                /**
+                 * @return callable
+                 */
+                public function buildCallable()
+                {
+                    return function () { return true; };
+                }
+            }
+            PHP;
     }
 
     public function getMinSupportedPhpVersion(): int

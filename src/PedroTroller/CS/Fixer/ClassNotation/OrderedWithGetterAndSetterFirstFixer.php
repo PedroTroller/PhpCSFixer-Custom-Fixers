@@ -12,116 +12,101 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 final class OrderedWithGetterAndSetterFirstFixer extends AbstractOrderedClassElementsFixer
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function isCandidate(Tokens $tokens)
+    public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isAnyTokenKindsFound(Token::getClassyTokenKinds());
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPriority()
+    public function getPriority(): int
     {
         return Priority::before(OrderedClassElementsFixer::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDocumentation()
+    public function getDocumentation(): string
     {
         return 'Class/interface/trait methods MUST BE ordered (accessors at the beginning of the class, ordered following properties order).';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getSampleCode()
+    public function getSampleCode(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-namespace App\Model;
+            namespace App\Model;
 
-class User
-{
-    /**
-     * @var string
-     */
-    private $identifier;
+            class User
+            {
+                /**
+                 * @var string
+                 */
+                private $identifier;
 
-    /**
-     * @var string
-     */
-    private $name;
+                /**
+                 * @var string
+                 */
+                private $name;
 
-    /**
-     * @var string
-     */
-    private $firstName;
+                /**
+                 * @var string
+                 */
+                private $firstName;
 
-    /**
-     * @var string
-     */
-    private $enabled;
+                /**
+                 * @var string
+                 */
+                private $enabled;
 
-    public function __construct(array $data)
-    {
-        foreach ($data as $key => $value) {
-            $this->$key = $value;
-        }
+                public function __construct(array $data)
+                {
+                    foreach ($data as $key => $value) {
+                        $this->$key = $value;
+                    }
+                }
+
+                public function setFirstName($firstName)
+                {
+                    $this->firstName = $firstName;
+                }
+
+                public function setName($name)
+                {
+                    $this->name = $name;
+                }
+
+                public function isEnabled()
+                {
+                    return $this->enabled;
+                }
+
+                public function getName()
+                {
+                    return $this->name;
+                }
+
+                public function getIdentifier()
+                {
+                    return $this->identifier;
+                }
+
+                public function getFirstName()
+                {
+                    return $this->firstName;
+                }
+
+                public function enable()
+                {
+                    $this->enabled = true;
+                }
+
+                public function disable()
+                {
+                    $this->enabled = false;
+                }
+            }
+            PHP;
     }
 
-    public function setFirstName($firstName)
-    {
-        $this->firstName = $firstName;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    public function isEnabled()
-    {
-        return $this->enabled;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function getIdentifier()
-    {
-        return $this->identifier;
-    }
-
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
-
-    public function enable()
-    {
-        $this->enabled = true;
-    }
-
-    public function disable()
-    {
-        $this->enabled = false;
-    }
-}
-PHP;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function sortElements(array $elements)
+    protected function sortElements(array $elements): array
     {
         $methods  = $this->getMethodsNames($elements);
         $portions = [];
@@ -162,7 +147,7 @@ PHP;
         return $result;
     }
 
-    private function getMethodsNames(array $elements)
+    private function getMethodsNames(array $elements): array
     {
         $methods = [];
 
@@ -177,7 +162,7 @@ PHP;
         return $methods;
     }
 
-    private function getPropertiesNames(array $elements)
+    private function getPropertiesNames(array $elements): array
     {
         $properties = array_filter($elements, function ($element) {
             return 'property' === $element['type'];

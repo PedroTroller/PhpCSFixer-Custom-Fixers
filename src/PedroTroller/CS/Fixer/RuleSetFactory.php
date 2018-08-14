@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PedroTroller\CS\Fixer;
 
-use PhpCsFixer\RuleSet;
+use PhpCsFixer\RuleSet\RuleSets;
 
 final class RuleSetFactory
 {
@@ -229,7 +229,7 @@ final class RuleSetFactory
      */
     private function migration($package, $version, $risky)
     {
-        $rules = (new RuleSet())->getSetDefinitionNames();
+        $rules = (new RuleSets())->getSetDefinitionNames();
         $rules = array_combine($rules, $rules);
 
         $rules = array_map(function ($name) {

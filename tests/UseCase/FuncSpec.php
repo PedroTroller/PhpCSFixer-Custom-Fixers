@@ -25,95 +25,95 @@ final class FuncSpec implements UseCase
     public function getRawScript(): string
     {
         return <<<'SPEC'
-<?php
+            <?php
 
-namespace tests\integration\Application;
+            namespace tests\integration\Application;
 
-use App\Application\DirtinessRegistry;
-use App\Domain\Model\Identifier;
-use Assert\Assert;
-use Funk\Spec;
-use Ramsey\Uuid\Uuid;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+            use App\Application\DirtinessRegistry;
+            use App\Domain\Model\Identifier;
+            use Assert\Assert;
+            use Funk\Spec;
+            use Ramsey\Uuid\Uuid;
+            use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class DirtinessRegistryTest implements Spec
-{
-    /**
-     * @var \App\Application\DirtinessRegistry
-     */
-    private $subject;
+            class DirtinessRegistryTest implements Spec
+            {
+                /**
+                 * @var \App\Application\DirtinessRegistry
+                 */
+                private $subject;
 
-    public function __construct(ContainerInterface $container)
-    {
-        $this->subject = $container->get(DirtinessRegistry::class);
-    }
+                public function __construct(ContainerInterface $container)
+                {
+                    $this->subject = $container->get(DirtinessRegistry::class);
+                }
 
-    public function foo()
-    {
-        return 'bar';
-    }
+                public function foo()
+                {
+                    return 'bar';
+                }
 
-    function it_keeps_track_of_entity_dirtiness()
-    {
-        $uuid = Uuid::uuid4()->toString();
+                function it_keeps_track_of_entity_dirtiness()
+                {
+                    $uuid = Uuid::uuid4()->toString();
 
-        Assert::that($this->subject->isDirty(Identifier::fromString($uuid)))->false();
+                    Assert::that($this->subject->isDirty(Identifier::fromString($uuid)))->false();
 
-        $this->subject->dirty(Identifier::fromString($uuid));
-        Assert::that($this->subject->isDirty(Identifier::fromString($uuid)))->true();
+                    $this->subject->dirty(Identifier::fromString($uuid));
+                    Assert::that($this->subject->isDirty(Identifier::fromString($uuid)))->true();
 
-        $this->subject->clean(Identifier::fromString($uuid));
-        Assert::that($this->subject->isDirty(Identifier::fromString($uuid)))->false();
-    }
-}
-SPEC;
+                    $this->subject->clean(Identifier::fromString($uuid));
+                    Assert::that($this->subject->isDirty(Identifier::fromString($uuid)))->false();
+                }
+            }
+            SPEC;
     }
 
     public function getExpectation(): string
     {
         return <<<'SPEC'
-<?php
+            <?php
 
-namespace tests\integration\Application;
+            namespace tests\integration\Application;
 
-use App\Application\DirtinessRegistry;
-use App\Domain\Model\Identifier;
-use Assert\Assert;
-use Funk\Spec;
-use Ramsey\Uuid\Uuid;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+            use App\Application\DirtinessRegistry;
+            use App\Domain\Model\Identifier;
+            use Assert\Assert;
+            use Funk\Spec;
+            use Ramsey\Uuid\Uuid;
+            use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class DirtinessRegistryTest implements Spec
-{
-    /**
-     * @var \App\Application\DirtinessRegistry
-     */
-    private $subject;
+            class DirtinessRegistryTest implements Spec
+            {
+                /**
+                 * @var \App\Application\DirtinessRegistry
+                 */
+                private $subject;
 
-    public function __construct(ContainerInterface $container)
-    {
-        $this->subject = $container->get(DirtinessRegistry::class);
-    }
+                public function __construct(ContainerInterface $container)
+                {
+                    $this->subject = $container->get(DirtinessRegistry::class);
+                }
 
-    function it_keeps_track_of_entity_dirtiness()
-    {
-        $uuid = Uuid::uuid4()->toString();
+                function it_keeps_track_of_entity_dirtiness()
+                {
+                    $uuid = Uuid::uuid4()->toString();
 
-        Assert::that($this->subject->isDirty(Identifier::fromString($uuid)))->false();
+                    Assert::that($this->subject->isDirty(Identifier::fromString($uuid)))->false();
 
-        $this->subject->dirty(Identifier::fromString($uuid));
-        Assert::that($this->subject->isDirty(Identifier::fromString($uuid)))->true();
+                    $this->subject->dirty(Identifier::fromString($uuid));
+                    Assert::that($this->subject->isDirty(Identifier::fromString($uuid)))->true();
 
-        $this->subject->clean(Identifier::fromString($uuid));
-        Assert::that($this->subject->isDirty(Identifier::fromString($uuid)))->false();
-    }
+                    $this->subject->clean(Identifier::fromString($uuid));
+                    Assert::that($this->subject->isDirty(Identifier::fromString($uuid)))->false();
+                }
 
-    public function foo()
-    {
-        return 'bar';
-    }
-}
-SPEC;
+                public function foo()
+                {
+                    return 'bar';
+                }
+            }
+            SPEC;
     }
 
     public function getMinSupportedPhpVersion(): int

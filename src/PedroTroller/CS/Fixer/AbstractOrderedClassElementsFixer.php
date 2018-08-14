@@ -10,9 +10,6 @@ use SplFileInfo;
 
 abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         for ($i = 1, $count = $tokens->count(); $i < $count; ++$i) {
@@ -43,7 +40,7 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
      *
      * @return array[]
      */
-    abstract protected function sortElements(array $elements);
+    abstract protected function sortElements(array $elements): array;
 
     /**
      * @param int $startIndex

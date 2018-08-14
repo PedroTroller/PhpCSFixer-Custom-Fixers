@@ -7,14 +7,15 @@ namespace PedroTroller\CS\Fixer\Behat;
 use PedroTroller\CS\Fixer\AbstractOrderedClassElementsFixer;
 use PedroTroller\CS\Fixer\Priority;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\Tokenizer\Tokens;
 
-final class OrderBehatStepsFixer extends AbstractOrderedClassElementsFixer implements ConfigurationDefinitionFixerInterface
+final class OrderBehatStepsFixer extends AbstractOrderedClassElementsFixer implements ConfigurableFixerInterface
 {
-    const ANNOTATION_PRIORITIES = [
+    public const ANNOTATION_PRIORITIES = [
         '@BeforeSuite',
         '@AfterSuite',
         '@BeforeScenario',
@@ -26,15 +27,15 @@ final class OrderBehatStepsFixer extends AbstractOrderedClassElementsFixer imple
         '@Then',
     ];
 
-    public function getSampleConfigurations()
+    public function getSampleConfigurations(): array
     {
         return [
-            null,
+            [],
             ['instanceof' => ['Behat\Behat\Context\Context']],
         ];
     }
 
-    public function isCandidate(Tokens $tokens)
+    public function isCandidate(Tokens $tokens): bool
     {
         foreach ($this->configuration['instanceof'] as $parent) {
             if ($this->extendsClass($tokens, $parent)) {
@@ -49,92 +50,83 @@ final class OrderBehatStepsFixer extends AbstractOrderedClassElementsFixer imple
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getSampleCode()
+    public function getSampleCode(): string
     {
         return <<<'SPEC'
-<?php
+            <?php
 
-declare(strict_types=1);
+            declare(strict_types=1);
 
-namespace App\Tests\Behat;
+            namespace App\Tests\Behat;
 
-use Behat\Behat\Context\Context;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\KernelInterface;
+            use Behat\Behat\Context\Context;
+            use Symfony\Component\HttpFoundation\Request;
+            use Symfony\Component\HttpFoundation\Response;
+            use Symfony\Component\HttpKernel\KernelInterface;
 
-final class DemoContext implements Context
-{
-    /**
-     * @var KernelInterface
-     */
-    private $kernel;
+            final class DemoContext implements Context
+            {
+                /**
+                 * @var KernelInterface
+                 */
+                private $kernel;
 
-    /**
-     * @var Response|null
-     */
-    private $response;
+                /**
+                 * @var Response|null
+                 */
+                private $response;
 
-    public function __construct(KernelInterface $kernel)
-    {
-        $this->kernel = $kernel;
+                public function __construct(KernelInterface $kernel)
+                {
+                    $this->kernel = $kernel;
+                }
+
+                /**
+                 * @Then the response should be received
+                 */
+                public function theResponseShouldBeReceived()
+                {
+                    // ...
+                }
+
+                /**
+                 * @When a demo scenario sends a request to :path
+                 */
+                public function aDemoScenarioSendsARequestTo($path)
+                {
+                    // ...
+                }
+
+                /**
+                 * @Given I am on the homepage
+                 */
+                public function iAmOnTheHomepage()
+                {
+                    // ...
+                }
+
+                /**
+                 * @BeforeScenario
+                 */
+                public function reset()
+                {
+                    // ...
+                }
+            }
+            SPEC;
     }
 
-    /**
-     * @Then the response should be received
-     */
-    public function theResponseShouldBeReceived()
-    {
-        // ...
-    }
-
-    /**
-     * @When a demo scenario sends a request to :path
-     */
-    public function aDemoScenarioSendsARequestTo($path)
-    {
-        // ...
-    }
-
-    /**
-     * @Given I am on the homepage
-     */
-    public function iAmOnTheHomepage()
-    {
-        // ...
-    }
-
-    /**
-     * @BeforeScenario
-     */
-    public function reset()
-    {
-        // ...
-    }
-}
-SPEC;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPriority()
+    public function getPriority(): int
     {
         return Priority::before(OrderedClassElementsFixer::class);
     }
 
-    public function getDocumentation()
+    public function getDocumentation(): string
     {
         return 'Step definition methods in Behat contexts MUST BE ordered by annotation and method name.';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function createConfigurationDefinition()
+    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
     {
         return new FixerConfigurationResolver([
             (new FixerOptionBuilder('instanceof', 'Parent class or interface of your behat context classes.'))
@@ -143,10 +135,7 @@ SPEC;
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function sortElements(array $elements)
+    protected function sortElements(array $elements): array
     {
         $ordered = [];
 

@@ -17,23 +17,23 @@ final class InSwitch extends TokensAnalyzerIntegration
     public function getCode()
     {
         return <<<'PHP'
-<?php
+            <?php
 
-namespace Project\TheNamespace;
+            namespace Project\TheNamespace;
 
-class TheClass
-{
-    public function theFunction()
-    {
-        switch ('foo') {
-            case true:
-                return 'bar';
-            case false:
-                return 'baz';
-        }
-    }
-}
-PHP;
+            class TheClass
+            {
+                public function theFunction()
+                {
+                    switch ('foo') {
+                        case true:
+                            return 'bar';
+                        case false:
+                            return 'baz';
+                    }
+                }
+            }
+            PHP;
     }
 
     /**

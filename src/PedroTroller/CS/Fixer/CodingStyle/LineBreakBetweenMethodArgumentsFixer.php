@@ -7,30 +7,25 @@ namespace PedroTroller\CS\Fixer\CodingStyle;
 use PedroTroller\CS\Fixer\AbstractFixer;
 use PedroTroller\CS\Fixer\Priority;
 use PhpCsFixer\Fixer\Basic\BracesFixer;
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface, WhitespacesAwareFixerInterface
+final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implements ConfigurableFixerInterface, WhitespacesAwareFixerInterface
 {
-    private const T_TYPEHINT_SEMI_COLON = 10025;
+    public const T_TYPEHINT_SEMI_COLON = 10025;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPriority()
+    public function getPriority(): int
     {
         return Priority::after(BracesFixer::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getSampleConfigurations()
+    public function getSampleConfigurations(): array
     {
         return [
             [
@@ -46,49 +41,55 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDocumentation()
+    public function getDocumentation(): string
     {
         return 'If the declaration of a method is too long, the arguments of this method MUST BE separated (one argument per line)';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getSampleCode()
+    public function getSampleCode(): string
     {
         return <<<'SPEC'
-<?php
+            <?php
 
-namespace Project\TheNamespace;
+            namespace Project\TheNamespace;
 
-class TheClass
-{
-    public function fun1($arg1, array $arg2 = [], $arg3 = null)
+            class TheClass
+            {
+                public function fun1($arg1, array $arg2 = [], $arg3 = null)
+                {
+                    return;
+                }
+
+                public function fun2($arg1, array $arg2 = [], \ArrayAccess $arg3 = null, bool $bool = true, \Iterator $thisLastArgument = null)
+                {
+                    return;
+                }
+
+                public function fun3(
+                    $arg1,
+                    array $arg2 = []
+                ) {
+                    return;
+                }
+            }
+            SPEC;
+    }
+
+    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
     {
-        return;
+        return new FixerConfigurationResolver([
+            (new FixerOptionBuilder('max-args', 'The maximum number of arguments allowed with splitting the arguments into several lines (use `false` to disable this feature)'))
+                ->setDefault(3)
+                ->getOption(),
+            (new FixerOptionBuilder('max-length', 'The maximum number of characters allowed with splitting the arguments into several lines'))
+                ->setDefault(120)
+                ->getOption(),
+            (new FixerOptionBuilder('automatic-argument-merge', 'If both conditions are met (the line is not too long and there are not too many arguments), then the arguments are put back inline'))
+                ->setDefault(true)
+                ->getOption(),
+        ]);
     }
 
-    public function fun2($arg1, array $arg2 = [], \ArrayAccess $arg3 = null, bool $bool = true, \Iterator $thisLastArgument = null)
-    {
-        return;
-    }
-
-    public function fun3(
-        $arg1,
-        array $arg2 = []
-    ) {
-        return;
-    }
-}
-SPEC;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         $functions = [];
@@ -145,24 +146,6 @@ SPEC;
                 $this->mergeArgs($tokens, $index);
             }
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function createConfigurationDefinition()
-    {
-        return new FixerConfigurationResolver([
-            (new FixerOptionBuilder('max-args', 'The maximum number of arguments allowed with splitting the arguments into several lines (use `false` to disable this feature)'))
-                ->setDefault(3)
-                ->getOption(),
-            (new FixerOptionBuilder('max-length', 'The maximum number of characters allowed with splitting the arguments into several lines'))
-                ->setDefault(120)
-                ->getOption(),
-            (new FixerOptionBuilder('automatic-argument-merge', 'If both conditions are met (the line is not too long and there are not too many arguments), then the arguments are put back inline.'))
-                ->setDefault(true)
-                ->getOption(),
-        ]);
     }
 
     private function splitArgs(Tokens $tokens, $index): void

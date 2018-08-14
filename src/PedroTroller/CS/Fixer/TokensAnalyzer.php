@@ -116,7 +116,7 @@ final class TokensAnalyzer
             $index = $this->tokens->getNextMeaningfulToken($index);
 
             if (null === $index) {
-                return;
+                return null;
             }
 
             switch (true) {
@@ -136,7 +136,7 @@ final class TokensAnalyzer
                     break;
 
                 case $this->tokens[$index]->equals(';'):
-                    return;
+                    return null;
             }
         } while (false === $this->tokens[$index]->equals(','));
 
@@ -154,7 +154,7 @@ final class TokensAnalyzer
             $index = $this->tokens->getNextMeaningfulToken($index);
 
             if (null === $index) {
-                return;
+                return null;
             }
 
             switch (true) {
@@ -196,17 +196,17 @@ final class TokensAnalyzer
         $next = $this->tokens->getNextMeaningfulToken($closeParenthesis);
 
         if (null === $next) {
-            return;
+            return null;
         }
 
         if (false === $this->tokens[$next]->isGivenKind(TokenSignatures::TYPINT_DOUBLE_DOTS)) {
-            return;
+            return null;
         }
 
         $next = $this->tokens->getNextMeaningfulToken($next);
 
         if (null === $next) {
-            return;
+            return null;
         }
 
         $optionnal = $this->tokens[$next]->isGivenKind(TokenSignatures::TYPINT_OPTIONAL);
@@ -280,12 +280,7 @@ final class TokensAnalyzer
         return $size;
     }
 
-    /**
-     * @param int $index
-     *
-     * @return null|int
-     */
-    public function endOfTheStatement($index)
+    public function endOfTheStatement(int $index): ?int
     {
         do {
             $index = $this->tokens->getNextMeaningfulToken($index);
