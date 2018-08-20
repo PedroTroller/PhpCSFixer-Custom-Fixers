@@ -31,7 +31,7 @@ abstract class AbstractFixer extends PhpCsFixer
     public function getSampleConfigurations()
     {
         return [
-            []
+            [],
         ];
     }
 
