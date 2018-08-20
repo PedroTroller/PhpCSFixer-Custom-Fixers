@@ -69,6 +69,20 @@ Example:
     ;
 ```
 
+### `->phpUnit(float $version, [bool $risky = false])`
+
+Activate fixers and rules related to a PHPUnit version including risky of not depending of the `$risky` argument.
+
+Example:
+
+```php
+    RuleSetFactory::create()
+        ->phpUnit(5.2)       // There is no non-risky rule for the moment
+        ->phpUnit(5.2, true)
+        ->getRules()
+    ;
+```
+
 ### `->pedrotroller([bool $risky = false])`
 
 Activate all rules of this library including risky of not depending of the `$risky` argument.

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace PedroTroller\CS\Fixer;
 
+use PhpCsFixer\RuleSet;
+
 final class RuleSetFactory
 {
     /**
@@ -118,31 +120,11 @@ final class RuleSetFactory
      */
     public function php($version, $risky = false)
     {
-        $config = [];
+        $config = $this->migration('php', $version, $risky)->getRules();
 
         switch (true) {
             case $version >= 7.1:
                 $config = array_merge(['list_syntax' => ['syntax' => 'short']], $config);
-
-                if ($risky) {
-                    $config = array_merge(['@PHP71Migration:risky' => true], $config);
-                }
-
-                $config = array_merge(['@PHP71Migration' => true], $config);
-                // no break
-            case $version >= 7.0:
-                if ($risky) {
-                    $config = array_merge(['@PHP70Migration:risky' => true], $config);
-                }
-
-                $config = array_merge(['@PHP70Migration' => true], $config);
-                // no break
-            case $version >= 5.6:
-                if ($risky) {
-                    $config = array_merge(['@PHP56Migration:risky' => true], $config);
-                }
-
-                $config = array_merge(['@PHP56Migration' => true], $config);
                 // no break
             case $version >= 5.4:
                 $config = array_merge(['array_syntax' => ['syntax' => 'short']], $config);
@@ -155,6 +137,17 @@ final class RuleSetFactory
             $this->rules,
             $config
         ));
+    }
+
+    /**
+     * @param float $version
+     * @param bool  $risky
+     *
+     * @return RuleSetFactory
+     */
+    public function phpUnit($version, $risky = false)
+    {
+        return $this->migration('phpunit', $version, $risky);
     }
 
     /**
@@ -205,6 +198,56 @@ final class RuleSetFactory
         return self::create(array_merge(
             $this->rules,
             [$name => false]
+        ));
+    }
+
+    /**
+     * @param string $package
+     * @param float  $version
+     * @param bool   $risky
+     *
+     * @return RuleSetFactory
+     */
+    private function migration($package, $version, $risky)
+    {
+        $rules = (new RuleSet())->getSetDefinitionNames();
+        $rules = array_combine($rules, $rules);
+
+        $rules = array_map(function ($name) {
+            $matches = [];
+
+            preg_match('/^@([A-Za-z]+)(\d+)Migration(:risky|)$/', $name, $matches);
+
+            return $matches;
+        }, $rules);
+
+        $rules = array_filter($rules);
+
+        $rules = array_filter($rules, function ($versionAndRisky) use ($package) {
+            list($rule, $rulePackage, $ruleVersion, $ruleRisky) = $versionAndRisky;
+
+            return strtoupper($package) === strtoupper($rulePackage);
+        });
+
+        $rules = array_filter($rules, function ($versionAndRisky) use ($version) {
+            list($rule, $rulePackage, $ruleVersion, $ruleRisky) = $versionAndRisky;
+
+            return ((float) $ruleVersion / 10) <= $version;
+        });
+
+        $rules = array_filter($rules, function ($versionAndRisky) use ($risky) {
+            list($rule, $rulePackage, $ruleVersion, $ruleRisky) = $versionAndRisky;
+
+            if ($risky) {
+                return true;
+            }
+
+            return empty($ruleRisky);
+        });
+
+        return self::create(array_merge(
+            $this->rules,
+            array_map(function () { return true; }, $rules)
         ));
     }
 }

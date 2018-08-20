@@ -125,6 +125,151 @@ class RuleSetFactorySpec extends ObjectBehavior
         ]);
     }
 
+    function it_adds_a_phpunit_version_support()
+    {
+        $this->phpUnit(2.0, false)->getRules()->shouldReturn([]);
+
+        $this->phpUnit(2.0, true)->getRules()->shouldReturn([]);
+
+        $this->phpUnit(3.0, false)->getRules()->shouldReturn([]);
+
+        $this->phpUnit(3.0, true)->getRules()->shouldReturn([
+            '@PHPUnit30Migration:risky' => true,
+        ]);
+
+        $this->phpUnit(3.2, false)->getRules()->shouldReturn([]);
+
+        $this->phpUnit(3.2, true)->getRules()->shouldReturn([
+            '@PHPUnit30Migration:risky' => true,
+            '@PHPUnit32Migration:risky' => true,
+        ]);
+
+        $this->phpUnit(3.5, false)->getRules()->shouldReturn([]);
+
+        $this->phpUnit(3.5, true)->getRules()->shouldReturn([
+            '@PHPUnit30Migration:risky' => true,
+            '@PHPUnit32Migration:risky' => true,
+            '@PHPUnit35Migration:risky' => true,
+        ]);
+
+        $this->phpUnit(4.3, false)->getRules()->shouldReturn([]);
+
+        $this->phpUnit(4.3, true)->getRules()->shouldReturn([
+            '@PHPUnit30Migration:risky' => true,
+            '@PHPUnit32Migration:risky' => true,
+            '@PHPUnit35Migration:risky' => true,
+            '@PHPUnit43Migration:risky' => true,
+        ]);
+
+        $this->phpUnit(4.8, false)->getRules()->shouldReturn([]);
+
+        $this->phpUnit(4.8, true)->getRules()->shouldReturn([
+            '@PHPUnit30Migration:risky' => true,
+            '@PHPUnit32Migration:risky' => true,
+            '@PHPUnit35Migration:risky' => true,
+            '@PHPUnit43Migration:risky' => true,
+            '@PHPUnit48Migration:risky' => true,
+        ]);
+
+        $this->phpUnit(5.0, false)->getRules()->shouldReturn([]);
+
+        $this->phpUnit(5.0, true)->getRules()->shouldReturn([
+            '@PHPUnit30Migration:risky' => true,
+            '@PHPUnit32Migration:risky' => true,
+            '@PHPUnit35Migration:risky' => true,
+            '@PHPUnit43Migration:risky' => true,
+            '@PHPUnit48Migration:risky' => true,
+            '@PHPUnit50Migration:risky' => true,
+        ]);
+
+        $this->phpUnit(5.2, false)->getRules()->shouldReturn([]);
+
+        $this->phpUnit(5.2, true)->getRules()->shouldReturn([
+            '@PHPUnit30Migration:risky' => true,
+            '@PHPUnit32Migration:risky' => true,
+            '@PHPUnit35Migration:risky' => true,
+            '@PHPUnit43Migration:risky' => true,
+            '@PHPUnit48Migration:risky' => true,
+            '@PHPUnit50Migration:risky' => true,
+            '@PHPUnit52Migration:risky' => true,
+        ]);
+
+        $this->phpUnit(5.4, false)->getRules()->shouldReturn([]);
+
+        $this->phpUnit(5.4, true)->getRules()->shouldReturn([
+            '@PHPUnit30Migration:risky' => true,
+            '@PHPUnit32Migration:risky' => true,
+            '@PHPUnit35Migration:risky' => true,
+            '@PHPUnit43Migration:risky' => true,
+            '@PHPUnit48Migration:risky' => true,
+            '@PHPUnit50Migration:risky' => true,
+            '@PHPUnit52Migration:risky' => true,
+            '@PHPUnit54Migration:risky' => true,
+        ]);
+
+        $this->phpUnit(5.5, false)->getRules()->shouldReturn([]);
+
+        $this->phpUnit(5.5, true)->getRules()->shouldReturn([
+            '@PHPUnit30Migration:risky' => true,
+            '@PHPUnit32Migration:risky' => true,
+            '@PHPUnit35Migration:risky' => true,
+            '@PHPUnit43Migration:risky' => true,
+            '@PHPUnit48Migration:risky' => true,
+            '@PHPUnit50Migration:risky' => true,
+            '@PHPUnit52Migration:risky' => true,
+            '@PHPUnit54Migration:risky' => true,
+            '@PHPUnit55Migration:risky' => true,
+        ]);
+
+        $this->phpUnit(5.6, false)->getRules()->shouldReturn([]);
+
+        $this->phpUnit(5.6, true)->getRules()->shouldReturn([
+            '@PHPUnit30Migration:risky' => true,
+            '@PHPUnit32Migration:risky' => true,
+            '@PHPUnit35Migration:risky' => true,
+            '@PHPUnit43Migration:risky' => true,
+            '@PHPUnit48Migration:risky' => true,
+            '@PHPUnit50Migration:risky' => true,
+            '@PHPUnit52Migration:risky' => true,
+            '@PHPUnit54Migration:risky' => true,
+            '@PHPUnit55Migration:risky' => true,
+            '@PHPUnit56Migration:risky' => true,
+        ]);
+
+        $this->phpUnit(5.7, false)->getRules()->shouldReturn([]);
+
+        $this->phpUnit(5.7, true)->getRules()->shouldReturn([
+            '@PHPUnit30Migration:risky' => true,
+            '@PHPUnit32Migration:risky' => true,
+            '@PHPUnit35Migration:risky' => true,
+            '@PHPUnit43Migration:risky' => true,
+            '@PHPUnit48Migration:risky' => true,
+            '@PHPUnit50Migration:risky' => true,
+            '@PHPUnit52Migration:risky' => true,
+            '@PHPUnit54Migration:risky' => true,
+            '@PHPUnit55Migration:risky' => true,
+            '@PHPUnit56Migration:risky' => true,
+            '@PHPUnit57Migration:risky' => true,
+        ]);
+
+        $this->phpUnit(6.0, false)->getRules()->shouldReturn([]);
+
+        $this->phpUnit(6.0, true)->getRules()->shouldReturn([
+            '@PHPUnit30Migration:risky' => true,
+            '@PHPUnit32Migration:risky' => true,
+            '@PHPUnit35Migration:risky' => true,
+            '@PHPUnit43Migration:risky' => true,
+            '@PHPUnit48Migration:risky' => true,
+            '@PHPUnit50Migration:risky' => true,
+            '@PHPUnit52Migration:risky' => true,
+            '@PHPUnit54Migration:risky' => true,
+            '@PHPUnit55Migration:risky' => true,
+            '@PHPUnit56Migration:risky' => true,
+            '@PHPUnit57Migration:risky' => true,
+            '@PHPUnit60Migration:risky' => true,
+        ]);
+    }
+
     function it_adds_my_own_fixer_set()
     {
         $rules = [];
