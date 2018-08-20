@@ -10,7 +10,7 @@ use tests\UseCase;
 final class WithInterface implements UseCase
 {
     /**
-     * @return FixerInterface
+     * {@inheritdoc}
      */
     public function getFixer()
     {
@@ -18,7 +18,7 @@ final class WithInterface implements UseCase
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getRawScript()
     {

@@ -26,12 +26,12 @@ abstract class AbstractFixer extends PhpCsFixer
     }
 
     /**
-     * @return array
+     * @return array[]
      */
     public function getSampleConfigurations()
     {
         return [
-            null,
+            []
         ];
     }
 

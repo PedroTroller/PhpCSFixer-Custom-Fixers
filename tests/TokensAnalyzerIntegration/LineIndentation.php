@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace tests\TokensAnalyzerIntegration;
 
 use PedroTroller\CS\Fixer\TokensAnalyzer;

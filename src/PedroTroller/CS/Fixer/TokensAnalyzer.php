@@ -198,6 +198,8 @@ final class TokensAnalyzer
 
     /**
      * @param int $index
+     *
+     * @return null|string|array
      */
     public function getReturnedType($index)
     {
@@ -223,11 +225,10 @@ final class TokensAnalyzer
 
         $optionnal = $this->tokens[$next]->isGivenKind(TokenSignatures::TYPINT_OPTIONAL);
 
-        if ($optionnal) {
-            $next = $this->tokens->getNextMeaningfulToken($next);
-        }
-
-        $return = null;
+        $next = $optionnal
+            ? $this->tokens->getNextMeaningfulToken($next)
+            : $next
+        ;
 
         do {
             $return = $this->tokens[$next]->getContent();
