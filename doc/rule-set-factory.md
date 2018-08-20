@@ -31,15 +31,15 @@ Activate the `@psr0` rule.
 
 ### `->psr1()`
 
-Activate the `@psr0` rule.
+Activate the `@psr1` rule.
 
 ### `->psr2()`
 
-Activate the `@psr0` rule.
+Activate the `@psr2` rule.
 
 ### `->psr4()`
 
-Activate the `@psr0` rule.
+Activate the `@psr4` rule.
 
 ### `->symfony([bool $risky = false])`
 
