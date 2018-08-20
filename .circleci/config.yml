@@ -1,13 +1,25 @@
 ---
 version: 2
 
+executorType: machine
+
 composer_with_lowest_dependencies: &composer_with_lowest_dependencies
   run: |
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+    php composer-setup.php --filename=composer
+    php -r "unlink('composer-setup.php');"
+    mv composer /usr/local/bin/composer
     composer global require hirak/prestissimo --no-progress
     composer update --prefer-lowest --prefer-stable
 
 composer: &composer
   run: |
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+    php composer-setup.php --filename=composer
+    php -r "unlink('composer-setup.php');"
+    mv composer /usr/local/bin/composer
     composer global require hirak/prestissimo --no-progress
     composer update
 
@@ -129,8 +141,18 @@ jobs:
       - run: bin/doc > README.new.md
       - run: cmp --silent README.md README.new.md || cmp README.md README.new.md || (echo "Documentation is outdated. Run 'bin/doc > README.md'" && exit 1)
 
+  coding standard fixing:
+    docker:
+      - image: docker/compose:1.22.0
+    steps:
+      - checkout
+      - run: .circleci/cs-fixing
+
 workflows:
   version: 2
+  coding standard fixing:
+    jobs:
+      - coding standard fixing
   php 5.6:
     jobs:
       - php 5.6

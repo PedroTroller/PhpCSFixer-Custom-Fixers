@@ -8,42 +8,42 @@ use PhpSpec\ObjectBehavior;
 
 class RuleSetFactorySpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(RuleSetFactory::class);
     }
 
-    function it_adds_a_psr0_set()
+    public function it_adds_a_psr0_set()
     {
         $this->psr0()->getRules()->shouldReturn(['@psr0' => true]);
     }
 
-    function it_adds_a_psr1_set()
+    public function it_adds_a_psr1_set()
     {
         $this->psr1()->getRules()->shouldReturn(['@psr1' => true]);
     }
 
-    function it_adds_a_psr2_set()
+    public function it_adds_a_psr2_set()
     {
         $this->psr2()->getRules()->shouldReturn(['@psr2' => true]);
     }
 
-    function it_adds_a_psr4_set()
+    public function it_adds_a_psr4_set()
     {
         $this->psr4()->getRules()->shouldReturn(['@psr4' => true]);
     }
 
-    function it_adds_a_symfony_set()
+    public function it_adds_a_symfony_set()
     {
         $this->symfony()->getRules()->shouldReturn(['@Symfony' => true]);
     }
 
-    function it_adds_a_doctrine_annotation_set()
+    public function it_adds_a_doctrine_annotation_set()
     {
         $this->doctrineAnnotation()->getRules()->shouldReturn(['@DoctrineAnnotation' => true]);
     }
 
-    function it_adds_a_symfony_strict_set()
+    public function it_adds_a_symfony_strict_set()
     {
         $this->symfony()->getRules()->shouldReturn([
             '@Symfony' => true,
@@ -55,7 +55,7 @@ class RuleSetFactorySpec extends ObjectBehavior
         ]);
     }
 
-    function it_adds_a_php_version_support()
+    public function it_adds_a_php_version_support()
     {
         $this->php(5.6)->getRules()->shouldReturn([
             '@PHP56Migration' => true,
@@ -125,7 +125,7 @@ class RuleSetFactorySpec extends ObjectBehavior
         ]);
     }
 
-    function it_adds_my_own_fixer_set()
+    public function it_adds_my_own_fixer_set()
     {
         $rules = [];
 
@@ -142,7 +142,7 @@ class RuleSetFactorySpec extends ObjectBehavior
         $this->pedrotroller()->getRules()->shouldReturn($rules);
     }
 
-    function it_enables_a_rule()
+    public function it_enables_a_rule()
     {
         $this
             ->enable('no_useless_else')
@@ -157,7 +157,7 @@ class RuleSetFactorySpec extends ObjectBehavior
         ;
     }
 
-    function it_disables_a_rule()
+    public function it_disables_a_rule()
     {
         $this
             ->enable('no_useless_else')

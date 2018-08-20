@@ -1,0 +1,21 @@
+#!/bin/bash
+
+docker run --rm -it -v $(pwd):/app -w /app composer update
+docker run --rm -it -v $(pwd):/app -w /app php:7.2 vendor/bin/php-cs-fixer fix -vvv --diff
+
+docker run --rm -it -v $(pwd):/app/code odannyc/eclint fix ./*
+
+git diff --exit-code
+
+if [ $? -eq 0 ]; then
+    curl --request POST "https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/statuses/${CIRCLE_SHA1}" -d "{\"state\": \"success\", \"context\": \"PHP Coding Standards Fixer\", \"description\": \"Coding standards respected !\"}" -H "Authorization: token ${GITHUB_TOKEN}"
+else
+    git config --global user.email "fix@circle-ci.com"
+    git config --global user.name "Circle CI"
+    git branch -D cs-fixing/${CIRCLE_BRANCH} || echo "Unkown branch."
+    git checkout -b cs-fixing/${CIRCLE_BRANCH}
+    git add -A
+    git commit -am "[ci skip] Circle: Automatic CS fixing"
+    git push origin cs-fixing/${CIRCLE_BRANCH} -f
+    curl -i --request POST "https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pulls" -d "{\"title\": \"Circle-CI CS Fixing\", \"head\": \"cs-fixing/${CIRCLE_BRANCH}\", \"base\": \"${CIRCLE_BRANCH}\"}"
+fi
