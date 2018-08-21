@@ -9,6 +9,18 @@ use SplFileInfo;
 
 final class LineBreakBetweenStatementsFixer extends AbstractFixer
 {
+    /**
+     * @var array<int, string>
+     */
+    private $handlers = [
+        T_DO      => 'do',
+        T_FOR     => 'common',
+        T_FOREACH => 'common',
+        T_IF      => 'common',
+        T_SWITCH  => 'common',
+        T_WHILE   => 'common',
+    ];
+
     /*
      * {@inheritdoc}
      */
@@ -54,50 +66,70 @@ PHP;
 
     protected function applyFix(SplFileInfo $file, Tokens $tokens)
     {
-        for ($index = 0; $index < $tokens->count() - 2; ++$index) {
-            $token = $tokens[$index];
-
-            if (false === $token->equals('}')) {
-                continue;
-            }
-
-            $spaceIndex = $index + 1;
-
-            if (false === $tokens[$spaceIndex]->isGivenKind(T_WHITESPACE)) {
-                continue;
-            }
-
-            $statement = $tokens[$index + 2];
-
-            switch ($statement->getId()) {
-                // If it's a while, isolate the case of do {} while ();
-                case T_WHILE:
-                    $semicolon = $tokens->getNextTokenOfKind($index + 1, [';']);
-                    $break     = false;
-                    if (null !== $semicolon) {
-                        $break = true;
-                        for ($next = $index + 1; $next < $semicolon; ++$next) {
-                            if ($tokens[$next]->equals('{')) {
-                                $break = false;
-                            }
-                        }
-                    }
-
-                    if (true === $break) {
-                        $nextSpace = $tokens->getNextTokenOfKind((int) $semicolon, [[T_WHITESPACE]]);
-                        if (null !== $nextSpace) {
-                            $spaceIndex = $nextSpace;
-                        }
-                    }
-                    // no break
-                case T_IF:
-                case T_DO:
-                case T_FOREACH:
-                case T_SWITCH:
-                case T_FOR:
-                    $tokens[$spaceIndex] = new Token([T_WHITESPACE, $this->ensureNumberOfBreaks($tokens[$spaceIndex]->getContent())]);
-            }
+        foreach ($tokens->findGivenKind(array_keys($this->handlers)) as $kind => $matchedTokens) {
+            $this->{'handle'.ucfirst($this->handlers[$kind])}($matchedTokens, $tokens);
         }
+    }
+
+    private function handleDo(array $matchedTokens, Tokens $tokens)
+    {
+        foreach ($matchedTokens as $index => $token) {
+            $this->fixSpaces(
+                $this->analyze($tokens)->getNextSemiColon($index),
+                $tokens
+            );
+        }
+    }
+
+    private function handleCommon(array $matchedTokens, Tokens $tokens)
+    {
+        foreach ($matchedTokens as $index => $token) {
+            $curlyBracket = $tokens->findSequence([
+                '{',
+            ], $index);
+
+            if (empty($curlyBracket)) {
+                continue;
+            }
+
+            $openCurlyBracket = current(array_keys($curlyBracket));
+
+            if (false === $openCurlyBracket) {
+                continue;
+            }
+
+            $closeCurlyBracket = $this->analyze($tokens)->getClosingCurlyBracket($openCurlyBracket);
+
+            if (null === $closeCurlyBracket) {
+                continue;
+            }
+
+            $this->fixSpaces(
+                $closeCurlyBracket,
+                $tokens
+            );
+        }
+    }
+
+    private function fixSpaces($index, Tokens $tokens)
+    {
+        $space = $index + 1;
+
+        if (false === $tokens[$space]->isWhitespace()) {
+            return;
+        }
+
+        $nextMeaningful = $tokens->getNextMeaningfulToken($index);
+
+        if (null === $nextMeaningful) {
+            return;
+        }
+
+        if (false === \in_array($tokens[$nextMeaningful]->getId(), array_keys($this->handlers))) {
+            return;
+        }
+
+        $tokens[$space] = new Token([T_WHITESPACE, $this->ensureNumberOfBreaks($tokens[$space]->getContent())]);
     }
 
     private function ensureNumberOfBreaks($whitespace)

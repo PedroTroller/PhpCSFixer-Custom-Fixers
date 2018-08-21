@@ -37,6 +37,10 @@ class TheClass
         }
         while($forever = true) {
         }
+
+
+        while($forever = false) {
+        }
     }
 }';
     }
@@ -65,6 +69,9 @@ class TheClass
         }
 
         while($forever = true) {
+        }
+
+        while($forever = false) {
         }
     }
 }';

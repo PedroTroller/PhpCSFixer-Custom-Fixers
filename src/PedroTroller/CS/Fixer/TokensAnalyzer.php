@@ -98,34 +98,7 @@ final class TokensAnalyzer
      */
     public function getNumberOfArguments($index)
     {
-        if (T_FUNCTION !== $this->tokens[$index]->getId()) {
-            return 0;
-        }
-
-        $open = $this->tokens->getNextTokenOfKind($index, ['(']);
-
-        if ($this->tokens[$this->tokens->getNextMeaningfulToken($open)]->equals(')')) {
-            return 0;
-        }
-
-        $close     = $this->getClosingParenthesis($open);
-        $arguments = 1;
-
-        for ($i = $open + 1; $i < $close; ++$i) {
-            if ($this->tokens[$i]->equals('(')) {
-                $i = $this->getClosingParenthesis($i);
-            }
-
-            if ($this->tokens[$i]->equals('[')) {
-                $i = $this->getClosingBracket($i);
-            }
-
-            if ($this->tokens[$i]->equals(',')) {
-                ++$arguments;
-            }
-        }
-
-        return $arguments;
+        return count($this->getMethodArguments($index));
     }
 
     /*
@@ -198,6 +171,8 @@ final class TokensAnalyzer
 
     /**
      * @param int $index
+     *
+     * @return null|string|array
      */
     public function getReturnedType($index)
     {
@@ -223,11 +198,10 @@ final class TokensAnalyzer
 
         $optionnal = $this->tokens[$next]->isGivenKind(TokenSignatures::TYPINT_OPTIONAL);
 
-        if ($optionnal) {
-            $next = $this->tokens->getNextMeaningfulToken($next);
-        }
-
-        $return = null;
+        $next = $optionnal
+            ? $this->tokens->getNextMeaningfulToken($next)
+            : $next
+        ;
 
         do {
             $return = $this->tokens[$next]->getContent();
@@ -266,7 +240,7 @@ final class TokensAnalyzer
     /*
      * @param int $index
      *
-     * @return int
+     * @return int|null
      */
     public function getBeginningOfTheLine($index)
     {
@@ -280,7 +254,7 @@ final class TokensAnalyzer
     /*
      * @param int $index
      *
-     * @return int
+     * @return int|null
      */
     public function getEndOfTheLine($index)
     {
