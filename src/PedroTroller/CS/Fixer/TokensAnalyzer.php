@@ -98,34 +98,7 @@ final class TokensAnalyzer
      */
     public function getNumberOfArguments($index)
     {
-        if (T_FUNCTION !== $this->tokens[$index]->getId()) {
-            return 0;
-        }
-
-        $open = $this->tokens->getNextTokenOfKind($index, ['(']);
-
-        if ($this->tokens[$this->tokens->getNextMeaningfulToken($open)]->equals(')')) {
-            return 0;
-        }
-
-        $close     = $this->getClosingParenthesis($open);
-        $arguments = 1;
-
-        for ($i = $open + 1; $i < $close; ++$i) {
-            if ($this->tokens[$i]->equals('(')) {
-                $i = $this->getClosingParenthesis($i);
-            }
-
-            if ($this->tokens[$i]->equals('[')) {
-                $i = $this->getClosingBracket($i);
-            }
-
-            if ($this->tokens[$i]->equals(',')) {
-                ++$arguments;
-            }
-        }
-
-        return $arguments;
+        return count($this->getMethodArguments($index));
     }
 
     /*
