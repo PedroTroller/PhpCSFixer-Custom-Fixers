@@ -79,74 +79,68 @@ SPEC;
      */
     protected function sortElements(array $elements)
     {
-        $portions         = [];
-        $numberOfElements = \count($elements);
+        $ordered = array_merge(
+            array_values($this->filterElementsByMethodName('let', $elements)),
+            array_values($this->filterElementsByMethodName('letGo', $elements)),
+            array_values($this->filterElementsByMethodName('it_is_initializable', $elements)),
+            array_values($this->filterElementsByMethodName('^(?!it_is_initializable)(it_|its_).+?$', $elements)),
+            array_values($this->filterElementsByMethodName('getMatchers', $elements))
+        );
 
-        foreach ($elements as $index => $element) {
-            if ('method' !== $element['type']) {
+        foreach ($this->filterElementsByType('method', $elements) as $element) {
+            if (\in_array($element, $ordered, true)) {
                 continue;
             }
 
-            if ('let' === $element['methodName']) {
-                $portions[-4] = $element;
-                unset($elements[$index]);
-
-                continue;
-            }
-
-            if ('letGo' === $element['methodName']) {
-                $portions[-3] = $element;
-                unset($elements[$index]);
-
-                continue;
-            }
-
-            if ('it_is_initializable' === $element['methodName']) {
-                $portions[-1] = $element;
-                unset($elements[$index]);
-
-                continue;
-            }
-
-            if (0 !== preg_match('/^(it_|its_).+$/', $element['methodName'])) {
-                $portions[$index] = $element;
-                unset($elements[$index]);
-
-                continue;
-            }
-
-            if ('getMatchers' === $element['methodName']) {
-                $portions[$numberOfElements] = $element;
-                unset($elements[$index]);
-
-                continue;
-            }
+            $ordered[] = $element;
         }
-
-        ksort($portions);
-
-        $sorted = [];
 
         foreach ($elements as $element) {
-            if ('method' !== $element['type']) {
-                $sorted[] = $element;
-
+            if (\in_array($element, $ordered, true)) {
                 continue;
             }
 
-            foreach ($portions as $portion) {
-                $sorted[] = $portion;
+            array_unshift($ordered, $element);
+        }
+
+        return $ordered;
+    }
+
+    /**
+     * @param string $regex
+     *
+     * @return array
+     */
+    private function filterElementsByMethodName($regex, array $elements)
+    {
+        $filter = [];
+
+        foreach ($this->filterElementsByType('method', $elements) as $index => $method) {
+            if (0 !== preg_match(sprintf('/^%s$/', $regex), $method['methodName'])) {
+                $filter[$index] = $method;
+            }
+        }
+
+        return $filter;
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return array
+     */
+    private function filterElementsByType($type, array $elements)
+    {
+        $filter = [];
+
+        foreach ($elements as $index => $element) {
+            if ($type !== $element['type']) {
+                continue;
             }
 
-            $portions = [];
-
-            $sorted[] = $element;
+            $filter[$index] = $element;
         }
 
-        foreach ($portions as $portion) {
-            $sorted[] = $portion;
-        }
-
-        return $sorted;
+        return $filter;
     }
 }

@@ -29,6 +29,11 @@ use PhpSpec\ObjectBehavior;
 
 class TheSpec extends ObjectBehavior
 {
+    /**
+     * @var string
+     */
+    private $file;
+
     function letGo($file) {
         return;
     }
@@ -75,10 +80,15 @@ use PhpSpec\ObjectBehavior;
 
 class TheSpec extends ObjectBehavior
 {
+    /**
+     * @var string
+     */
+    private $file;
 
     function let($file) {
         return;
     }
+
     function letGo($file) {
         return;
     }

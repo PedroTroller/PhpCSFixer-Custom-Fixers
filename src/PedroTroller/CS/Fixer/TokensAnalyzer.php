@@ -267,7 +267,7 @@ final class TokensAnalyzer
     /*
      * @param int $index
      *
-     * @return int
+     * @return int|null
      */
     public function getBeginningOfTheLine($index)
     {
@@ -281,7 +281,7 @@ final class TokensAnalyzer
     /*
      * @param int $index
      *
-     * @return int
+     * @return int|null
      */
     public function getEndOfTheLine($index)
     {
