@@ -98,7 +98,7 @@ final class TokensAnalyzer
      */
     public function getNumberOfArguments($index)
     {
-        return count($this->getMethodArguments($index));
+        return \count($this->getMethodArguments($index));
     }
 
     /*

@@ -3,6 +3,7 @@
 namespace PedroTroller\CS\Fixer\Phpspec;
 
 use PedroTroller\CS\Fixer\AbstractOrderedClassElementsFixer;
+use PedroTroller\CS\Fixer\PhpspecFixer;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Tokenizer\Tokens;
 
@@ -22,6 +23,19 @@ final class OrderedSpecElementsFixer extends AbstractOrderedClassElementsFixer
     public function getDocumentation()
     {
         return 'PHPSpec spec functions MUST BE ordered with specs first (order: let, letGo, its_* and it_* functons).';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isDeprecated()
+    {
+        return true;
+    }
+
+    public function getDeprecationReplacement()
+    {
+        return (new PhpspecFixer())->getName();
     }
 
     /**

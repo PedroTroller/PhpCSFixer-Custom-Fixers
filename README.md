@@ -774,6 +774,9 @@ return $config;
 
 PHPSpec spec functions MUST BE ordered with specs first (order: let, letGo, its_* and it_* functons).
 
+**DEPRECATED**
+replaced by `PedroTroller/phpspec`.
+
 ### Configuration
 
 ```php
@@ -813,53 +816,104 @@ $config = PhpCsFixer\Config::create()
 return $config;
 ```
 
-### Fixes
 
-```diff
---- Original                                                                     // 80 chars
-+++ New                                                                          //
-@@ @@                                                                            //
- class TheSpec extends ObjectBehavior                                            //
- {                                                                               //
-                                                                                 //
--    function letGo($file) {                                                     //
-+    function let($file) {                                                       //
-         return;                                                                 //
-     }                                                                           //
-                                                                                 //
--    private function thePrivateMethod() {                                       //
-+    function letGo($file) {                                                     //
-         return;                                                                 //
-     }                                                                           //
-                                                                                 //
--    public function itIsNotASpec($file) {                                       //
-+    function it_is_a_spec($file) {                                              //
-         return;                                                                 //
-     }                                                                           //
-                                                                                 //
--    function it_is_a_spec($file) {                                              //
-+    public function its_other_function($file) {                                 //
-         return;                                                                 //
-     }                                                                           //
-                                                                                 //
--    function let($file) {                                                       //
-+    private function thePrivateMethod() {                                       //
-         return;                                                                 //
-     }                                                                           //
-                                                                                 //
--    public function its_other_function($file) {                                 //
-+    public function itIsNotASpec($file) {                                       //
-         return;                                                                 //
-     }                                                                           //
- }                                                                               //
-                                                                                 //
+## PedroTroller/phpspec_scenario_return_type_declaration
+
+PHPSpec spec functions MUST NOT have a return type declaration.
+
+**DEPRECATED**
+replaced by `PedroTroller/phpspec`.
+
+### Configuration
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules([
+        // ...
+        'PedroTroller/phpspec_scenario_return_type_declaration' => true,
+        // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
 ```
+
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/phpspec_scenario_return_type_declaration')
+        ->getRules()
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+
+## PedroTroller/phpspec_scenario_scope
+
+PHPSpec spec functions MUST NOT have a public scope.
+
+**DEPRECATED**
+replaced by `PedroTroller/phpspec`.
+
+### Configuration
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules([
+        // ...
+        'PedroTroller/phpspec_scenario_scope' => true,
+        // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/phpspec_scenario_scope')
+        ->getRules()
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
 
 ## PedroTroller/phpspec
 
- - PHPSpec spec functions MUST BE ordered with specs first (order: let, letGo, its_* and it_* functons)
- - PHPSpec spec functions MUST NOT have a return type declaration
- - PHPSpec spec functions MUST NOT have a public scope.
+
 
 ### Configuration
 
@@ -909,7 +963,7 @@ return $config;
  class TheSpec extends ObjectBehavior                                            //
  {                                                                               //
                                                                                  //
--    public function letGo($file) {                                              //
+-    function letGo($file) {                                                     //
 +    function let($file) {                                                       //
          return;                                                                 //
      }                                                                           //
@@ -941,11 +995,6 @@ return $config;
  }                                                                               //
                                                                                  //
 ```
-
-## PedroTroller/phpspec_scenario_return_type_declaration
-
-PHPSpec spec functions MUST NOT have a return type declaration.
-
 ### Configuration
 
 ```php
@@ -956,7 +1005,7 @@ $config = PhpCsFixer\Config::create()
     // ...
     ->setRules([
         // ...
-        'PedroTroller/phpspec_scenario_return_type_declaration' => true,
+        'PedroTroller/phpspec' => [ 'instanceof' => [ 'PhpSpec\ObjectBehavior' ] ],
         // ...
     ])
     // ...
@@ -975,7 +1024,7 @@ return $config;
 $config = PhpCsFixer\Config::create()
     // ...
     ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
-        ->enable('PedroTroller/phpspec_scenario_return_type_declaration')
+        ->enable('PedroTroller/phpspec', [ 'instanceof' => [ 'PhpSpec\ObjectBehavior' ] ])
         ->getRules()
     ])
     // ...
@@ -991,104 +1040,36 @@ return $config;
 --- Original                                                                     // 80 chars
 +++ New                                                                          //
 @@ @@                                                                            //
-         return;                                                                 //
-     }                                                                           //
-                                                                                 //
--    function letGo($file): void {                                               //
-+    function letGo($file) {                                                     //
-         return;                                                                 //
-     }                                                                           //
-                                                                                 //
--    function it_is_a_spec($file): void {                                        //
-+    function it_is_a_spec($file) {                                              //
-         return;                                                                 //
-     }                                                                           //
-                                                                                 //
-@@ @@                                                                            //
-         return;                                                                 //
-     }                                                                           //
-                                                                                 //
--    public function its_other_function($file): array {                          //
-+    public function its_other_function($file) {                                 //
-         return [];                                                              //
-     }                                                                           //
- }                                                                               //
-                                                                                 //
-```
-
-## PedroTroller/phpspec_scenario_scope
-
-PHPSpec spec functions MUST NOT have a public scope.
-
-### Configuration
-
-```php
-// .php_cs.dist
-<?php
-
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
-        // ...
-        'PedroTroller/phpspec_scenario_scope' => true,
-        // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
-
-return $config;
-```
-
-**OR** using my [rule list builder](doc/rule-set-factory.md).
-
-```php
-// .php_cs.dist
-<?php
-
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
-        ->enable('PedroTroller/phpspec_scenario_scope')
-        ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
-
-return $config;
-```
-
-### Fixes
-
-```diff
---- Original                                                                     // 80 chars
-+++ New                                                                          //
-@@ @@                                                                            //
-                                                                                 //
  class TheSpec extends ObjectBehavior                                            //
  {                                                                               //
--    public function let($file) {                                                //
+                                                                                 //
+-    function letGo($file) {                                                     //
 +    function let($file) {                                                       //
          return;                                                                 //
      }                                                                           //
                                                                                  //
--    public function letGo($file) {                                              //
+-    private function thePrivateMethod() {                                       //
 +    function letGo($file) {                                                     //
          return;                                                                 //
      }                                                                           //
                                                                                  //
--    public function it_is_a_spec($file) {                                       //
+-    public function itIsNotASpec($file) {                                       //
 +    function it_is_a_spec($file) {                                              //
          return;                                                                 //
      }                                                                           //
                                                                                  //
-@@ @@                                                                            //
+-    public function it_is_a_spec($file) {                                       //
++    function its_other_function($file) {                                        //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
+-    public function let($file) {                                                //
++    private function thePrivateMethod() {                                       //
          return;                                                                 //
      }                                                                           //
                                                                                  //
 -    public function its_other_function($file) {                                 //
-+    function its_other_function($file) {                                        //
++    public function itIsNotASpec($file) {                                       //
          return;                                                                 //
      }                                                                           //
  }                                                                               //
