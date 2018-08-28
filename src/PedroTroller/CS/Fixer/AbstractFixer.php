@@ -139,6 +139,29 @@ abstract class AbstractFixer extends PhpCsFixer
         ]);
     }
 
+    /*
+     * @param string|string[] $fqcn
+     *
+     * @return bool
+     */
+    protected function implementsInterface(Tokens $tokens, $fqcn)
+    {
+        if (false === \is_array($fqcn)) {
+            $fqcn = explode('\\', $fqcn);
+        }
+
+        if (false === $this->hasUseStatements($tokens, $fqcn)) {
+            return false;
+        }
+
+        return null !== $tokens->findSequence([
+            [T_CLASS],
+            [T_STRING],
+            [T_IMPLEMENTS],
+            [T_STRING, array_pop($fqcn)],
+        ]);
+    }
+
     /**
      * @return PhpCsFixer\Tokenizer\Token[]
      */

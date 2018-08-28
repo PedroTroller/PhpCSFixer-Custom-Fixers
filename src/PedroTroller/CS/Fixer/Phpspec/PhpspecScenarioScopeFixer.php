@@ -3,6 +3,7 @@
 namespace PedroTroller\CS\Fixer\Phpspec;
 
 use PedroTroller\CS\Fixer\AbstractFixer;
+use PedroTroller\CS\Fixer\PhpspecFixer;
 use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
@@ -24,6 +25,22 @@ final class PhpspecScenarioScopeFixer extends AbstractFixer
     public function getDocumentation()
     {
         return 'PHPSpec spec functions MUST NOT have a public scope.';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isDeprecated()
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDeprecationReplacement()
+    {
+        return (new PhpspecFixer())->getName();
     }
 
     /**
