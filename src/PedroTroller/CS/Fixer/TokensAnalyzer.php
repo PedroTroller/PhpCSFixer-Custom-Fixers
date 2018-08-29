@@ -2,6 +2,7 @@
 
 namespace PedroTroller\CS\Fixer;
 
+use Exception;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer as PhpCsFixerTokensAnalyzer;
 
@@ -176,6 +177,10 @@ final class TokensAnalyzer
      */
     public function getReturnedType($index)
     {
+        if (false === $this->tokens[$index]->isGivenKind(T_FUNCTION)) {
+            throw new Exception(sprintf('Expected token: T_FUNCTION Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
+        }
+
         $methodName       = $this->tokens->getNextMeaningfulToken($index);
         $openParenthesis  = $this->tokens->getNextMeaningfulToken($methodName);
         $closeParenthesis = $this->getClosingParenthesis($openParenthesis);
@@ -213,28 +218,6 @@ final class TokensAnalyzer
                     : $return;
             }
         } while (false === $this->tokens[$index]->equals(['{', ';']));
-    }
-
-    /**
-     * @param int $index
-     */
-    public function getClosingParenthesis($index)
-    {
-        $opening = 0;
-
-        for ($i = $index + 1; $i < $this->tokens->count(); ++$i) {
-            if ($this->tokens[$i]->equals('(')) {
-                ++$opening;
-            }
-
-            if ($this->tokens[$i]->equals(')')) {
-                if ($opening > 0) {
-                    --$opening;
-                }
-
-                return $i;
-            }
-        }
     }
 
     /*
@@ -289,6 +272,67 @@ final class TokensAnalyzer
         return $size;
     }
 
+    /**
+     * @param int $index
+     *
+     * @return int|null
+     */
+    public function endOfTheStatement($index)
+    {
+        do {
+            $index = $this->tokens->getNextMeaningfulToken($index);
+
+            if (null === $index) {
+                return null;
+            }
+
+            switch (true) {
+                case $this->tokens[$index]->equals('('):
+                    $index = $this->getClosingParenthesis($index);
+
+                    break;
+                case $this->tokens[$index]->equals('['):
+                    $index = $this->getClosingBracket($index);
+
+                    break;
+                case $this->tokens[$index]->equals('{'):
+                    $index = $this->getClosingCurlyBracket($index);
+
+                    break;
+            }
+        } while (false === $this->tokens[$index]->equals('}'));
+
+        return $index;
+    }
+
+    /**
+     * @param int $index
+     *
+     * @return int | null
+     */
+    public function getClosingParenthesis($index)
+    {
+        if (false === $this->tokens[$index]->equals('(')) {
+            throw new Exception(sprintf('Expected token: (. Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
+        }
+
+        for ($i = $index + 1; $i < $this->tokens->count(); ++$i) {
+            if ($this->tokens[$i]->equals('(')) {
+                $i = $this->getClosingParenthesis($i);
+
+                if (null === $i) {
+                    return null;
+                }
+
+                continue;
+            }
+
+            if ($this->tokens[$i]->equals(')')) {
+                return $i;
+            }
+        }
+    }
+
     /*
      * @param int $index
      *
@@ -296,18 +340,22 @@ final class TokensAnalyzer
      */
     public function getClosingBracket($index)
     {
-        $opening = 0;
+        if (false === $this->tokens[$index]->equals('[')) {
+            throw new Exception(sprintf('Expected token: [. Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
+        }
 
         for ($i = $index + 1; $i < $this->tokens->count(); ++$i) {
             if ($this->tokens[$i]->equals('[')) {
-                ++$opening;
+                $i = $this->getClosingBracket($i);
+
+                if (null === $i) {
+                    return null;
+                }
+
+                continue;
             }
 
             if ($this->tokens[$i]->equals(']')) {
-                if ($opening > 0) {
-                    --$opening;
-                }
-
                 return $i;
             }
         }
@@ -320,18 +368,22 @@ final class TokensAnalyzer
      */
     public function getClosingCurlyBracket($index)
     {
-        $opening = 0;
+        if (false === $this->tokens[$index]->equals('{')) {
+            throw new Exception(sprintf('Expected token: {. Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
+        }
 
         for ($i = $index + 1; $i < $this->tokens->count(); ++$i) {
             if ($this->tokens[$i]->equals('{')) {
-                ++$opening;
+                $i = $this->getClosingCurlyBracket($i);
+
+                if (null === $i) {
+                    return null;
+                }
+
+                continue;
             }
 
             if ($this->tokens[$i]->equals('}')) {
-                if ($opening > 0) {
-                    --$opening;
-                }
-
                 return $i;
             }
         }
@@ -347,24 +399,25 @@ final class TokensAnalyzer
         $switch = null;
         $ids    = array_keys($this->tokens->toArray());
 
-        for ($i = $index; $i >= current($ids); --$i) {
-            if (null !== $switch) {
-                continue;
-            }
+        $switches  = $this->findAllSequences([[[T_SWITCH]]]);
+        $intervals = [];
 
-            if (T_SWITCH === $this->tokens[$i]->getId()) {
-                $switch = $i;
+        foreach ($switches as $i => $switch) {
+            $start = $this->tokens->getNextTokenOfKind($i, ['{']);
+            $end   = $this->getClosingCurlyBracket($start);
+
+            $intervals[] = [$start, $end];
+        }
+
+        foreach ($intervals as $interval) {
+            list($start, $end) = $interval;
+
+            if ($index >= $start && $index <= $end) {
+                return true;
             }
         }
 
-        if (null === $switch) {
-            return false;
-        }
-
-        $open  = $this->tokens->getNextTokenOfKind($index, ['{']);
-        $close = $this->getClosingCurlyBracket($open + 1);
-
-        return $open < $index && $close > $index;
+        return false;
     }
 
     /*

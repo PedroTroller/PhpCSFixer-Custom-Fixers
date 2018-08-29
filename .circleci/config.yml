@@ -11,15 +11,15 @@ composer: &composer
     composer global require hirak/prestissimo --no-progress
     composer update
 
-run_tests: &run_tests
+tests: &tests
   run: |
-      composer test
+      composer test -vvv
       bin/doc
       vendor/bin/php-cs-fixer fix --diff || (echo "Coding standards are not respected. Run 'vendor/bin/php-cs-fixer fix'" && exit 1)
 
-run_tests_with_future_mode: &run_tests_with_future_mode
+tests_with_future_mode: &tests_with_future_mode
   run: |
-      PHP_CS_FIXER_FUTURE_MODE=1 composer test
+      PHP_CS_FIXER_FUTURE_MODE=1 composer test -vvv
       bin/doc
       vendor/bin/php-cs-fixer fix --diff || (echo "Coding standards are not respected. Run 'vendor/bin/php-cs-fixer fix'" && exit 1)
 
@@ -30,7 +30,7 @@ jobs:
     steps:
       - checkout
       - <<: *composer
-      - <<: *run_tests
+      - <<: *tests
 
   php 5.6 with future mode:
     docker:
@@ -38,7 +38,7 @@ jobs:
     steps:
       - checkout
       - <<: *composer
-      - <<: *run_tests
+      - <<: *tests
 
   php 5.6 with lowest dependencies:
     docker:
@@ -46,7 +46,7 @@ jobs:
     steps:
       - checkout
       - <<: *composer_with_lowest_dependencies
-      - <<: *run_tests
+      - <<: *tests
 
   php 7.0:
     docker:
@@ -54,7 +54,7 @@ jobs:
     steps:
       - checkout
       - <<: *composer
-      - <<: *run_tests
+      - <<: *tests
 
   php 7.0 with future mode:
     docker:
@@ -62,7 +62,7 @@ jobs:
     steps:
       - checkout
       - <<: *composer
-      - <<: *run_tests_with_future_mode
+      - <<: *tests_with_future_mode
 
   php 7.0 with lowest dependencies:
     docker:
@@ -70,7 +70,7 @@ jobs:
     steps:
       - checkout
       - <<: *composer_with_lowest_dependencies
-      - <<: *run_tests
+      - <<: *tests
 
   php 7.1:
     docker:
@@ -78,7 +78,7 @@ jobs:
     steps:
       - checkout
       - <<: *composer
-      - <<: *run_tests
+      - <<: *tests
 
   php 7.1 with future mode:
     docker:
@@ -86,7 +86,7 @@ jobs:
     steps:
       - checkout
       - <<: *composer
-      - <<: *run_tests_with_future_mode
+      - <<: *tests_with_future_mode
 
   php 7.1 with lowest dependencies:
     docker:
@@ -94,7 +94,7 @@ jobs:
     steps:
       - checkout
       - <<: *composer_with_lowest_dependencies
-      - <<: *run_tests
+      - <<: *tests
 
   php 7.2:
     docker:
@@ -102,7 +102,7 @@ jobs:
     steps:
       - checkout
       - <<: *composer
-      - <<: *run_tests
+      - <<: *tests
 
   php 7.2 with future mode:
     docker:
@@ -110,7 +110,7 @@ jobs:
     steps:
       - checkout
       - <<: *composer
-      - <<: *run_tests_with_future_mode
+      - <<: *tests_with_future_mode
 
   php 7.2 with lowest dependencies:
     docker:
@@ -118,7 +118,7 @@ jobs:
     steps:
       - checkout
       - <<: *composer_with_lowest_dependencies
-      - <<: *run_tests
+      - <<: *tests
 
   documentation is up to date:
     docker:

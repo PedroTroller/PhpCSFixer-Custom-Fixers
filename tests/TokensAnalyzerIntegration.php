@@ -30,12 +30,30 @@ abstract class TokensAnalyzerIntegration
      */
     protected function tokenContaining(Tokens $tokens, $content)
     {
+        $indexes = $this->tokensContaining($tokens, $content);
+
+        return current($indexes);
+    }
+
+    /*
+     * @param string $content
+     *
+     * @return int[]
+     */
+    protected function tokensContaining(Tokens $tokens, $content)
+    {
+        $indexes = [];
+
         foreach ($tokens as $index => $token) {
             if ($content === $token->getContent()) {
-                return $index;
+                $indexes[] = $index;
             }
         }
 
-        throw new Exception(sprintf('There is no token containing %s.', $content));
+        if (empty($indexes)) {
+            throw new Exception(sprintf('There is no token containing %s.', $content));
+        }
+
+        return $indexes;
     }
 }

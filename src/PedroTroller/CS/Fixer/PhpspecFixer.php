@@ -146,7 +146,8 @@ SPEC;
                 continue;
             }
 
-            $closeBraceIndex   = $this->analyze($tokens)->getClosingParenthesis($index);
+            $openBraceIndex    = $tokens->getNextTokenOfKind($index, ['(']);
+            $closeBraceIndex   = $this->analyze($tokens)->getClosingParenthesis($openBraceIndex);
             $openCurlyBracket  = $tokens->getNextTokenOfKind($index, ['{']);
             $returnDeclaration = $this->analyze($tokens)->getReturnedType($index);
 
