@@ -83,12 +83,12 @@ class Runner
 
             $differ = new Differ();
 
-            $fixer->fix(new SplFileInfo(__FILE__), $tokens);
-
             echo "#######################################################################################\n";
             echo "{$class}\n";
             echo "#######################################################################################\n";
             echo "\n";
+
+            $fixer->fix(new SplFileInfo(__FILE__), $tokens);
 
             if ($usecase->getExpectation() !== $tokens->generateCode()) {
                 throw new Exception($differ->diff($usecase->getExpectation(), $tokens->generateCode()));

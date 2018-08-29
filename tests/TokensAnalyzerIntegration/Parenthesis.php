@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace tests\TokensAnalyzerIntegration;
 
 use PedroTroller\CS\Fixer\TokensAnalyzer;
@@ -7,11 +9,8 @@ use PhpCsFixer\Tokenizer\Tokens;
 use tests\TokensAnalyzerIntegration;
 use Webmozart\Assert\Assert;
 
-final class ReturnedType extends TokensAnalyzerIntegration
+final class Parenthesis extends TokensAnalyzerIntegration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getCode()
     {
         return <<<'PHP'
@@ -46,42 +45,31 @@ class MyClass {
 PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function assertions(TokensAnalyzer $analyzer, Tokens $tokens)
     {
         Assert::eq(
-            $analyzer->getReturnedType(
-                $this->tokenContaining($tokens, 'getId') - 2
-            ),
-            null
+            $analyzer->getClosingParenthesis($this->tokenContaining($tokens, 'getId') + 1),
+            $this->tokenContaining($tokens, 'getId') + 2
         );
 
         Assert::eq(
-            $analyzer->getReturnedType(
-                $this->tokenContaining($tokens, 'getType') - 2
-            ),
-            'string'
+            $analyzer->getClosingParenthesis($this->tokenContaining($tokens, 'getType') + 1),
+            $this->tokenContaining($tokens, 'getType') + 2
         );
 
         Assert::eq(
-            $analyzer->getReturnedType(
-                $this->tokenContaining($tokens, 'getName') - 2
-            ),
-            ['string', null]
+            $analyzer->getClosingParenthesis($this->tokenContaining($tokens, 'getName') + 1),
+            $this->tokenContaining($tokens, 'getName') + 2
         );
 
         Assert::eq(
-            $analyzer->getReturnedType(
-                $this->tokenContaining($tokens, 'setName') - 2
-            ),
-            'void'
+            $analyzer->getClosingParenthesis($this->tokenContaining($tokens, 'setName') + 1),
+            $this->tokenContaining($tokens, 'setName') + 5
         );
     }
 
     /**
-     * {@inheritdoc}
+     * @return int
      */
     public function getMinSupportedPhpVersion()
     {

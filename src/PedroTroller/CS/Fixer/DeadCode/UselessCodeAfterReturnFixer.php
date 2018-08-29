@@ -84,17 +84,21 @@ PHP;
                 continue;
             }
 
-            $possible = [$analyzer->getClosingCurlyBracket($start)];
+            $possible = [$analyzer->endOfTheStatement($start)];
 
             foreach ($tokens->findGivenKind([T_CASE, T_DEFAULT, T_ENDSWITCH], $start) as $ends) {
                 $possible = array_merge($possible, array_keys($ends));
             }
 
-            var_dump($possible);
+            $end = $tokens->getPrevMeaningfulToken(min($possible));
+
+            if (($start + 1) > $end) {
+                continue;
+            }
 
             $tokens->clearRange(
                 $start + 1,
-                min($possible) - 2
+                $end
             );
         }
     }

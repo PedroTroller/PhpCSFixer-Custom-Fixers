@@ -160,7 +160,7 @@ SPEC;
     private function splitArgs(Tokens $tokens, $index)
     {
         $openBraceIndex  = $tokens->getNextTokenOfKind($index, ['(']);
-        $closeBraceIndex = $this->analyze($tokens)->getClosingParenthesis($index);
+        $closeBraceIndex = $this->analyze($tokens)->getClosingParenthesis($openBraceIndex);
 
         if (0 === $closeBraceIndex) {
             return;
@@ -222,7 +222,7 @@ SPEC;
     private function mergeArgs(Tokens $tokens, $index)
     {
         $openBraceIndex  = $tokens->getNextTokenOfKind($index, ['(']);
-        $closeBraceIndex = $this->analyze($tokens)->getClosingParenthesis($index);
+        $closeBraceIndex = $this->analyze($tokens)->getClosingParenthesis($openBraceIndex);
 
         for ($i = $openBraceIndex; $i <= $closeBraceIndex; ++$i) {
             $content    = preg_replace('/ {2,}/', ' ', str_replace("\n", '', $tokens[$i]->getContent()));
