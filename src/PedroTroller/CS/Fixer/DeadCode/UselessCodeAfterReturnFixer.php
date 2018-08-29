@@ -90,6 +90,8 @@ PHP;
                 $possible = array_merge($possible, array_keys($ends));
             }
 
+            var_dump($possible);
+
             $tokens->clearRange(
                 $start + 1,
                 min($possible) - 2
