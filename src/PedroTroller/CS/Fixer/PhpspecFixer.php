@@ -185,7 +185,7 @@ SPEC;
             $ordered[] = $element;
         }
 
-        foreach ($elements as $element) {
+        foreach (array_reverse($elements) as $element) {
             if (\in_array($element, $ordered, true)) {
                 continue;
             }

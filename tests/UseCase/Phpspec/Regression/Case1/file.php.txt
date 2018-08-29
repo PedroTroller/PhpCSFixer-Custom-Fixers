@@ -1,0 +1,50 @@
+<?php
+
+namespace tests\integration\Symfony\EventListener;
+
+use App\Domain\Event;
+use Funk\Spec;
+use SimpleBus\Message\Bus\Middleware\MessageBusMiddleware;
+use SimpleBus\SymfonyBridge\Bus\EventBus;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+class DomainEventListenerTest implements Spec
+{
+    /**
+     * @var \App\Symfony\Kernel
+     */
+    private $kernel;
+
+    /**
+     * @var \App\Domain\Event\Log
+     */
+    private $domainEvents;
+
+    /**
+     * @var \SimpleBus\SymfonyBridge\Bus\EventBus
+     */
+    private $eventBus;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->kernel = $container->get('kernel');
+        $this->domainEvents = $container->get(Event\Log::class);
+        $this->eventBus = $container->get(EventBus::class);
+    }
+
+    function it_dispatches_domain_events_through_symfony_space()
+    {
+        $this->eventBus->appendMiddleware(new class() implements MessageBusMiddleware {
+            public function handle($message, callable $next)
+            {
+            }
+        });
+
+        $this->domainEvents->recordEvent(new class() extends Event {
+            public function getName(): string
+            {
+                return 'whatever-dude';
+            }
+        });
+    }
+}
