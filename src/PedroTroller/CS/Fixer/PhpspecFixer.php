@@ -202,7 +202,7 @@ SPEC;
      */
     public function getPriority()
     {
-        return (new VisibilityRequiredFixer())->getPriority() - 1;
+        return Priority::after(VisibilityRequiredFixer::class);
     }
 
     /**

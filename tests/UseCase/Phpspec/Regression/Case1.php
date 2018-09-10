@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace tests\UseCase\Phpspec\Regression;
 
-use tests\UseCase;
 use PedroTroller\CS\Fixer\PhpspecFixer;
+use tests\UseCase;
 
 final class Case1 implements UseCase
 {
