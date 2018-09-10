@@ -4,6 +4,7 @@ namespace PedroTroller\CS\Fixer\Phpspec;
 
 use PedroTroller\CS\Fixer\AbstractOrderedClassElementsFixer;
 use PedroTroller\CS\Fixer\PhpspecFixer;
+use PedroTroller\CS\Fixer\Priority;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Tokenizer\Tokens;
 
@@ -85,7 +86,7 @@ SPEC;
      */
     public function getPriority()
     {
-        return (new OrderedClassElementsFixer())->getPriority() + 1;
+        return Priority::before(OrderedClassElementsFixer::class);
     }
 
     /**

@@ -30,6 +30,7 @@
     "scripts": {
         "tests": [
             "tests\\Runner::run",
+            "tests\\Orchestra::run",
             "phpspec run -fpretty"
         ]
     }

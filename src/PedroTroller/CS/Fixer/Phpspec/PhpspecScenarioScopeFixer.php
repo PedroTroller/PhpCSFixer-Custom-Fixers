@@ -4,6 +4,7 @@ namespace PedroTroller\CS\Fixer\Phpspec;
 
 use PedroTroller\CS\Fixer\AbstractFixer;
 use PedroTroller\CS\Fixer\PhpspecFixer;
+use PedroTroller\CS\Fixer\Priority;
 use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
@@ -85,7 +86,7 @@ SPEC;
      */
     public function getPriority()
     {
-        return (new VisibilityRequiredFixer())->getPriority() - 1;
+        return Priority::after(VisibilityRequiredFixer::class);
     }
 
     /**

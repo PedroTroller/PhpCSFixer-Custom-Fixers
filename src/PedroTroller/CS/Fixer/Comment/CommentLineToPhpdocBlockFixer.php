@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PedroTroller\CS\Fixer\Comment;
 
 use PedroTroller\CS\Fixer\AbstractFixer;
+use PedroTroller\CS\Fixer\Priority;
 use PhpCsFixer\Fixer\Comment\SingleLineCommentStyleFixer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
@@ -78,7 +79,7 @@ PHP;
 
     public function getPriority()
     {
-        return (new SingleLineCommentStyleFixer())->getPriority() - 1;
+        return Priority::after(SingleLineCommentStyleFixer::class);
     }
 
     /*

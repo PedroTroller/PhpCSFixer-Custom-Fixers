@@ -3,6 +3,7 @@
 namespace PedroTroller\CS\Fixer\CodingStyle;
 
 use PedroTroller\CS\Fixer\AbstractFixer;
+use PedroTroller\CS\Fixer\Priority;
 use PhpCsFixer\Fixer\Basic\BracesFixer;
 use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
@@ -21,7 +22,7 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
      */
     public function getPriority()
     {
-        return (new BracesFixer())->getPriority() - 1;
+        return Priority::after(BracesFixer::class);
     }
 
     /**

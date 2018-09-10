@@ -3,7 +3,7 @@
 namespace PedroTroller\CS\Fixer\ClassNotation;
 
 use PedroTroller\CS\Fixer\AbstractOrderedClassElementsFixer;
-use PedroTroller\CS\Fixer\Phpspec\OrderedSpecElementsFixer;
+use PedroTroller\CS\Fixer\Priority;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
@@ -23,10 +23,7 @@ final class OrderedWithGetterAndSetterFirstFixer extends AbstractOrderedClassEle
      */
     public function getPriority()
     {
-        return min([
-            (new OrderedClassElementsFixer())->getPriority(),
-            (new OrderedSpecElementsFixer())->getPriority(),
-        ]) - 1;
+        return Priority::before(OrderedClassElementsFixer::class);
     }
 
     /**

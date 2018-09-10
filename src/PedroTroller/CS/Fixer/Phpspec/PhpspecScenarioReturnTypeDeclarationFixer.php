@@ -4,6 +4,7 @@ namespace PedroTroller\CS\Fixer\Phpspec;
 
 use PedroTroller\CS\Fixer\AbstractFixer;
 use PedroTroller\CS\Fixer\PhpspecFixer;
+use PedroTroller\CS\Fixer\Priority;
 use PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
@@ -85,7 +86,7 @@ SPEC;
      */
     public function getPriority()
     {
-        return (new VoidReturnFixer())->getPriority() - 1;
+        return Priority::after(VoidReturnFixer::class);
     }
 
     /**
@@ -114,7 +115,7 @@ SPEC;
                 continue;
             }
 
-            $openBraceIndex  = $tokens->getNextTokenOfKind($index, ['(']);
+            $openBraceIndex    = $tokens->getNextTokenOfKind($index, ['(']);
             $closeBraceIndex   = $this->analyze($tokens)->getClosingParenthesis($openBraceIndex);
             $openCurlyBracket  = $tokens->getNextTokenOfKind($index, ['{']);
             $returnDeclaration = $this->analyze($tokens)->getReturnedType($index);
