@@ -120,6 +120,30 @@ jobs:
       - <<: *composer_with_lowest_dependencies
       - <<: *tests
 
+  php 7.3-rc:
+    docker:
+      - image: circleci/php:7.3-rc
+    steps:
+      - checkout
+      - <<: *composer
+      - <<: *tests
+
+  php 7.3-rc with future mode:
+    docker:
+      - image: circleci/php:7.3-rc
+    steps:
+      - checkout
+      - <<: *composer
+      - <<: *tests_with_future_mode
+
+  php 7.3-rc with lowest dependencies:
+    docker:
+      - image: circleci/php:7.3-rc
+    steps:
+      - checkout
+      - <<: *composer_with_lowest_dependencies
+      - <<: *tests
+
   documentation is up to date:
     docker:
       - image: circleci/php:7.2
@@ -167,6 +191,15 @@ workflows:
       - php 7.2 with lowest dependencies:
           requires:
             - php 7.2
+  php 7.3-rc:
+    jobs:
+      - php 7.3-rc
+      - php 7.3-rc with future mode:
+          requires:
+            - php 7.3-rc
+      - php 7.3-rc with lowest dependencies:
+          requires:
+            - php 7.3-rc
   documentation:
     jobs:
       - documentation is up to date
