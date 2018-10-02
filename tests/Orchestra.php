@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace tests;
 
+use PedroTroller\CS\Fixer\ClassNotation\OrderedWithGetterAndSetterFirstFixer;
+use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Fixer\FixerInterface;
 use Webmozart\Assert\Assert;
-use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
-use PedroTroller\CS\Fixer\ClassNotation\OrderedWithGetterAndSetterFirstFixer;
 
 final class Orchestra
 {
@@ -23,7 +23,7 @@ final class Orchestra
 
     public static function run()
     {
-        self::assert(new OrderedWithGetterAndSetterFirstFixer)
+        self::assert(new OrderedWithGetterAndSetterFirstFixer())
             ->before(new OrderedClassElementsFixer())
         ;
     }
