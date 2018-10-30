@@ -93,6 +93,11 @@ class User
     {
         return $this->firstName;
     }
+
+    public function hasIdentifier()
+    {
+        return null !== $this->identifier;
+    }
 }
 PHP;
     }
@@ -139,6 +144,11 @@ class User
     public function getIdentifier()
     {
         return $this->identifier;
+    }
+
+    public function hasIdentifier()
+    {
+        return null !== $this->identifier;
     }
 
     public function getName()
