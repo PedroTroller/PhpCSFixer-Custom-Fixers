@@ -102,6 +102,25 @@ final class RuleSetFactory
     }
 
     /**
+     * @param bool $risky
+     *
+     * @return RuleSetFactory
+     */
+    public function phpCsFixer($risky = false)
+    {
+        $rules = ['@PhpCsFixer' => true];
+
+        if ($risky) {
+            $rules['@PhpCsFixer:risky'] = true;
+        }
+
+        return self::create(array_merge(
+            $this->rules,
+            $rules
+        ));
+    }
+
+    /**
      * @return RuleSetFactory
      */
     public function doctrineAnnotation()

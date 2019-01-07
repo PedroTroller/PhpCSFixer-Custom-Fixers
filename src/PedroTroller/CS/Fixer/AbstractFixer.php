@@ -84,7 +84,7 @@ abstract class AbstractFixer extends PhpCsFixer
         return new TokensAnalyzer($tokens);
     }
 
-    /*
+    /**
      * @param string|string[] $fqcn
      *
      * @return bool
@@ -94,7 +94,7 @@ abstract class AbstractFixer extends PhpCsFixer
         return null !== $this->getUseStatements($tokens, $fqcn);
     }
 
-    /*
+    /**
      * @param string|string[] $fqcn
      *
      * @return null|array
@@ -116,7 +116,7 @@ abstract class AbstractFixer extends PhpCsFixer
         return $tokens->findSequence($sequence);
     }
 
-    /*
+    /**
      * @param string|string[] $fqcn
      *
      * @return bool
@@ -139,7 +139,7 @@ abstract class AbstractFixer extends PhpCsFixer
         ]);
     }
 
-    /*
+    /**
      * @param string|string[] $fqcn
      *
      * @return bool

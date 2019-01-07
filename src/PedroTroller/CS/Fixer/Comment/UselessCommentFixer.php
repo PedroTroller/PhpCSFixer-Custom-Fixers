@@ -142,7 +142,7 @@ PHP;
         }
     }
 
-    /*
+    /**
      * @param int $index
      *
      * @return null|int

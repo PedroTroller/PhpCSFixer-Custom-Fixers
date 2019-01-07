@@ -6,7 +6,7 @@ use Exception;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer as PhpCsFixerTokensAnalyzer;
 
-// @method getClassyElements()
+/** @method getClassyElements() */
 final class TokensAnalyzer
 {
     /**
@@ -30,7 +30,7 @@ final class TokensAnalyzer
         return \call_user_func_array([$this->analyzer, $name], $arguments);
     }
 
-    /*
+    /**
      * @param int $index
      *
      * @return array
@@ -92,7 +92,7 @@ final class TokensAnalyzer
         return $arguments;
     }
 
-    /*
+    /**
      * @param int $index
      *
      * @return int
@@ -102,7 +102,7 @@ final class TokensAnalyzer
         return \count($this->getMethodArguments($index));
     }
 
-    /*
+    /**
      * @param int $index
      *
      * @return null|int
@@ -137,7 +137,7 @@ final class TokensAnalyzer
         return $index;
     }
 
-    /*
+    /**
      * @param int $index
      *
      * @return null|int
@@ -173,7 +173,7 @@ final class TokensAnalyzer
     /**
      * @param int $index
      *
-     * @return null|string|array
+     * @return null|array|string
      */
     public function getReturnedType($index)
     {
@@ -220,10 +220,10 @@ final class TokensAnalyzer
         } while (false === $this->tokens[$index]->equals(['{', ';']));
     }
 
-    /*
+    /**
      * @param int $index
      *
-     * @return int|null
+     * @return null|int
      */
     public function getBeginningOfTheLine($index)
     {
@@ -234,10 +234,10 @@ final class TokensAnalyzer
         }
     }
 
-    /*
+    /**
      * @param int $index
      *
-     * @return int|null
+     * @return null|int
      */
     public function getEndOfTheLine($index)
     {
@@ -248,7 +248,7 @@ final class TokensAnalyzer
         }
     }
 
-    /*
+    /**
      * @param int $index
      *
      * @return int
@@ -275,7 +275,7 @@ final class TokensAnalyzer
     /**
      * @param int $index
      *
-     * @return int|null
+     * @return null|int
      */
     public function endOfTheStatement($index)
     {
@@ -333,7 +333,7 @@ final class TokensAnalyzer
         }
     }
 
-    /*
+    /**
      * @param int $index
      *
      * @return int | null
@@ -361,7 +361,7 @@ final class TokensAnalyzer
         }
     }
 
-    /*
+    /**
      * @param int $index
      *
      * @return int | null
@@ -389,7 +389,7 @@ final class TokensAnalyzer
         }
     }
 
-    /*
+    /**
      * @param int $index
      *
      * @return bool
@@ -420,7 +420,7 @@ final class TokensAnalyzer
         return false;
     }
 
-    /*
+    /**
      * @param int $index
      *
      * @return string

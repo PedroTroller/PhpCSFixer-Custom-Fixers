@@ -36,14 +36,14 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
         }
     }
 
-    /*
+    /**
      * @param array[] $elements
      *
      * @return array[]
      */
     abstract protected function sortElements(array $elements);
 
-    /*
+    /**
      * @param int $startIndex
      *
      * @return array[]
@@ -108,7 +108,7 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
         }
     }
 
-    /*
+    /**
      * @param int $index
      *
      * @return array|string type or array of type and name
@@ -157,7 +157,7 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
         return 'method';
     }
 
-    /*
+    /**
      * @param int $index
      *
      * @return int
@@ -177,7 +177,7 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
         return $tokens[$index]->isWhitespace() ? $index - 1 : $index;
     }
 
-    /*
+    /**
      * @param int     $startIndex
      * @param int     $endIndex
      * @param array[] $elements

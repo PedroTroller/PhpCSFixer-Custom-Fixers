@@ -23,7 +23,7 @@ abstract class TokensAnalyzerIntegration
         return 0;
     }
 
-    /*
+    /**
      * @param string $content
      *
      * @return int
@@ -35,7 +35,7 @@ abstract class TokensAnalyzerIntegration
         return current($indexes);
     }
 
-    /*
+    /**
      * @param string $content
      *
      * @return int[]

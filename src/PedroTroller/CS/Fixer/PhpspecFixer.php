@@ -41,18 +41,6 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
     /**
      * {@inheritdoc}
      */
-    protected function createConfigurationDefinition()
-    {
-        return new FixerConfigurationResolver([
-            (new FixerOptionBuilder('instanceof', 'Parent classes of your spec classes.'))
-                ->setDefault(['PhpSpec\ObjectBehavior'])
-                ->getOption(),
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getSampleCode()
     {
         return <<<'SPEC'
@@ -90,6 +78,72 @@ class TheSpec extends ObjectBehavior
     }
 }
 SPEC;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPriority()
+    {
+        return Priority::after(VisibilityRequiredFixer::class);
+    }
+
+    public function getDocumentation()
+    {
+        return '';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createConfigurationDefinition()
+    {
+        return new FixerConfigurationResolver([
+            (new FixerOptionBuilder('instanceof', 'Parent classes of your spec classes.'))
+                ->setDefault(['PhpSpec\ObjectBehavior'])
+                ->getOption(),
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function sortElements(array $elements)
+    {
+        $ordered = array_merge(
+            array_values($this->filterElementsByType('construct', $elements)),
+            array_values($this->filterElementsByMethodName('let', $elements)),
+            array_values($this->filterElementsByMethodName('letGo', $elements)),
+            array_values($this->filterElementsByMethodName('it_is_initializable', $elements)),
+            array_values($this->filterElementsByMethodName('^(?!it_is_initializable)(it_|its_).+?$', $elements)),
+            array_values($this->filterElementsByMethodName('getMatchers', $elements))
+        );
+
+        foreach ($this->filterElementsByType('method', $elements) as $element) {
+            if (\in_array($element, $ordered, true)) {
+                continue;
+            }
+
+            $ordered[] = $element;
+        }
+
+        foreach (array_reverse($elements) as $element) {
+            if (\in_array($element, $ordered, true)) {
+                continue;
+            }
+
+            array_unshift($ordered, $element);
+        }
+
+        return $ordered;
+    }
+
+    protected function applyFix(SplFileInfo $file, Tokens $tokens)
+    {
+        $this->removeScope($file, $tokens);
+        $this->removeReturn($file, $tokens);
+
+        parent::applyFix($file, $tokens);
     }
 
     private function removeScope(SplFileInfo $file, Tokens $tokens)
@@ -165,47 +219,6 @@ SPEC;
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function sortElements(array $elements)
-    {
-        $ordered = array_merge(
-            array_values($this->filterElementsByType('construct', $elements)),
-            array_values($this->filterElementsByMethodName('let', $elements)),
-            array_values($this->filterElementsByMethodName('letGo', $elements)),
-            array_values($this->filterElementsByMethodName('it_is_initializable', $elements)),
-            array_values($this->filterElementsByMethodName('^(?!it_is_initializable)(it_|its_).+?$', $elements)),
-            array_values($this->filterElementsByMethodName('getMatchers', $elements))
-        );
-
-        foreach ($this->filterElementsByType('method', $elements) as $element) {
-            if (\in_array($element, $ordered, true)) {
-                continue;
-            }
-
-            $ordered[] = $element;
-        }
-
-        foreach (array_reverse($elements) as $element) {
-            if (\in_array($element, $ordered, true)) {
-                continue;
-            }
-
-            array_unshift($ordered, $element);
-        }
-
-        return $ordered;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPriority()
-    {
-        return Priority::after(VisibilityRequiredFixer::class);
-    }
-
-    /**
      * @param string $regex
      *
      * @return array
@@ -241,18 +254,5 @@ SPEC;
         }
 
         return $filter;
-    }
-
-    public function getDocumentation()
-    {
-        return '';
-    }
-
-    protected function applyFix(SplFileInfo $file, Tokens $tokens)
-    {
-        $this->removeScope($file, $tokens);
-        $this->removeReturn($file, $tokens);
-
-        parent::applyFix($file, $tokens);
     }
 }
