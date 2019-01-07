@@ -130,8 +130,8 @@ PHP;
                     continue;
                 }
 
-                if (\in_array($element['methodName'], $methods)) {
-                    $portions[array_search($element['methodName'], $methods)] = $element;
+                if (\in_array($element['methodName'], $methods, true)) {
+                    $portions[array_search($element['methodName'], $methods, true)] = $element;
                     unset($elements[$index]);
                 }
             }

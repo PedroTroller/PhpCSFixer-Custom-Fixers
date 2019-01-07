@@ -21,7 +21,7 @@ final class LineBreakBetweenStatementsFixer extends AbstractFixer
         T_WHILE   => 'common',
     ];
 
-    /*
+    /**
      * {@inheritdoc}
      */
     public function getSampleCode()
@@ -125,7 +125,7 @@ PHP;
             return;
         }
 
-        if (false === \in_array($tokens[$nextMeaningful]->getId(), array_keys($this->handlers))) {
+        if (false === \in_array($tokens[$nextMeaningful]->getId(), array_keys($this->handlers), true)) {
             return;
         }
 

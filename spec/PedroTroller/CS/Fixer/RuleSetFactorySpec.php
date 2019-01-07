@@ -38,6 +38,11 @@ class RuleSetFactorySpec extends ObjectBehavior
         $this->symfony()->getRules()->shouldReturn(['@Symfony' => true]);
     }
 
+    function it_adds_a_phpCsFixer_set()
+    {
+        $this->phpCsFixer()->getRules()->shouldReturn(['@PhpCsFixer' => true]);
+    }
+
     function it_adds_a_doctrine_annotation_set()
     {
         $this->doctrineAnnotation()->getRules()->shouldReturn(['@DoctrineAnnotation' => true]);
@@ -52,6 +57,18 @@ class RuleSetFactorySpec extends ObjectBehavior
         $this->symfony(true)->getRules()->shouldReturn([
             '@Symfony'       => true,
             '@Symfony:risky' => true,
+        ]);
+    }
+
+    function it_adds_a_phpCsFixer_strict_set()
+    {
+        $this->phpCsFixer()->getRules()->shouldReturn([
+            '@PhpCsFixer' => true,
+        ]);
+
+        $this->phpCsFixer(true)->getRules()->shouldReturn([
+            '@PhpCsFixer'       => true,
+            '@PhpCsFixer:risky' => true,
         ]);
     }
 

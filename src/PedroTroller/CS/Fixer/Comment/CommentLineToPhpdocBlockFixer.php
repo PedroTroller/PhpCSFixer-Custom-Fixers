@@ -82,7 +82,7 @@ PHP;
         return Priority::after(SingleLineCommentStyleFixer::class);
     }
 
-    /*
+    /**
      * {@inheritdoc}
      */
     protected function applyFix(SplFileInfo $file, Tokens $tokens)

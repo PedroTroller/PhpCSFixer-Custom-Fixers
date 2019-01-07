@@ -18,7 +18,7 @@ final class SingleLineCommentFixer extends AbstractFixer implements Configuratio
      */
     private $collapseRegex = '/( *)\/[*]{1,2}\n( *)[*]{1,2} %s (.+)\n( *)\*\//';
 
-    /*
+    /**
      * @var string
      */
     private $expandRegex = '/( *)\/[*]{1,2} %s (.+) \*\//';

@@ -10,6 +10,7 @@ return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
     ->setRules(RuleSetFactory::create()
         ->symfony()                 // Activate the @Symfony ruleset
+        ->phpCsFixer()              // Activate the @PhpCsFixer ruleset
         ->php(5.6, true)            // Activate php 5.6 risky rules
         ->pedrotroller(true)        // Activate my own ruleset (with risky rules)
         ->enable('ordered_imports') // Add an other rule
@@ -44,6 +45,10 @@ Activate the `@psr4` rule.
 ### `->symfony([bool $risky = false])`
 
 Activate the `@Symfony` rule or `@Symfony:risky` rule depending of the `$risky` argument.
+
+### `->phpCsFixer([bool $risky = false])`
+
+Activate the `@PhpCsFixer` rule or `@PhpCsFixer:risky` rule depending of the `$risky` argument.
 
 ### `->doctrineAnnotation()`
 
