@@ -142,6 +142,15 @@ class RuleSetFactorySpec extends ObjectBehavior
         ]);
     }
 
+    function it_can_also_parse_versions_as_string()
+    {
+        $this->php('5.6.2')->getRules()->shouldReturn([
+            '@PHP56Migration' => true,
+            'array_syntax'    => ['syntax' => 'short'],
+            'list_syntax'     => ['syntax' => 'long'],
+        ]);
+    }
+
     function it_adds_a_phpunit_version_support()
     {
         $this->phpUnit(2.0, false)->getRules()->shouldReturn([]);
