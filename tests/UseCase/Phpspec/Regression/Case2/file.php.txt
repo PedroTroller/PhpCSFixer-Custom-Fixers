@@ -1,0 +1,31 @@
+<?php
+
+namespace spec\App\Domain\Model;
+
+use App\Domain\Model\Color;
+use InvalidArgumentException;
+use PhpSpec\ObjectBehavior;
+
+class ColorSpec extends ObjectBehavior
+{
+    function it_is_initializable_with_a_valid_format()
+    {
+        $this->beConstructedWith('white');
+
+        $this->shouldNotThrow()->duringInstantiation();
+    }
+
+    function it_is_not_initializable_with_an_invalid_format()
+    {
+        $this->beConstructedWith('#fff');
+
+        $this->shouldThrow(InvalidArgumentException::class)->duringInstantiation();
+    }
+
+    function it_is_stringifiable()
+    {
+        $this->beConstructedWith('red');
+
+        $this->__toString()->shouldReturn('red');
+    }
+}

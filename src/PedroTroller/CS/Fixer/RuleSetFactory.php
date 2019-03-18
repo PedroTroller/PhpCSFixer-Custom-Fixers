@@ -133,7 +133,7 @@ final class RuleSetFactory
 
     /**
      * @param float|string $version
-     * @param bool  $risky
+     * @param bool         $risky
      *
      * @return RuleSetFactory
      */

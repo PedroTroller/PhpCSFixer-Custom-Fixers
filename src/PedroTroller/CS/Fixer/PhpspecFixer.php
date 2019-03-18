@@ -115,7 +115,7 @@ SPEC;
             array_values($this->filterElementsByMethodName('let', $elements)),
             array_values($this->filterElementsByMethodName('letGo', $elements)),
             array_values($this->filterElementsByMethodName('it_is_initializable', $elements)),
-            array_values($this->filterElementsByMethodName('^(?!it_is_initializable)(it_|its_).+?$', $elements)),
+            array_values($this->filterElementsByMethodName('^(?!it_is_initializable$)(it_|its_).+?$', $elements)),
             array_values($this->filterElementsByMethodName('getMatchers', $elements))
         );
 

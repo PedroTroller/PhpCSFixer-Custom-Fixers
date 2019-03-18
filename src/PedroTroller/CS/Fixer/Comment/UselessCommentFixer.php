@@ -98,7 +98,7 @@ PHP;
             $previous        = null;
 
             foreach ($lines as $index => $line) {
-                if (false === array_key_exists($index, $lines)) {
+                if (false === \array_key_exists($index, $lines)) {
                     continue;
                 }
 
@@ -115,7 +115,7 @@ PHP;
                     if (null !== $previous) {
                         $next = $index + 1;
 
-                        if (array_key_exists($next, $lines) && empty(trim($lines[$previous], '/* ')) && empty(trim($lines[$next], '/* ')) && '*/' !== trim($lines[$next])) {
+                        if (\array_key_exists($next, $lines) && empty(trim($lines[$previous], '/* ')) && empty(trim($lines[$next], '/* ')) && '*/' !== trim($lines[$next])) {
                             unset($lines[$next]);
                         }
                     }
