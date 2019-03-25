@@ -5,8 +5,14 @@ declare(strict_types=1);
 namespace tests;
 
 use PedroTroller\CS\Fixer\ClassNotation\OrderedWithGetterAndSetterFirstFixer;
+use PedroTroller\CS\Fixer\DoctrineMigrationsFixer;
+use PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Fixer\FixerInterface;
+use PhpCsFixer\Fixer\Import\SingleLineAfterImportsFixer;
+use PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer;
+use PhpCsFixer\Fixer\Whitespace\NoExtraBlankLinesFixer;
+use PhpCsFixer\Fixer\Whitespace\NoWhitespaceInBlankLineFixer;
 use Webmozart\Assert\Assert;
 
 final class Orchestra
@@ -25,6 +31,14 @@ final class Orchestra
     {
         self::assert(new OrderedWithGetterAndSetterFirstFixer())
             ->before(new OrderedClassElementsFixer())
+        ;
+
+        self::assert(new DoctrineMigrationsFixer())
+            ->before(new ClassAttributesSeparationFixer())
+            ->before(new NoEmptyPhpdocFixer())
+            ->before(new NoExtraBlankLinesFixer())
+            ->before(new SingleLineAfterImportsFixer())
+            ->before(new NoWhitespaceInBlankLineFixer())
         ;
     }
 

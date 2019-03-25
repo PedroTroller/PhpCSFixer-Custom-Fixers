@@ -770,6 +770,163 @@ return $config;
                                                                                  //
 ```
 
+## PedroTroller/doctrine_migrations
+
+Remove useless getDescription(), up(), down() and comments from Doctrine\Migrations\AbstractMigration if needed.
+
+### Configuration
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules([
+        // ...
+        'PedroTroller/doctrine_migrations' => true,
+        // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/doctrine_migrations')
+        ->getRules()
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+### Fixes
+
+```diff
+--- Original                                                                     // 80 chars
++++ New                                                                          //
+@@ @@                                                                            //
+ use Doctrine\DBAL\Schema\Schema;                                                //
+ use Doctrine\Migrations\AbstractMigration;                                      //
+                                                                                 //
+-/**                                                                             //
+- * Auto-generated Migration: Please modify to your needs!                       //
+- */                                                                             //
+ final class Version20190323095102 extends AbstractMigration                     //
+ {                                                                               //
+-    public function getDescription()                                            //
+-    {                                                                           //
+-        return '';                                                              //
+-    }                                                                           //
+                                                                                 //
+     public function up(Schema $schema)                                          //
+     {                                                                           //
+-        // this up() migration is auto-generated, please modify it to your needs//
+         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
+                                                                                 //
+         $this->addSql('CREATE TABLE admin (identifier CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', PRIMARY KEY(identifier)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+@@ @@                                                                            //
+                                                                                 //
+     public function down(Schema $schema)                                        //
+     {                                                                           //
+-        // this down() migration is auto-generated, please modify it to your needs
+         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
+                                                                                 //
+         $this->addSql('DROP TABLE admin');                                      //
+     }                                                                           //
+ }                                                                               //
+                                                                                 //
+```
+### Configuration
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules([
+        // ...
+        'PedroTroller/doctrine_migrations' => [ 'instanceof' => [ 'Doctrine\Migrations\AbstractMigration' ] ],
+        // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/doctrine_migrations', [ 'instanceof' => [ 'Doctrine\Migrations\AbstractMigration' ] ])
+        ->getRules()
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+### Fixes
+
+```diff
+--- Original                                                                     // 80 chars
++++ New                                                                          //
+@@ @@                                                                            //
+ use Doctrine\DBAL\Schema\Schema;                                                //
+ use Doctrine\Migrations\AbstractMigration;                                      //
+                                                                                 //
+-/**                                                                             //
+- * Auto-generated Migration: Please modify to your needs!                       //
+- */                                                                             //
+ final class Version20190323095102 extends AbstractMigration                     //
+ {                                                                               //
+-    public function getDescription()                                            //
+-    {                                                                           //
+-        return '';                                                              //
+-    }                                                                           //
+                                                                                 //
+     public function up(Schema $schema)                                          //
+     {                                                                           //
+-        // this up() migration is auto-generated, please modify it to your needs//
+         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
+                                                                                 //
+         $this->addSql('CREATE TABLE admin (identifier CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', PRIMARY KEY(identifier)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+@@ @@                                                                            //
+                                                                                 //
+     public function down(Schema $schema)                                        //
+     {                                                                           //
+-        // this down() migration is auto-generated, please modify it to your needs
+         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
+                                                                                 //
+         $this->addSql('DROP TABLE admin');                                      //
+     }                                                                           //
+ }                                                                               //
+                                                                                 //
+```
+
 ## PedroTroller/ordered_spec_elements
 
 PHPSpec spec functions MUST BE ordered with specs first (order: let, letGo, its_* and it_* functons).
