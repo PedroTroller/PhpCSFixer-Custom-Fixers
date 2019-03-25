@@ -3,6 +3,7 @@
 namespace PedroTroller\CS\Fixer;
 
 use Exception;
+use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer as PhpCsFixerTokensAnalyzer;
 
@@ -435,17 +436,20 @@ final class TokensAnalyzer
     }
 
     /**
+     * @param null|mixed $start
+     * @param null|mixed $end
+     *
      * @return array
      */
-    public function findAllSequences(array $seqs)
+    public function findAllSequences(array $seqs, $start = null, $end = null)
     {
         $sequences = [];
 
         foreach ($seqs as $seq) {
-            $index = 0;
+            $index = $start ?: 0;
 
             do {
-                $extract = $this->tokens->findSequence($seq, (int) $index);
+                $extract = $this->tokens->findSequence($seq, (int) $index, $end);
 
                 if (null !== $extract) {
                     $keys                    = array_keys($extract);
@@ -458,5 +462,151 @@ final class TokensAnalyzer
         ksort($sequences);
 
         return $sequences;
+    }
+
+    /**
+     * @param int $startIndex
+     *
+     * @return array[]
+     */
+    public function getElements($startIndex = null)
+    {
+        static $elementTokenKinds = [CT::T_USE_TRAIT, T_CONST, T_VARIABLE, T_FUNCTION];
+
+        if (null === $startIndex) {
+            foreach ($this->tokens as $startIndex => $token) {
+                if (!$token->isClassy()) {
+                    continue;
+                }
+
+                $startIndex = $this->tokens->getNextTokenOfKind($startIndex, ['{']);
+
+                break;
+            }
+        }
+
+        ++$startIndex;
+        $elements = [];
+
+        while (true) {
+            $element = [
+                'start'      => $startIndex,
+                'visibility' => 'public',
+                'static'     => false,
+            ];
+
+            for ($i = $startIndex;; ++$i) {
+                $token = $this->tokens[$i];
+
+                if ($token->equals('}')) {
+                    return $elements;
+                }
+
+                if ($token->isGivenKind(T_STATIC)) {
+                    $element['static'] = true;
+
+                    continue;
+                }
+
+                if ($token->isGivenKind([T_PROTECTED, T_PRIVATE])) {
+                    $element['visibility'] = mb_strtolower($token->getContent());
+
+                    continue;
+                }
+
+                if (!$token->isGivenKind([CT::T_USE_TRAIT, T_CONST, T_VARIABLE, T_FUNCTION])) {
+                    continue;
+                }
+
+                $type            = $this->detectElementType($this->tokens, $i);
+                $element['type'] = $type;
+
+                switch ($type) {
+                    case 'method':
+                        $element['methodName'] = $this->tokens[$this->tokens->getNextMeaningfulToken($i)]->getContent();
+
+                        break;
+                    case 'property':
+                        $element['propertyName'] = $token->getContent();
+
+                        break;
+                }
+                $element['end'] = $this->findElementEnd($this->tokens, $i);
+
+                break;
+            }
+
+            $elements[] = $element;
+            $startIndex = $element['end'] + 1;
+        }
+    }
+
+    /**
+     * @param int $index
+     *
+     * @return array|string type or array of type and name
+     */
+    private function detectElementType(Tokens $tokens, $index)
+    {
+        $token = $tokens[$index];
+
+        if ($token->isGivenKind(CT::T_USE_TRAIT)) {
+            return 'use_trait';
+        }
+
+        if ($token->isGivenKind(T_CONST)) {
+            return 'constant';
+        }
+
+        if ($token->isGivenKind(T_VARIABLE)) {
+            return 'property';
+        }
+
+        $nameToken = $tokens[$tokens->getNextMeaningfulToken($index)];
+
+        if ($nameToken->equals([T_STRING, '__construct'], false)) {
+            return 'construct';
+        }
+
+        if ($nameToken->equals([T_STRING, '__destruct'], false)) {
+            return 'destruct';
+        }
+
+        if (
+            $nameToken->equalsAny([
+                [T_STRING, 'setUpBeforeClass'],
+                [T_STRING, 'tearDownAfterClass'],
+                [T_STRING, 'setUp'],
+                [T_STRING, 'tearDown'],
+            ], false)
+        ) {
+            return ['phpunit', mb_strtolower($nameToken->getContent())];
+        }
+
+        if ('__' === mb_substr($nameToken->getContent(), 0, 2)) {
+            return 'magic';
+        }
+
+        return 'method';
+    }
+
+    /**
+     * @param int $index
+     *
+     * @return int
+     */
+    private function findElementEnd(Tokens $tokens, $index)
+    {
+        $index = $tokens->getNextTokenOfKind($index, ['{', ';']);
+
+        if ($tokens[$index]->equals('{')) {
+            $index = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $index);
+        }
+
+        for (++$index; $tokens[$index]->isWhitespace(" \t") || $tokens[$index]->isComment(); ++$index);
+
+        --$index;
+
+        return $tokens[$index]->isWhitespace() ? $index - 1 : $index;
     }
 }
