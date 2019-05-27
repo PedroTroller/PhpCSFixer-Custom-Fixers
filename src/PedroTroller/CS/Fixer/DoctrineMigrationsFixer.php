@@ -114,7 +114,6 @@ SPEC;
     protected function applyFix(SplFileInfo $file, Tokens $tokens)
     {
         $this->removeUselessGetDocumentation($tokens);
-        $this->removeUpAndDown($tokens);
         $this->removeUselessComments($tokens);
     }
 
@@ -191,35 +190,6 @@ SPEC;
             }
 
             $tokens[$position] = new Token([T_COMMENT, implode("\n", $lines)]);
-        }
-    }
-
-    private function removeUpAndDown(Tokens $tokens)
-    {
-        foreach ($this->analyze($tokens)->getElements() as $element) {
-            if ('method' !== $element['type']) {
-                continue;
-            }
-
-            if (false === in_array($element['methodName'], ['up', 'down'])) {
-                continue;
-            }
-
-            $sequences = $this->analyze($tokens)->findAllSequences(
-                [
-                    [
-                        [T_VARIABLE, '$this'],
-                        [T_OBJECT_OPERATOR],
-                        [T_STRING, 'addSql'],
-                    ],
-                ],
-                $element['start'],
-                $element['end']
-            );
-
-            if (empty($sequences)) {
-                $tokens->clearRange($element['start'], $element['end']);
-            }
         }
     }
 }
