@@ -24,54 +24,6 @@ tests_with_future_mode: &tests_with_future_mode
       vendor/bin/php-cs-fixer fix --diff || (echo "Coding standards are not respected. Run 'vendor/bin/php-cs-fixer fix'" && exit 1)
 
 jobs:
-  php 5.6:
-    docker:
-      - image: circleci/php:5.6
-    steps:
-      - checkout
-      - <<: *composer
-      - <<: *tests
-
-  php 5.6 with future mode:
-    docker:
-      - image: circleci/php:5.6
-    steps:
-      - checkout
-      - <<: *composer
-      - <<: *tests
-
-  php 5.6 with lowest dependencies:
-    docker:
-      - image: circleci/php:5.6
-    steps:
-      - checkout
-      - <<: *composer_with_lowest_dependencies
-      - <<: *tests
-
-  php 7.0:
-    docker:
-      - image: circleci/php:7.0
-    steps:
-      - checkout
-      - <<: *composer
-      - <<: *tests
-
-  php 7.0 with future mode:
-    docker:
-      - image: circleci/php:7.0
-    steps:
-      - checkout
-      - <<: *composer
-      - <<: *tests_with_future_mode
-
-  php 7.0 with lowest dependencies:
-    docker:
-      - image: circleci/php:7.0
-    steps:
-      - checkout
-      - <<: *composer_with_lowest_dependencies
-      - <<: *tests
-
   php 7.1:
     docker:
       - image: circleci/php:7.1
@@ -166,20 +118,6 @@ workflows:
   PR:
     jobs:
       - documentation is up to date
-      - php 5.6
-      - php 5.6 with future mode:
-          requires:
-            - php 5.6
-      - php 5.6 with lowest dependencies:
-          requires:
-            - php 5.6
-      - php 7.0
-      - php 7.0 with future mode:
-          requires:
-            - php 7.0
-      - php 7.0 with lowest dependencies:
-          requires:
-            - php 7.0
       - php 7.1
       - php 7.1 with future mode:
           requires:
@@ -204,12 +142,6 @@ workflows:
       - release:
           requires:
             - documentation is up to date
-            - php 5.6
-            - php 5.6 with future mode
-            - php 5.6 with lowest dependencies
-            - php 7.0
-            - php 7.0 with future mode
-            - php 7.0 with lowest dependencies
             - php 7.1
             - php 7.1 with future mode
             - php 7.1 with lowest dependencies

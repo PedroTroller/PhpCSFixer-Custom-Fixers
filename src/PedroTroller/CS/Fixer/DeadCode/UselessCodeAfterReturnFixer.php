@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PedroTroller\CS\Fixer\DeadCode;
 
 use PedroTroller\CS\Fixer\AbstractFixer;
@@ -72,7 +74,7 @@ PHP;
     /**
      * {@inheritdoc}
      */
-    protected function applyFix(SplFileInfo $file, Tokens $tokens)
+    protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         $returns  = $tokens->findGivenKind(T_RETURN);
         $analyzer = $this->analyze($tokens);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace tests\TokensAnalyzerIntegration;
 
 use PedroTroller\CS\Fixer\TokensAnalyzer;
@@ -37,7 +39,7 @@ PHP;
     /**
      * {@inheritdoc}
      */
-    public function assertions(TokensAnalyzer $analyzer, Tokens $tokens)
+    public function assertions(TokensAnalyzer $analyzer, Tokens $tokens): void
     {
         Assert::false(
             $analyzer->isInsideSwitchCase(

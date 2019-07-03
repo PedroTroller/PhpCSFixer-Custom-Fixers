@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PedroTroller\CS\Fixer;
 
 use Exception;
@@ -411,7 +413,7 @@ final class TokensAnalyzer
         }
 
         foreach ($intervals as $interval) {
-            list($start, $end) = $interval;
+            [$start, $end] = $interval;
 
             if ($index >= $start && $index <= $end) {
                 return true;

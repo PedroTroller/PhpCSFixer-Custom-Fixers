@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PedroTroller\CS\Fixer\Comment;
 
 use PedroTroller\CS\Fixer\AbstractFixer;
@@ -96,7 +98,7 @@ PHP;
     /**
      * {@inheritdoc}
      */
-    protected function applyFix(SplFileInfo $file, Tokens $tokens)
+    protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         $this->{$this->configuration['action'].'Comment'}($tokens);
     }
@@ -117,7 +119,7 @@ PHP;
         ]);
     }
 
-    private function expandedComment(Tokens $tokens)
+    private function expandedComment(Tokens $tokens): void
     {
         foreach ($this->getComments($tokens) as $index => $token) {
             $space = '';
@@ -135,7 +137,7 @@ PHP;
         }
     }
 
-    private function collapsedComment(Tokens $tokens)
+    private function collapsedComment(Tokens $tokens): void
     {
         foreach ($this->getComments($tokens) as $index => $token) {
             foreach ($this->configuration['types'] as $variable) {

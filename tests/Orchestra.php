@@ -27,7 +27,7 @@ final class Orchestra
         $this->fixer = $fixer;
     }
 
-    public static function run()
+    public static function run(): void
     {
         self::assert(new OrderedWithGetterAndSetterFirstFixer())
             ->before(new OrderedClassElementsFixer())

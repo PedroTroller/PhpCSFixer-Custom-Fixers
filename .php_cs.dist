@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use PedroTroller\CS\Fixer\Fixers;
 use PedroTroller\CS\Fixer\RuleSetFactory;
 
@@ -8,7 +10,7 @@ return PhpCsFixer\Config::create()
     ->setRules(
         RuleSetFactory::create()
             ->phpCsFixer(true)
-            ->php(5.6, true)
+            ->php(7.1, true)
             ->pedrotroller(true)
             ->enable('ordered_imports')
             ->enable('align_multiline_comment')
