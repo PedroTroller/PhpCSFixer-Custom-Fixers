@@ -153,10 +153,19 @@ jobs:
       - run: bin/doc > README.new.md
       - run: cmp --silent README.md README.new.md || cmp README.md README.new.md || (echo "Documentation is outdated. Run 'bin/doc > README.md'" && exit 1)
 
+  release:
+    docker:
+      - image: circleci/node:8
+    steps:
+      - type: checkout
+      - run: sudo npm install -g semantic-release
+      - run: semantic-release
+
 workflows:
   version: 2
-  php 5.6:
+  PR:
     jobs:
+      - documentation is up to date
       - php 5.6
       - php 5.6 with future mode:
           requires:
@@ -164,8 +173,6 @@ workflows:
       - php 5.6 with lowest dependencies:
           requires:
             - php 5.6
-  php 7.0:
-    jobs:
       - php 7.0
       - php 7.0 with future mode:
           requires:
@@ -173,8 +180,6 @@ workflows:
       - php 7.0 with lowest dependencies:
           requires:
             - php 7.0
-  php 7.1:
-    jobs:
       - php 7.1
       - php 7.1 with future mode:
           requires:
@@ -182,8 +187,6 @@ workflows:
       - php 7.1 with lowest dependencies:
           requires:
             - php 7.1
-  php 7.2:
-    jobs:
       - php 7.2
       - php 7.2 with future mode:
           requires:
@@ -191,8 +194,6 @@ workflows:
       - php 7.2 with lowest dependencies:
           requires:
             - php 7.2
-  php 7.3:
-    jobs:
       - php 7.3
       - php 7.3 with future mode:
           requires:
@@ -200,6 +201,25 @@ workflows:
       - php 7.3 with lowest dependencies:
           requires:
             - php 7.3
-  documentation:
-    jobs:
-      - documentation is up to date
+      - release:
+          requires:
+            - documentation is up to date
+            - php 5.6
+            - php 5.6 with future mode
+            - php 5.6 with lowest dependencies
+            - php 7.0
+            - php 7.0 with future mode
+            - php 7.0 with lowest dependencies
+            - php 7.1
+            - php 7.1 with future mode
+            - php 7.1 with lowest dependencies
+            - php 7.2
+            - php 7.2 with future mode
+            - php 7.2 with lowest dependencies
+            - php 7.3
+            - php 7.3 with future mode
+            - php 7.3 with lowest dependencies
+          filters:
+            branches:
+              only:
+                - master

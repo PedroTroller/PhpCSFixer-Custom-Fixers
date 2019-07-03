@@ -1,0 +1,12 @@
+---
+version: 1
+
+update_configs:
+  - package_manager: "php:composer"
+    directory: "./"
+    update_schedule: "live"
+    commit_message:
+      prefix: "fix"
+      include_scope: true
+    default_reviewers:
+      - 'PedroTroller'
