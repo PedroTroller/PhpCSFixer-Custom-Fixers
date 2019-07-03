@@ -243,19 +243,19 @@ final class RuleSetFactory
         $rules = array_filter($rules);
 
         $rules = array_filter($rules, function ($versionAndRisky) use ($package) {
-            list($rule, $rulePackage, $ruleVersion, $ruleRisky) = $versionAndRisky;
+            [$rule, $rulePackage, $ruleVersion, $ruleRisky] = $versionAndRisky;
 
             return strtoupper($package) === strtoupper($rulePackage);
         });
 
         $rules = array_filter($rules, function ($versionAndRisky) use ($version) {
-            list($rule, $rulePackage, $ruleVersion, $ruleRisky) = $versionAndRisky;
+            [$rule, $rulePackage, $ruleVersion, $ruleRisky] = $versionAndRisky;
 
             return ((float) $ruleVersion / 10) <= $version;
         });
 
         $rules = array_filter($rules, function ($versionAndRisky) use ($risky) {
-            list($rule, $rulePackage, $ruleVersion, $ruleRisky) = $versionAndRisky;
+            [$rule, $rulePackage, $ruleVersion, $ruleRisky] = $versionAndRisky;
 
             if ($risky) {
                 return true;

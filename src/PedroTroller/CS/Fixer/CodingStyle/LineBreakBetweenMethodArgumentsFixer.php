@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PedroTroller\CS\Fixer\CodingStyle;
 
 use PedroTroller\CS\Fixer\AbstractFixer;
@@ -82,7 +84,7 @@ SPEC;
     /**
      * {@inheritdoc}
      */
-    protected function applyFix(SplFileInfo $file, Tokens $tokens)
+    protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         $functions = [];
 
@@ -158,7 +160,7 @@ SPEC;
         ]);
     }
 
-    private function splitArgs(Tokens $tokens, $index)
+    private function splitArgs(Tokens $tokens, $index): void
     {
         $openBraceIndex  = $tokens->getNextTokenOfKind($index, ['(']);
         $closeBraceIndex = $this->analyze($tokens)->getClosingParenthesis($openBraceIndex);
@@ -220,7 +222,7 @@ SPEC;
         $tokens->removeTrailingWhitespace($tokens->getPrevMeaningfulToken($closeBraceIndex));
     }
 
-    private function mergeArgs(Tokens $tokens, $index)
+    private function mergeArgs(Tokens $tokens, $index): void
     {
         $openBraceIndex  = $tokens->getNextTokenOfKind($index, ['(']);
         $closeBraceIndex = $this->analyze($tokens)->getClosingParenthesis($openBraceIndex);

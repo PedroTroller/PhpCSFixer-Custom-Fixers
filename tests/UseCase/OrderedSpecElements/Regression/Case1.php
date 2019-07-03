@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace tests\UseCase\OrderedSpecElements\Regression;
 
 use PedroTroller\CS\Fixer\Phpspec\OrderedSpecElementsFixer;

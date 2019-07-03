@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace tests\UseCase\UselessComment\Regression;
 
 use PedroTroller\CS\Fixer\Comment\UselessCommentFixer;

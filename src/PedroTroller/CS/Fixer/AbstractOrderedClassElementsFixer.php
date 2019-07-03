@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PedroTroller\CS\Fixer;
 
 use PhpCsFixer\Tokenizer\CT;
@@ -11,7 +13,7 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
     /**
      * {@inheritdoc}
      */
-    protected function applyFix(SplFileInfo $file, Tokens $tokens)
+    protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         for ($i = 1, $count = $tokens->count(); $i < $count; ++$i) {
             if (!$tokens[$i]->isClassy()) {
@@ -187,7 +189,7 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
         $startIndex,
         $endIndex,
         array $elements
-    ) {
+    ): void {
         $replaceTokens = [];
 
         foreach ($elements as $element) {

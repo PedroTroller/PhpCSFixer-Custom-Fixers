@@ -59,7 +59,7 @@ PHP;
         return 'Exception messages MUST ends by ".", "…", "?" or "!".<br /><br /><i>Risky: will change the exception message.</i>';
     }
 
-    protected function applyFix(SplFileInfo $file, Tokens $tokens)
+    protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         $cases = $this->analyze($tokens)->findAllSequences([
             [

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace tests;
 
 use Exception;
@@ -11,12 +13,12 @@ use Symfony\Component\Finder\Finder;
 
 class Runner
 {
-    public static function run()
+    public static function run(): void
     {
         $deprecations = [];
 
         set_error_handler(
-            function ($type, $message, $file, $line) use (&$deprecations) {
+            function ($type, $message, $file, $line) use (&$deprecations): void {
                 $deprecations[$message][] = sprintf('%s at line %d', $file, $line);
                 $deprecations[$message] = array_unique($deprecations[$message]);
 
@@ -51,7 +53,7 @@ class Runner
         }
     }
 
-    private static function runUseCases()
+    private static function runUseCases(): void
     {
         $directory = sprintf('%s/UseCase', __DIR__);
 
@@ -96,7 +98,7 @@ class Runner
         }
     }
 
-    private static function runAnalyzerIntegrations()
+    private static function runAnalyzerIntegrations(): void
     {
         $directory = sprintf('%s/TokensAnalyzerIntegration', __DIR__);
 

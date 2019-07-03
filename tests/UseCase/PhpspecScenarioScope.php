@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace tests\Usecase;
 
 use PedroTroller\CS\Fixer\Phpspec\PhpspecScenarioScopeFixer;

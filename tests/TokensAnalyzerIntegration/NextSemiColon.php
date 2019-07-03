@@ -48,7 +48,7 @@ PHP;
     /**
      * {@inheritdoc}
      */
-    public function assertions(TokensAnalyzer $analyzer, Tokens $tokens)
+    public function assertions(TokensAnalyzer $analyzer, Tokens $tokens): void
     {
         Assert::eq(
             $analyzer->getNextSemiColon(

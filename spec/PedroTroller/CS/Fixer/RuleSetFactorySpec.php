@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\PedroTroller\CS\Fixer;
 
 use PedroTroller\CS\Fixer\Fixers;

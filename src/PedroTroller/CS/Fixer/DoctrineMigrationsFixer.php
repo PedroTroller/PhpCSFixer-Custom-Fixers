@@ -111,13 +111,13 @@ SPEC;
     /**
      * {@inheritdoc}
      */
-    protected function applyFix(SplFileInfo $file, Tokens $tokens)
+    protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         $this->removeUselessGetDocumentation($tokens);
         $this->removeUselessComments($tokens);
     }
 
-    private function removeUselessGetDocumentation(Tokens $tokens)
+    private function removeUselessGetDocumentation(Tokens $tokens): void
     {
         foreach ($this->analyze($tokens)->getElements() as $element) {
             if ('method' !== $element['type']) {
@@ -157,7 +157,7 @@ SPEC;
         }
     }
 
-    private function removeUselessComments(Tokens $tokens)
+    private function removeUselessComments(Tokens $tokens): void
     {
         $comments = $this->getComments($tokens);
 

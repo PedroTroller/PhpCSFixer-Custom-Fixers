@@ -45,7 +45,7 @@ class MyClass {
 PHP;
     }
 
-    public function assertions(TokensAnalyzer $analyzer, Tokens $tokens)
+    public function assertions(TokensAnalyzer $analyzer, Tokens $tokens): void
     {
         Assert::eq(
             $analyzer->getClosingParenthesis($this->tokenContaining($tokens, 'getId') + 1),

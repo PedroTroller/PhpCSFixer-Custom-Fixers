@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PedroTroller\CS\Fixer\Comment;
 
 use PedroTroller\CS\Fixer\AbstractFixer;
@@ -78,7 +80,7 @@ PHP;
     /**
      * {@inheritdoc}
      */
-    protected function applyFix(SplFileInfo $file, Tokens $tokens)
+    protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($this->analyze($tokens)->getClassyElements() as $index => $element) {
             if ('method' !== $element['type']) {

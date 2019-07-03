@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PedroTroller\CS\Fixer;
 
 use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
@@ -138,7 +140,7 @@ SPEC;
         return $ordered;
     }
 
-    protected function applyFix(SplFileInfo $file, Tokens $tokens)
+    protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         $this->removeScope($file, $tokens);
         $this->removeReturn($file, $tokens);
@@ -146,7 +148,7 @@ SPEC;
         parent::applyFix($file, $tokens);
     }
 
-    private function removeScope(SplFileInfo $file, Tokens $tokens)
+    private function removeScope(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($tokens as $index => $token) {
             if (T_FUNCTION !== $token->getId()) {
@@ -177,7 +179,7 @@ SPEC;
         }
     }
 
-    private function removeReturn(SplFileInfo $file, Tokens $tokens)
+    private function removeReturn(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($tokens as $index => $token) {
             if (T_FUNCTION !== $token->getId()) {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PedroTroller\CS\Fixer\ClassNotation;
 
 use PedroTroller\CS\Fixer\AbstractOrderedClassElementsFixer;

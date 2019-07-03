@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PedroTroller\CS\Fixer\CodingStyle;
 
 use PedroTroller\CS\Fixer\AbstractFixer;
@@ -64,14 +66,14 @@ PHP;
         return 'Transform multiline docblocks with only one comment into a singleline docblock.';
     }
 
-    protected function applyFix(SplFileInfo $file, Tokens $tokens)
+    protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($tokens->findGivenKind(array_keys($this->handlers)) as $kind => $matchedTokens) {
             $this->{'handle'.ucfirst($this->handlers[$kind])}($matchedTokens, $tokens);
         }
     }
 
-    private function handleDo(array $matchedTokens, Tokens $tokens)
+    private function handleDo(array $matchedTokens, Tokens $tokens): void
     {
         foreach ($matchedTokens as $index => $token) {
             $this->fixSpaces(
@@ -81,7 +83,7 @@ PHP;
         }
     }
 
-    private function handleCommon(array $matchedTokens, Tokens $tokens)
+    private function handleCommon(array $matchedTokens, Tokens $tokens): void
     {
         foreach ($matchedTokens as $index => $token) {
             $curlyBracket = $tokens->findSequence([
@@ -111,7 +113,7 @@ PHP;
         }
     }
 
-    private function fixSpaces($index, Tokens $tokens)
+    private function fixSpaces($index, Tokens $tokens): void
     {
         $space = $index + 1;
 
