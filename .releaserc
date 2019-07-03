@@ -14,6 +14,6 @@ plugins:
         - type: refactor
           release: patch
         - scope: no-release
-          release": false
+          release: false
   - '@semantic-release/release-notes-generator'
   - '@semantic-release/github'
