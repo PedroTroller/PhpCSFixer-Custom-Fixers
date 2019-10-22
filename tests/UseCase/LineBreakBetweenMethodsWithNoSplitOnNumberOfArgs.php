@@ -1,0 +1,100 @@
+<?php
+
+declare(strict_types=1);
+
+namespace tests\UseCase;
+
+use PedroTroller\CS\Fixer\CodingStyle\LineBreakBetweenMethodArgumentsFixer;
+use tests\UseCase;
+
+class LineBreakBetweenMethodsWithNoSplitOnNumberOfArgs implements UseCase
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function getFixer()
+    {
+        $fixer = new LineBreakBetweenMethodArgumentsFixer();
+
+        $fixer->configure([
+            'max-args'   => false,
+            'max-length' => 90,
+        ]);
+
+        return $fixer;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRawScript()
+    {
+        return <<<'PHP'
+<?php
+
+namespace Project\TheNamespace;
+
+class TheClass
+{
+    public function fun1($arg1, array $arg2 = [], \ArrayAccess $arg3 = null, $foo = 'bar')
+    {
+        return;
+    }
+
+    public function fun2(
+        $arg1,
+        array $arg2 = []
+    ) {
+        return;
+    }
+
+    public function fun4($foo, $bar, $bar, $boolean = true, $integer = 1, $string = 'string')
+    {
+    }
+}
+PHP;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getExpectation()
+    {
+        return <<<'PHP'
+<?php
+
+namespace Project\TheNamespace;
+
+class TheClass
+{
+    public function fun1($arg1, array $arg2 = [], \ArrayAccess $arg3 = null, $foo = 'bar')
+    {
+        return;
+    }
+
+    public function fun2($arg1, array $arg2 = [])
+    {
+        return;
+    }
+
+    public function fun4(
+        $foo,
+        $bar,
+        $bar,
+        $boolean = true,
+        $integer = 1,
+        $string = 'string'
+    ) {
+    }
+}
+PHP;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMinSupportedPhpVersion()
+    {
+        return 70100;
+    }
+}
