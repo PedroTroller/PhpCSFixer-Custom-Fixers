@@ -388,6 +388,77 @@ return $config;
  }                                                                               //
                                                                                  //
 ```
+### Configuration
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules([
+        // ...
+        'PedroTroller/line_break_between_method_arguments' => [ 'max-args' => false, 'max-length' => 120, 'automatic-argument-merge' => true ],
+        // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/line_break_between_method_arguments', [ 'max-args' => false, 'max-length' => 120, 'automatic-argument-merge' => true ])
+        ->getRules()
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+### Fixes
+
+```diff
+--- Original                                                                     // 80 chars
++++ New                                                                          //
+@@ @@                                                                            //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
+-    public function fun2($arg1, array $arg2 = [], \ArrayAccess $arg3 = null, bool $bool = true, \Iterator $thisLastArgument = null)
+-    {                                                                           //
++    public function fun2(                                                       //
++        $arg1,                                                                  //
++        array $arg2 = [],                                                       //
++        \ArrayAccess $arg3 = null,                                              //
++        bool $bool = true,                                                      //
++        \Iterator $thisLastArgument = null                                      //
++    ) {                                                                         //
+         return;                                                                 //
+     }                                                                           //
+                                                                                 //
+-    public function fun3(                                                       //
+-        $arg1,                                                                  //
+-        array $arg2 = []                                                        //
+-    ) {                                                                         //
++    public function fun3($arg1, array $arg2 = [])                               //
++    {                                                                           //
+         return;                                                                 //
+     }                                                                           //
+ }                                                                               //
+                                                                                 //
+```
 
 ## PedroTroller/line_break_between_statements
 

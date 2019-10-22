@@ -38,6 +38,11 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
                 'max-length'               => 120,
                 'automatic-argument-merge' => true,
             ],
+            [
+                'max-args'                 => false,
+                'max-length'               => 120,
+                'automatic-argument-merge' => true,
+            ],
         ];
     }
 
@@ -125,7 +130,7 @@ SPEC;
                 continue;
             }
 
-            if ($this->analyze($tokens)->getNumberOfArguments($index) > $this->configuration['max-args']) {
+            if (false !== $this->configuration['max-args'] && $this->analyze($tokens)->getNumberOfArguments($index) > $this->configuration['max-args']) {
                 $this->splitArgs($tokens, $index);
 
                 continue;
