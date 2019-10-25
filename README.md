@@ -535,7 +535,7 @@ return $config;
 
 ## PedroTroller/comment_line_to_phpdoc_block
 
-Classy elements (method, property, ...) comments MUST BE a PhpDoc block.
+Classy elements (method, property, ...) comments MUST BE a PhpDoc block
 
 ### Configuration examples
 

@@ -74,7 +74,7 @@ PHP;
      */
     public function getDocumentation()
     {
-        return 'Classy elements (method, property, ...) comments MUST BE a PhpDoc block.';
+        return 'Classy elements (method, property, ...) comments MUST BE a PhpDoc block';
     }
 
     public function getPriority()
