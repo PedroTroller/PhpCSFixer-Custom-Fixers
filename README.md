@@ -727,7 +727,7 @@ return $config;
 
 ## PedroTroller/useless_comment
 
-Remove useless comments regarding the method definition.
+Comments that do not provide more precision than the definition of a method MUST BE deleted
 
 **DEPRECATED**
 replaced by `no_superfluous_phpdoc_tags`.

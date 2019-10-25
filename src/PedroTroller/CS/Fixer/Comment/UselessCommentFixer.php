@@ -16,7 +16,7 @@ final class UselessCommentFixer extends AbstractFixer
      */
     public function getDocumentation()
     {
-        return 'Remove useless comments regarding the method definition.';
+        return 'Comments that do not provide more precision than the definition of a method MUST BE deleted';
     }
 
     /**
