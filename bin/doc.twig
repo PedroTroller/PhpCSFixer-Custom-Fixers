@@ -28,7 +28,6 @@ return $config;
 ```
 
 # Fixers
-
 {% for fixer in fixers %}
 
 ## {{ fixer.name }}
@@ -42,8 +41,25 @@ replaced by `{{ fixer.replacement }}`.
 
 {% endif %}
 {% endif %}
+{% if fixer.options is not empty %}
+
+### Available options
+
+{% for option in fixer.options %}
+ - `{{ option.name }}` ({{ option.required ? '**REQUIRED**' : '*optional*' }}): {{ option.description }}
+{% if option.allowedValues is not empty %}
+    - allowed: {% for allowedValue in option.allowedValues %}`{{ allowedValue }}`{{ loop.last ? '' : ', ' }}{% endfor %}
+
+{% endif %}
+{% if false == option.required %}
+    - default: {% for value in (option.defaultValue is iterable) ? option.defaultValue : [option.defaultValue] %}`{{ value is null ? 'null' : value is same as(true) ? 'true' : value is same as(false) ? 'false' : value }}`{{ false == loop.last ? ', ' : '' }}{% endfor %}
+
+{% endif %}
+
+{% endfor %}
+{% endif %}
 {% for sample in fixer.samples -%}
-### Configuration
+### Configuration examples
 
 ```php
 // .php_cs.dist
@@ -66,9 +82,7 @@ $config = PhpCsFixer\Config::create()
 
 return $config;
 ```
-
 **OR** using my [rule list builder](doc/rule-set-factory.md).
-
 ```php
 // .php_cs.dist
 <?php

@@ -29,12 +29,11 @@ return $config;
 
 # Fixers
 
-
 ## PedroTroller/ordered_with_getter_and_setter_first
 
 Class/interface/trait methods MUST BE ordered (getter and setters at the end, ordered following arguments order).
 
-### Configuration
+### Configuration examples
 
 ```php
 // .php_cs.dist
@@ -53,9 +52,7 @@ $config = PhpCsFixer\Config::create()
 
 return $config;
 ```
-
 **OR** using my [rule list builder](doc/rule-set-factory.md).
-
 ```php
 // .php_cs.dist
 <?php
@@ -132,7 +129,7 @@ return $config;
 
 Exception messages MUST ends by ".", "…", "?" or "!".<br /><br /><i>Risky: will change the exception message.</i>
 
-### Configuration
+### Configuration examples
 
 ```php
 // .php_cs.dist
@@ -151,9 +148,7 @@ $config = PhpCsFixer\Config::create()
 
 return $config;
 ```
-
 **OR** using my [rule list builder](doc/rule-set-factory.md).
-
 ```php
 // .php_cs.dist
 <?php
@@ -197,7 +192,16 @@ return $config;
 
 Forbidden functions MUST BE commented
 
-### Configuration
+
+### Available options
+
+ - `functions` (*optional*): Functions to mark has forbidden
+    - default: `var_dump`, `dump`
+
+ - `comment` (*optional*): COmment to use
+    - default: `@TODO remove this line`
+
+### Configuration examples
 
 ```php
 // .php_cs.dist
@@ -216,9 +220,7 @@ $config = PhpCsFixer\Config::create()
 
 return $config;
 ```
-
 **OR** using my [rule list builder](doc/rule-set-factory.md).
-
 ```php
 // .php_cs.dist
 <?php
@@ -252,7 +254,7 @@ return $config;
                                                                                  //
                                                                                  //
 ```
-### Configuration
+### Configuration examples
 
 ```php
 // .php_cs.dist
@@ -271,9 +273,7 @@ $config = PhpCsFixer\Config::create()
 
 return $config;
 ```
-
 **OR** using my [rule list builder](doc/rule-set-factory.md).
-
 ```php
 // .php_cs.dist
 <?php
@@ -317,7 +317,19 @@ return $config;
 
 Function methods MUST be splitted by a line break
 
-### Configuration
+
+### Available options
+
+ - `max-args` (*optional*): Then maximum number of arguments authorized in a same function definition
+    - default: `3`
+
+ - `max-length` (*optional*): Then maximum line size authorized
+    - default: `120`
+
+ - `automatic-argument-merge` (*optional*): Does arguments have to be merged when line is shorter than max-args and/or max-length
+    - default: `true`
+
+### Configuration examples
 
 ```php
 // .php_cs.dist
@@ -336,9 +348,7 @@ $config = PhpCsFixer\Config::create()
 
 return $config;
 ```
-
 **OR** using my [rule list builder](doc/rule-set-factory.md).
-
 ```php
 // .php_cs.dist
 <?php
@@ -388,7 +398,7 @@ return $config;
  }                                                                               //
                                                                                  //
 ```
-### Configuration
+### Configuration examples
 
 ```php
 // .php_cs.dist
@@ -407,9 +417,7 @@ $config = PhpCsFixer\Config::create()
 
 return $config;
 ```
-
 **OR** using my [rule list builder](doc/rule-set-factory.md).
-
 ```php
 // .php_cs.dist
 <?php
@@ -464,7 +472,7 @@ return $config;
 
 Transform multiline docblocks with only one comment into a singleline docblock.
 
-### Configuration
+### Configuration examples
 
 ```php
 // .php_cs.dist
@@ -483,9 +491,7 @@ $config = PhpCsFixer\Config::create()
 
 return $config;
 ```
-
 **OR** using my [rule list builder](doc/rule-set-factory.md).
-
 ```php
 // .php_cs.dist
 <?php
@@ -531,7 +537,7 @@ return $config;
 
 Classy elements (method, property, ...) comments MUST BE a PhpDoc block.
 
-### Configuration
+### Configuration examples
 
 ```php
 // .php_cs.dist
@@ -550,9 +556,7 @@ $config = PhpCsFixer\Config::create()
 
 return $config;
 ```
-
 **OR** using my [rule list builder](doc/rule-set-factory.md).
-
 ```php
 // .php_cs.dist
 <?php
@@ -636,7 +640,17 @@ Collapse/expand PHP single line comments
 **DEPRECATED**
 replaced by `single_line_comment_style`.
 
-### Configuration
+
+### Available options
+
+ - `action` (*optional*): Collapse or expand the single line comments
+    - allowed: `expanded`, `collapsed`
+    - default: `expanded`
+
+ - `types` (*optional*): Collapse or expand the single line comments
+    - default: `@var`, `@return`, `@param`
+
+### Configuration examples
 
 ```php
 // .php_cs.dist
@@ -655,9 +669,7 @@ $config = PhpCsFixer\Config::create()
 
 return $config;
 ```
-
 **OR** using my [rule list builder](doc/rule-set-factory.md).
-
 ```php
 // .php_cs.dist
 <?php
@@ -675,7 +687,7 @@ $config = PhpCsFixer\Config::create()
 return $config;
 ```
 
-### Configuration
+### Configuration examples
 
 ```php
 // .php_cs.dist
@@ -694,9 +706,7 @@ $config = PhpCsFixer\Config::create()
 
 return $config;
 ```
-
 **OR** using my [rule list builder](doc/rule-set-factory.md).
-
 ```php
 // .php_cs.dist
 <?php
@@ -722,7 +732,7 @@ Remove useless comments regarding the method definition.
 **DEPRECATED**
 replaced by `no_superfluous_phpdoc_tags`.
 
-### Configuration
+### Configuration examples
 
 ```php
 // .php_cs.dist
@@ -741,9 +751,7 @@ $config = PhpCsFixer\Config::create()
 
 return $config;
 ```
-
 **OR** using my [rule list builder](doc/rule-set-factory.md).
-
 ```php
 // .php_cs.dist
 <?php
@@ -766,7 +774,7 @@ return $config;
 
 Remove useless code after a returned value
 
-### Configuration
+### Configuration examples
 
 ```php
 // .php_cs.dist
@@ -785,9 +793,7 @@ $config = PhpCsFixer\Config::create()
 
 return $config;
 ```
-
 **OR** using my [rule list builder](doc/rule-set-factory.md).
-
 ```php
 // .php_cs.dist
 <?php
@@ -847,7 +853,13 @@ return $config;
 
 Remove useless getDescription(), up(), down() and comments from Doctrine\Migrations\AbstractMigration if needed.
 
-### Configuration
+
+### Available options
+
+ - `instanceof` (*optional*): Parent classes of your migration classes.
+    - default: `Doctrine\Migrations\AbstractMigration`
+
+### Configuration examples
 
 ```php
 // .php_cs.dist
@@ -866,9 +878,7 @@ $config = PhpCsFixer\Config::create()
 
 return $config;
 ```
-
 **OR** using my [rule list builder](doc/rule-set-factory.md).
-
 ```php
 // .php_cs.dist
 <?php
@@ -923,7 +933,7 @@ return $config;
  }                                                                               //
                                                                                  //
 ```
-### Configuration
+### Configuration examples
 
 ```php
 // .php_cs.dist
@@ -942,9 +952,7 @@ $config = PhpCsFixer\Config::create()
 
 return $config;
 ```
-
 **OR** using my [rule list builder](doc/rule-set-factory.md).
-
 ```php
 // .php_cs.dist
 <?php
@@ -1007,7 +1015,7 @@ PHPSpec spec functions MUST BE ordered with specs first (order: let, letGo, its_
 **DEPRECATED**
 replaced by `PedroTroller/phpspec`.
 
-### Configuration
+### Configuration examples
 
 ```php
 // .php_cs.dist
@@ -1026,9 +1034,7 @@ $config = PhpCsFixer\Config::create()
 
 return $config;
 ```
-
 **OR** using my [rule list builder](doc/rule-set-factory.md).
-
 ```php
 // .php_cs.dist
 <?php
@@ -1054,7 +1060,7 @@ PHPSpec spec functions MUST NOT have a return type declaration.
 **DEPRECATED**
 replaced by `PedroTroller/phpspec`.
 
-### Configuration
+### Configuration examples
 
 ```php
 // .php_cs.dist
@@ -1073,9 +1079,7 @@ $config = PhpCsFixer\Config::create()
 
 return $config;
 ```
-
 **OR** using my [rule list builder](doc/rule-set-factory.md).
-
 ```php
 // .php_cs.dist
 <?php
@@ -1101,7 +1105,7 @@ PHPSpec spec functions MUST NOT have a public scope.
 **DEPRECATED**
 replaced by `PedroTroller/phpspec`.
 
-### Configuration
+### Configuration examples
 
 ```php
 // .php_cs.dist
@@ -1120,9 +1124,7 @@ $config = PhpCsFixer\Config::create()
 
 return $config;
 ```
-
 **OR** using my [rule list builder](doc/rule-set-factory.md).
-
 ```php
 // .php_cs.dist
 <?php
@@ -1145,7 +1147,13 @@ return $config;
 
 
 
-### Configuration
+
+### Available options
+
+ - `instanceof` (*optional*): Parent classes of your spec classes.
+    - default: `PhpSpec\ObjectBehavior`
+
+### Configuration examples
 
 ```php
 // .php_cs.dist
@@ -1164,9 +1172,7 @@ $config = PhpCsFixer\Config::create()
 
 return $config;
 ```
-
 **OR** using my [rule list builder](doc/rule-set-factory.md).
-
 ```php
 // .php_cs.dist
 <?php
@@ -1225,7 +1231,7 @@ return $config;
  }                                                                               //
                                                                                  //
 ```
-### Configuration
+### Configuration examples
 
 ```php
 // .php_cs.dist
@@ -1244,9 +1250,7 @@ $config = PhpCsFixer\Config::create()
 
 return $config;
 ```
-
 **OR** using my [rule list builder](doc/rule-set-factory.md).
-
 ```php
 // .php_cs.dist
 <?php
