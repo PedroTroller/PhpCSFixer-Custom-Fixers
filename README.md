@@ -315,18 +315,18 @@ return $config;
 
 ## PedroTroller/line_break_between_method_arguments
 
-Function methods MUST be splitted by a line break
+If the declaration of a method is too long, the arguments of this method MUST BE separated (one argument per line)
 
 
 ### Available options
 
- - `max-args` (*optional*): Then maximum number of arguments authorized in a same function definition
+ - `max-args` (*optional*): The maximum number of arguments allowed with splitting the arguments into several lines (use `false` to disable this feature)
     - default: `3`
 
- - `max-length` (*optional*): Then maximum line size authorized
+ - `max-length` (*optional*): The maximum number of characters allowed with splitting the arguments into several lines
     - default: `120`
 
- - `automatic-argument-merge` (*optional*): Does arguments have to be merged when line is shorter than max-args and/or max-length
+ - `automatic-argument-merge` (*optional*): If both conditions are met (the line is not too long and there are not too many arguments), then the arguments are put back inline.
     - default: `true`
 
 ### Configuration examples
