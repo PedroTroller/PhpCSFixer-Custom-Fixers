@@ -13,7 +13,7 @@ plugins:
           release: patch
         - type: refactor
           release: patch
-        - scope: no-release
+        - scope: chore
           release: false
   - '@semantic-release/release-notes-generator'
   - '@semantic-release/github'
