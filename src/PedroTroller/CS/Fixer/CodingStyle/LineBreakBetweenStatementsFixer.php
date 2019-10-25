@@ -63,7 +63,7 @@ PHP;
      */
     public function getDocumentation()
     {
-        return 'Transform multiline docblocks with only one comment into a singleline docblock.';
+        return 'Each statement (in, for, foreach, ...) MUST BE separated by an empty line';
     }
 
     protected function applyFix(SplFileInfo $file, Tokens $tokens): void

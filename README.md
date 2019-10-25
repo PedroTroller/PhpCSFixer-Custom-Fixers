@@ -470,7 +470,7 @@ return $config;
 
 ## PedroTroller/line_break_between_statements
 
-Transform multiline docblocks with only one comment into a singleline docblock.
+Each statement (in, for, foreach, ...) MUST BE separated by an empty line
 
 ### Configuration examples
 
