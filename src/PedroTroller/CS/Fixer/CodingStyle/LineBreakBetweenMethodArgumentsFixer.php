@@ -51,7 +51,7 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
      */
     public function getDocumentation()
     {
-        return 'Function methods MUST be splitted by a line break';
+        return 'If the declaration of a method is too long, the arguments of this method MUST BE separated (one argument per line)';
     }
 
     /**
@@ -153,13 +153,13 @@ SPEC;
     protected function createConfigurationDefinition()
     {
         return new FixerConfigurationResolver([
-            (new FixerOptionBuilder('max-args', 'Then maximum number of arguments authorized in a same function definition'))
+            (new FixerOptionBuilder('max-args', 'The maximum number of arguments allowed with splitting the arguments into several lines (use `false` to disable this feature)'))
                 ->setDefault(3)
                 ->getOption(),
-            (new FixerOptionBuilder('max-length', 'Then maximum line size authorized'))
+            (new FixerOptionBuilder('max-length', 'The maximum number of characters allowed with splitting the arguments into several lines'))
                 ->setDefault(120)
                 ->getOption(),
-            (new FixerOptionBuilder('automatic-argument-merge', 'Does arguments have to be merged when line is shorter than max-args and/or max-length'))
+            (new FixerOptionBuilder('automatic-argument-merge', 'If both conditions are met (the line is not too long and there are not too many arguments), then the arguments are put back inline.'))
                 ->setDefault(true)
                 ->getOption(),
         ]);
