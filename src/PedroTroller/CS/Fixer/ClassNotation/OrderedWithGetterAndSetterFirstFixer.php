@@ -33,7 +33,7 @@ final class OrderedWithGetterAndSetterFirstFixer extends AbstractOrderedClassEle
      */
     public function getDocumentation()
     {
-        return 'Class/interface/trait methods MUST BE ordered (getter and setters at the end, ordered following arguments order).';
+        return 'Class/interface/trait methods MUST BE ordered (accessors at the beginning of the class, ordered following properties order).';
     }
 
     /**
