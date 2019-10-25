@@ -190,15 +190,15 @@ return $config;
 
 ## PedroTroller/forbidden_functions
 
-Forbidden functions MUST BE commented
+Prohibited functions MUST BE commented on as prohibited
 
 
 ### Available options
 
- - `functions` (*optional*): Functions to mark has forbidden
+ - `functions` (*optional*): The function names to be marked how prohibited
     - default: `var_dump`, `dump`
 
- - `comment` (*optional*): COmment to use
+ - `comment` (*optional*): The prohibition message to put in the comment
     - default: `@TODO remove this line`
 
 ### Configuration examples

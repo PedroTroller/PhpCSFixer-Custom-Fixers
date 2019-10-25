@@ -58,7 +58,7 @@ PHP;
      */
     public function getDocumentation()
     {
-        return 'Forbidden functions MUST BE commented';
+        return 'Prohibited functions MUST BE commented on as prohibited';
     }
 
     protected function applyFix(SplFileInfo $file, Tokens $tokens): void
@@ -93,10 +93,10 @@ PHP;
     protected function createConfigurationDefinition()
     {
         return new FixerConfigurationResolver([
-            (new FixerOptionBuilder('functions', 'Functions to mark has forbidden'))
+            (new FixerOptionBuilder('functions', 'The function names to be marked how prohibited'))
                 ->setDefault(['var_dump', 'dump'])
                 ->getOption(),
-            (new FixerOptionBuilder('comment', 'COmment to use'))
+            (new FixerOptionBuilder('comment', 'The prohibition message to put in the comment'))
                 ->setDefault('@TODO remove this line')
                 ->getOption(),
         ]);
