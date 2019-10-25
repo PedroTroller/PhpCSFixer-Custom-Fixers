@@ -635,7 +635,7 @@ return $config;
 
 ## PedroTroller/single_line_comment
 
-Collapse/expand PHP single line comments
+PHP comments on a single line MUST BE reduced or expanded (according to the specified strategy)
 
 **DEPRECATED**
 replaced by `single_line_comment_style`.
@@ -643,11 +643,11 @@ replaced by `single_line_comment_style`.
 
 ### Available options
 
- - `action` (*optional*): Collapse or expand the single line comments
+ - `action` (*optional*): The strategy to be applied
     - allowed: `expanded`, `collapsed`
     - default: `expanded`
 
- - `types` (*optional*): Collapse or expand the single line comments
+ - `types` (*optional*): The types of comments on which the strategy should be applied
     - default: `@var`, `@return`, `@param`
 
 ### Configuration examples

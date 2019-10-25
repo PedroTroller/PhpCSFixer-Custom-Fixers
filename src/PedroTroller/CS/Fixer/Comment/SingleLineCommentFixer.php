@@ -41,7 +41,7 @@ final class SingleLineCommentFixer extends AbstractFixer implements Configuratio
      */
     public function getDocumentation()
     {
-        return 'Collapse/expand PHP single line comments';
+        return 'PHP comments on a single line MUST BE reduced or expanded (according to the specified strategy)';
     }
 
     /**
@@ -109,11 +109,11 @@ PHP;
     protected function createConfigurationDefinition()
     {
         return new FixerConfigurationResolver([
-            (new FixerOptionBuilder('action', 'Collapse or expand the single line comments'))
+            (new FixerOptionBuilder('action', 'The strategy to be applied'))
                 ->setAllowedValues(['expanded', 'collapsed'])
                 ->setDefault('expanded')
                 ->getOption(),
-            (new FixerOptionBuilder('types', 'Collapse or expand the single line comments'))
+            (new FixerOptionBuilder('types', 'The types of comments on which the strategy should be applied'))
                 ->setDefault(['@var', '@return', '@param'])
                 ->getOption(),
         ]);
