@@ -15,7 +15,7 @@ final class UselessCodeAfterReturnFixer extends AbstractFixer
      */
     public function getDocumentation()
     {
-        return 'Remove useless code after a returned value';
+        return 'All `return` that are not accessible (i.e. following another `return`) MUST BE deleted';
     }
 
     /**
