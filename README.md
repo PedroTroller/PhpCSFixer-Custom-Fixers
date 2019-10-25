@@ -851,12 +851,12 @@ return $config;
 
 ## PedroTroller/doctrine_migrations
 
-Remove useless getDescription(), up(), down() and comments from Doctrine\Migrations\AbstractMigration if needed.
+Unnecessary empty methods (`getDescription()`, `up()`, `down()`) and comments MUST BE removed from Doctrine migrations
 
 
 ### Available options
 
- - `instanceof` (*optional*): Parent classes of your migration classes.
+ - `instanceof` (*optional*): The parent class of which Doctrine migrations extend
     - default: `Doctrine\Migrations\AbstractMigration`
 
 ### Configuration examples

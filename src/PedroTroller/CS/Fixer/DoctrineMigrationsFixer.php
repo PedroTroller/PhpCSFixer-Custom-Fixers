@@ -88,7 +88,7 @@ SPEC;
 
     public function getDocumentation()
     {
-        return 'Remove useless getDescription(), up(), down() and comments from Doctrine\Migrations\AbstractMigration if needed.';
+        return 'Unnecessary empty methods (`getDescription()`, `up()`, `down()`) and comments MUST BE removed from Doctrine migrations';
     }
 
     public function getPriority()
@@ -102,7 +102,7 @@ SPEC;
     protected function createConfigurationDefinition()
     {
         return new FixerConfigurationResolver([
-            (new FixerOptionBuilder('instanceof', 'Parent classes of your migration classes.'))
+            (new FixerOptionBuilder('instanceof', 'The parent class of which Doctrine migrations extend'))
                 ->setDefault(['Doctrine\Migrations\AbstractMigration'])
                 ->getOption(),
         ]);
