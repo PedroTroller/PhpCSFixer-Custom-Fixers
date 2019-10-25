@@ -772,7 +772,7 @@ return $config;
 
 ## PedroTroller/useless_code_after_return
 
-Remove useless code after a returned value
+All `return` that are not accessible (i.e. following another `return`) MUST BE deleted
 
 ### Configuration examples
 
