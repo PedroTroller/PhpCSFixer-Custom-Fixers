@@ -1010,10 +1010,16 @@ return $config;
 
 ## PedroTroller/ordered_spec_elements
 
-PHPSpec spec functions MUST BE ordered with specs first (order: let, letGo, its_* and it_* functons).
+The methods of the phpspec specification classes MUST BE sorted (let, letGo, its_*, it_*, getMatchers and the rest of the methods)
 
 **DEPRECATED**
 replaced by `PedroTroller/phpspec`.
+
+
+### Available options
+
+ - `instanceof` (*optional*): Parent classes of your spec classes.
+    - default: `PhpSpec\ObjectBehavior`
 
 ### Configuration examples
 
@@ -1043,6 +1049,43 @@ $config = PhpCsFixer\Config::create()
     // ...
     ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/ordered_spec_elements')
+        ->getRules()
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+### Configuration examples
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules([
+        // ...
+        'PedroTroller/ordered_spec_elements' => [ 'instanceof' => [ 'PhpSpec\ObjectBehavior' ] ],
+        // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/ordered_spec_elements', [ 'instanceof' => [ 'PhpSpec\ObjectBehavior' ] ])
         ->getRules()
     ])
     // ...

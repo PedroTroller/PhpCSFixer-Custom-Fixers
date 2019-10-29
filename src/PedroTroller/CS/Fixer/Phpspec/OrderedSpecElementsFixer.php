@@ -8,16 +8,37 @@ use PedroTroller\CS\Fixer\AbstractOrderedClassElementsFixer;
 use PedroTroller\CS\Fixer\PhpspecFixer;
 use PedroTroller\CS\Fixer\Priority;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
+use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
+use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\Tokenizer\Tokens;
 
-final class OrderedSpecElementsFixer extends AbstractOrderedClassElementsFixer
+final class OrderedSpecElementsFixer extends AbstractOrderedClassElementsFixer implements ConfigurationDefinitionFixerInterface
 {
+    public function getSampleConfigurations()
+    {
+        return [
+            null,
+            ['instanceof' => ['PhpSpec\ObjectBehavior']],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
     public function isCandidate(Tokens $tokens)
     {
-        return $this->extendsClass($tokens, 'PhpSpec\ObjectBehavior');
+        foreach ($this->configuration['instanceof'] as $parent) {
+            if ($this->extendsClass($tokens, $parent)) {
+                return true;
+            }
+
+            if ($this->implementsInterface($tokens, $parent)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -25,7 +46,7 @@ final class OrderedSpecElementsFixer extends AbstractOrderedClassElementsFixer
      */
     public function getDocumentation()
     {
-        return 'PHPSpec spec functions MUST BE ordered with specs first (order: let, letGo, its_* and it_* functons).';
+        return 'The methods of the phpspec specification classes MUST BE sorted (let, letGo, its_*, it_*, getMatchers and the rest of the methods)';
     }
 
     /**
@@ -89,6 +110,18 @@ SPEC;
     public function getPriority()
     {
         return Priority::before(OrderedClassElementsFixer::class);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createConfigurationDefinition()
+    {
+        return new FixerConfigurationResolver([
+            (new FixerOptionBuilder('instanceof', 'Parent classes of your spec classes.'))
+                ->setDefault(['PhpSpec\ObjectBehavior'])
+                ->getOption(),
+        ]);
     }
 
     /**
