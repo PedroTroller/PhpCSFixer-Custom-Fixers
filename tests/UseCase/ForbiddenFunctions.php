@@ -7,7 +7,7 @@ namespace tests\UseCase;
 use PedroTroller\CS\Fixer\CodingStyle\ForbiddenFunctionsFixer;
 use tests\UseCase;
 
-class ForbiddenFunctions implements UseCase
+final class ForbiddenFunctions implements UseCase
 {
     /**
      * {@inheritdoc}

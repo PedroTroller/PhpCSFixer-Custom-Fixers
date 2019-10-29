@@ -7,7 +7,7 @@ namespace tests\UseCase\UselessComment;
 use PedroTroller\CS\Fixer\Comment\UselessCommentFixer;
 use tests\UseCase;
 
-class Php71 implements UseCase
+final class Php71 implements UseCase
 {
     /**
      * {@inheritdoc}

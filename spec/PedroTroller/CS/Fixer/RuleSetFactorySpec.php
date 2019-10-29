@@ -8,7 +8,7 @@ use PedroTroller\CS\Fixer\Fixers;
 use PedroTroller\CS\Fixer\RuleSetFactory;
 use PhpSpec\ObjectBehavior;
 
-class RuleSetFactorySpec extends ObjectBehavior
+final class RuleSetFactorySpec extends ObjectBehavior
 {
     function it_is_initializable()
     {

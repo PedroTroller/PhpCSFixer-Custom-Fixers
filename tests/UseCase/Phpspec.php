@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace tests\Usecase;
+namespace tests\UseCase;
 
 use PedroTroller\CS\Fixer\PhpspecFixer;
 use tests\UseCase;
 
-class Phpspec implements UseCase
+final class Phpspec implements UseCase
 {
     /**
      * {@inheritdoc}

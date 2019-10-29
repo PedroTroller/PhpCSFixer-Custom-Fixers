@@ -9,7 +9,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use tests\TokensAnalyzerIntegration;
 use Webmozart\Assert\Assert;
 
-class SizeOfTheLine extends TokensAnalyzerIntegration
+final class SizeOfTheLine extends TokensAnalyzerIntegration
 {
     /**
      * {@inheritdoc}

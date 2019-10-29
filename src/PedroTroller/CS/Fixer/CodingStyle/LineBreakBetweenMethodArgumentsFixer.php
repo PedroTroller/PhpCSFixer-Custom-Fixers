@@ -17,7 +17,7 @@ use SplFileInfo;
 
 final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface, WhitespacesAwareFixerInterface
 {
-    const T_TYPEHINT_SEMI_COLON = 10025;
+    private const T_TYPEHINT_SEMI_COLON = 10025;
 
     /**
      * {@inheritdoc}

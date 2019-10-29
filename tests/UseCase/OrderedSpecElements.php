@@ -7,7 +7,7 @@ namespace tests\UseCase;
 use PedroTroller\CS\Fixer\Phpspec\OrderedSpecElementsFixer;
 use tests\UseCase;
 
-class OrderedSpecElements implements UseCase
+final class OrderedSpecElements implements UseCase
 {
     /**
      * {@inheritdoc}

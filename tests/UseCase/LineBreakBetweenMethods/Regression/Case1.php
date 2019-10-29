@@ -7,7 +7,7 @@ namespace tests\UseCase\LineBreakBetweenMethods\Regression;
 use PedroTroller\CS\Fixer\CodingStyle\LineBreakBetweenMethodArgumentsFixer;
 use tests\UseCase;
 
-class Case1 implements UseCase
+final class Case1 implements UseCase
 {
     /**
      * {@inheritdoc}

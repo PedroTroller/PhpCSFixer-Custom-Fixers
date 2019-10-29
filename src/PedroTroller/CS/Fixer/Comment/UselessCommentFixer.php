@@ -175,15 +175,13 @@ PHP;
         foreach ($arguments as $argument) {
             if (null === $argument['type']) {
                 $useless[] = sprintf('/^@param +\%s/', $argument['name']);
+            } elseif ($argument['nullable']) {
+                $useless[] = sprintf('/^@param +%s\|null +\%s$/', str_replace('\\', '\\\\', $argument['type']), $argument['name']);
+                $useless[] = sprintf('/^@param +null\|%s +\%s$/', str_replace('\\', '\\\\', $argument['type']), $argument['name']);
+                $useless[] = sprintf('/^@param +%s \| null +\%s$/', str_replace('\\', '\\\\', $argument['type']), $argument['name']);
+                $useless[] = sprintf('/^@param +null \| %s +\%s$/', str_replace('\\', '\\\\', $argument['type']), $argument['name']);
             } else {
-                if ($argument['nullable']) {
-                    $useless[] = sprintf('/^@param +%s\|null +\%s$/', str_replace('\\', '\\\\', $argument['type']), $argument['name']);
-                    $useless[] = sprintf('/^@param +null\|%s +\%s$/', str_replace('\\', '\\\\', $argument['type']), $argument['name']);
-                    $useless[] = sprintf('/^@param +%s \| null +\%s$/', str_replace('\\', '\\\\', $argument['type']), $argument['name']);
-                    $useless[] = sprintf('/^@param +null \| %s +\%s$/', str_replace('\\', '\\\\', $argument['type']), $argument['name']);
-                } else {
-                    $useless[] = sprintf('/^@param +%s +\%s$/', str_replace('\\', '\\\\', $argument['type']), $argument['name']);
-                }
+                $useless[] = sprintf('/^@param +%s +\%s$/', str_replace('\\', '\\\\', $argument['type']), $argument['name']);
             }
         }
 
