@@ -1274,7 +1274,11 @@ return $config;
 
 ## PedroTroller/phpspec
 
+Phpspec scenario functions MUST NOT have a return type declaration.
 
+Phpspec scenario functions MUST NOT have a scope.
+
+The methods of the phpspec specification classes MUST BE sorted (let, letGo, its_*, it_*, getMatchers and the rest of the methods)
 
 
 ### Available options

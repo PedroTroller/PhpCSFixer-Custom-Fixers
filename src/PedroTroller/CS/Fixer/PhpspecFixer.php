@@ -92,7 +92,14 @@ SPEC;
 
     public function getDocumentation()
     {
-        return '';
+        return implode(
+            "\n\n",
+            [
+                'Phpspec scenario functions MUST NOT have a return type declaration.',
+                'Phpspec scenario functions MUST NOT have a scope.',
+                'The methods of the phpspec specification classes MUST BE sorted (let, letGo, its_*, it_*, getMatchers and the rest of the methods)',
+            ]
+        );
     }
 
     /**
