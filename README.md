@@ -1055,10 +1055,16 @@ return $config;
 
 ## PedroTroller/phpspec_scenario_return_type_declaration
 
-PHPSpec spec functions MUST NOT have a return type declaration.
+Phpspec scenario functions MUST NOT have a return type declaration.
 
 **DEPRECATED**
 replaced by `PedroTroller/phpspec`.
+
+
+### Available options
+
+ - `instanceof` (*optional*): Parent classes of your spec classes.
+    - default: `PhpSpec\ObjectBehavior`
 
 ### Configuration examples
 
@@ -1088,6 +1094,43 @@ $config = PhpCsFixer\Config::create()
     // ...
     ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/phpspec_scenario_return_type_declaration')
+        ->getRules()
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+### Configuration examples
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules([
+        // ...
+        'PedroTroller/phpspec_scenario_return_type_declaration' => [ 'instanceof' => [ 'PhpSpec\ObjectBehavior' ] ],
+        // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/phpspec_scenario_return_type_declaration', [ 'instanceof' => [ 'PhpSpec\ObjectBehavior' ] ])
         ->getRules()
     ])
     // ...

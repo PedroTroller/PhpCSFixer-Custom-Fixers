@@ -7,19 +7,44 @@ namespace PedroTroller\CS\Fixer\Phpspec;
 use PedroTroller\CS\Fixer\AbstractFixer;
 use PedroTroller\CS\Fixer\PhpspecFixer;
 use PedroTroller\CS\Fixer\Priority;
+use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
+use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-final class PhpspecScenarioReturnTypeDeclarationFixer extends AbstractFixer
+final class PhpspecScenarioReturnTypeDeclarationFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface
 {
+    public function getSampleConfigurations()
+    {
+        return [
+            null,
+            ['instanceof' => ['PhpSpec\ObjectBehavior']],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
     public function isCandidate(Tokens $tokens)
     {
-        return \PHP_VERSION_ID >= 70100 && $this->extendsClass($tokens, 'PhpSpec\ObjectBehavior');
+        if (\PHP_VERSION_ID < 70100) {
+            return false;
+        }
+
+        foreach ($this->configuration['instanceof'] as $parent) {
+            if ($this->extendsClass($tokens, $parent)) {
+                return true;
+            }
+
+            if ($this->implementsInterface($tokens, $parent)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -27,7 +52,7 @@ final class PhpspecScenarioReturnTypeDeclarationFixer extends AbstractFixer
      */
     public function getDocumentation()
     {
-        return 'PHPSpec spec functions MUST NOT have a return type declaration.';
+        return 'Phpspec scenario functions MUST NOT have a return type declaration.';
     }
 
     /**
@@ -89,6 +114,18 @@ SPEC;
     public function getPriority()
     {
         return Priority::after(VoidReturnFixer::class);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createConfigurationDefinition()
+    {
+        return new FixerConfigurationResolver([
+            (new FixerOptionBuilder('instanceof', 'Parent classes of your spec classes.'))
+                ->setDefault(['PhpSpec\ObjectBehavior'])
+                ->getOption(),
+        ]);
     }
 
     /**
