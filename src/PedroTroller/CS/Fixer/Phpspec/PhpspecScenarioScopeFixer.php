@@ -8,18 +8,39 @@ use PedroTroller\CS\Fixer\AbstractFixer;
 use PedroTroller\CS\Fixer\PhpspecFixer;
 use PedroTroller\CS\Fixer\Priority;
 use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
+use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
+use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-final class PhpspecScenarioScopeFixer extends AbstractFixer
+final class PhpspecScenarioScopeFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface
 {
+    public function getSampleConfigurations()
+    {
+        return [
+            null,
+            ['instanceof' => ['PhpSpec\ObjectBehavior']],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
     public function isCandidate(Tokens $tokens)
     {
-        return $this->extendsClass($tokens, 'PhpSpec\ObjectBehavior');
+        foreach ($this->configuration['instanceof'] as $parent) {
+            if ($this->extendsClass($tokens, $parent)) {
+                return true;
+            }
+
+            if ($this->implementsInterface($tokens, $parent)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -27,7 +48,7 @@ final class PhpspecScenarioScopeFixer extends AbstractFixer
      */
     public function getDocumentation()
     {
-        return 'PHPSpec spec functions MUST NOT have a public scope.';
+        return 'Phpspec scenario functions MUST NOT have a scope.';
     }
 
     /**
@@ -89,6 +110,18 @@ SPEC;
     public function getPriority()
     {
         return Priority::after(VisibilityRequiredFixer::class);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createConfigurationDefinition()
+    {
+        return new FixerConfigurationResolver([
+            (new FixerOptionBuilder('instanceof', 'Parent classes of your spec classes.'))
+                ->setDefault(['PhpSpec\ObjectBehavior'])
+                ->getOption(),
+        ]);
     }
 
     /**
