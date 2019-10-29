@@ -127,7 +127,7 @@ PHP;
             return;
         }
 
-        if (false === \in_array($tokens[$nextMeaningful]->getId(), array_keys($this->handlers), true)) {
+        if (false === \array_key_exists($tokens[$nextMeaningful]->getId(), $this->handlers)) {
             return;
         }
 

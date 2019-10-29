@@ -7,7 +7,7 @@ namespace tests\UseCase;
 use PedroTroller\CS\Fixer\ClassNotation\OrderedWithGetterAndSetterFirstFixer;
 use tests\UseCase;
 
-class OrderedWithGetterAndSetterFirst implements UseCase
+final class OrderedWithGetterAndSetterFirst implements UseCase
 {
     /**
      * {@inheritdoc}

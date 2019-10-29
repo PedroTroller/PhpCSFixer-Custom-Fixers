@@ -7,7 +7,7 @@ namespace tests\UseCase;
 use PedroTroller\CS\Fixer\DeadCode\UselessCodeAfterReturnFixer;
 use tests\UseCase;
 
-class UselessCodeAfterReturn implements UseCase
+final class UselessCodeAfterReturn implements UseCase
 {
     /**
      * {@inheritdoc}

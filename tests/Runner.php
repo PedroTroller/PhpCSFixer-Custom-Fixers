@@ -11,7 +11,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 
-class Runner
+final class Runner
 {
     public static function run(): void
     {

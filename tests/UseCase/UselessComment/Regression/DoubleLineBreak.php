@@ -7,7 +7,7 @@ namespace tests\UseCase\UselessComment\Regression;
 use PedroTroller\CS\Fixer\Comment\UselessCommentFixer;
 use tests\UseCase;
 
-class DoubleLineBreak implements UseCase
+final class DoubleLineBreak implements UseCase
 {
     /**
      * {@inheritdoc}

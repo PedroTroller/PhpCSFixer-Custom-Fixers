@@ -9,7 +9,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use tests\TokensAnalyzerIntegration;
 use Webmozart\Assert\Assert;
 
-class MethodArguments extends TokensAnalyzerIntegration
+final class MethodArguments extends TokensAnalyzerIntegration
 {
     /**
      * {@inheritdoc}

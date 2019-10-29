@@ -9,7 +9,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use tests\TokensAnalyzerIntegration;
 use Webmozart\Assert\Assert;
 
-class InSwitch extends TokensAnalyzerIntegration
+final class InSwitch extends TokensAnalyzerIntegration
 {
     /**
      * {@inheritdoc}

@@ -111,7 +111,7 @@ PHP;
             $whitespaceIndex = null;
 
             do {
-                $previous = $previous - 1;
+                --$previous;
 
                 if ($tokens[$previous]->isComment()) {
                     $comments = array_merge(

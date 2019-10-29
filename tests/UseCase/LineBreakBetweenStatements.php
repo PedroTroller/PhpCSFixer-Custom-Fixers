@@ -7,7 +7,7 @@ namespace tests\UseCase;
 use PedroTroller\CS\Fixer\CodingStyle\LineBreakBetweenStatementsFixer;
 use tests\UseCase;
 
-class LineBreakBetweenStatements implements UseCase
+final class LineBreakBetweenStatements implements UseCase
 {
     /**
      * {@inheritdoc}

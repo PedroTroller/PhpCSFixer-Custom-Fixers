@@ -23,7 +23,7 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
             $i        = $tokens->getNextTokenOfKind($i, ['{']);
             $elements = $this->getElements($tokens, $i);
 
-            if (!$elements) {
+            if ($elements === []) {
                 continue;
             }
 
