@@ -12,6 +12,14 @@
         "twig/twig": "^2.11.3",
         "webmozart/assert": "^1.3.0"
     },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.x-dev"
+        }
+    },
     "autoload": {
         "psr-4": {
             "PedroTroller\\CS\\Fixer\\": "src/PedroTroller/CS/Fixer"
@@ -23,31 +31,40 @@
             "tests\\": "tests"
         }
     },
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.x-dev"
-        }
+    "archive": {
+        "exclude": [
+            ".circleci",
+            ".dependabot",
+            "bin",
+            "doc",
+            "spec",
+            "tests",
+            ".gitignore",
+            ".php_cs.dist",
+            ".releaserc",
+            "README.md",
+            "package-lock.json",
+            "package.json",
+            "rector.yaml"
+        ]
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
-        "tests": [
-            "tests\\Runner::run",
-            "tests\\Orchestra::run",
-            "phpspec run -fpretty"
-        ],
-        "rector": [
-            "rector process src/ tests/ spec/"
+        "lint": [
+            "@rector",
+            "@php-cs-fixer"
         ],
         "php-cs-fixer": [
             "php-cs-fixer fix --dry-run -vvv --diff"
         ],
-        "lint": [
-            "@rector",
-            "@php-cs-fixer"
+        "rector": [
+            "rector process src/ tests/ spec/"
+        ],
+        "tests": [
+            "tests\\Runner::run",
+            "tests\\Orchestra::run",
+            "phpspec run -fpretty"
         ]
     }
 }
