@@ -10,3 +10,11 @@ update_configs:
       include_scope: true
     default_reviewers:
       - 'PedroTroller'
+  - package_manager: "javascript"
+    directory: "./"
+    update_schedule: "live"
+    commit_message:
+      prefix: "fix"
+      include_scope: true
+    default_reviewers:
+      - 'PedroTroller'
