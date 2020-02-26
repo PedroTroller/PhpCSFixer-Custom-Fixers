@@ -18,12 +18,12 @@ final class SingleLineCommentFixer extends AbstractFixer implements Configuratio
     /**
      * @var string
      */
-    private $collapseRegex = '/( *)\/[*]{1,2}\n( *)[*]{1,2} %s (.+)\n( *)\*\//';
+    private const COLLAPSE_REGEX = '/( *)\/[*]{1,2}\n( *)[*]{1,2} %s (.+)\n( *)\*\//';
 
     /**
      * @var string
      */
-    private $expandRegex = '/( *)\/[*]{1,2} %s (.+) \*\//';
+    private const EXPAND_REGEX = '/( *)\/[*]{1,2} %s (.+) \*\//';
 
     /**
      * {@inheritdoc}
@@ -129,7 +129,7 @@ PHP;
             }
 
             foreach ($this->configuration['types'] as $variable) {
-                $regex          = sprintf($this->expandRegex, $variable);
+                $regex          = sprintf(self::EXPAND_REGEX, $variable);
                 $replace        = sprintf("/**\n%s * %s $2\n%s */", $space, $variable, $space);
                 $comment        = preg_replace($regex, $replace, $token->getContent());
                 $tokens[$index] = new Token([T_COMMENT, $comment]);
@@ -141,7 +141,7 @@ PHP;
     {
         foreach ($this->getComments($tokens) as $index => $token) {
             foreach ($this->configuration['types'] as $variable) {
-                $regex          = sprintf($this->collapseRegex, $variable);
+                $regex          = sprintf(self::COLLAPSE_REGEX, $variable);
                 $replace        = sprintf('$1/** %s $3 */', $variable);
                 $comment        = preg_replace($regex, $replace, $token->getContent());
                 $tokens[$index] = new Token([T_COMMENT, $comment]);

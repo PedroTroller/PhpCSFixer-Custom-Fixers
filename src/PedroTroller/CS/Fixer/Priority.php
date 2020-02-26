@@ -11,7 +11,7 @@ final class Priority
     }
 
     /**
-     * @param array<int,mixed> $classes
+     * @param array<int, mixed> $classes
      *
      * @return int
      */
@@ -28,7 +28,7 @@ final class Priority
     }
 
     /**
-     * @param array<int,mixed> $classes
+     * @param array<int, mixed> $classes
      *
      * @return int
      */

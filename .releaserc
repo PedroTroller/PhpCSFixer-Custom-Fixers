@@ -10,9 +10,9 @@ plugins:
           release: minor
         - type: fix
           scope: deps-dev
-          release: patch
+          release: false
         - type: refactor
-          release: patch
+          release: false
         - scope: chore
           release: false
   - '@semantic-release/release-notes-generator'

@@ -16,6 +16,15 @@ use SplFileInfo;
 
 final class DoctrineMigrationsFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface
 {
+    /**
+     * @var string[]
+     */
+    private const BLACKLIST = [
+        'Auto-generated Migration: Please modify to your needs!',
+        'this up() migration is auto-generated, please modify it to your needs',
+        'this down() migration is auto-generated, please modify it to your needs',
+    ];
+
     public function getSampleConfigurations()
     {
         return [
@@ -161,18 +170,12 @@ SPEC;
     {
         $comments = $this->getComments($tokens);
 
-        $blackList = [
-            'Auto-generated Migration: Please modify to your needs!',
-            'this up() migration is auto-generated, please modify it to your needs',
-            'this down() migration is auto-generated, please modify it to your needs',
-        ];
-
         foreach ($comments as $position => $comment) {
             $lines   = explode("\n", $comment->getContent());
             $changed = false;
 
             foreach ($lines as $index => $line) {
-                if (\in_array(trim($line, '/* '), $blackList, true)) {
+                if (\in_array(trim($line, '/* '), self::BLACKLIST, true)) {
                     unset($lines[$index]);
                     $changed = true;
                 }
