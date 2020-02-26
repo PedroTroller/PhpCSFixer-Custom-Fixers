@@ -14,7 +14,7 @@ final class LineBreakBetweenStatementsFixer extends AbstractFixer
     /**
      * @var array<int, string>
      */
-    private $handlers = [
+    private const HANDLERS = [
         T_DO      => 'do',
         T_FOR     => 'common',
         T_FOREACH => 'common',
@@ -68,8 +68,8 @@ PHP;
 
     protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
-        foreach ($tokens->findGivenKind(array_keys($this->handlers)) as $kind => $matchedTokens) {
-            $this->{'handle'.ucfirst($this->handlers[$kind])}($matchedTokens, $tokens);
+        foreach ($tokens->findGivenKind(array_keys(self::HANDLERS)) as $kind => $matchedTokens) {
+            $this->{'handle'.ucfirst(self::HANDLERS[$kind])}($matchedTokens, $tokens);
         }
     }
 
@@ -127,7 +127,7 @@ PHP;
             return;
         }
 
-        if (false === \array_key_exists($tokens[$nextMeaningful]->getId(), $this->handlers)) {
+        if (false === \array_key_exists($tokens[$nextMeaningful]->getId(), self::HANDLERS)) {
             return;
         }
 

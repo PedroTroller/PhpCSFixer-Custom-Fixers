@@ -233,8 +233,6 @@ final class RuleSetFactory
         $rules = array_combine($rules, $rules);
 
         $rules = array_map(function ($name) {
-            $matches = [];
-
             preg_match('/^@([A-Za-z]+)(\d+)Migration(:risky|)$/', $name, $matches);
 
             return $matches;

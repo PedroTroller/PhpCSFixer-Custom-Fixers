@@ -1,13 +1,16 @@
 ---
 parameters:
   auto_import_names: true
-
   exclude_rectors:
     - Rector\CodeQuality\Rector\Identical\SimplifyBoolIdenticalTrueRector
-
-imports:
-  - resource: vendor/rector/rector/config/set/code-quality/*
-  - resource: vendor/rector/rector/config/set/php/php71.yaml
-  - resource: vendor/rector/rector/config/set/phpspec/*
-  - resource: vendor/rector/rector/config/set/psr-4/*
-  - resource: vendor/rector/rector/config/set/solid/*
+  paths:
+    - src
+    - tests
+    - spec
+  sets:
+    - code-quality
+    - php71
+    - php72
+    - phpspec
+    - psr-4
+    - solid

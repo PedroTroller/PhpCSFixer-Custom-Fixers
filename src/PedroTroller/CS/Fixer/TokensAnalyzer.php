@@ -311,7 +311,7 @@ final class TokensAnalyzer
     /**
      * @param int $index
      *
-     * @return int | null
+     * @return null|int
      */
     public function getClosingParenthesis($index)
     {
@@ -339,7 +339,7 @@ final class TokensAnalyzer
     /**
      * @param int $index
      *
-     * @return int | null
+     * @return null|int
      */
     public function getClosingBracket($index)
     {
@@ -367,7 +367,7 @@ final class TokensAnalyzer
     /**
      * @param int $index
      *
-     * @return int | null
+     * @return null|int
      */
     public function getClosingCurlyBracket($index)
     {
