@@ -7,6 +7,7 @@ namespace PedroTroller\CS\Fixer;
 use PhpCsFixer\AbstractFixer as PhpCsFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
 abstract class AbstractFixer extends PhpCsFixer
@@ -165,7 +166,7 @@ abstract class AbstractFixer extends PhpCsFixer
     }
 
     /**
-     * @return PhpCsFixer\Tokenizer\Token[]
+     * @return Token[]
      */
     protected function getComments(Tokens $tokens)
     {
