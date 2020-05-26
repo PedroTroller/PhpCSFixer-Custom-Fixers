@@ -18,14 +18,12 @@ tests: &tests
   run: |
       composer test -vvv
       bin/doc
-      composer run rector || (echo "Coding standards are not respected. Run 'composer run rector'" && exit 1)
       composer run php-cs-fixer || (echo "Coding standards are not respected. Run 'composer run php-cs-fixer'" && exit 1)
 
 tests_with_future_mode: &tests_with_future_mode
   run: |
       PHP_CS_FIXER_FUTURE_MODE=1 composer test -vvv
       bin/doc
-      composer run rector || (echo "Coding standards are not respected. Run 'composer run rector'" && exit 1)
       composer run php-cs-fixer || (echo "Coding standards are not respected. Run 'composer run php-cs-fixer'" && exit 1)
 
 jobs:
