@@ -29,6 +29,191 @@ return $config;
 
 # Fixers
 
+## PedroTroller/order_behat_steps
+
+Step definition methods in Behat contexts MUST BE ordered by annotation and method name.
+
+
+### Available options
+
+ - `instanceof` (*optional*): Parent class or interface of your behat context classes.
+    - default: `Behat\Behat\Context\Context`
+
+### Configuration examples
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules([
+        // ...
+        'PedroTroller/order_behat_steps' => true,
+        // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/order_behat_steps')
+        ->getRules()
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+### Fixes
+
+```diff
+--- Original                                                                     // 80 chars
++++ New                                                                          //
+@@ @@                                                                            //
+     }                                                                           //
+                                                                                 //
+     /**                                                                         //
+-     * @Then the response should be received                                    //
++     * @BeforeScenario                                                          //
+      */                                                                         //
+-    public function theResponseShouldBeReceived()                               //
++    public function reset()                                                     //
+     {                                                                           //
+         // ...                                                                  //
+     }                                                                           //
+                                                                                 //
+     /**                                                                         //
+-     * @When a demo scenario sends a request to :path                           //
++     * @Given I am on the homepage                                              //
+      */                                                                         //
+-    public function aDemoScenarioSendsARequestTo($path)                         //
++    public function iAmOnTheHomepage()                                          //
+     {                                                                           //
+         // ...                                                                  //
+     }                                                                           //
+                                                                                 //
+     /**                                                                         //
+-     * @Given I am on the homepage                                              //
++     * @When a demo scenario sends a request to :path                           //
+      */                                                                         //
+-    public function iAmOnTheHomepage()                                          //
++    public function aDemoScenarioSendsARequestTo($path)                         //
+     {                                                                           //
+         // ...                                                                  //
+     }                                                                           //
+                                                                                 //
+     /**                                                                         //
+-     * @BeforeScenario                                                          //
++     * @Then the response should be received                                    //
+      */                                                                         //
+-    public function reset()                                                     //
++    public function theResponseShouldBeReceived()                               //
+     {                                                                           //
+         // ...                                                                  //
+     }                                                                           //
+ }                                                                               //
+                                                                                 //
+```
+### Configuration examples
+
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules([
+        // ...
+        'PedroTroller/order_behat_steps' => [ 'instanceof' => [ 'Behat\Behat\Context\Context' ] ],
+        // ...
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+**OR** using my [rule list builder](doc/rule-set-factory.md).
+```php
+// .php_cs.dist
+<?php
+
+$config = PhpCsFixer\Config::create()
+    // ...
+    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+        ->enable('PedroTroller/order_behat_steps', [ 'instanceof' => [ 'Behat\Behat\Context\Context' ] ])
+        ->getRules()
+    ])
+    // ...
+    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
+;
+
+return $config;
+```
+
+### Fixes
+
+```diff
+--- Original                                                                     // 80 chars
++++ New                                                                          //
+@@ @@                                                                            //
+     }                                                                           //
+                                                                                 //
+     /**                                                                         //
+-     * @Then the response should be received                                    //
++     * @BeforeScenario                                                          //
+      */                                                                         //
+-    public function theResponseShouldBeReceived()                               //
++    public function reset()                                                     //
+     {                                                                           //
+         // ...                                                                  //
+     }                                                                           //
+                                                                                 //
+     /**                                                                         //
+-     * @When a demo scenario sends a request to :path                           //
++     * @Given I am on the homepage                                              //
+      */                                                                         //
+-    public function aDemoScenarioSendsARequestTo($path)                         //
++    public function iAmOnTheHomepage()                                          //
+     {                                                                           //
+         // ...                                                                  //
+     }                                                                           //
+                                                                                 //
+     /**                                                                         //
+-     * @Given I am on the homepage                                              //
++     * @When a demo scenario sends a request to :path                           //
+      */                                                                         //
+-    public function iAmOnTheHomepage()                                          //
++    public function aDemoScenarioSendsARequestTo($path)                         //
+     {                                                                           //
+         // ...                                                                  //
+     }                                                                           //
+                                                                                 //
+     /**                                                                         //
+-     * @BeforeScenario                                                          //
++     * @Then the response should be received                                    //
+      */                                                                         //
+-    public function reset()                                                     //
++    public function theResponseShouldBeReceived()                               //
+     {                                                                           //
+         // ...                                                                  //
+     }                                                                           //
+ }                                                                               //
+                                                                                 //
+```
+
 ## PedroTroller/ordered_with_getter_and_setter_first
 
 Class/interface/trait methods MUST BE ordered (accessors at the beginning of the class, ordered following properties order).

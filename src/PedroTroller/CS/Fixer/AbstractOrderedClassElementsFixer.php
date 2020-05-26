@@ -105,6 +105,14 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
                 break;
             }
 
+            $possibleCommentIndex = $startIndex + 1;
+
+            if (isset($tokens[$possibleCommentIndex]) && $tokens[$possibleCommentIndex]->isComment()) {
+                $element['comment'] = $tokens[$possibleCommentIndex]->getContent();
+            } else {
+                $element['comment'] = null;
+            }
+
             $elements[] = $element;
             $startIndex = $element['end'] + 1;
         }
