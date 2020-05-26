@@ -13,7 +13,9 @@ use PhpCsFixer\Tokenizer\Tokens;
 abstract class AbstractFixer extends PhpCsFixer
 {
     /**
-     * {@inheritdoc}
+     * @param Tokens<Token> $tokens
+     *
+     * @return bool
      */
     public function isCandidate(Tokens $tokens)
     {
@@ -29,7 +31,7 @@ abstract class AbstractFixer extends PhpCsFixer
     }
 
     /**
-     * @return array[]
+     * @return array<null|array>
      */
     public function getSampleConfigurations()
     {
