@@ -1,5 +1,5 @@
 {
-  "dependencies": {
+  "devDependencies": {
     "semantic-release": "^17.1.1"
   }
 }

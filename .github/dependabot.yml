@@ -1,0 +1,19 @@
+---
+version: 2
+
+updates:
+  - package-ecosystem: "composer"
+    target-branch: "master"
+    directory: "./"
+    schedule:
+      interval: "daily"
+    commit-message:
+      prefix: composer
+
+  - package-ecosystem: "npm"
+    target-branch: "master"
+    directory: "./"
+    schedule:
+      interval: "daily"
+    commit-message:
+      prefix: npm

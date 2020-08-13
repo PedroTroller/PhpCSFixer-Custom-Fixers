@@ -1,0 +1,18 @@
+---
+titleAndCommits: true
+
+types:
+  - "BREAKING CHANGE"
+  - feat
+  - fix
+  - docs
+  - style
+  - refactor
+  - test
+  - chore
+  - composer
+  - npm
+
+scope:
+  - deps
+  - deps-dev

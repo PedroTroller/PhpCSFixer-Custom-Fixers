@@ -3,13 +3,15 @@ plugins:
   -
     - '@semantic-release/commit-analyzer'
     - releaseRules:
+        - type: BREAKING CHANGE
+          release: major
         - type: feat
           release: minor
         - type: fix
-          scope: deps
+          release: fix
+        - scope: deps
           release: minor
-        - type: fix
-          scope: deps-dev
+        - scope: deps-dev
           release: false
         - type: refactor
           release: false
