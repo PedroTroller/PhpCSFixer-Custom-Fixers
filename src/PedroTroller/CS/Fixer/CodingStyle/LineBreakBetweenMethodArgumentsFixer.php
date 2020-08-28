@@ -199,7 +199,7 @@ SPEC;
             $end = $tokens->getNextTokenOfKind($closeBraceIndex, [';', '{']);
 
             for ($i = $closeBraceIndex + 1; $i < $end; ++$i) {
-                $content    = preg_replace('/ {2,}/', ' ', str_replace("\n", '', $tokens[$i]->getContent()));
+                $content    = preg_replace('/ {2,}/', ' ', str_replace("\n", ' ', $tokens[$i]->getContent()));
                 $tokens[$i] = new Token([$tokens[$i]->getId(), $content]);
             }
         }
@@ -233,7 +233,7 @@ SPEC;
         $closeBraceIndex = $this->analyze($tokens)->getClosingParenthesis($openBraceIndex);
 
         for ($i = $openBraceIndex; $i <= $closeBraceIndex; ++$i) {
-            $content    = preg_replace('/ {2,}/', ' ', str_replace("\n", '', $tokens[$i]->getContent()));
+            $content    = preg_replace('/ {2,}/', ' ', str_replace("\n", ' ', $tokens[$i]->getContent()));
             $tokens[$i] = $tokens[$i]->getId()
                 ? new Token([$tokens[$i]->getId(), $content])
                 : new Token([T_WHITESPACE, $content]);
