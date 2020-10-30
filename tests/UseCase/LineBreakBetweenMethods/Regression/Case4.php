@@ -8,12 +8,12 @@ use PedroTroller\CS\Fixer\CodingStyle\LineBreakBetweenMethodArgumentsFixer;
 use tests\UseCase;
 
 /**
- * https://github.com/PedroTroller/PhpCSFixer-Custom-Fixers/issues/104
+ * https://github.com/PedroTroller/PhpCSFixer-Custom-Fixers/issues/104.
  */
 final class Case4 implements UseCase
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getFixer()
     {
@@ -28,7 +28,7 @@ final class Case4 implements UseCase
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getRawScript()
     {
@@ -71,7 +71,7 @@ PHP;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getExpectation()
     {
@@ -114,7 +114,7 @@ PHP;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getMinSupportedPhpVersion()
     {
