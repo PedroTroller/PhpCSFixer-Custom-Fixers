@@ -45,16 +45,17 @@ Step definition methods in Behat contexts MUST BE ordered by annotation and meth
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/order_behat_steps' => true,
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -63,15 +64,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/order_behat_steps')
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -132,16 +133,17 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/order_behat_steps' => [ 'instanceof' => [ 'Behat\Behat\Context\Context' ] ],
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -150,15 +152,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/order_behat_steps', [ 'instanceof' => [ 'Behat\Behat\Context\Context' ] ])
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -224,16 +226,17 @@ Class/interface/trait methods MUST BE ordered (accessors at the beginning of the
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/ordered_with_getter_and_setter_first' => true,
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -242,15 +245,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/ordered_with_getter_and_setter_first')
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -320,16 +323,17 @@ Exception messages MUST ends by ".", "…", "?" or "!".<br /><br /><i>Risky: wil
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/exceptions_punctuation' => true,
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -338,15 +342,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/exceptions_punctuation')
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -392,16 +396,17 @@ Prohibited functions MUST BE commented on as prohibited
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/forbidden_functions' => [ 'comment' => 'YOLO' ],
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -410,15 +415,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/forbidden_functions', [ 'comment' => 'YOLO' ])
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -445,16 +450,17 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/forbidden_functions' => [ 'comment' => 'NEIN NEIN NEIN !!!', 'functions' => [ 'var_dump', 'var_export' ] ],
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -463,15 +469,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/forbidden_functions', [ 'comment' => 'NEIN NEIN NEIN !!!', 'functions' => [ 'var_dump', 'var_export' ] ])
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -520,16 +526,17 @@ If the declaration of a method is too long, the arguments of this method MUST BE
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/line_break_between_method_arguments' => [ 'max-args' => 4, 'max-length' => 120, 'automatic-argument-merge' => true ],
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -538,15 +545,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/line_break_between_method_arguments', [ 'max-args' => 4, 'max-length' => 120, 'automatic-argument-merge' => true ])
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -589,16 +596,17 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/line_break_between_method_arguments' => [ 'max-args' => false, 'max-length' => 120, 'automatic-argument-merge' => true ],
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -607,15 +615,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/line_break_between_method_arguments', [ 'max-args' => false, 'max-length' => 120, 'automatic-argument-merge' => true ])
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -663,16 +671,17 @@ Each statement (in, for, foreach, ...) MUST BE separated by an empty line
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/line_break_between_statements' => true,
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -681,15 +690,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/line_break_between_statements')
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -728,16 +737,17 @@ Classy elements (method, property, ...) comments MUST BE a PhpDoc block
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/comment_line_to_phpdoc_block' => true,
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -746,15 +756,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/comment_line_to_phpdoc_block')
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -841,16 +851,17 @@ replaced by `single_line_comment_style`.
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/single_line_comment' => [ 'action' => 'expanded' ],
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -859,15 +870,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/single_line_comment', [ 'action' => 'expanded' ])
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -878,16 +889,17 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/single_line_comment' => [ 'action' => 'collapsed' ],
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -896,15 +908,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/single_line_comment', [ 'action' => 'collapsed' ])
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -923,16 +935,17 @@ replaced by `no_superfluous_phpdoc_tags`.
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/useless_comment' => true,
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -941,15 +954,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/useless_comment')
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -965,16 +978,17 @@ All `return` that are not accessible (i.e. following another `return`) MUST BE d
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/useless_code_after_return' => true,
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -983,15 +997,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/useless_code_after_return')
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -1050,16 +1064,17 @@ Unnecessary empty methods (`getDescription()`, `up()`, `down()`) and comments MU
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/doctrine_migrations' => true,
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -1068,15 +1083,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/doctrine_migrations')
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -1124,16 +1139,17 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/doctrine_migrations' => [ 'instanceof' => [ 'Doctrine\Migrations\AbstractMigration' ] ],
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -1142,15 +1158,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/doctrine_migrations', [ 'instanceof' => [ 'Doctrine\Migrations\AbstractMigration' ] ])
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -1212,16 +1228,17 @@ replaced by `PedroTroller/phpspec`.
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/ordered_spec_elements' => true,
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -1230,15 +1247,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/ordered_spec_elements')
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -1249,16 +1266,17 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/ordered_spec_elements' => [ 'instanceof' => [ 'PhpSpec\ObjectBehavior' ] ],
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -1267,15 +1285,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/ordered_spec_elements', [ 'instanceof' => [ 'PhpSpec\ObjectBehavior' ] ])
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -1300,16 +1318,17 @@ replaced by `PedroTroller/phpspec`.
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/phpspec_scenario_return_type_declaration' => true,
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -1318,15 +1337,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/phpspec_scenario_return_type_declaration')
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -1337,16 +1356,17 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/phpspec_scenario_return_type_declaration' => [ 'instanceof' => [ 'PhpSpec\ObjectBehavior' ] ],
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -1355,15 +1375,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/phpspec_scenario_return_type_declaration', [ 'instanceof' => [ 'PhpSpec\ObjectBehavior' ] ])
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -1388,16 +1408,17 @@ replaced by `PedroTroller/phpspec`.
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/phpspec_scenario_scope' => true,
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -1406,15 +1427,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/phpspec_scenario_scope')
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -1425,16 +1446,17 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/phpspec_scenario_scope' => [ 'instanceof' => [ 'PhpSpec\ObjectBehavior' ] ],
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -1443,15 +1465,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/phpspec_scenario_scope', [ 'instanceof' => [ 'PhpSpec\ObjectBehavior' ] ])
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -1477,16 +1499,17 @@ The methods of the phpspec specification classes MUST BE sorted (let, letGo, its
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/phpspec' => true,
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -1495,15 +1518,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/phpspec')
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -1555,16 +1578,17 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         'PedroTroller/phpspec' => [ 'instanceof' => [ 'PhpSpec\ObjectBehavior' ] ],
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -1573,15 +1597,15 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         ->enable('PedroTroller/phpspec', [ 'instanceof' => [ 'PhpSpec\ObjectBehavior' ] ])
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```

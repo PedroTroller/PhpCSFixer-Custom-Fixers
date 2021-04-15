@@ -65,9 +65,10 @@ replaced by `{{ fixer.replacement }}`.
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules([
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    [
         // ...
         {% if sample.configuration  -%}
         '{{ fixer.name }}' => {{ sample.configuration|raw }},
@@ -75,10 +76,10 @@ $config = PhpCsFixer\Config::create()
         '{{ fixer.name }}' => true,
         {% endif -%}
         // ...
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+    ]
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
@@ -87,19 +88,19 @@ return $config;
 // .php_cs.dist
 <?php
 
-$config = PhpCsFixer\Config::create()
-    // ...
-    ->setRules(PedroTroller\CS\Fixer\RuleSetFactory::create()
+$config = new PhpCsFixer\Config();
+// ...
+$config->setRules(
+    PedroTroller\CS\Fixer\RuleSetFactory::create()
         {% if sample.configuration  -%}
         ->enable('{{ fixer.name }}', {{ sample.configuration|raw }})
         {% else -%}
         ->enable('{{ fixer.name }}')
         {% endif -%}
         ->getRules()
-    ])
-    // ...
-    ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
-;
+);
+$config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
+// ...
 
 return $config;
 ```
