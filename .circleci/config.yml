@@ -82,7 +82,6 @@ jobs:
     executor:
       name: node/default
     steps:
-      - node/install
       - checkout
       - node/install-packages
       - run: node_modules/.bin/semantic-release
