@@ -2,7 +2,7 @@
 version: 2.1
 
 orbs:
-  node: circleci/node@1.1
+  node: circleci/node@4.2.1
 
 composer_with_lowest_dependencies: &composer_with_lowest_dependencies
   run: |
@@ -74,11 +74,8 @@ jobs:
     executor:
       name: node/default
     steps:
-      - node/install
       - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install
+      - node/install-packages
       - run: node_modules/.bin/semantic-release --dry-run
 
   release:
@@ -87,9 +84,7 @@ jobs:
     steps:
       - node/install
       - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install
+      - node/install-packages
       - run: node_modules/.bin/semantic-release
 
 workflows:
