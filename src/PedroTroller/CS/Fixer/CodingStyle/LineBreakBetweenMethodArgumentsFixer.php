@@ -167,6 +167,8 @@ SPEC;
 
     private function splitArgs(Tokens $tokens, $index): void
     {
+        $this->mergeArgs($tokens, $index);
+
         $openBraceIndex  = $tokens->getNextTokenOfKind($index, ['(']);
         $closeBraceIndex = $this->analyze($tokens)->getClosingParenthesis($openBraceIndex);
 
@@ -174,35 +176,19 @@ SPEC;
             return;
         }
 
-        $token                   = $tokens[$openBraceIndex];
-        $tokens[$openBraceIndex] = new Token([
-            T_WHITESPACE,
-            trim($token->getContent())."\n".$this->analyze($tokens)->getLineIndentation($index).$this->whitespacesConfig->getIndent(),
-        ]);
-
-        $token                    = $tokens[$closeBraceIndex];
-        $tokens[$closeBraceIndex] = new Token([
-            T_WHITESPACE,
-            rtrim($this->whitespacesConfig->getLineEnding().$this->analyze($tokens)->getLineIndentation($index).$token->getContent()),
-        ]);
-
         if ($tokens[$tokens->getNextMeaningfulToken($closeBraceIndex)]->equals('{')) {
             $tokens->removeTrailingWhitespace($closeBraceIndex);
-            $token                                                     = $tokens[$tokens->getNextMeaningfulToken($closeBraceIndex)];
-            $tokens[$tokens->getNextMeaningfulToken($closeBraceIndex)] = new Token([
-                T_WHITESPACE,
-                ' '.trim($token->getContent()),
-            ]);
+            $tokens->ensureWhitespaceAtIndex($closeBraceIndex, 1, ' ');
         }
 
         if ($tokens[$tokens->getNextMeaningfulToken($closeBraceIndex)]->isGivenKind(self::T_TYPEHINT_SEMI_COLON)) {
             $end = $tokens->getNextTokenOfKind($closeBraceIndex, [';', '{']);
 
-            for ($i = $closeBraceIndex + 1; $i < $end; ++$i) {
-                $content    = preg_replace('/ {2,}/', ' ', str_replace("\n", ' ', $tokens[$i]->getContent()));
-                $tokens[$i] = new Token([$tokens[$i]->getId(), $content]);
-            }
+            $tokens->removeLeadingWhitespace($end);
+            $tokens->ensureWhitespaceAtIndex($end, 0, ' ');
         }
+
+        $linebreaks = [$openBraceIndex, $closeBraceIndex - 1];
 
         for ($i = $openBraceIndex + 1; $i < $closeBraceIndex; ++$i) {
             if ($tokens[$i]->equals('(')) {
@@ -214,17 +200,29 @@ SPEC;
             }
 
             if ($tokens[$i]->equals(',')) {
-                $tokens->removeTrailingWhitespace($i);
-                $token      = $tokens[$i];
-                $tokens[$i] = new Token([
-                    T_WHITESPACE,
-                    trim($token->getContent())."\n".$this->analyze($tokens)->getLineIndentation($index).$this->whitespacesConfig->getIndent(),
-                ]);
+                $linebreaks[] = $i;
             }
         }
 
-        $tokens->removeTrailingWhitespace($openBraceIndex);
-        $tokens->removeTrailingWhitespace($tokens->getPrevMeaningfulToken($closeBraceIndex));
+        sort($linebreaks);
+
+        foreach (array_reverse($linebreaks, false) as $iteration => $linebreak) {
+            $tokens->removeTrailingWhitespace($linebreak);
+
+            switch ($iteration) {
+                case 0:
+                    $whitespace = "\n".$this->analyze($tokens)->getLineIndentation($index);
+
+                    break;
+
+                default:
+                    $whitespace = "\n".$this->analyze($tokens)->getLineIndentation($index).'    ';
+
+                    break;
+            }
+
+            $tokens->ensureWhitespaceAtIndex($linebreak, 1, $whitespace);
+        }
     }
 
     private function mergeArgs(Tokens $tokens, $index): void
@@ -232,11 +230,8 @@ SPEC;
         $openBraceIndex  = $tokens->getNextTokenOfKind($index, ['(']);
         $closeBraceIndex = $this->analyze($tokens)->getClosingParenthesis($openBraceIndex);
 
-        for ($i = $openBraceIndex; $i <= $closeBraceIndex; ++$i) {
-            $content    = preg_replace('/ {2,}/', ' ', str_replace("\n", ' ', $tokens[$i]->getContent()));
-            $tokens[$i] = $tokens[$i]->getId()
-                ? new Token([$tokens[$i]->getId(), $content])
-                : new Token([T_WHITESPACE, $content]);
+        foreach ($tokens->findGivenKind(T_WHITESPACE, $openBraceIndex, $closeBraceIndex) as $spaceIndex => $spaceToken) {
+            $tokens[$spaceIndex] = new Token([T_WHITESPACE, ' ']);
         }
 
         $tokens->removeTrailingWhitespace($openBraceIndex);
@@ -246,7 +241,7 @@ SPEC;
 
         if ($tokens[$end]->equals('{')) {
             $tokens->removeLeadingWhitespace($end);
-            $tokens->insertAt($end, new Token([T_WHITESPACE, "\n".$this->analyze($tokens)->getLineIndentation($index)]));
+            $tokens->ensureWhitespaceAtIndex($end, -1, "\n".$this->analyze($tokens)->getLineIndentation($index));
         }
     }
 

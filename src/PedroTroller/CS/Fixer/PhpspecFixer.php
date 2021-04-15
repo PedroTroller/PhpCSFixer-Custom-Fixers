@@ -82,14 +82,6 @@ class TheSpec extends ObjectBehavior
 SPEC;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPriority()
-    {
-        return Priority::after(VisibilityRequiredFixer::class);
-    }
-
     public function getDocumentation()
     {
         return implode(
@@ -100,6 +92,14 @@ SPEC;
                 'The methods of the phpspec specification classes MUST BE sorted (let, letGo, its_*, it_*, getMatchers and the rest of the methods)',
             ]
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPriority()
+    {
+        return Priority::after(VisibilityRequiredFixer::class);
     }
 
     /**
@@ -223,7 +223,7 @@ SPEC;
             }
 
             $tokens->clearRange($closeBraceIndex + 1, $openCurlyBracket - 1);
-            $tokens->insertAt($openCurlyBracket, new Token(' '));
+            $tokens->ensureWhitespaceAtIndex($openCurlyBracket, 0, "\n".$this->analyze($tokens)->getLineIndentation($openBraceIndex));
         }
     }
 
