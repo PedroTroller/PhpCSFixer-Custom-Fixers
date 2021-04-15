@@ -77,12 +77,14 @@ final class RuleSetFactorySpec extends ObjectBehavior
     function it_adds_a_php_version_support()
     {
         $this->php(5.6)->getRules()->shouldReturn([
+            '@PHP54Migration' => true,
             '@PHP56Migration' => true,
             'array_syntax'    => ['syntax' => 'short'],
             'list_syntax'     => ['syntax' => 'long'],
         ]);
 
         $this->php(5.6, true)->getRules()->shouldReturn([
+            '@PHP54Migration'       => true,
             '@PHP56Migration'       => true,
             '@PHP56Migration:risky' => true,
             'array_syntax'          => ['syntax' => 'short'],
@@ -90,6 +92,7 @@ final class RuleSetFactorySpec extends ObjectBehavior
         ]);
 
         $this->php(7.0)->getRules()->shouldReturn([
+            '@PHP54Migration' => true,
             '@PHP56Migration' => true,
             '@PHP70Migration' => true,
             'array_syntax'    => ['syntax' => 'short'],
@@ -97,6 +100,7 @@ final class RuleSetFactorySpec extends ObjectBehavior
         ]);
 
         $this->php(7.0, true)->getRules()->shouldReturn([
+            '@PHP54Migration'       => true,
             '@PHP56Migration'       => true,
             '@PHP56Migration:risky' => true,
             '@PHP70Migration'       => true,
@@ -106,6 +110,7 @@ final class RuleSetFactorySpec extends ObjectBehavior
         ]);
 
         $this->php(7.1)->getRules()->shouldReturn([
+            '@PHP54Migration' => true,
             '@PHP56Migration' => true,
             '@PHP70Migration' => true,
             '@PHP71Migration' => true,
@@ -114,6 +119,7 @@ final class RuleSetFactorySpec extends ObjectBehavior
         ]);
 
         $this->php(7.1, true)->getRules()->shouldReturn([
+            '@PHP54Migration'       => true,
             '@PHP56Migration'       => true,
             '@PHP56Migration:risky' => true,
             '@PHP70Migration'       => true,
@@ -125,6 +131,7 @@ final class RuleSetFactorySpec extends ObjectBehavior
         ]);
 
         $this->php(7.2)->getRules()->shouldReturn([
+            '@PHP54Migration' => true,
             '@PHP56Migration' => true,
             '@PHP70Migration' => true,
             '@PHP71Migration' => true,
@@ -133,6 +140,7 @@ final class RuleSetFactorySpec extends ObjectBehavior
         ]);
 
         $this->php(7.2, true)->getRules()->shouldReturn([
+            '@PHP54Migration'       => true,
             '@PHP56Migration'       => true,
             '@PHP56Migration:risky' => true,
             '@PHP70Migration'       => true,
@@ -147,6 +155,7 @@ final class RuleSetFactorySpec extends ObjectBehavior
     function it_can_also_parse_versions_as_string()
     {
         $this->php('5.6.2')->getRules()->shouldReturn([
+            '@PHP54Migration' => true,
             '@PHP56Migration' => true,
             'array_syntax'    => ['syntax' => 'short'],
             'list_syntax'     => ['syntax' => 'long'],

@@ -95,6 +95,7 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
                         $element['methodName'] = $tokens[$tokens->getNextMeaningfulToken($i)]->getContent();
 
                         break;
+
                     case 'property':
                         $element['propertyName'] = $token->getContent();
 
