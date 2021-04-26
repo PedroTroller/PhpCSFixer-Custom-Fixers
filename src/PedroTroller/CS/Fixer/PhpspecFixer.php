@@ -6,6 +6,7 @@ namespace PedroTroller\CS\Fixer;
 
 use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
 use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\Tokenizer\Token;
@@ -99,7 +100,10 @@ SPEC;
      */
     public function getPriority()
     {
-        return Priority::after(VisibilityRequiredFixer::class);
+        return Priority::after(
+            VisibilityRequiredFixer::class,
+            VoidReturnFixer::class
+        );
     }
 
     /**
@@ -223,7 +227,12 @@ SPEC;
             }
 
             $tokens->clearRange($closeBraceIndex + 1, $openCurlyBracket - 1);
-            $tokens->ensureWhitespaceAtIndex($openCurlyBracket, 0, "\n".$this->analyze($tokens)->getLineIndentation($openBraceIndex));
+
+            if ($tokens[$closeBraceIndex - 1]->isWhitespace() && false !== strpos($tokens[$closeBraceIndex - 1]->getContent(), "\n")) {
+                $tokens->ensureWhitespaceAtIndex($openCurlyBracket, 0, ' ');
+            } else {
+                $tokens->ensureWhitespaceAtIndex($openCurlyBracket, 0, "\n".$this->analyze($tokens)->getLineIndentation($openBraceIndex));
+            }
         }
     }
 

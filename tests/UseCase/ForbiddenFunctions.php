@@ -9,10 +9,7 @@ use tests\UseCase;
 
 final class ForbiddenFunctions implements UseCase
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getFixer()
+    public function getFixers(): iterable
     {
         $fixer = new ForbiddenFunctionsFixer();
 
@@ -21,13 +18,10 @@ final class ForbiddenFunctions implements UseCase
             'functions' => ['var_dump', 'dump'],
         ]);
 
-        return $fixer;
+        yield $fixer;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getRawScript()
+    public function getRawScript(): string
     {
         return <<<'PHP'
 <?php
@@ -54,10 +48,7 @@ class MyClass {
 PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getExpectation()
+    public function getExpectation(): string
     {
         return <<<'PHP'
 <?php
@@ -84,10 +75,7 @@ class MyClass {
 PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMinSupportedPhpVersion()
+    public function getMinSupportedPhpVersion(): int
     {
         return 0;
     }

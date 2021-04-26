@@ -9,34 +9,22 @@ use tests\UseCase;
 
 final class Case2 implements UseCase
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getFixer()
+    public function getFixers(): iterable
     {
-        return new PhpspecFixer();
+        yield new PhpspecFixer();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getRawScript()
+    public function getRawScript(): string
     {
         return file_get_contents(sprintf('%s/Case2/file.php.txt', __DIR__));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getExpectation()
+    public function getExpectation(): string
     {
         return file_get_contents(sprintf('%s/Case2/file.php.txt', __DIR__));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMinSupportedPhpVersion()
+    public function getMinSupportedPhpVersion(): int
     {
         return 0;
     }

@@ -9,10 +9,7 @@ use tests\UseCase;
 
 final class Case1 implements UseCase
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getFixer()
+    public function getFixers(): iterable
     {
         $fixer = new LineBreakBetweenMethodArgumentsFixer();
 
@@ -21,29 +18,20 @@ final class Case1 implements UseCase
             'max-length' => 80,
         ]);
 
-        return $fixer;
+        yield $fixer;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getRawScript()
+    public function getRawScript(): string
     {
         return file_get_contents(sprintf('%s/Case1/CamelizeNamingStrategy.php.text', __DIR__));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getExpectation()
+    public function getExpectation(): string
     {
         return file_get_contents(sprintf('%s/Case1/CamelizeNamingStrategy.php.text', __DIR__));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMinSupportedPhpVersion()
+    public function getMinSupportedPhpVersion(): int
     {
         return 70100;
     }

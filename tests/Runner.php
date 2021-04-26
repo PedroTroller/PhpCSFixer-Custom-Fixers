@@ -80,7 +80,7 @@ final class Runner
                 continue;
             }
 
-            $fixer  = $usecase->getFixer();
+            $fixers = $usecase->getFixers();
             $tokens = Tokens::fromCode($usecase->getRawScript());
 
             $differ = new Differ();
@@ -90,7 +90,9 @@ final class Runner
             echo "#######################################################################################\n";
             echo "\n";
 
-            $fixer->fix(new SplFileInfo(__FILE__), $tokens);
+            foreach ($fixers as $fixer) {
+                $fixer->fix(new SplFileInfo(__FILE__), $tokens);
+            }
 
             if ($usecase->getExpectation() !== $tokens->generateCode()) {
                 throw new Exception($differ->diff($usecase->getExpectation(), $tokens->generateCode()));
