@@ -9,18 +9,12 @@ use tests\UseCase;
 
 final class DoubleLineBreak implements UseCase
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getFixer()
+    public function getFixers(): iterable
     {
-        return new UselessCommentFixer();
+        yield new UselessCommentFixer();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getRawScript()
+    public function getRawScript(): string
     {
         return <<<'PHP'
 <?php
@@ -49,10 +43,7 @@ class MyClass {
 PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getExpectation()
+    public function getExpectation(): string
     {
         return <<<'PHP'
 <?php
@@ -79,10 +70,7 @@ class MyClass {
 PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMinSupportedPhpVersion()
+    public function getMinSupportedPhpVersion(): int
     {
         return 0;
     }

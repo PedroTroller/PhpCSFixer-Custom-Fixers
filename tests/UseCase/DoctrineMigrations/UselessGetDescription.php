@@ -9,18 +9,12 @@ use tests\UseCase;
 
 final class UselessGetDescription implements UseCase
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getFixer()
+    public function getFixers(): iterable
     {
-        return new DoctrineMigrationsFixer();
+        yield new DoctrineMigrationsFixer();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getRawScript()
+    public function getRawScript(): string
     {
         return <<<'PHP'
 <?php
@@ -56,10 +50,7 @@ final class Version20190323095102 extends AbstractMigration
 PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getExpectation()
+    public function getExpectation(): string
     {
         return <<<'PHP'
 <?php
@@ -91,10 +82,7 @@ final class Version20190323095102 extends AbstractMigration
 PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMinSupportedPhpVersion()
+    public function getMinSupportedPhpVersion(): int
     {
         return 70100;
     }

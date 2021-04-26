@@ -9,22 +9,13 @@ use PhpCsFixer\Fixer\FixerInterface;
 interface UseCase
 {
     /**
-     * @return FixerInterface
+     * @return iterable<FixerInterface>
      */
-    public function getFixer();
+    public function getFixers(): iterable;
 
-    /**
-     * @return string
-     */
-    public function getRawScript();
+    public function getRawScript(): string;
 
-    /**
-     * @return string
-     */
-    public function getExpectation();
+    public function getExpectation(): string;
 
-    /**
-     * @return int
-     */
-    public function getMinSupportedPhpVersion();
+    public function getMinSupportedPhpVersion(): int;
 }

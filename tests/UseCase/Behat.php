@@ -9,12 +9,12 @@ use tests\UseCase;
 
 final class Behat implements UseCase
 {
-    public function getFixer()
+    public function getFixers(): iterable
     {
-        return new OrderBehatStepsFixer();
+        yield new OrderBehatStepsFixer();
     }
 
-    public function getRawScript()
+    public function getRawScript(): string
     {
         return <<<'CONTEXT'
 <?php
@@ -129,7 +129,7 @@ final class DemoContext implements Context
 CONTEXT;
     }
 
-    public function getExpectation()
+    public function getExpectation(): string
     {
         return <<<'CONTEXT'
 <?php
@@ -227,7 +227,7 @@ final class DemoContext implements Context
 CONTEXT;
     }
 
-    public function getMinSupportedPhpVersion()
+    public function getMinSupportedPhpVersion(): int
     {
         return 0;
     }

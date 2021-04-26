@@ -9,18 +9,12 @@ use tests\UseCase;
 
 final class LineBreakBetweenStatements implements UseCase
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getFixer()
+    public function getFixers(): iterable
     {
-        return new LineBreakBetweenStatementsFixer();
+        yield new LineBreakBetweenStatementsFixer();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getRawScript()
+    public function getRawScript(): string
     {
         return '
 <?php
@@ -47,10 +41,7 @@ class TheClass
 }';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getExpectation()
+    public function getExpectation(): string
     {
         return '
 <?php
@@ -79,10 +70,7 @@ class TheClass
 }';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMinSupportedPhpVersion()
+    public function getMinSupportedPhpVersion(): int
     {
         return 0;
     }

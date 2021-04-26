@@ -9,18 +9,12 @@ use tests\UseCase;
 
 final class PhpspecScenarioScope implements UseCase
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getFixer()
+    public function getFixers(): iterable
     {
-        return new PhpspecScenarioScopeFixer();
+        yield new PhpspecScenarioScopeFixer();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getRawScript()
+    public function getRawScript(): string
     {
         return <<<'SPEC'
 <?php
@@ -54,10 +48,7 @@ class TheSpec extends ObjectBehavior
 SPEC;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getExpectation()
+    public function getExpectation(): string
     {
         return <<<'SPEC'
 <?php
@@ -91,10 +82,7 @@ class TheSpec extends ObjectBehavior
 SPEC;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMinSupportedPhpVersion()
+    public function getMinSupportedPhpVersion(): int
     {
         return 0;
     }

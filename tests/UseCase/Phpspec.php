@@ -5,22 +5,20 @@ declare(strict_types=1);
 namespace tests\UseCase;
 
 use PedroTroller\CS\Fixer\PhpspecFixer;
+use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
+use PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer;
 use tests\UseCase;
 
 final class Phpspec implements UseCase
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getFixer()
+    public function getFixers(): iterable
     {
-        return new PhpspecFixer();
+        yield new VisibilityRequiredFixer();
+        yield new VoidReturnFixer();
+        yield new PhpspecFixer();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getRawScript()
+    public function getRawScript(): string
     {
         return <<<'SPEC'
 <?php
@@ -44,7 +42,20 @@ class TheSpec extends ObjectBehavior
         return;
     }
 
-    public function itIsNotASpec($file) {
+    public function it_is_a_spec_with_linebreaks_between_arguments(
+        $file
+    ) {
+        return;
+    }
+
+    public function it_is_an_other_spec_with_linebreaks_between_arguments(
+        $file
+    )
+    {
+        return;
+    }
+
+    public function itIsNotASpec($file): void {
         return;
     }
 
@@ -63,10 +74,7 @@ class TheSpec extends ObjectBehavior
 SPEC;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getExpectation()
+    public function getExpectation(): string
     {
         return <<<'SPEC'
 <?php
@@ -78,18 +86,34 @@ use PhpSpec\ObjectBehavior;
 class TheSpec extends ObjectBehavior
 {
 
-    function let($file) {
+    function let($file)
+    {
         return;
     }
-    function letGo($file) {
+    function letGo($file)
+    {
         return;
     }
 
-    function it_is_a_spec($file) {
+    function it_is_a_spec($file)
+    {
         return;
     }
 
-    function its_other_function_as_a_spec($file) {
+    function it_is_a_spec_with_linebreaks_between_arguments(
+        $file
+    ) {
+        return;
+    }
+
+    function it_is_an_other_spec_with_linebreaks_between_arguments(
+        $file
+    ) {
+        return;
+    }
+
+    function its_other_function_as_a_spec($file)
+    {
         return;
     }
 
@@ -102,17 +126,14 @@ class TheSpec extends ObjectBehavior
         return 'bar';
     }
 
-    public function itIsNotASpec($file) {
+    public function itIsNotASpec($file): void {
         return;
     }
 }
 SPEC;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMinSupportedPhpVersion()
+    public function getMinSupportedPhpVersion(): int
     {
         return 0;
     }

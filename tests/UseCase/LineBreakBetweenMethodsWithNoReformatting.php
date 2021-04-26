@@ -9,10 +9,7 @@ use tests\UseCase;
 
 final class LineBreakBetweenMethodsWithNoReformatting implements UseCase
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getFixer()
+    public function getFixers(): iterable
     {
         $fixer = new LineBreakBetweenMethodArgumentsFixer();
 
@@ -20,13 +17,10 @@ final class LineBreakBetweenMethodsWithNoReformatting implements UseCase
             'automatic-argument-merge' => false,
         ]);
 
-        return $fixer;
+        yield $fixer;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getRawScript()
+    public function getRawScript(): string
     {
         return <<<'PHP'
 <?php
@@ -72,10 +66,7 @@ class TheClass
 PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getExpectation()
+    public function getExpectation(): string
     {
         return <<<'PHP'
 <?php
@@ -133,10 +124,7 @@ class TheClass
 PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMinSupportedPhpVersion()
+    public function getMinSupportedPhpVersion(): int
     {
         return 70100;
     }

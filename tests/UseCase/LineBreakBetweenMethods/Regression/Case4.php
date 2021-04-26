@@ -12,10 +12,7 @@ use tests\UseCase;
  */
 final class Case4 implements UseCase
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getFixer()
+    public function getFixers(): iterable
     {
         $fixer = new LineBreakBetweenMethodArgumentsFixer();
 
@@ -24,13 +21,10 @@ final class Case4 implements UseCase
             'max-length' => 100,
         ]);
 
-        return $fixer;
+        yield $fixer;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getRawScript()
+    public function getRawScript(): string
     {
         return <<<'PHP'
 <?php
@@ -70,10 +64,7 @@ function someFuncName(
 PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getExpectation()
+    public function getExpectation(): string
     {
         return <<<'PHP'
 <?php
@@ -113,10 +104,7 @@ function someFuncName(string $format, string $time, DateTimeZone $timezone = nul
 PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMinSupportedPhpVersion()
+    public function getMinSupportedPhpVersion(): int
     {
         return 70000;
     }

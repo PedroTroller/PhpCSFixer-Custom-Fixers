@@ -9,18 +9,12 @@ use tests\UseCase;
 
 final class WithInterface implements UseCase
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getFixer()
+    public function getFixers(): iterable
     {
-        return new UselessCommentFixer();
+        yield new UselessCommentFixer();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getRawScript()
+    public function getRawScript(): string
     {
         return <<<'PHP'
 <?php
@@ -49,10 +43,7 @@ interface TokenGeneratorInterface
 PHP;
     }
 
-    /**
-     * @return string
-     */
-    public function getExpectation()
+    public function getExpectation(): string
     {
         return <<<'PHP'
 <?php
@@ -75,10 +66,7 @@ interface TokenGeneratorInterface
 PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMinSupportedPhpVersion()
+    public function getMinSupportedPhpVersion(): int
     {
         return 70000;
     }

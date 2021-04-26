@@ -9,10 +9,7 @@ use tests\UseCase;
 
 final class FuncSpec implements UseCase
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getFixer()
+    public function getFixers(): iterable
     {
         $fixer = new PhpspecFixer();
 
@@ -22,13 +19,10 @@ final class FuncSpec implements UseCase
             ],
         ]);
 
-        return $fixer;
+        yield $fixer;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getRawScript()
+    public function getRawScript(): string
     {
         return <<<'SPEC'
 <?php
@@ -75,10 +69,7 @@ class DirtinessRegistryTest implements Spec
 SPEC;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getExpectation()
+    public function getExpectation(): string
     {
         return <<<'SPEC'
 <?php
@@ -125,10 +116,7 @@ class DirtinessRegistryTest implements Spec
 SPEC;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMinSupportedPhpVersion()
+    public function getMinSupportedPhpVersion(): int
     {
         return 0;
     }
