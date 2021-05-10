@@ -23,105 +23,105 @@ final class LineBreakBetweenMethodsWithNoReformatting implements UseCase
     public function getRawScript(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-namespace Project\TheNamespace;
+            namespace Project\TheNamespace;
 
-class TheClass
-{
-    public function fun1($arg1, array $arg2 = [], \ArrayAccess $arg3 = null, $foo = 'bar')
-    {
-        return;
-    }
+            class TheClass
+            {
+                public function fun1($arg1, array $arg2 = [], \ArrayAccess $arg3 = null, $foo = 'bar')
+                {
+                    return;
+                }
 
-    public function fun2(
-        $arg1,
-        array $arg2 = []
-    ) {
-        return;
-    }
+                public function fun2(
+                    $arg1,
+                    array $arg2 = []
+                ) {
+                    return;
+                }
 
-    public function fun3()
-    {
-    }
+                public function fun3()
+                {
+                }
 
-    public function fun4(
-        $foo,
-        $bar,
-        $bar,
-        $boolean = true,
-        $integer = 1,
-        $string = 'string'
-    ) {
-    }
+                public function fun4(
+                    $foo,
+                    $bar,
+                    $bar,
+                    $boolean = true,
+                    $integer = 1,
+                    $string = 'string'
+                ) {
+                }
 
-    public function php70($arg1, array $arg2 = [], \ArrayAccess $arg3 = null, $foo = 'bar'): bool
-    {
-    }
+                public function php70($arg1, array $arg2 = [], \ArrayAccess $arg3 = null, $foo = 'bar'): bool
+                {
+                }
 
-    public function php71($arg1, array $arg2 = [], \ArrayAccess $arg3 = null, $foo = 'bar'): ? bool
-    {
-    }
-}
-PHP;
+                public function php71($arg1, array $arg2 = [], \ArrayAccess $arg3 = null, $foo = 'bar'): ? bool
+                {
+                }
+            }
+            PHP;
     }
 
     public function getExpectation(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-namespace Project\TheNamespace;
+            namespace Project\TheNamespace;
 
-class TheClass
-{
-    public function fun1(
-        $arg1,
-        array $arg2 = [],
-        \ArrayAccess $arg3 = null,
-        $foo = 'bar'
-    ) {
-        return;
-    }
+            class TheClass
+            {
+                public function fun1(
+                    $arg1,
+                    array $arg2 = [],
+                    \ArrayAccess $arg3 = null,
+                    $foo = 'bar'
+                ) {
+                    return;
+                }
 
-    public function fun2(
-        $arg1,
-        array $arg2 = []
-    ) {
-        return;
-    }
+                public function fun2(
+                    $arg1,
+                    array $arg2 = []
+                ) {
+                    return;
+                }
 
-    public function fun3()
-    {
-    }
+                public function fun3()
+                {
+                }
 
-    public function fun4(
-        $foo,
-        $bar,
-        $bar,
-        $boolean = true,
-        $integer = 1,
-        $string = 'string'
-    ) {
-    }
+                public function fun4(
+                    $foo,
+                    $bar,
+                    $bar,
+                    $boolean = true,
+                    $integer = 1,
+                    $string = 'string'
+                ) {
+                }
 
-    public function php70(
-        $arg1,
-        array $arg2 = [],
-        \ArrayAccess $arg3 = null,
-        $foo = 'bar'
-    ): bool {
-    }
+                public function php70(
+                    $arg1,
+                    array $arg2 = [],
+                    \ArrayAccess $arg3 = null,
+                    $foo = 'bar'
+                ): bool {
+                }
 
-    public function php71(
-        $arg1,
-        array $arg2 = [],
-        \ArrayAccess $arg3 = null,
-        $foo = 'bar'
-    ): ? bool {
-    }
-}
-PHP;
+                public function php71(
+                    $arg1,
+                    array $arg2 = [],
+                    \ArrayAccess $arg3 = null,
+                    $foo = 'bar'
+                ): ? bool {
+                }
+            }
+            PHP;
     }
 
     public function getMinSupportedPhpVersion(): int

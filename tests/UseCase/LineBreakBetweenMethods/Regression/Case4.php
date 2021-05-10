@@ -27,81 +27,81 @@ final class Case4 implements UseCase
     public function getRawScript(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-// error, because line is too long and fixer will try to split it
-function addDateIntervalaaaaaaaaaaaaaakjfklsdjfklsjfkjklsajlkkldfjklajlkfjaslfjskdfjksajlkfjldaj(DateTimeInterface $date): void
-{
-    echo 'do something';
-}
+            // error, because line is too long and fixer will try to split it
+            function addDateIntervalaaaaaaaaaaaaaakjfklsdjfklsjfkjklsajlkkldfjklajlkfjaslfjskdfjksajlkfjldaj(DateTimeInterface $date): void
+            {
+                echo 'do something';
+            }
 
-//its ok, because we have spaces before function
-    function addDateIntervalaaaaaaaaaaaaaakjfklsdjfklsjfkjklsajlkkldfjklajlkfjaslfjskdfjksajlkfjldaj(DateTimeInterface $date): void
-    {
-        echo 'do something';
-    }
+            //its ok, because we have spaces before function
+                function addDateIntervalaaaaaaaaaaaaaakjfklsdjfklsjfkjklsajlkkldfjklajlkfjaslfjskdfjksajlkfjldaj(DateTimeInterface $date): void
+                {
+                    echo 'do something';
+                }
 
-//its ok, because we do not have return type
-function addDateIntervalaaaaaaaaaaaaaakjfklsdjfklsjfkjklsajlkkldfjklajlkfjaslfjskdfjksajlkfjldaj(DateTimeInterface $date): void
-{
-    echo 'do something';
-}
+            //its ok, because we do not have return type
+            function addDateIntervalaaaaaaaaaaaaaakjfklsdjfklsjfkjklsajlkkldfjklajlkfjaslfjskdfjksajlkfjldaj(DateTimeInterface $date): void
+            {
+                echo 'do something';
+            }
 
-//is ok, because function name less than 100 chars and fixer do not try to split it
-function addDateInterval(DateTimeInterface $date): void
-{
-    echo 'do something';
-}
+            //is ok, because function name less than 100 chars and fixer do not try to split it
+            function addDateInterval(DateTimeInterface $date): void
+            {
+                echo 'do something';
+            }
 
-//error
-function someFuncName(
-    string $format,
-    string $time,
-    DateTimeZone $timezone = null
-): void {
-    echo 'do something';
-}
-PHP;
+            //error
+            function someFuncName(
+                string $format,
+                string $time,
+                DateTimeZone $timezone = null
+            ): void {
+                echo 'do something';
+            }
+            PHP;
     }
 
     public function getExpectation(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-// error, because line is too long and fixer will try to split it
-function addDateIntervalaaaaaaaaaaaaaakjfklsdjfklsjfkjklsajlkkldfjklajlkfjaslfjskdfjksajlkfjldaj(
-    DateTimeInterface $date
-): void {
-    echo 'do something';
-}
+            // error, because line is too long and fixer will try to split it
+            function addDateIntervalaaaaaaaaaaaaaakjfklsdjfklsjfkjklsajlkkldfjklajlkfjaslfjskdfjksajlkfjldaj(
+                DateTimeInterface $date
+            ): void {
+                echo 'do something';
+            }
 
-//its ok, because we have spaces before function
-    function addDateIntervalaaaaaaaaaaaaaakjfklsdjfklsjfkjklsajlkkldfjklajlkfjaslfjskdfjksajlkfjldaj(
-        DateTimeInterface $date
-    ): void {
-        echo 'do something';
-    }
+            //its ok, because we have spaces before function
+                function addDateIntervalaaaaaaaaaaaaaakjfklsdjfklsjfkjklsajlkkldfjklajlkfjaslfjskdfjksajlkfjldaj(
+                    DateTimeInterface $date
+                ): void {
+                    echo 'do something';
+                }
 
-//its ok, because we do not have return type
-function addDateIntervalaaaaaaaaaaaaaakjfklsdjfklsjfkjklsajlkkldfjklajlkfjaslfjskdfjksajlkfjldaj(
-    DateTimeInterface $date
-): void {
-    echo 'do something';
-}
+            //its ok, because we do not have return type
+            function addDateIntervalaaaaaaaaaaaaaakjfklsdjfklsjfkjklsajlkkldfjklajlkfjaslfjskdfjksajlkfjldaj(
+                DateTimeInterface $date
+            ): void {
+                echo 'do something';
+            }
 
-//is ok, because function name less than 100 chars and fixer do not try to split it
-function addDateInterval(DateTimeInterface $date): void
-{
-    echo 'do something';
-}
+            //is ok, because function name less than 100 chars and fixer do not try to split it
+            function addDateInterval(DateTimeInterface $date): void
+            {
+                echo 'do something';
+            }
 
-//error
-function someFuncName(string $format, string $time, DateTimeZone $timezone = null): void
-{
-    echo 'do something';
-}
-PHP;
+            //error
+            function someFuncName(string $format, string $time, DateTimeZone $timezone = null): void
+            {
+                echo 'do something';
+            }
+            PHP;
     }
 
     public function getMinSupportedPhpVersion(): int

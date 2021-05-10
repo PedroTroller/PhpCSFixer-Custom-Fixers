@@ -11,50 +11,38 @@ use SplFileInfo;
 
 final class ExceptionsPunctuationFixer extends AbstractFixer
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function isCandidate(Tokens $tokens)
+    public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isTokenKindFound(T_THROW);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isRisky()
+    public function isRisky(): bool
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getSampleCode()
+    public function getSampleCode(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-use LogicException;
+            use LogicException;
 
-class MyClass {
-    public function fun1()
-    {
-        throw new \Exception('This is the message');
+            class MyClass {
+                public function fun1()
+                {
+                    throw new \Exception('This is the message');
+                }
+
+                public function fun2($data)
+                {
+                    throw new LogicException(sprintf('This is the %s', 'message'));
+                }
+            }
+            PHP;
     }
 
-    public function fun2($data)
-    {
-        throw new LogicException(sprintf('This is the %s', 'message'));
-    }
-}
-PHP;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDocumentation()
+    public function getDocumentation(): string
     {
         return 'Exception messages MUST ends by ".", "…", "?" or "!".<br /><br /><i>Risky: will change the exception message.</i>';
     }
@@ -148,10 +136,7 @@ PHP;
         }
     }
 
-    /**
-     * @return Token
-     */
-    private function cleanupMessage(Token $token)
+    private function cleanupMessage(Token $token): Token
     {
         $content     = $token->getContent();
         $chars       = str_split($content);

@@ -17,20 +17,20 @@ final class SizeOfTheLine extends TokensAnalyzerIntegration
     public function getCode()
     {
         return <<<'PHP'
-<?php
+            <?php
 
-namespace Project\TheNamespace;
+            namespace Project\TheNamespace;
 
-class TheClass
-{
-    public function theFunction()
-    {
-        $this->isAVeryLongMethodCall()
-            ->andThisIsAnOtherMethod()
-        ;
-    }
-}
-PHP;
+            class TheClass
+            {
+                public function theFunction()
+                {
+                    $this->isAVeryLongMethodCall()
+                        ->andThisIsAnOtherMethod()
+                    ;
+                }
+            }
+            PHP;
     }
 
     /**

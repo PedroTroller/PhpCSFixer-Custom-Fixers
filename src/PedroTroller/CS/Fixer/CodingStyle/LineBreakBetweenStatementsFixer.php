@@ -23,45 +23,39 @@ final class LineBreakBetweenStatementsFixer extends AbstractFixer
         T_WHILE   => 'common',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getSampleCode()
+    public function getSampleCode(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-namespace Project\TheNamespace;
+            namespace Project\TheNamespace;
 
-class TheClass
-{
-    /**
-     * @return null
-     */
-    public function fun() {
-        do {
-            // ...
-        } while (true);
-        foreach (['foo', 'bar'] as $str) {
-            // ...
-        }
-        if (true === false) {
-            // ...
-        }
+            class TheClass
+            {
+                /**
+                 * @return null
+                 */
+                public function fun() {
+                    do {
+                        // ...
+                    } while (true);
+                    foreach (['foo', 'bar'] as $str) {
+                        // ...
+                    }
+                    if (true === false) {
+                        // ...
+                    }
 
 
-        while (true) {
-            // ...
-        }
+                    while (true) {
+                        // ...
+                    }
+                }
+            }
+            PHP;
     }
-}
-PHP;
-    }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDocumentation()
+    public function getDocumentation(): string
     {
         return 'Each statement (in, for, foreach, ...) MUST BE separated by an empty line';
     }

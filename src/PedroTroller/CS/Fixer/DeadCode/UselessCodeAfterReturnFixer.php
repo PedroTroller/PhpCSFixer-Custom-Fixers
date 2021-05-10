@@ -10,70 +10,61 @@ use SplFileInfo;
 
 final class UselessCodeAfterReturnFixer extends AbstractFixer
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getDocumentation()
+    public function getDocumentation(): string
     {
         return 'All `return` that are not accessible (i.e. following another `return`) MUST BE deleted';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getSampleCode()
+    public function getSampleCode(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-namespace Project\TheNamespace;
+            namespace Project\TheNamespace;
 
-use App\Model;
+            use App\Model;
 
-class TheClass
-{
-    /**
-     * @param Model\User $user
-     */
-    public function fun1(Model\User $user, Model\Address $address = null) {
-        return;
+            class TheClass
+            {
+                /**
+                 * @param Model\User $user
+                 */
+                public function fun1(Model\User $user, Model\Address $address = null) {
+                    return;
 
-        $user->setName('foo');
+                    $user->setName('foo');
 
-        return $this;
+                    return $this;
+                }
+
+                /**
+                 * Get the name
+                 *
+                 * @return string|null
+                 */
+                public function getName()
+                {
+                    switch ($this->status) {
+                        case 1:
+                            return $this->name;
+                            break;
+                        default:
+                            return $this;
+                            return $this;
+                    }
+                }
+
+                /**
+                 * @return callable
+                 */
+                public function buildCallable()
+                {
+                    return function () { return true; return false; };
+                }
+            }
+            PHP;
     }
 
-    /**
-     * Get the name
-     *
-     * @return string|null
-     */
-    public function getName()
-    {
-        switch ($this->status) {
-            case 1:
-                return $this->name;
-                break;
-            default:
-                return $this;
-                return $this;
-        }
-    }
-
-    /**
-     * @return callable
-     */
-    public function buildCallable()
-    {
-        return function () { return true; return false; };
-    }
-}
-PHP;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         $returns  = $tokens->findGivenKind(T_RETURN);
@@ -90,6 +81,12 @@ PHP;
 
             foreach ($tokens->findGivenKind([T_CASE, T_DEFAULT, T_ENDSWITCH], $start) as $ends) {
                 $possible = array_merge($possible, array_keys($ends));
+            }
+
+            $possible = array_filter($possible, function ($value) { return null !== $value; });
+
+            if (empty($possible)) {
+                continue;
             }
 
             $end = $tokens->getPrevMeaningfulToken(min($possible));

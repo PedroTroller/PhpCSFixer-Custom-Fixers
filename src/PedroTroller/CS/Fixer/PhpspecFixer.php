@@ -5,28 +5,26 @@ declare(strict_types=1);
 namespace PedroTroller\CS\Fixer;
 
 use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements ConfigurationDefinitionFixerInterface
+final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements ConfigurableFixerInterface
 {
-    public function getSampleConfigurations()
+    public function getSampleConfigurations(): array
     {
         return [
-            null,
+            [],
             ['instanceof' => ['PhpSpec\ObjectBehavior']],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isCandidate(Tokens $tokens)
+    public function isCandidate(Tokens $tokens): bool
     {
         foreach ($this->configuration['instanceof'] as $parent) {
             if ($this->extendsClass($tokens, $parent)) {
@@ -41,49 +39,46 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getSampleCode()
+    public function getSampleCode(): string
     {
         return <<<'SPEC'
-<?php
+            <?php
 
-namespace spec\Project\TheNamespace;
+            namespace spec\Project\TheNamespace;
 
-use PhpSpec\ObjectBehavior;
+            use PhpSpec\ObjectBehavior;
 
-class TheSpec extends ObjectBehavior
-{
+            class TheSpec extends ObjectBehavior
+            {
 
-    function letGo($file) {
-        return;
+                function letGo($file) {
+                    return;
+                }
+
+                private function thePrivateMethod() {
+                    return;
+                }
+
+                public function itIsNotASpec($file) {
+                    return;
+                }
+
+                public function it_is_a_spec($file) {
+                    return;
+                }
+
+                public function let($file) {
+                    return;
+                }
+
+                public function its_other_function($file) {
+                    return;
+                }
+            }
+            SPEC;
     }
 
-    private function thePrivateMethod() {
-        return;
-    }
-
-    public function itIsNotASpec($file) {
-        return;
-    }
-
-    public function it_is_a_spec($file) {
-        return;
-    }
-
-    public function let($file) {
-        return;
-    }
-
-    public function its_other_function($file) {
-        return;
-    }
-}
-SPEC;
-    }
-
-    public function getDocumentation()
+    public function getDocumentation(): string
     {
         return implode(
             "\n\n",
@@ -95,10 +90,7 @@ SPEC;
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPriority()
+    public function getPriority(): int
     {
         return Priority::after(
             VisibilityRequiredFixer::class,
@@ -106,10 +98,7 @@ SPEC;
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function createConfigurationDefinition()
+    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
     {
         return new FixerConfigurationResolver([
             (new FixerOptionBuilder('instanceof', 'Parent classes of your spec classes.'))
@@ -118,10 +107,7 @@ SPEC;
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function sortElements(array $elements)
+    protected function sortElements(array $elements): array
     {
         $ordered = array_merge(
             array_values($this->filterElementsByType('construct', $elements)),
@@ -236,12 +222,7 @@ SPEC;
         }
     }
 
-    /**
-     * @param string $regex
-     *
-     * @return array
-     */
-    private function filterElementsByMethodName($regex, array $elements)
+    private function filterElementsByMethodName(string $regex, array $elements): array
     {
         $filter = [];
 
@@ -254,12 +235,7 @@ SPEC;
         return $filter;
     }
 
-    /**
-     * @param string $type
-     *
-     * @return array
-     */
-    private function filterElementsByType($type, array $elements)
+    private function filterElementsByType(string $type, array $elements): array
     {
         $filter = [];
 

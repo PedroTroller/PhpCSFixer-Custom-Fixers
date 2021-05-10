@@ -2,7 +2,6 @@
 titleAndCommits: true
 
 types:
-  - "BREAKING CHANGE"
   - feat
   - fix
   - docs

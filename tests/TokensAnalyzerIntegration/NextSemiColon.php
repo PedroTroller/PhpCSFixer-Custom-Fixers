@@ -17,32 +17,32 @@ final class NextSemiColon extends TokensAnalyzerIntegration
     public function getCode()
     {
         return <<<'PHP'
-<?php
+            <?php
 
-namespace Project\TheNamespace;
+            namespace Project\TheNamespace;
 
-class TheClass
-{
-    public function theFunction()
-    {
-        $requests = Promise\settle($requests)
-            ->then(function (array $states) {
-                return array_map(function (array $state) {
-                    if ($state['state'] === PromiseInterface::FULFILLED) {
-                        return preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $state['value']->getBody()->getContents());
-                    }
+            class TheClass
+            {
+                public function theFunction()
+                {
+                    $requests = Promise\settle($requests)
+                        ->then(function (array $states) {
+                            return array_map(function (array $state) {
+                                if ($state['state'] === PromiseInterface::FULFILLED) {
+                                    return preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $state['value']->getBody()->getContents());
+                                }
 
-                    $uri = (string) $state['reason']->getRequest()->getUri();
+                                $uri = (string) $state['reason']->getRequest()->getUri();
 
-                    $this->logger->error("Error while trying to fetch article whitelist from `{$uri}`", [
-                        'error' => $state['reason'],
-                    ]);
-                }, $states);
-            })
-        ;
-    }
-}
-PHP;
+                                $this->logger->error("Error while trying to fetch article whitelist from `{$uri}`", [
+                                    'error' => $state['reason'],
+                                ]);
+                            }, $states);
+                        })
+                    ;
+                }
+            }
+            PHP;
     }
 
     /**

@@ -16,8 +16,7 @@ final class Fixers implements IteratorAggregate
      */
     public function getIterator()
     {
-        $finder = new Finder();
-        $finder
+        $finder = Finder::create()
             ->in(__DIR__)
             ->name('*.php')
         ;

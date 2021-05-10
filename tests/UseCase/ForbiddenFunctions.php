@@ -24,55 +24,55 @@ final class ForbiddenFunctions implements UseCase
     public function getRawScript(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-class MyClass {
-    public function fun()
-    {
-        var_dump('this is a var_dump');
+            class MyClass {
+                public function fun()
+                {
+                    var_dump('this is a var_dump');
 
-        // OR
+                    // OR
 
-        dump('this is a var_dump');
+                    dump('this is a var_dump');
 
-        $this->dump($this);
-    }
+                    $this->dump($this);
+                }
 
-    public function dump($data)
-    {
-        parent::dump($this);
+                public function dump($data)
+                {
+                    parent::dump($this);
 
-        return serialize($data);
-    }
-}
-PHP;
+                    return serialize($data);
+                }
+            }
+            PHP;
     }
 
     public function getExpectation(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-class MyClass {
-    public function fun()
-    {
-        var_dump('this is a var_dump'); // NEIN NEIN NEIN !!!
+            class MyClass {
+                public function fun()
+                {
+                    var_dump('this is a var_dump'); // NEIN NEIN NEIN !!!
 
-        // OR
+                    // OR
 
-        dump('this is a var_dump'); // NEIN NEIN NEIN !!!
+                    dump('this is a var_dump'); // NEIN NEIN NEIN !!!
 
-        $this->dump($this);
-    }
+                    $this->dump($this);
+                }
 
-    public function dump($data)
-    {
-        parent::dump($this);
+                public function dump($data)
+                {
+                    parent::dump($this);
 
-        return serialize($data);
-    }
-}
-PHP;
+                    return serialize($data);
+                }
+            }
+            PHP;
     }
 
     public function getMinSupportedPhpVersion(): int

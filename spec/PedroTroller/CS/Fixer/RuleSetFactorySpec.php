@@ -78,14 +78,12 @@ final class RuleSetFactorySpec extends ObjectBehavior
     {
         $this->php(5.6)->getRules()->shouldReturn([
             '@PHP54Migration' => true,
-            '@PHP56Migration' => true,
             'array_syntax'    => ['syntax' => 'short'],
             'list_syntax'     => ['syntax' => 'long'],
         ]);
 
         $this->php(5.6, true)->getRules()->shouldReturn([
             '@PHP54Migration'       => true,
-            '@PHP56Migration'       => true,
             '@PHP56Migration:risky' => true,
             'array_syntax'          => ['syntax' => 'short'],
             'list_syntax'           => ['syntax' => 'long'],
@@ -93,7 +91,6 @@ final class RuleSetFactorySpec extends ObjectBehavior
 
         $this->php(7.0)->getRules()->shouldReturn([
             '@PHP54Migration' => true,
-            '@PHP56Migration' => true,
             '@PHP70Migration' => true,
             'array_syntax'    => ['syntax' => 'short'],
             'list_syntax'     => ['syntax' => 'long'],
@@ -101,7 +98,6 @@ final class RuleSetFactorySpec extends ObjectBehavior
 
         $this->php(7.0, true)->getRules()->shouldReturn([
             '@PHP54Migration'       => true,
-            '@PHP56Migration'       => true,
             '@PHP56Migration:risky' => true,
             '@PHP70Migration'       => true,
             '@PHP70Migration:risky' => true,
@@ -111,7 +107,6 @@ final class RuleSetFactorySpec extends ObjectBehavior
 
         $this->php(7.1)->getRules()->shouldReturn([
             '@PHP54Migration' => true,
-            '@PHP56Migration' => true,
             '@PHP70Migration' => true,
             '@PHP71Migration' => true,
             'array_syntax'    => ['syntax' => 'short'],
@@ -120,7 +115,6 @@ final class RuleSetFactorySpec extends ObjectBehavior
 
         $this->php(7.1, true)->getRules()->shouldReturn([
             '@PHP54Migration'       => true,
-            '@PHP56Migration'       => true,
             '@PHP56Migration:risky' => true,
             '@PHP70Migration'       => true,
             '@PHP70Migration:risky' => true,
@@ -132,7 +126,6 @@ final class RuleSetFactorySpec extends ObjectBehavior
 
         $this->php(7.2)->getRules()->shouldReturn([
             '@PHP54Migration' => true,
-            '@PHP56Migration' => true,
             '@PHP70Migration' => true,
             '@PHP71Migration' => true,
             'array_syntax'    => ['syntax' => 'short'],
@@ -141,7 +134,6 @@ final class RuleSetFactorySpec extends ObjectBehavior
 
         $this->php(7.2, true)->getRules()->shouldReturn([
             '@PHP54Migration'       => true,
-            '@PHP56Migration'       => true,
             '@PHP56Migration:risky' => true,
             '@PHP70Migration'       => true,
             '@PHP70Migration:risky' => true,
@@ -156,7 +148,6 @@ final class RuleSetFactorySpec extends ObjectBehavior
     {
         $this->php('5.6.2')->getRules()->shouldReturn([
             '@PHP54Migration' => true,
-            '@PHP56Migration' => true,
             'array_syntax'    => ['syntax' => 'short'],
             'list_syntax'     => ['syntax' => 'long'],
         ]);

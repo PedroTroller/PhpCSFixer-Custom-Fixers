@@ -17,29 +17,29 @@ final class MethodArguments extends TokensAnalyzerIntegration
     public function getCode()
     {
         return <<<'PHP'
-<?php
+            <?php
 
-namespace Project\TheNamespace;
+            namespace Project\TheNamespace;
 
-class TheClass
-{
-    public function __construct()
-    {
-    }
+            class TheClass
+            {
+                public function __construct()
+                {
+                }
 
-    public function theFunction(
-        Domain\Model\User $user,
-        $boolean = true
-    ) {
-        return $user;
-    }
+                public function theFunction(
+                    Domain\Model\User $user,
+                    $boolean = true
+                ) {
+                    return $user;
+                }
 
-    public function setUser($user)
-    {
-        $this->user = $user;
-    }
-}
-PHP;
+                public function setUser($user)
+                {
+                    $this->user = $user;
+                }
+            }
+            PHP;
     }
 
     /**

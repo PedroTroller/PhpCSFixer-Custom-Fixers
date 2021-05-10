@@ -7,6 +7,7 @@ namespace PedroTroller\CS\Fixer;
 use PhpCsFixer\AbstractFixer as PhpCsFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
+use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
@@ -14,18 +15,13 @@ abstract class AbstractFixer extends PhpCsFixer
 {
     /**
      * @param Tokens<Token> $tokens
-     *
-     * @return bool
      */
-    public function isCandidate(Tokens $tokens)
+    public function isCandidate(Tokens $tokens): bool
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return sprintf('PedroTroller/%s', parent::getName());
     }
@@ -33,27 +29,18 @@ abstract class AbstractFixer extends PhpCsFixer
     /**
      * @return array<null|array>
      */
-    public function getSampleConfigurations()
+    public function getSampleConfigurations(): array
     {
         return [
             [],
         ];
     }
 
-    /**
-     * @return string
-     */
-    abstract public function getSampleCode();
+    abstract public function getSampleCode(): string;
 
-    /**
-     * @return string
-     */
-    abstract public function getDocumentation();
+    abstract public function getDocumentation(): string;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDefinition()
+    public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
             $this->getDocumentation(),
@@ -66,45 +53,33 @@ abstract class AbstractFixer extends PhpCsFixer
         );
     }
 
-    /**
-     * @return bool
-     */
-    public function isDeprecated()
+    public function isDeprecated(): bool
     {
         return false;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDeprecationReplacement()
+    public function getDeprecationReplacement(): ?string
     {
+        return null;
     }
 
-    /**
-     * @return TokensAnalyzer
-     */
-    protected function analyze(Tokens $tokens)
+    protected function analyze(Tokens $tokens): TokensAnalyzer
     {
         return new TokensAnalyzer($tokens);
     }
 
     /**
      * @param string|string[] $fqcn
-     *
-     * @return bool
      */
-    protected function hasUseStatements(Tokens $tokens, $fqcn)
+    protected function hasUseStatements(Tokens $tokens, $fqcn): bool
     {
         return null !== $this->getUseStatements($tokens, $fqcn);
     }
 
     /**
      * @param string|string[] $fqcn
-     *
-     * @return null|array
      */
-    protected function getUseStatements(Tokens $tokens, $fqcn)
+    protected function getUseStatements(Tokens $tokens, $fqcn): ?array
     {
         if (false === \is_array($fqcn)) {
             $fqcn = explode('\\', $fqcn);
@@ -123,10 +98,8 @@ abstract class AbstractFixer extends PhpCsFixer
 
     /**
      * @param string|string[] $fqcn
-     *
-     * @return bool
      */
-    protected function extendsClass(Tokens $tokens, $fqcn)
+    protected function extendsClass(Tokens $tokens, $fqcn): bool
     {
         if (false === \is_array($fqcn)) {
             $fqcn = explode('\\', $fqcn);
@@ -146,10 +119,8 @@ abstract class AbstractFixer extends PhpCsFixer
 
     /**
      * @param string|string[] $fqcn
-     *
-     * @return bool
      */
-    protected function implementsInterface(Tokens $tokens, $fqcn)
+    protected function implementsInterface(Tokens $tokens, $fqcn): bool
     {
         if (false === \is_array($fqcn)) {
             $fqcn = explode('\\', $fqcn);
@@ -168,9 +139,9 @@ abstract class AbstractFixer extends PhpCsFixer
     }
 
     /**
-     * @return Token[]
+     * @return array<Token>
      */
-    protected function getComments(Tokens $tokens)
+    protected function getComments(Tokens $tokens): array
     {
         $comments = [];
 
