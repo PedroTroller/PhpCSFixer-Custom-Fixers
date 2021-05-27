@@ -28,27 +28,27 @@ final class Case6 implements UseCase
     public function getRawScript(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-interface Foo {
-    public function bar(
-        string $path
-    ): string;
-}
-PHP;
+            interface Foo {
+                public function bar(
+                    string $path
+                ): string;
+            }
+            PHP;
     }
 
     public function getExpectation(): string
     {
         return <<<'PHP'
-<?php
+            <?php
 
-interface Foo {
-    public function bar(
-        string $path
-    ): string;
-}
-PHP;
+            interface Foo {
+                public function bar(
+                    string $path
+                ): string;
+            }
+            PHP;
     }
 
     public function getMinSupportedPhpVersion(): int

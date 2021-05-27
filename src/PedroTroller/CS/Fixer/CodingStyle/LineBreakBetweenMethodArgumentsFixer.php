@@ -168,7 +168,10 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
             $end = $tokens->getNextTokenOfKind($closeBraceIndex, [';', '{']);
 
             $tokens->removeLeadingWhitespace($end);
-            $tokens->ensureWhitespaceAtIndex($end, 0, ' ');
+
+            if (';' !== $tokens[$end]->getContent()) {
+                $tokens->ensureWhitespaceAtIndex($end, 0, ' ');
+            }
         }
 
         $linebreaks = [$openBraceIndex, $closeBraceIndex - 1];
