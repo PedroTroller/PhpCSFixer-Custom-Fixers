@@ -4,38 +4,10 @@ name: autoassign
 on:
   pull_request:
     types:
-      - synchronize
       - opened
-      - edited
       - ready_for_review
-      - reopened
-      - unlocked
 
 jobs:
   autoassign:
-    runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v2
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            if (context.payload.pull_request.draft) {
-              console.log('Pull request is on draft. Skipped.');
-
-              return;
-            }
-
-            if (context.payload.sender.login.toLowerCase() == "pedrotroller") {
-              console.log('Pull request created by the owner. Skipped.');
-
-              return;
-            }
-
-            let reviewers = ["pedrotroller"];
-
-            await github.pulls.requestReviewers({
-              pull_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              reviewers: reviewers
-            });
+      - uses: kentaro-m/auto-assign-action@v1.2.0
