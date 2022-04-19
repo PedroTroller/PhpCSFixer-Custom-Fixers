@@ -14,7 +14,7 @@ final class Fixers implements IteratorAggregate
     /**
      * {@inheritdoc}
      */
-    public function getIterator()
+    public function getIterator() : \Generator
     {
         $finder = Finder::create()
             ->in(__DIR__)
