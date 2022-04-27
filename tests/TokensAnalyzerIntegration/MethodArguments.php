@@ -49,7 +49,7 @@ final class MethodArguments extends TokensAnalyzerIntegration
     {
         $methods = array_filter(
             $analyzer->getClassyElements(),
-            function ($element) { return 'method' === $element['type']; }
+            fn ($element) => 'method' === $element['type']
         );
 
         Assert::count($methods, 3);

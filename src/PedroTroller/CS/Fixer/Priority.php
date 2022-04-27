@@ -18,9 +18,7 @@ final class Priority
     public static function before(...$classes)
     {
         $priorities = array_map(
-            function ($class) {
-                return (new $class())->getPriority();
-            },
+            fn ($class) => (new $class())->getPriority(),
             $classes
         );
 
@@ -35,9 +33,7 @@ final class Priority
     public static function after(...$classes)
     {
         $priorities = array_map(
-            function ($class) {
-                return (new $class())->getPriority();
-            },
+            fn ($class) => (new $class())->getPriority(),
             $classes
         );
 

@@ -15,9 +15,7 @@ final class Utils
         if (array_values($array) === $array) {
             $string .= implode(', ', array_map([self::class, 'valueToString'], $array));
         } else {
-            $string .= implode(', ', array_map(function ($value, $key) {
-                return '\''.$key.'\' => '.static::valueToString($value);
-            }, $array, array_keys($array)));
+            $string .= implode(', ', array_map(fn ($value, $key) => '\''.$key.'\' => '.static::valueToString($value), $array, array_keys($array)));
         }
 
         $string .= ' ]';

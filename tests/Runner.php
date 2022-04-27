@@ -40,9 +40,7 @@ final class Runner
                 implode(
                     "\n\n",
                     array_map(
-                        function ($message, array $files) {
-                            return sprintf("%s\n%s", $message, implode("\n", $files));
-                        },
+                        fn ($message, array $files) => sprintf("%s\n%s", $message, implode("\n", $files)),
                         array_keys($deprecations),
                         $deprecations
                     )

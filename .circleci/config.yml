@@ -4,11 +4,21 @@ version: 2.1
 orbs:
   node: circleci/node@4.2.1
 
-composer_with_lowest_dependencies: &composer_with_lowest_dependencies
+install_composer: &install_composer
+  run: |
+    apt-get update
+    apt-get -y install git zip
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    php -r "if (hash_file('sha384', 'composer-setup.php') === '906a84df04cea2aa72f40b5f787e49f22d4c2f19492ac310e8cba5b96ac8b64115ac402c8cd292b8a03482574915d1a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+    php composer-setup.php
+    php -r "unlink('composer-setup.php');"
+    mv composer.phar /usr/local/bin/composer
+
+composer_update_with_lowest_dependencies: &composer_update_with_lowest_dependencies
   run: |
     composer update --prefer-lowest --prefer-stable
 
-composer: &composer
+composer_update: &composer_update
   run: |
     composer update
 
@@ -30,10 +40,11 @@ jobs:
       php-version:
         type: string
     docker:
-      - image: "circleci/php:<< parameters.php-version >>"
+      - image: "php:<< parameters.php-version >>"
     steps:
       - checkout
-      - <<: *composer
+      - <<: *install_composer
+      - <<: *composer_update
       - <<: *tests
 
   tests-with-future-mode:
@@ -41,10 +52,11 @@ jobs:
       php-version:
         type: string
     docker:
-      - image: "circleci/php:<< parameters.php-version >>"
+      - image: "php:<< parameters.php-version >>"
     steps:
       - checkout
-      - <<: *composer
+      - <<: *install_composer
+      - <<: *composer_update
       - <<: *tests_with_future_mode
 
   tests-with-lowest-dependencies:
@@ -52,10 +64,11 @@ jobs:
       php-version:
         type: string
     docker:
-      - image: "circleci/php:<< parameters.php-version >>"
+      - image: "php:<< parameters.php-version >>"
     steps:
       - checkout
-      - <<: *composer_with_lowest_dependencies
+      - <<: *install_composer
+      - <<: *composer_update_with_lowest_dependencies
       - <<: *tests
 
   documentation:
@@ -63,10 +76,11 @@ jobs:
       php-version:
         type: string
     docker:
-      - image: "circleci/php:<< parameters.php-version >>"
+      - image: "php:<< parameters.php-version >>"
     steps:
       - checkout
-      - <<: *composer
+      - <<: *install_composer
+      - <<: *composer_update
       - run: bin/doc > README.new.md
       - run: cmp --silent README.md README.new.md || cmp README.md README.new.md || (echo "Documentation is outdated. Run 'bin/doc > README.md'" && exit 1)
 
@@ -93,19 +107,19 @@ workflows:
       - documentation:
           matrix:
             parameters:
-              php-version: ["8.0"]
+              php-version: ["8.1"]
       - tests:
           matrix:
             parameters:
-              php-version: ["7.3", "7.4", "8.0"]
+              php-version: ["7.4", "8.0", "8.1"]
       - tests-with-future-mode:
           matrix:
             parameters:
-              php-version: ["7.3", "7.4", "8.0"]
+              php-version: ["7.4", "8.0", "8.1"]
       - tests-with-lowest-dependencies:
           matrix:
             parameters:
-              php-version: ["7.3", "7.4", "8.0"]
+              php-version: ["7.4", "8.0", "8.1"]
       - release-test
       - release:
           requires:

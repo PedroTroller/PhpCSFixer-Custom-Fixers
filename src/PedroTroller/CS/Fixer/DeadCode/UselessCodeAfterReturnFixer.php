@@ -83,7 +83,7 @@ final class UselessCodeAfterReturnFixer extends AbstractFixer
                 $possible = array_merge($possible, array_keys($ends));
             }
 
-            $possible = array_filter($possible, function ($value) { return null !== $value; });
+            $possible = array_filter($possible, fn ($value) => null !== $value);
 
             if (empty($possible)) {
                 continue;

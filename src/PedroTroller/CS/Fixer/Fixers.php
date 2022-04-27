@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PedroTroller\CS\Fixer;
 
+use Generator;
 use IteratorAggregate;
 use PhpCsFixer\Fixer\FixerInterface;
 use ReflectionClass;
@@ -14,7 +15,7 @@ final class Fixers implements IteratorAggregate
     /**
      * {@inheritdoc}
      */
-    public function getIterator(): \Generator
+    public function getIterator(): Generator
     {
         $finder = Finder::create()
             ->in(__DIR__)
@@ -22,9 +23,7 @@ final class Fixers implements IteratorAggregate
         ;
 
         $files = array_map(
-            function ($file) {
-                return $file->getPathname();
-            },
+            fn ($file) => $file->getPathname(),
             iterator_to_array($finder)
         );
 

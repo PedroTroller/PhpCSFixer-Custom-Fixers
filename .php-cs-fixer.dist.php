@@ -10,7 +10,7 @@ return (new PhpCsFixer\Config())
     ->setRules(
         RuleSetFactory::create()
             ->phpCsFixer(true)
-            ->php(7.3, true)
+            ->php(7.4, true)
             ->pedrotroller(true)
             ->enable('ordered_imports')
             ->enable('ordered_interfaces')
