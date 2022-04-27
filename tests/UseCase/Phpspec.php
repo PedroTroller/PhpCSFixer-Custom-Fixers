@@ -14,7 +14,9 @@ final class Phpspec implements UseCase
     public function getFixers(): iterable
     {
         yield new VisibilityRequiredFixer();
+
         yield new VoidReturnFixer();
+
         yield new PhpspecFixer();
     }
 
