@@ -20,7 +20,7 @@ final class Runner
         set_error_handler(
             function ($type, $message, $file, $line) use (&$deprecations): void {
                 $deprecations[$message][] = sprintf('%s at line %d', $file, $line);
-                $deprecations[$message] = array_unique($deprecations[$message]);
+                $deprecations[$message]   = array_unique($deprecations[$message]);
 
                 sort($deprecations[$message]);
             },
