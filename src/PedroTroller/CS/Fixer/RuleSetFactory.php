@@ -264,7 +264,7 @@ final class RuleSetFactory
 
         return self::create(array_merge(
             $this->rules,
-            array_map(function () { return true; }, $rules)
+            array_map(fn () => true, $rules)
         ));
     }
 }
