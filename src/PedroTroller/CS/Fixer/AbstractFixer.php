@@ -27,7 +27,7 @@ abstract class AbstractFixer extends PhpCsFixer
     }
 
     /**
-     * @return array<null|array>
+     * @return array<?array<string, mixed>>
      */
     public function getSampleConfigurations(): array
     {
@@ -45,7 +45,7 @@ abstract class AbstractFixer extends PhpCsFixer
         return new FixerDefinition(
             $this->getDocumentation(),
             array_map(
-                fn (array $configutation = null) => new CodeSample($this->getSampleCode(), $configutation),
+                fn (?array $configutation): CodeSample => new CodeSample($this->getSampleCode(), $configutation),
                 $this->getSampleConfigurations()
             )
         );
@@ -76,6 +76,8 @@ abstract class AbstractFixer extends PhpCsFixer
 
     /**
      * @param string|string[] $fqcn
+     *
+     * @return null|array<int, Token>
      */
     protected function getUseStatements(Tokens $tokens, $fqcn): ?array
     {

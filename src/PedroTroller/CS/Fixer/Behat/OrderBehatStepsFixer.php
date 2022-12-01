@@ -144,7 +144,7 @@ final class OrderBehatStepsFixer extends AbstractOrderedClassElementsFixer imple
         }
 
         foreach ($elements as $index => $element) {
-            if ('method' !== $element['type']) {
+            if (false  === isset($element['type']) || 'method' !== $element['type']) {
                 continue;
             }
 

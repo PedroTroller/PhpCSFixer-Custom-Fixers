@@ -214,7 +214,7 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
 
             $tokens->clearRange($closeBraceIndex + 1, $openCurlyBracket - 1);
 
-            if ($tokens[$closeBraceIndex - 1]->isWhitespace() && false !== strpos($tokens[$closeBraceIndex - 1]->getContent(), "\n")) {
+            if ($tokens[$closeBraceIndex - 1]->isWhitespace() && str_contains($tokens[$closeBraceIndex - 1]->getContent(), "\n")) {
                 $tokens->ensureWhitespaceAtIndex($openCurlyBracket, 0, ' ');
             } else {
                 $tokens->ensureWhitespaceAtIndex($openCurlyBracket, 0, "\n".$this->analyze($tokens)->getLineIndentation($openBraceIndex));
@@ -222,12 +222,39 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
         }
     }
 
+    /**
+     * @param array<
+     *     array{
+     *         start: int,
+     *         end: int,
+     *         visibility: string,
+     *         static: bool,
+     *         comment: ?string,
+     *         type: string,
+     *         methodName?: string,
+     *         propertyName?: string
+     *     }
+     * > $elements
+     *
+     * @return array<
+     *     array{
+     *         start: int,
+     *         end: int,
+     *         visibility: string,
+     *         static: bool,
+     *         comment: ?string,
+     *         type: string,
+     *         methodName?: string,
+     *         propertyName?: string
+     *     }
+     * >
+     */
     private function filterElementsByMethodName(string $regex, array $elements): array
     {
         $filter = [];
 
         foreach ($this->filterElementsByType('method', $elements) as $index => $method) {
-            if (0 !== preg_match(sprintf('/^%s$/', $regex), $method['methodName'])) {
+            if (\array_key_exists('methodName', $method) && 0 !== preg_match(sprintf('/^%s$/', $regex), $method['methodName'])) {
                 $filter[$index] = $method;
             }
         }
@@ -235,6 +262,33 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
         return $filter;
     }
 
+    /**
+     * @param array<
+     *     array{
+     *         start: int,
+     *         end: int,
+     *         visibility: string,
+     *         static: bool,
+     *         comment: ?string,
+     *         type: string,
+     *         methodName?: string,
+     *         propertyName?: string
+     *     }
+     * > $elements
+     *
+     * @return array<
+     *     array{
+     *         start: int,
+     *         end: int,
+     *         visibility: string,
+     *         static: bool,
+     *         comment: ?string,
+     *         type: string,
+     *         methodName?: string,
+     *         propertyName?: string
+     *     }
+     * >
+     */
     private function filterElementsByType(string $type, array $elements): array
     {
         $filter = [];

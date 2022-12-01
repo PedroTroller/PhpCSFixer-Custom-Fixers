@@ -11,10 +11,7 @@ use Webmozart\Assert\Assert;
 
 final class NextSemiColon extends TokensAnalyzerIntegration
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getCode()
+    public function getCode(): string
     {
         return <<<'PHP'
             <?php
@@ -45,9 +42,6 @@ final class NextSemiColon extends TokensAnalyzerIntegration
             PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function assertions(TokensAnalyzer $analyzer, Tokens $tokens): void
     {
         Assert::eq(

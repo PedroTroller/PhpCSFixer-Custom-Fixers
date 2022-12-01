@@ -11,7 +11,7 @@ use Webmozart\Assert\Assert;
 
 final class Parenthesis extends TokensAnalyzerIntegration
 {
-    public function getCode()
+    public function getCode(): string
     {
         return <<<'PHP'
             <?php
@@ -68,10 +68,7 @@ final class Parenthesis extends TokensAnalyzerIntegration
         );
     }
 
-    /**
-     * @return int
-     */
-    public function getMinSupportedPhpVersion()
+    public function getMinSupportedPhpVersion(): int
     {
         return 70100;
     }

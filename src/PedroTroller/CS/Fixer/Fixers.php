@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace PedroTroller\CS\Fixer;
 
-use Generator;
 use IteratorAggregate;
 use PhpCsFixer\Fixer\FixerInterface;
 use ReflectionClass;
 use Symfony\Component\Finder\Finder;
+use Traversable;
 
+/**
+ * @implements IteratorAggregate<FixerInterface>
+ */
 final class Fixers implements IteratorAggregate
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getIterator(): Generator
+    public function getIterator(): Traversable
     {
         $finder = Finder::create()
             ->in(__DIR__)
@@ -30,23 +30,26 @@ final class Fixers implements IteratorAggregate
         sort($files);
 
         foreach ($files as $file) {
-            $class = str_replace('/', '\\', mb_substr($file, mb_strlen(__DIR__) - 21, -4));
+            /**
+             * @var class-string<FixerInterface>
+             */
+            $className = str_replace('/', '\\', mb_substr($file, mb_strlen(__DIR__) - 21, -4));
 
-            if (false === class_exists($class)) {
+            if (false === class_exists($className)) {
                 continue;
             }
 
-            $rfl = new ReflectionClass($class);
+            $reflection = new ReflectionClass($className);
 
-            if (false === $rfl->implementsInterface(FixerInterface::class)) {
+            if (false === $reflection->implementsInterface(FixerInterface::class)) {
                 continue;
             }
 
-            if ($rfl->isAbstract()) {
+            if ($reflection->isAbstract()) {
                 continue;
             }
 
-            yield new $class();
+            yield new $className();
         }
     }
 }

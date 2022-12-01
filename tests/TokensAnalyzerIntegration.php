@@ -10,39 +10,26 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 abstract class TokensAnalyzerIntegration
 {
-    /**
-     * @return string
-     */
-    abstract public function getCode();
+    abstract public function getCode(): string;
 
-    abstract public function assertions(TokensAnalyzer $analyzer, Tokens $tokens);
+    abstract public function assertions(TokensAnalyzer $analyzer, Tokens $tokens): void;
 
-    /**
-     * @return int
-     */
-    public function getMinSupportedPhpVersion()
+    public function getMinSupportedPhpVersion(): int
     {
         return 0;
     }
 
-    /**
-     * @param string $content
-     *
-     * @return int
-     */
-    protected function tokenContaining(Tokens $tokens, $content)
+    protected function tokenContaining(Tokens $tokens, string $content): int
     {
         $indexes = $this->tokensContaining($tokens, $content);
 
-        return current($indexes);
+        return (int) current($indexes);
     }
 
     /**
-     * @param string $content
-     *
      * @return int[]
      */
-    protected function tokensContaining(Tokens $tokens, $content)
+    protected function tokensContaining(Tokens $tokens, string $content): array
     {
         $indexes = [];
 

@@ -147,6 +147,22 @@ final class OrderedWithGetterAndSetterFirstFixer extends AbstractOrderedClassEle
         return $result;
     }
 
+    /**
+     * @param array<
+     *     array{
+     *         start: int,
+     *         end: int,
+     *         visibility: string,
+     *         static: bool,
+     *         comment: ?string,
+     *         type: string,
+     *         methodName?: string,
+     *         propertyName?: string
+     *     }
+     * > $elements
+     *
+     * @return string[]
+     */
     private function getMethodsNames(array $elements): array
     {
         $methods = [];
@@ -162,6 +178,22 @@ final class OrderedWithGetterAndSetterFirstFixer extends AbstractOrderedClassEle
         return $methods;
     }
 
+    /**
+     * @param array<
+     *     array{
+     *         start: int,
+     *         end: int,
+     *         visibility: string,
+     *         static: bool,
+     *         comment: ?string,
+     *         type: string,
+     *         methodName?: string,
+     *         propertyName?: string
+     *     }
+     * > $elements
+     *
+     * @return string[]
+     */
     private function getPropertiesNames(array $elements): array
     {
         $properties = array_filter($elements, fn ($element) => 'property' === $element['type']);

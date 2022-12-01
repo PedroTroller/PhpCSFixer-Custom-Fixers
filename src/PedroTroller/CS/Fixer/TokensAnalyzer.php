@@ -6,21 +6,18 @@ namespace PedroTroller\CS\Fixer;
 
 use Exception;
 use PhpCsFixer\Tokenizer\CT;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer as PhpCsFixerTokensAnalyzer;
 
-/** @method getClassyElements() */
+/**
+ * @method getClassyElements()
+ */
 final class TokensAnalyzer
 {
-    /**
-     * @var Tokens
-     */
-    private $tokens;
+    private Tokens $tokens;
 
-    /**
-     * @var PhpCsFixerTokensAnalyzer
-     */
-    private $analyzer;
+    private PhpCsFixerTokensAnalyzer $analyzer;
 
     public function __construct(Tokens $tokens)
     {
@@ -28,17 +25,18 @@ final class TokensAnalyzer
         $this->analyzer = new PhpCsFixerTokensAnalyzer($tokens);
     }
 
-    public function __call($name, $arguments)
+    /**
+     * @param array<mixed> $arguments
+     */
+    public function __call(string $name, array $arguments)
     {
         return \call_user_func_array([$this->analyzer, $name], $arguments);
     }
 
     /**
-     * @param int $index
-     *
-     * @return array
+     * @return array<array{type: string, name: string, nullable: bool, asDefault: bool}>
      */
-    public function getMethodArguments($index)
+    public function getMethodArguments(int $index): array
     {
         $methodName       = $this->tokens->getNextMeaningfulToken($index);
         $openParenthesis  = $this->tokens->getNextMeaningfulToken($methodName);
@@ -95,22 +93,12 @@ final class TokensAnalyzer
         return $arguments;
     }
 
-    /**
-     * @param int $index
-     *
-     * @return int
-     */
-    public function getNumberOfArguments($index)
+    public function getNumberOfArguments(int $index): int
     {
         return \count($this->getMethodArguments($index));
     }
 
-    /**
-     * @param int $index
-     *
-     * @return null|int
-     */
-    public function getNextComma($index)
+    public function getNextComma(int $index): ?int
     {
         do {
             $index = $this->tokens->getNextMeaningfulToken($index);
@@ -143,12 +131,7 @@ final class TokensAnalyzer
         return $index;
     }
 
-    /**
-     * @param int $index
-     *
-     * @return null|int
-     */
-    public function getNextSemiColon($index)
+    public function getNextSemiColon(int $index): ?int
     {
         do {
             $index = $this->tokens->getNextMeaningfulToken($index);
@@ -179,11 +162,9 @@ final class TokensAnalyzer
     }
 
     /**
-     * @param int $index
-     *
-     * @return null|array|string
+     * @return null|string|array{string, null}
      */
-    public function getReturnedType($index)
+    public function getReturnedType(int $index)
     {
         if (false === $this->tokens[$index]->isGivenKind(T_FUNCTION)) {
             throw new Exception(sprintf('Expected token: T_FUNCTION Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
@@ -199,7 +180,7 @@ final class TokensAnalyzer
             return null;
         }
 
-        if (false === $this->tokens[$next]->isGivenKind(TokenSignatures::TYPINT_DOUBLE_DOTS)) {
+        if (false === $this->tokens[$next]->isGivenKind(CT::T_TYPE_COLON)) {
             return null;
         }
 
@@ -209,7 +190,7 @@ final class TokensAnalyzer
             return null;
         }
 
-        $optionnal = $this->tokens[$next]->isGivenKind(TokenSignatures::TYPINT_OPTIONAL);
+        $optionnal = $this->tokens[$next]->isGivenKind(CT::T_NULLABLE_TYPE);
 
         $next = $optionnal
             ? $this->tokens->getNextMeaningfulToken($next)
@@ -226,34 +207,30 @@ final class TokensAnalyzer
                     : $return;
             }
         } while (false === $this->tokens[$index]->equals(['{', ';']));
+
+        return null;
     }
 
-    /**
-     * @param int $index
-     *
-     * @return null|int
-     */
-    public function getBeginningOfTheLine($index)
+    public function getBeginningOfTheLine(int $index): ?int
     {
         for ($i = $index; $i >= 0; --$i) {
             if (false !== mb_strpos($this->tokens[$i]->getContent(), "\n")) {
                 return $i;
             }
         }
+
+        return null;
     }
 
-    /**
-     * @param int $index
-     *
-     * @return null|int
-     */
-    public function getEndOfTheLine($index)
+    public function getEndOfTheLine(int $index): ?int
     {
         for ($i = $index; $i < $this->tokens->count(); ++$i) {
             if (false !== mb_strpos($this->tokens[$i]->getContent(), "\n")) {
                 return $i;
             }
         }
+
+        return null;
     }
 
     /**
@@ -310,12 +287,7 @@ final class TokensAnalyzer
         return $index;
     }
 
-    /**
-     * @param int $index
-     *
-     * @return null|int
-     */
-    public function getClosingParenthesis($index)
+    public function getClosingParenthesis(int $index): ?int
     {
         if (false === $this->tokens[$index]->equals('(')) {
             throw new Exception(sprintf('Expected token: (. Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
@@ -336,14 +308,11 @@ final class TokensAnalyzer
                 return $i;
             }
         }
+
+        return null;
     }
 
-    /**
-     * @param int $index
-     *
-     * @return null|int
-     */
-    public function getClosingBracket($index)
+    public function getClosingBracket(int $index): ?int
     {
         if (false === $this->tokens[$index]->equals('[')) {
             throw new Exception(sprintf('Expected token: [. Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
@@ -364,14 +333,11 @@ final class TokensAnalyzer
                 return $i;
             }
         }
+
+        return null;
     }
 
-    /**
-     * @param int $index
-     *
-     * @return null|int
-     */
-    public function getClosingCurlyBracket($index)
+    public function getClosingCurlyBracket(int $index): ?int
     {
         if (false === $this->tokens[$index]->equals('{')) {
             throw new Exception(sprintf('Expected token: {. Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
@@ -392,6 +358,8 @@ final class TokensAnalyzer
                 return $i;
             }
         }
+
+        return null;
     }
 
     /**
@@ -440,40 +408,49 @@ final class TokensAnalyzer
     }
 
     /**
-     * @param null|mixed $start
-     * @param null|mixed $end
+     * @param array<array<array<int|string>|string>|string|Token> $sequences
      *
-     * @return array
+     * @return array<array<Token>>
      */
-    public function findAllSequences(array $seqs, $start = null, $end = null)
+    public function findAllSequences(array $sequences, int $start = null, int $end = null): array
     {
-        $sequences = [];
+        $result = [];
 
-        foreach ($seqs as $seq) {
+        foreach ($sequences as $sequence) {
             $index = $start ?: 0;
 
             do {
-                $extract = $this->tokens->findSequence($seq, (int) $index, $end);
+                $extract = $this->tokens->findSequence($sequence, (int) $index, $end);
 
                 if (null !== $extract) {
-                    $keys                    = array_keys($extract);
-                    $index                   = end($keys) + 1;
-                    $sequences[reset($keys)] = $extract;
+                    $keys                 = array_keys($extract);
+                    $index                = end($keys) + 1;
+                    $result[reset($keys)] = $extract;
                 }
             } while (null !== $extract);
         }
 
-        ksort($sequences);
+        ksort($result);
 
-        return $sequences;
+        return $result;
     }
 
     /**
      * @param int $startIndex
      *
-     * @return array[]
+     * @return array<
+     *     array{
+     *         start: int,
+     *         end: int,
+     *         visibility: string,
+     *         static: bool,
+     *         type: string,
+     *         methodName?: string,
+     *         propertyName?: string
+     *     }
+     * >
      */
-    public function getElements($startIndex = null)
+    public function getElements(int $startIndex = null): array
     {
         static $elementTokenKinds = [CT::T_USE_TRAIT, T_CONST, T_VARIABLE, T_FUNCTION];
 
@@ -547,11 +524,9 @@ final class TokensAnalyzer
     }
 
     /**
-     * @param int $index
-     *
-     * @return array|string type or array of type and name
+     * @return array{string, string}|string type or array of type and name
      */
-    private function detectElementType(Tokens $tokens, $index)
+    private function detectElementType(Tokens $tokens, int $index)
     {
         $token = $tokens[$index];
 

@@ -23,12 +23,12 @@ final class Case1 implements UseCase
 
     public function getRawScript(): string
     {
-        return file_get_contents(sprintf('%s/Case1/CamelizeNamingStrategy.php.text', __DIR__));
+        return (string) file_get_contents(sprintf('%s/Case1/CamelizeNamingStrategy.php.text', __DIR__));
     }
 
     public function getExpectation(): string
     {
-        return file_get_contents(sprintf('%s/Case1/CamelizeNamingStrategy.php.text', __DIR__));
+        return (string) file_get_contents(sprintf('%s/Case1/CamelizeNamingStrategy.php.text', __DIR__));
     }
 
     public function getMinSupportedPhpVersion(): int

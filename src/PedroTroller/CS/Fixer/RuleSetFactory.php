@@ -4,44 +4,54 @@ declare(strict_types=1);
 
 namespace PedroTroller\CS\Fixer;
 
+use IteratorAggregate;
 use PhpCsFixer\RuleSet\RuleSets;
+use Traversable;
 
-final class RuleSetFactory
+/**
+ * @implements IteratorAggregate<string, bool|array<string, mixed>>
+ */
+final class RuleSetFactory implements IteratorAggregate
 {
     /**
-     * @var array[]
+     * @var array<string, array<string, mixed>|bool>
      */
-    private $rules;
+    private array $rules;
 
+    /**
+     * @param array<string, array<string, mixed>|bool> $rules
+     */
     public function __construct(array $rules = [])
     {
         $this->rules = $rules;
     }
 
     /**
-     * @return array
+     * @return array<string, array<string, mixed>|bool>
      */
-    public function getRules()
+    public function getRules(): array
+    {
+        return [...$this];
+    }
+
+    public function getIterator(): Traversable
     {
         $rules = $this->rules;
 
         ksort($rules);
 
-        return $rules;
+        yield from $rules;
     }
 
     /**
-     * @return RuleSetFactory
+     * @param array<string, array<string, mixed>|bool> $rules
      */
-    public static function create(array $rules = [])
+    public static function create(array $rules = []): self
     {
         return new self($rules);
     }
 
-    /**
-     * @return RuleSetFactory
-     */
-    public function psr0()
+    public function psr0(): self
     {
         return self::create(array_merge(
             $this->rules,
@@ -49,10 +59,7 @@ final class RuleSetFactory
         ));
     }
 
-    /**
-     * @return RuleSetFactory
-     */
-    public function psr1()
+    public function psr1(): self
     {
         return self::create(array_merge(
             $this->rules,
@@ -60,10 +67,7 @@ final class RuleSetFactory
         ));
     }
 
-    /**
-     * @return RuleSetFactory
-     */
-    public function psr2()
+    public function psr2(): self
     {
         return self::create(array_merge(
             $this->rules,
@@ -71,10 +75,7 @@ final class RuleSetFactory
         ));
     }
 
-    /**
-     * @return RuleSetFactory
-     */
-    public function psr4()
+    public function psr4(): self
     {
         return self::create(array_merge(
             $this->rules,
@@ -82,12 +83,7 @@ final class RuleSetFactory
         ));
     }
 
-    /**
-     * @param bool $risky
-     *
-     * @return RuleSetFactory
-     */
-    public function symfony($risky = false)
+    public function symfony(bool $risky = false): self
     {
         $rules = ['@Symfony' => true];
 
@@ -101,12 +97,7 @@ final class RuleSetFactory
         ));
     }
 
-    /**
-     * @param bool $risky
-     *
-     * @return RuleSetFactory
-     */
-    public function phpCsFixer($risky = false)
+    public function phpCsFixer(bool $risky = false): self
     {
         $rules = ['@PhpCsFixer' => true];
 
@@ -120,10 +111,7 @@ final class RuleSetFactory
         ));
     }
 
-    /**
-     * @return RuleSetFactory
-     */
-    public function doctrineAnnotation()
+    public function doctrineAnnotation(): self
     {
         return self::create(array_merge(
             $this->rules,
@@ -131,13 +119,7 @@ final class RuleSetFactory
         ));
     }
 
-    /**
-     * @param float|string $version
-     * @param bool         $risky
-     *
-     * @return RuleSetFactory
-     */
-    public function php($version, $risky = false)
+    public function php(float $version, bool $risky = false): self
     {
         $config = $this->migration('php', $version, $risky)->getRules();
 
@@ -158,28 +140,17 @@ final class RuleSetFactory
         ));
     }
 
-    /**
-     * @param float $version
-     * @param bool  $risky
-     *
-     * @return RuleSetFactory
-     */
-    public function phpUnit($version, $risky = false)
+    public function phpUnit(float $version, bool $risky = false): self
     {
         return $this->migration('phpunit', $version, $risky);
     }
 
-    /**
-     * @param bool $risky
-     *
-     * @return RuleSetFactory
-     */
-    public function pedrotroller($risky = false)
+    public function pedrotroller(bool $risky = false): self
     {
         $rules = [];
 
         foreach (new Fixers() as $fixer) {
-            if ($fixer->isDeprecated()) {
+            if ($fixer instanceof AbstractFixer && $fixer->isDeprecated()) {
                 continue;
             }
 
@@ -195,11 +166,9 @@ final class RuleSetFactory
     }
 
     /**
-     * @param string $name
-     *
-     * @return RuleSetFactory
+     * @param array<array<string, mixed>> $config
      */
-    public function enable($name, array $config = null)
+    public function enable(string $name, array $config = null): self
     {
         return self::create(array_merge(
             $this->rules,
@@ -207,12 +176,7 @@ final class RuleSetFactory
         ));
     }
 
-    /**
-     * @param string $name
-     *
-     * @return RuleSetFactory
-     */
-    public function disable($name)
+    public function disable(string $name): self
     {
         return self::create(array_merge(
             $this->rules,
@@ -220,14 +184,7 @@ final class RuleSetFactory
         ));
     }
 
-    /**
-     * @param string $package
-     * @param float  $version
-     * @param bool   $risky
-     *
-     * @return RuleSetFactory
-     */
-    private function migration($package, $version, $risky)
+    private function migration(string $package, float $version, bool $risky): self
     {
         $rules = (new RuleSets())->getSetDefinitionNames();
         $rules = array_combine($rules, $rules);
