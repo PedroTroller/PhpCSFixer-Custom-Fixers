@@ -11,10 +11,7 @@ use Webmozart\Assert\Assert;
 
 final class ReturnedType extends TokensAnalyzerIntegration
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getCode()
+    public function getCode(): string
     {
         return <<<'PHP'
             <?php
@@ -48,9 +45,6 @@ final class ReturnedType extends TokensAnalyzerIntegration
             PHP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function assertions(TokensAnalyzer $analyzer, Tokens $tokens): void
     {
         Assert::eq(
@@ -82,10 +76,7 @@ final class ReturnedType extends TokensAnalyzerIntegration
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMinSupportedPhpVersion()
+    public function getMinSupportedPhpVersion(): int
     {
         return 70100;
     }

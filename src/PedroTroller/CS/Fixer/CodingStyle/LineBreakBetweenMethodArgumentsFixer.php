@@ -148,7 +148,7 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
         }
     }
 
-    private function splitArgs(Tokens $tokens, $index): void
+    private function splitArgs(Tokens $tokens, int $index): void
     {
         $this->mergeArgs($tokens, $index);
 
@@ -211,7 +211,7 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
         }
     }
 
-    private function mergeArgs(Tokens $tokens, $index): void
+    private function mergeArgs(Tokens $tokens, int $index): void
     {
         $openBraceIndex  = $tokens->getNextTokenOfKind($index, ['(']);
         $closeBraceIndex = $this->analyze($tokens)->getClosingParenthesis($openBraceIndex);
@@ -231,7 +231,7 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
         }
     }
 
-    private function localizeNextCloseBrace(Tokens $tokens, $index)
+    private function localizeNextCloseBrace(Tokens $tokens, int $index): int
     {
         $opening = 0;
 
@@ -252,7 +252,7 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
         return 0;
     }
 
-    private function localizeNextCloseBracket(Tokens $tokens, $index)
+    private function localizeNextCloseBracket(Tokens $tokens, int $index): int
     {
         $opening = 0;
 
@@ -273,7 +273,7 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
         return 0;
     }
 
-    private function getNumberOfArguments(Tokens $tokens, $index)
+    private function getNumberOfArguments(Tokens $tokens, int $index): int
     {
         if (T_FUNCTION !== $tokens[$index]->getId()) {
             return 0;

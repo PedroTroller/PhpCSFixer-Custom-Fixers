@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace PedroTroller\CS\Fixer;
 
+use PhpCsFixer\Fixer\FixerInterface;
+
 final class Priority
 {
     private function __construct()
@@ -11,11 +13,9 @@ final class Priority
     }
 
     /**
-     * @param array<int, mixed> $classes
-     *
-     * @return int
+     * @param class-string<FixerInterface> $classes
      */
-    public static function before(...$classes)
+    public static function before(string ...$classes): int
     {
         $priorities = array_map(
             fn ($class) => (new $class())->getPriority(),
@@ -26,11 +26,9 @@ final class Priority
     }
 
     /**
-     * @param array<int, mixed> $classes
-     *
-     * @return int
+     * @param class-string<FixerInterface> $classes
      */
-    public static function after(...$classes)
+    public static function after(string ...$classes): int
     {
         $priorities = array_map(
             fn ($class) => (new $class())->getPriority(),

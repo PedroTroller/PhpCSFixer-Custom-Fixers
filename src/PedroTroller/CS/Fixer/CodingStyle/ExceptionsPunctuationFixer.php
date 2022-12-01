@@ -132,7 +132,15 @@ final class ExceptionsPunctuationFixer extends AbstractFixer
             $keys = array_keys($case);
             array_pop($keys);
             array_pop($case);
-            $tokens[end($keys)] = $this->cleanupMessage(end($case));
+
+            $key   = end($keys);
+            $token = end($case);
+
+            if (false === $key || false === $token || false === \is_int($key)) {
+                continue;
+            }
+
+            $tokens[$key] = $this->cleanupMessage($token);
         }
     }
 

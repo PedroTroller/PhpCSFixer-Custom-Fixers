@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PedroTroller\CS\Fixer;
 
 use PhpCsFixer\Tokenizer\CT;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
@@ -36,18 +37,49 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
     }
 
     /**
-     * @param array[] $elements
+     * @param array<
+     *     array{
+     *         start: int,
+     *         visibility: string,
+     *         static: bool,
+     *         comment: ?string,
+     *         type?: string,
+     *         methodName?: string,
+     *         propertyName?: string,
+     *         end?: int
+     *     }
+     * > $elements
      *
-     * @return array[]
+     * @return array<
+     *     array{
+     *         start: int,
+     *         visibility: string,
+     *         static: bool,
+     *         comment: ?string,
+     *         type?: string,
+     *         methodName?: string,
+     *         propertyName?: string,
+     *         end?: int
+     *     }
+     * >
      */
     abstract protected function sortElements(array $elements): array;
 
     /**
-     * @param int $startIndex
-     *
-     * @return array[]
+     * @return array<
+     *     array{
+     *         start: int,
+     *         visibility: string,
+     *         static: bool,
+     *         comment: ?string,
+     *         type?: string,
+     *         methodName?: string,
+     *         propertyName?: string,
+     *         end?: int
+     *     }
+     * >
      */
-    private function getElements(Tokens $tokens, $startIndex)
+    private function getElements(Tokens $tokens, int $startIndex)
     {
         static $elementTokenKinds = [CT::T_USE_TRAIT, T_CONST, T_VARIABLE, T_FUNCTION];
 
@@ -59,6 +91,7 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
                 'start'      => $startIndex,
                 'visibility' => 'public',
                 'static'     => false,
+                'comment'    => null,
             ];
 
             for ($i = $startIndex;; ++$i) {
@@ -98,6 +131,7 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
 
                         break;
                 }
+
                 $element['end'] = $this->findElementEnd($tokens, $i);
 
                 break;
@@ -107,8 +141,6 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
 
             if (isset($tokens[$possibleCommentIndex]) && $tokens[$possibleCommentIndex]->isComment()) {
                 $element['comment'] = $tokens[$possibleCommentIndex]->getContent();
-            } else {
-                $element['comment'] = null;
             }
 
             $elements[] = $element;
@@ -117,11 +149,9 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
     }
 
     /**
-     * @param int $index
-     *
-     * @return array|string type or array of type and name
+     * @return array{string, string}|string
      */
-    private function detectElementType(Tokens $tokens, $index)
+    private function detectElementType(Tokens $tokens, int $index)
     {
         $token = $tokens[$index];
 
@@ -165,12 +195,7 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
         return 'method';
     }
 
-    /**
-     * @param int $index
-     *
-     * @return int
-     */
-    private function findElementEnd(Tokens $tokens, $index)
+    private function findElementEnd(Tokens $tokens, int $index): int
     {
         $index = $tokens->getNextTokenOfKind($index, ['{', ';']);
 
@@ -186,16 +211,28 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
     }
 
     /**
-     * @param int     $startIndex
-     * @param int     $endIndex
-     * @param array[] $elements
+     * @param array<
+     *     array{
+     *         start: int,
+     *         visibility: string,
+     *         static: bool,
+     *         comment: ?string,
+     *         type?: string,
+     *         methodName?: string,
+     *         propertyName?: string,
+     *         end?: int
+     *     }
+     * > $elements
      */
     private function sortTokens(
         Tokens $tokens,
-        $startIndex,
-        $endIndex,
+        int $startIndex,
+        int $endIndex,
         array $elements
     ): void {
+        /**
+         * @var Token[]
+         */
         $replaceTokens = [];
 
         foreach ($elements as $element) {

@@ -67,6 +67,9 @@ final class LineBreakBetweenStatementsFixer extends AbstractFixer
         }
     }
 
+    /**
+     * @param array<int, Token> $matchedTokens
+     */
     private function handleDo(array $matchedTokens, Tokens $tokens): void
     {
         foreach ($matchedTokens as $index => $token) {
@@ -77,6 +80,9 @@ final class LineBreakBetweenStatementsFixer extends AbstractFixer
         }
     }
 
+    /**
+     * @param array<int, Token> $matchedTokens
+     */
     private function handleCommon(array $matchedTokens, Tokens $tokens): void
     {
         foreach ($matchedTokens as $index => $token) {
@@ -88,12 +94,7 @@ final class LineBreakBetweenStatementsFixer extends AbstractFixer
                 continue;
             }
 
-            $openCurlyBracket = current(array_keys($curlyBracket));
-
-            if (false === $openCurlyBracket) {
-                continue;
-            }
-
+            $openCurlyBracket  = current(array_keys($curlyBracket));
             $closeCurlyBracket = $this->analyze($tokens)->getClosingCurlyBracket($openCurlyBracket);
 
             if (null === $closeCurlyBracket) {
@@ -107,7 +108,7 @@ final class LineBreakBetweenStatementsFixer extends AbstractFixer
         }
     }
 
-    private function fixSpaces($index, Tokens $tokens): void
+    private function fixSpaces(int $index, Tokens $tokens): void
     {
         $space = $index + 1;
 
@@ -128,7 +129,7 @@ final class LineBreakBetweenStatementsFixer extends AbstractFixer
         $tokens[$space] = new Token([T_WHITESPACE, $this->ensureNumberOfBreaks($tokens[$space]->getContent())]);
     }
 
-    private function ensureNumberOfBreaks($whitespace)
+    private function ensureNumberOfBreaks(string $whitespace): string
     {
         $parts = explode("\n", $whitespace);
 

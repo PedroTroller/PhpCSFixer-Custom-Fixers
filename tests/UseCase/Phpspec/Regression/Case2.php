@@ -16,12 +16,12 @@ final class Case2 implements UseCase
 
     public function getRawScript(): string
     {
-        return file_get_contents(sprintf('%s/Case2/file.php.txt', __DIR__));
+        return (string) file_get_contents(sprintf('%s/Case2/file.php.txt', __DIR__));
     }
 
     public function getExpectation(): string
     {
-        return file_get_contents(sprintf('%s/Case2/file.php.txt', __DIR__));
+        return (string) file_get_contents(sprintf('%s/Case2/file.php.txt', __DIR__));
     }
 
     public function getMinSupportedPhpVersion(): int

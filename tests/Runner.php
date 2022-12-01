@@ -18,11 +18,13 @@ final class Runner
         $deprecations = [];
 
         set_error_handler(
-            function ($type, $message, $file, $line) use (&$deprecations): void {
+            function ($type, $message, $file, $line) use (&$deprecations): bool {
                 $deprecations[$message][] = sprintf('%s at line %d', $file, $line);
                 $deprecations[$message]   = array_unique($deprecations[$message]);
 
                 sort($deprecations[$message]);
+
+                return true;
             },
             E_USER_DEPRECATED
         );

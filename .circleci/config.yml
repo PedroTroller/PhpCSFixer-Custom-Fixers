@@ -111,15 +111,15 @@ workflows:
       - tests:
           matrix:
             parameters:
-              php-version: ["7.4", "8.0", "8.1"]
+              php-version: ["8.0", "8.1"]
       - tests-with-future-mode:
           matrix:
             parameters:
-              php-version: ["7.4", "8.0", "8.1"]
+              php-version: ["8.0", "8.1"]
       - tests-with-lowest-dependencies:
           matrix:
             parameters:
-              php-version: ["7.4", "8.0", "8.1"]
+              php-version: ["8.0", "8.1"]
       - release-test
       - release:
           requires:
