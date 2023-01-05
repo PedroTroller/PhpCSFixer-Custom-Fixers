@@ -4,10 +4,11 @@
     "license": "MIT",
     "require": {
         "php": "^7.4 || ^8.0",
-        "friendsofphp/php-cs-fixer": "^3.13"
+        "friendsofphp/php-cs-fixer": "^3.13.1"
     },
     "require-dev": {
         "phpspec/phpspec": "^7.0",
+        "sebastian/diff": "^4.0",
         "twig/twig": "^3.3",
         "webmozart/assert": "^1.10"
     },

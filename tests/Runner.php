@@ -6,8 +6,8 @@ namespace tests;
 
 use Exception;
 use PedroTroller\CS\Fixer\TokensAnalyzer;
-use PhpCsFixer\Diff\Differ;
 use PhpCsFixer\Tokenizer\Tokens;
+use SebastianBergmann\Diff\Differ;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 

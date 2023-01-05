@@ -2,11 +2,11 @@
 <?php
 
 use PedroTroller\CS\Fixer\AbstractFixer;
-use PhpCsFixer\Diff\Differ;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerOptionInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\Tokenizer\Tokens;
+use SebastianBergmann\Diff\Differ;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
