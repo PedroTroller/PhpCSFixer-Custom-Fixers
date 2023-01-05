@@ -32,11 +32,13 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
                 'max-args'                 => 4,
                 'max-length'               => 120,
                 'automatic-argument-merge' => true,
+                'inline-attributes'        => true,
             ],
             [
                 'max-args'                 => false,
                 'max-length'               => 120,
                 'automatic-argument-merge' => true,
+                'inline-attributes'        => true,
             ],
         ];
     }
@@ -86,6 +88,9 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
                 ->getOption(),
             (new FixerOptionBuilder('automatic-argument-merge', 'If both conditions are met (the line is not too long and there are not too many arguments), then the arguments are put back inline'))
                 ->setDefault(true)
+                ->getOption(),
+            (new FixerOptionBuilder('inline-attributes', 'In the case of a split, the declaration of the attributes of the arguments of the method will be on the same line as the arguments themselves'))
+                ->setDefault(false)
                 ->getOption(),
         ]);
     }
@@ -186,6 +191,12 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
             }
 
             if ($tokens[$i]->equals(',')) {
+                $linebreaks[] = $i;
+            }
+
+            if (false === $this->configuration['inline-attributes'] && $tokens[$i]->isGivenKind(T_ATTRIBUTE)) {
+                $i = $this->analyze($tokens)->getClosingAttribute($i);
+
                 $linebreaks[] = $i;
             }
         }
