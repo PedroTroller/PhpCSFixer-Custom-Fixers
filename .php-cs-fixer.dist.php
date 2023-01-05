@@ -10,7 +10,7 @@ return (new PhpCsFixer\Config())
     ->setRules(
         RuleSetFactory::create()
             ->phpCsFixer(true)
-            ->php(7.4, true)
+            ->php(8.0, true)
             ->pedrotroller(true)
             ->enable('align_multiline_comment')
             ->enable('array_indentation')
