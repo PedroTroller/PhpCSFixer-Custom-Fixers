@@ -214,7 +214,7 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
 
             $tokens->clearRange($closeBraceIndex + 1, $openCurlyBracket - 1);
 
-            if ($tokens[$closeBraceIndex - 1]->isWhitespace() && false !== strpos($tokens[$closeBraceIndex - 1]->getContent(), "\n")) {
+            if ($tokens[$closeBraceIndex - 1]->isWhitespace() && str_contains($tokens[$closeBraceIndex - 1]->getContent(), "\n")) {
                 $tokens->ensureWhitespaceAtIndex($openCurlyBracket, 0, ' ');
             } else {
                 $tokens->ensureWhitespaceAtIndex($openCurlyBracket, 0, "\n".$this->analyze($tokens)->getLineIndentation($openBraceIndex));
