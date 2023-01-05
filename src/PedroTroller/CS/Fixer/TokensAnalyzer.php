@@ -397,6 +397,34 @@ final class TokensAnalyzer
     /**
      * @param int $index
      *
+     * @return null|int
+     */
+    public function getClosingAttribute($index)
+    {
+        if (false === $this->tokens[$index]->isGivenKind(T_ATTRIBUTE)) {
+            throw new Exception(sprintf('Expected token: T_ATTRIBUTE Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
+        }
+
+        for ($i = $index + 1; $i < $this->tokens->count(); ++$i) {
+            if ($this->tokens[$i]->isGivenKind(T_ATTRIBUTE)) {
+                $i = $this->getClosingAttribute($i);
+
+                if (null === $i) {
+                    return null;
+                }
+
+                continue;
+            }
+
+            if ($this->tokens[$i]->isGivenKind(CT::T_ATTRIBUTE_CLOSE)) {
+                return $i;
+            }
+        }
+    }
+
+    /**
+     * @param int $index
+     *
      * @return bool
      */
     public function isInsideSwitchCase($index)
