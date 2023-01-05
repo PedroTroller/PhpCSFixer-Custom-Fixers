@@ -12,18 +12,21 @@ return (new PhpCsFixer\Config())
             ->phpCsFixer(true)
             ->php(7.4, true)
             ->pedrotroller(true)
-            ->enable('ordered_imports')
-            ->enable('ordered_interfaces')
             ->enable('align_multiline_comment')
             ->enable('array_indentation')
-            ->enable('no_superfluous_phpdoc_tags')
-            ->enable('simplified_null_return')
             ->enable('binary_operator_spaces', [
                 'operators' => [
                     '='  => 'align_single_space_minimal',
                     '=>' => 'align_single_space_minimal',
                 ],
             ])
+            ->enable('global_namespace_import', [
+                'import_classes' => true, 'import_constants' => false, 'import_functions' => false,
+            ])
+            ->enable('no_superfluous_phpdoc_tags')
+            ->enable('ordered_imports')
+            ->enable('ordered_interfaces')
+            ->enable('simplified_null_return')
             ->disable('simplified_null_return')
             ->getRules()
     )
