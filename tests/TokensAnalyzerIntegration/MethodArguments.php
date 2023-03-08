@@ -66,7 +66,7 @@ final class MethodArguments extends TokensAnalyzerIntegration
         Assert::eq(
             $arguments,
             [
-                ($theFunction + 5)  => [
+                ($theFunction + 5) => [
                     'type'      => 'Domain\\Model\\User',
                     'name'      => '$user',
                     'nullable'  => false,

@@ -4,7 +4,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
-        "friendsofphp/php-cs-fixer": "^3.13.1"
+        "friendsofphp/php-cs-fixer": "^3.14.0"
     },
     "require-dev": {
         "phpspec/phpspec": "^7.0",

@@ -18,8 +18,8 @@ $fixers = array_map(function (AbstractFixer $fixer) {
     $samples = $fixer->getDefinition()->getCodeSamples();
 
     return [
-        'name'        => $fixer->getName(),
-        'doc'         => [
+        'name' => $fixer->getName(),
+        'doc'  => [
             'summary' => $fixer->getDefinition()->getSummary(),
         ],
         'deprecated'  => $fixer->isDeprecated(),
@@ -39,7 +39,7 @@ $fixers = array_map(function (AbstractFixer $fixer) {
                 ? $fixer->getConfigurationDefinition()->getOptions()
                 : []
         ),
-        'samples'     => array_map(function (CodeSample $sample) use ($fixer) {
+        'samples' => array_map(function (CodeSample $sample) use ($fixer) {
             if ($fixer instanceof ConfigurableFixerInterface) {
                 $fixer->configure($sample->getConfiguration());
             }
