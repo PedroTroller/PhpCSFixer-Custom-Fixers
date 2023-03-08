@@ -6,6 +6,7 @@ namespace PedroTroller\CS\Fixer;
 
 use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
+use PhpCsFixer\Fixer\FunctionNotation\StaticLambdaFixer;
 use PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
@@ -86,6 +87,7 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
                 'Phpspec scenario functions MUST NOT have a return type declaration.',
                 'Phpspec scenario functions MUST NOT have a scope.',
                 'The methods of the phpspec specification classes MUST BE sorted (let, letGo, its_*, it_*, getMatchers and the rest of the methods)',
+                'Lambda functions MUST NOT have a static scope.',
             ]
         );
     }
@@ -93,8 +95,9 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
     public function getPriority(): int
     {
         return Priority::after(
+            StaticLambdaFixer::class,
             VisibilityRequiredFixer::class,
-            VoidReturnFixer::class
+            VoidReturnFixer::class,
         );
     }
 
@@ -141,6 +144,7 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
     {
         $this->removeScope($file, $tokens);
         $this->removeReturn($file, $tokens);
+        $this->removeStaticLambda($file, $tokens);
 
         parent::applyFix($file, $tokens);
     }
@@ -218,6 +222,37 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
                 $tokens->ensureWhitespaceAtIndex($openCurlyBracket, 0, ' ');
             } else {
                 $tokens->ensureWhitespaceAtIndex($openCurlyBracket, 0, "\n".$this->analyze($tokens)->getLineIndentation($openBraceIndex));
+            }
+        }
+    }
+
+    private function removeStaticLambda(SplFileInfo $file, Tokens $tokens): void
+    {
+        $sequences = [
+            [
+                [T_STATIC, 'static'],
+                [T_FN, 'fn'],
+                '(',
+            ],
+            [
+                [T_STATIC, 'static'],
+                [T_FUNCTION, 'function'],
+                '(',
+            ],
+        ];
+
+        foreach ($sequences as $sequence) {
+            $found = $tokens->findSequence($sequence);
+
+            while (false === \in_array($found, [null, []], true)) {
+                foreach ($found as $index => $token) {
+                    if ($token->isGivenKind(T_STATIC)) {
+                        $tokens->clearAt($index);
+                        $tokens->removeTrailingWhitespace($index);
+                    }
+                }
+
+                $found = $tokens->findSequence($sequence, $index);
             }
         }
     }
