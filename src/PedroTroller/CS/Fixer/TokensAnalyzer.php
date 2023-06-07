@@ -70,7 +70,7 @@ final class TokensAnalyzer
 
             $next = $this->tokens->getNextMeaningfulToken($argumentName);
 
-            if ($this->tokens[$next]->equals('=')) {
+            if ('=' === $this->tokens[$next]->getContent()) {
                 $argumentAsDefault = true;
                 $value             = $this->tokens->getNextMeaningfulToken($next);
                 $argumentNullable  = 'null' === $this->tokens[$value]->getContent();
@@ -120,25 +120,25 @@ final class TokensAnalyzer
             }
 
             switch (true) {
-                case $this->tokens[$index]->equals('('):
+                case '(' === $this->tokens[$index]->getContent():
                     $index = $this->getClosingParenthesis($index);
 
                     break;
 
-                case $this->tokens[$index]->equals('['):
+                case '[' === $this->tokens[$index]->getContent():
                     $index = $this->getClosingBracket($index);
 
                     break;
 
-                case $this->tokens[$index]->equals('{'):
+                case '{' === $this->tokens[$index]->getContent():
                     $index = $this->getClosingCurlyBracket($index);
 
                     break;
 
-                case $this->tokens[$index]->equals(';'):
+                case ';' === $this->tokens[$index]->getContent():
                     return null;
             }
-        } while (false === $this->tokens[$index]->equals(','));
+        } while (',' !== $this->tokens[$index]->getContent());
 
         return $index;
     }
@@ -158,22 +158,22 @@ final class TokensAnalyzer
             }
 
             switch (true) {
-                case $this->tokens[$index]->equals('('):
+                case '(' === $this->tokens[$index]->getContent():
                     $index = $this->getClosingParenthesis($index);
 
                     break;
 
-                case $this->tokens[$index]->equals('['):
+                case '[' === $this->tokens[$index]->getContent():
                     $index = $this->getClosingBracket($index);
 
                     break;
 
-                case $this->tokens[$index]->equals('{'):
+                case '{' === $this->tokens[$index]->getContent():
                     $index = $this->getClosingCurlyBracket($index);
 
                     break;
             }
-        } while (false === $this->tokens[$index]->equals(';'));
+        } while (';' !== $this->tokens[$index]->getContent());
 
         return $index;
     }
@@ -219,12 +219,12 @@ final class TokensAnalyzer
             $return = $this->tokens[$next]->getContent();
             ++$next;
 
-            if ($this->tokens[$next]->isWhitespace() || $this->tokens[$next]->equals(';')) {
+            if ($this->tokens[$next]->isWhitespace() || ';' === $this->tokens[$next]->getContent()) {
                 return $optionnal
                     ? [$return, null]
                     : $return;
             }
-        } while (false === $this->tokens[$index]->equals(['{', ';']));
+        } while (false === \in_array($this->tokens[$index]->getContent(), ['{', ';'], true));
     }
 
     /**
@@ -289,22 +289,22 @@ final class TokensAnalyzer
             }
 
             switch (true) {
-                case $this->tokens[$index]->equals('('):
+                case '(' === $this->tokens[$index]->getContent():
                     $index = $this->getClosingParenthesis($index);
 
                     break;
 
-                case $this->tokens[$index]->equals('['):
+                case '[' === $this->tokens[$index]->getContent():
                     $index = $this->getClosingBracket($index);
 
                     break;
 
-                case $this->tokens[$index]->equals('{'):
+                case '{' === $this->tokens[$index]->getContent():
                     $index = $this->getClosingCurlyBracket($index);
 
                     break;
             }
-        } while (false === $this->tokens[$index]->equals('}'));
+        } while ('}' !== $this->tokens[$index]->getContent());
 
         return $index;
     }
@@ -316,12 +316,12 @@ final class TokensAnalyzer
      */
     public function getClosingParenthesis($index)
     {
-        if (false === $this->tokens[$index]->equals('(')) {
+        if ('(' !== $this->tokens[$index]->getContent()) {
             throw new Exception(sprintf('Expected token: (. Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
         }
 
         for ($i = $index + 1; $i < $this->tokens->count(); ++$i) {
-            if ($this->tokens[$i]->equals('(')) {
+            if ('(' === $this->tokens[$i]->getContent()) {
                 $i = $this->getClosingParenthesis($i);
 
                 if (null === $i) {
@@ -331,7 +331,7 @@ final class TokensAnalyzer
                 continue;
             }
 
-            if ($this->tokens[$i]->equals(')')) {
+            if (')' === $this->tokens[$i]->getContent()) {
                 return $i;
             }
         }
@@ -344,12 +344,12 @@ final class TokensAnalyzer
      */
     public function getClosingBracket($index)
     {
-        if (false === $this->tokens[$index]->equals('[')) {
+        if ('[' !== $this->tokens[$index]->getContent()) {
             throw new Exception(sprintf('Expected token: [. Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
         }
 
         for ($i = $index + 1; $i < $this->tokens->count(); ++$i) {
-            if ($this->tokens[$i]->equals('[')) {
+            if ('[' === $this->tokens[$i]->getContent()) {
                 $i = $this->getClosingBracket($i);
 
                 if (null === $i) {
@@ -359,7 +359,7 @@ final class TokensAnalyzer
                 continue;
             }
 
-            if ($this->tokens[$i]->equals(']')) {
+            if (']' === $this->tokens[$i]->getContent()) {
                 return $i;
             }
         }
@@ -372,12 +372,12 @@ final class TokensAnalyzer
      */
     public function getClosingCurlyBracket($index)
     {
-        if (false === $this->tokens[$index]->equals('{')) {
+        if ('{' !== $this->tokens[$index]->getContent()) {
             throw new Exception(sprintf('Expected token: {. Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
         }
 
         for ($i = $index + 1; $i < $this->tokens->count(); ++$i) {
-            if ($this->tokens[$i]->equals('{')) {
+            if ('{' === $this->tokens[$i]->getContent()) {
                 $i = $this->getClosingCurlyBracket($i);
 
                 if (null === $i) {
@@ -387,7 +387,7 @@ final class TokensAnalyzer
                 continue;
             }
 
-            if ($this->tokens[$i]->equals('}')) {
+            if ('}' === $this->tokens[$i]->getContent()) {
                 return $i;
             }
         }
@@ -529,7 +529,7 @@ final class TokensAnalyzer
             for ($i = $startIndex;; ++$i) {
                 $token = $this->tokens[$i];
 
-                if ($token->equals('}')) {
+                if ('}' === $token->getContent()) {
                     return $elements;
                 }
 
@@ -631,7 +631,7 @@ final class TokensAnalyzer
     {
         $index = $tokens->getNextTokenOfKind($index, ['{', ';']);
 
-        if ($tokens[$index]->equals('{')) {
+        if ('{' === $tokens[$index]->getContent()) {
             $index = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $index);
         }
 
