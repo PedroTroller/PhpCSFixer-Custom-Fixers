@@ -120,7 +120,7 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
             $openBraceIndex = $tokens->getNextMeaningfulToken($nextIndex);
             $openBrace      = $tokens[$openBraceIndex];
 
-            if (false === $openBrace->equals('(')) {
+            if ('(' !== $openBrace->getContent()) {
                 continue;
             }
 
@@ -164,7 +164,7 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
             return;
         }
 
-        if ($tokens[$tokens->getNextMeaningfulToken($closeBraceIndex)]->equals('{')) {
+        if ('{' === $tokens[$tokens->getNextMeaningfulToken($closeBraceIndex)]->getContent()) {
             $tokens->removeTrailingWhitespace($closeBraceIndex);
             $tokens->ensureWhitespaceAtIndex($closeBraceIndex, 1, ' ');
         }
@@ -182,15 +182,15 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
         $linebreaks = [$openBraceIndex, $closeBraceIndex - 1];
 
         for ($i = $openBraceIndex + 1; $i < $closeBraceIndex; ++$i) {
-            if ($tokens[$i]->equals('(')) {
+            if ('(' === $tokens[$i]->getContent()) {
                 $i = $this->analyze($tokens)->getClosingParenthesis($i);
             }
 
-            if ($tokens[$i]->equals('[')) {
+            if ('[' === $tokens[$i]->getContent()) {
                 $i = $this->analyze($tokens)->getClosingBracket($i);
             }
 
-            if ($tokens[$i]->equals(',')) {
+            if (',' === $tokens[$i]->getContent()) {
                 $linebreaks[] = $i;
             }
 
@@ -236,7 +236,7 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
 
         $end = $tokens->getNextTokenOfKind($closeBraceIndex, [';', '{']);
 
-        if ($tokens[$end]->equals('{')) {
+        if ('{' === $tokens[$end]->getContent()) {
             $tokens->removeLeadingWhitespace($end);
             $tokens->ensureWhitespaceAtIndex($end, -1, "\n".$this->analyze($tokens)->getLineIndentation($index));
         }
@@ -247,11 +247,11 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
         $opening = 0;
 
         for ($i = $index + 1; $i < $tokens->count(); ++$i) {
-            if ($tokens[$i]->equals('(')) {
+            if ('(' === $tokens[$i]->getContent()) {
                 ++$opening;
             }
 
-            if ($tokens[$i]->equals(')')) {
+            if (')' === $tokens[$i]->getContent()) {
                 if ($opening > 0) {
                     --$opening;
                 }
@@ -268,11 +268,11 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
         $opening = 0;
 
         for ($i = $index + 1; $i < $tokens->count(); ++$i) {
-            if ($tokens[$i]->equals('[')) {
+            if ('[' === $tokens[$i]->getContent()) {
                 ++$opening;
             }
 
-            if ($tokens[$i]->equals(']')) {
+            if (']' === $tokens[$i]->getContent()) {
                 if ($opening > 0) {
                     --$opening;
                 }
@@ -292,7 +292,7 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
 
         $open = $tokens->getNextTokenOfKind($index, ['(']);
 
-        if ($tokens[$tokens->getNextMeaningfulToken($open)]->equals(')')) {
+        if (')' === $tokens[$tokens->getNextMeaningfulToken($open)]->getContent()) {
             return 0;
         }
 
@@ -300,15 +300,15 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
         $arguments = 1;
 
         for ($i = $open + 1; $i < $close; ++$i) {
-            if ($tokens[$i]->equals('(')) {
+            if ('(' === $tokens[$i]->getContent()) {
                 $i = $this->analyze($tokens)->getClosingParenthesis($i);
             }
 
-            if ($tokens[$i]->equals('[')) {
+            if ('[' === $tokens[$i]->getContent()) {
                 $i = $this->analyze($tokens)->getClosingBracket($i);
             }
 
-            if ($tokens[$i]->equals(',')) {
+            if (',' === $tokens[$i]->getContent()) {
                 ++$arguments;
             }
         }
