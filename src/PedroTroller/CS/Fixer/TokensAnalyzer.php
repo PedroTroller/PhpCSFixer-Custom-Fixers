@@ -213,8 +213,7 @@ final class TokensAnalyzer
 
         $next = $optionnal
             ? $this->tokens->getNextMeaningfulToken($next)
-            : $next
-        ;
+            : $next;
 
         do {
             $return = $this->tokens[$next]->getContent();

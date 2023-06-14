@@ -15,7 +15,7 @@ final class Utils
         if (array_values($array) === $array) {
             $string .= implode(', ', array_map([self::class, 'valueToString'], $array));
         } else {
-            $string .= implode(', ', array_map(fn ($value, $key) => '\''.$key.'\' => '.static::valueToString($value), $array, array_keys($array)));
+            $string .= implode(', ', array_map(fn ($value, $key) => '\''.$key.'\' => '.self::valueToString($value), $array, array_keys($array)));
         }
 
         $string .= ' ]';
@@ -34,7 +34,7 @@ final class Utils
         }
 
         if (is_array($value)) {
-            return static::arrayToString($value);
+            return self::arrayToString($value);
         }
 
         if (null === $value) {
