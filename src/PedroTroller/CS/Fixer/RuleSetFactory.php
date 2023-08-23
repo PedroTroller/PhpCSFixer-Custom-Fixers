@@ -144,6 +144,7 @@ final class RuleSetFactory
         switch (true) {
             case $version >= 7.1:
                 $config = array_merge(['list_syntax' => ['syntax' => 'short']], $config);
+
                 // no break
             case $version >= 5.4:
                 $config = array_merge(['array_syntax' => ['syntax' => 'short']], $config);
@@ -180,6 +181,10 @@ final class RuleSetFactory
 
         foreach (new Fixers() as $fixer) {
             if ($fixer->isDeprecated()) {
+                continue;
+            }
+
+            if (false === $risky && $fixer->isRisky()) {
                 continue;
             }
 
