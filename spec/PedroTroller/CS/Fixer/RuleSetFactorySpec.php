@@ -312,7 +312,24 @@ final class RuleSetFactorySpec extends ObjectBehavior
 
         ksort($rules);
 
-        $this->pedrotroller()->getRules()->shouldReturn($rules);
+        $this->pedrotroller(true)->getRules()->shouldReturn($rules);
+    }
+
+    function it_adds_my_own_fixer_set_except_privates()
+    {
+        $rules = [];
+
+        foreach (new Fixers() as $fixer) {
+            if ($fixer->isDeprecated() || $fixer->isRisky()) {
+                continue;
+            }
+
+            $rules[$fixer->getName()] = true;
+        }
+
+        ksort($rules);
+
+        $this->pedrotroller(false)->getRules()->shouldReturn($rules);
     }
 
     function it_enables_a_rule()
