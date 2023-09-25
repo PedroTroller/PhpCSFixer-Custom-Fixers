@@ -10,9 +10,44 @@ use PhpSpec\ObjectBehavior;
 
 final class RuleSetFactorySpec extends ObjectBehavior
 {
+    function let()
+    {
+        $this->beConstructedThrough('create');
+    }
+
     function it_is_initializable()
     {
         $this->shouldHaveType(RuleSetFactory::class);
+    }
+
+    function it_adds_a_per_set()
+    {
+        $this->per()->getRules()->shouldReturn(['@PER' => true]);
+    }
+
+    function it_adds_a_per_risky_set()
+    {
+        $this->per(risky: true)->getRules()->shouldReturn(['@PER:risky' => true]);
+    }
+
+    function it_adds_a_per1_0_set()
+    {
+        $this->per(1)->getRules()->shouldReturn(['@PER-CS1.0' => true]);
+    }
+
+    function it_adds_a_per1_0_risky_set()
+    {
+        $this->per(1, true)->getRules()->shouldReturn(['@PER-CS1.0:risky' => true]);
+    }
+
+    function it_adds_a_per2_0_set()
+    {
+        $this->per(2)->getRules()->shouldReturn(['@PER-CS2.0' => true]);
+    }
+
+    function it_adds_a_per2_0_risky_set()
+    {
+        $this->per(2, true)->getRules()->shouldReturn(['@PER-CS2.0:risky' => true]);
     }
 
     function it_adds_a_psr0_set()
@@ -141,15 +176,6 @@ final class RuleSetFactorySpec extends ObjectBehavior
             '@PHP71Migration:risky' => true,
             'array_syntax'          => ['syntax' => 'short'],
             'list_syntax'           => ['syntax' => 'short'],
-        ]);
-    }
-
-    function it_can_also_parse_versions_as_string()
-    {
-        $this->php('5.6.2')->getRules()->shouldReturn([
-            '@PHP54Migration' => true,
-            'array_syntax'    => ['syntax' => 'short'],
-            'list_syntax'     => ['syntax' => 'long'],
         ]);
     }
 
@@ -310,8 +336,6 @@ final class RuleSetFactorySpec extends ObjectBehavior
             $rules[$fixer->getName()] = true;
         }
 
-        ksort($rules);
-
         $this->pedrotroller(true)->getRules()->shouldReturn($rules);
     }
 
@@ -326,8 +350,6 @@ final class RuleSetFactorySpec extends ObjectBehavior
 
             $rules[$fixer->getName()] = true;
         }
-
-        ksort($rules);
 
         $this->pedrotroller(false)->getRules()->shouldReturn($rules);
     }
