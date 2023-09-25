@@ -237,7 +237,7 @@ final class RuleSetFactory
         $rules = (new RuleSets())->getSetDefinitionNames();
         $rules = array_combine($rules, $rules);
 
-        $rules = array_map(function ($name) {
+        $rules = array_map(static function ($name) {
             preg_match('/^@([A-Za-z]+)(\d+)Migration(:risky|)$/', $name, $matches);
 
             return $matches;
@@ -245,19 +245,19 @@ final class RuleSetFactory
 
         $rules = array_filter($rules);
 
-        $rules = array_filter($rules, function ($versionAndRisky) use ($package) {
+        $rules = array_filter($rules, static function ($versionAndRisky) use ($package) {
             [$rule, $rulePackage, $ruleVersion, $ruleRisky] = $versionAndRisky;
 
             return strtoupper($package) === strtoupper($rulePackage);
         });
 
-        $rules = array_filter($rules, function ($versionAndRisky) use ($version) {
+        $rules = array_filter($rules, static function ($versionAndRisky) use ($version) {
             [$rule, $rulePackage, $ruleVersion, $ruleRisky] = $versionAndRisky;
 
             return ((float) $ruleVersion / 10) <= $version;
         });
 
-        $rules = array_filter($rules, function ($versionAndRisky) use ($risky) {
+        $rules = array_filter($rules, static function ($versionAndRisky) use ($risky) {
             [$rule, $rulePackage, $ruleVersion, $ruleRisky] = $versionAndRisky;
 
             if ($risky) {
@@ -269,7 +269,7 @@ final class RuleSetFactory
 
         return self::create(array_merge(
             $this->rules,
-            array_map(fn () => true, $rules)
+            array_map(static fn () => true, $rules)
         ));
     }
 }
