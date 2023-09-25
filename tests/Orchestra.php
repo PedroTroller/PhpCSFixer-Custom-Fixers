@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace tests;
 
 use PedroTroller\CS\Fixer\ClassNotation\OrderedWithGetterAndSetterFirstFixer;
+use PedroTroller\CS\Fixer\CodingStyle\LineBreakBetweenMethodArgumentsFixer;
 use PedroTroller\CS\Fixer\DoctrineMigrationsFixer;
+use PhpCsFixer\Fixer\Basic\BracesFixer;
 use PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Fixer\FixerInterface;
+use PhpCsFixer\Fixer\FunctionNotation\MethodArgumentSpaceFixer;
 use PhpCsFixer\Fixer\Import\SingleLineAfterImportsFixer;
 use PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer;
 use PhpCsFixer\Fixer\Whitespace\NoExtraBlankLinesFixer;
@@ -39,6 +42,11 @@ final class Orchestra
             ->before(new NoExtraBlankLinesFixer())
             ->before(new SingleLineAfterImportsFixer())
             ->before(new NoWhitespaceInBlankLineFixer())
+        ;
+
+        self::assert(new LineBreakBetweenMethodArgumentsFixer())
+            ->after(new BracesFixer())
+            ->after(new MethodArgumentSpaceFixer())
         ;
 
         echo "\n";
