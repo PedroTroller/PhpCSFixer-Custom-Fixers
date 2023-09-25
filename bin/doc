@@ -14,7 +14,7 @@ include sprintf('%s/../vendor/autoload.php', __DIR__);
 
 include 'Utils.php';
 
-$fixers = array_map(function (AbstractFixer $fixer) {
+$fixers = array_map(static function (AbstractFixer $fixer) {
     $samples = $fixer->getDefinition()->getCodeSamples();
 
     return [
@@ -25,7 +25,7 @@ $fixers = array_map(function (AbstractFixer $fixer) {
         'deprecated'  => $fixer->isDeprecated(),
         'replacement' => $fixer->getDeprecationReplacement(),
         'options'     => array_map(
-            function (FixerOptionInterface $option) {
+            static function (FixerOptionInterface $option) {
                 return [
                     'name'          => $option->getName(),
                     'description'   => $option->getDescription(),
@@ -39,7 +39,7 @@ $fixers = array_map(function (AbstractFixer $fixer) {
                 ? $fixer->getConfigurationDefinition()->getOptions()
                 : []
         ),
-        'samples' => array_map(function (CodeSample $sample) use ($fixer) {
+        'samples' => array_map(static function (CodeSample $sample) use ($fixer) {
             if ($fixer instanceof ConfigurableFixerInterface) {
                 $fixer->configure($sample->getConfiguration());
             }
@@ -57,13 +57,13 @@ $fixers = array_map(function (AbstractFixer $fixer) {
                     }
 
                     while (strlen($line) < 80 + 1) {
-                        $line = $line.' ';
+                        $line .= ' ';
                     }
 
                     if (0 === $num) {
-                        $line = $line.'// 80 chars';
+                        $line .= '// 80 chars';
                     } else {
-                        $line = $line.'//';
+                        $line .= '//';
                     }
 
                     $diff[$num] = $line;

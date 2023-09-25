@@ -6,9 +6,7 @@ namespace PedroTroller\CS\Fixer;
 
 final class Priority
 {
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     /**
      * @param array<int, mixed> $classes
@@ -18,7 +16,7 @@ final class Priority
     public static function before(...$classes)
     {
         $priorities = array_map(
-            fn ($class) => (new $class())->getPriority(),
+            static fn ($class) => (new $class())->getPriority(),
             $classes
         );
 
@@ -33,7 +31,7 @@ final class Priority
     public static function after(...$classes)
     {
         $priorities = array_map(
-            fn ($class) => (new $class())->getPriority(),
+            static fn ($class) => (new $class())->getPriority(),
             $classes
         );
 

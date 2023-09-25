@@ -23,7 +23,7 @@ final class Fixers implements IteratorAggregate
         ;
 
         $files = array_map(
-            fn ($file) => $file->getPathname(),
+            static fn ($file) => $file->getPathname(),
             iterator_to_array($finder)
         );
 

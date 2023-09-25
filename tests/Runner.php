@@ -18,7 +18,7 @@ final class Runner
         $deprecations = [];
 
         set_error_handler(
-            function ($type, $message, $file, $line) use (&$deprecations): void {
+            static function ($type, $message, $file, $line) use (&$deprecations): void {
                 $deprecations[$message][] = sprintf('%s at line %d', $file, $line);
                 $deprecations[$message]   = array_unique($deprecations[$message]);
 
@@ -40,7 +40,7 @@ final class Runner
                 implode(
                     "\n\n",
                     array_map(
-                        fn ($message, array $files) => sprintf("%s\n%s", $message, implode("\n", $files)),
+                        static fn ($message, array $files) => sprintf("%s\n%s", $message, implode("\n", $files)),
                         array_keys($deprecations),
                         $deprecations
                     )

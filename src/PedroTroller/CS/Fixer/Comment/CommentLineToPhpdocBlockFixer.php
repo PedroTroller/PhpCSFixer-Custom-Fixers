@@ -148,7 +148,7 @@ final class CommentLineToPhpdocBlockFixer extends AbstractFixer
             array_pop($comments);
         }
 
-        $comments = array_map(fn ($comment) => rtrim($indentation.' * '.ltrim($comment, ' /')), $comments);
+        $comments = array_map(static fn ($comment) => rtrim($indentation.' * '.ltrim($comment, ' /')), $comments);
 
         $comments = implode("\n", $comments);
         $comments = trim($comments, " \n");
