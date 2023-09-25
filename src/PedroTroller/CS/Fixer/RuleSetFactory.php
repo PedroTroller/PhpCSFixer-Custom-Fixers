@@ -4,44 +4,85 @@ declare(strict_types=1);
 
 namespace PedroTroller\CS\Fixer;
 
+use Exception;
+use IteratorAggregate;
 use PhpCsFixer\RuleSet\RuleSets;
+use Traversable;
 
-final class RuleSetFactory
+/**
+ * @IteratorAggregate<string, bool|array<mixed>>
+ */
+final class RuleSetFactory implements IteratorAggregate
 {
     /**
-     * @var array[]
+     * @var array<string, array<mixed>|bool>
      */
     private $rules;
 
-    public function __construct(array $rules = [])
+    /**
+     * @var array<string>
+     */
+    private array $cache;
+
+    /**
+     * @param array<string, array<mixed>|bool> $rules
+     * @param array<string>                    $cache
+     */
+    private function __construct(array $rules, array $cache)
     {
         $this->rules = $rules;
+        $this->cache = $cache;
     }
 
     /**
-     * @return array
+     * @return array<string, array<mixed>|bool>
      */
-    public function getRules()
+    public function getRules(): array
     {
-        $rules = $this->rules;
-
-        ksort($rules);
-
-        return $rules;
+        return $this->rules;
     }
 
-    /**
-     * @return RuleSetFactory
-     */
-    public static function create(array $rules = [])
+    public function getIterator(): Traversable
     {
-        return new self($rules);
+        yield from $this->rules;
     }
 
-    /**
-     * @return RuleSetFactory
-     */
-    public function psr0()
+    public static function create(array $rules = []): self
+    {
+        return new self(
+            $rules,
+            (new RuleSets())->getSetDefinitionNames(),
+        );
+    }
+
+    public function per(int|float $version = null, bool $risky = false): self
+    {
+        $candidates = null !== $version
+            ? ['@PER-CS'.number_format($version, 1, '.', '')]
+            : ['@PER'];
+
+        if (true === $risky) {
+            $candidates = [
+                $candidates[0].':risky',
+                ...$candidates,
+            ];
+        }
+
+        foreach ($candidates as $candidate) {
+            if (false === \in_array($candidate, $this->cache, true)) {
+                continue;
+            }
+
+            return self::create(array_merge(
+                $this->rules,
+                [$candidate => true],
+            ));
+        }
+
+        throw new Exception('RuleSet not found: '.implode(', ', $candidates));
+    }
+
+    public function psr0(): self
     {
         return self::create(array_merge(
             $this->rules,
@@ -49,10 +90,7 @@ final class RuleSetFactory
         ));
     }
 
-    /**
-     * @return RuleSetFactory
-     */
-    public function psr1()
+    public function psr1(): self
     {
         return self::create(array_merge(
             $this->rules,
@@ -60,10 +98,7 @@ final class RuleSetFactory
         ));
     }
 
-    /**
-     * @return RuleSetFactory
-     */
-    public function psr2()
+    public function psr2(): self
     {
         return self::create(array_merge(
             $this->rules,
@@ -71,10 +106,7 @@ final class RuleSetFactory
         ));
     }
 
-    /**
-     * @return RuleSetFactory
-     */
-    public function psr4()
+    public function psr4(): self
     {
         return self::create(array_merge(
             $this->rules,
@@ -82,12 +114,7 @@ final class RuleSetFactory
         ));
     }
 
-    /**
-     * @param bool $risky
-     *
-     * @return RuleSetFactory
-     */
-    public function symfony($risky = false)
+    public function symfony(bool $risky = false): self
     {
         $rules = ['@Symfony' => true];
 
@@ -101,12 +128,7 @@ final class RuleSetFactory
         ));
     }
 
-    /**
-     * @param bool $risky
-     *
-     * @return RuleSetFactory
-     */
-    public function phpCsFixer($risky = false)
+    public function phpCsFixer(bool $risky = false): self
     {
         $rules = ['@PhpCsFixer' => true];
 
@@ -120,10 +142,7 @@ final class RuleSetFactory
         ));
     }
 
-    /**
-     * @return RuleSetFactory
-     */
-    public function doctrineAnnotation()
+    public function doctrineAnnotation(): self
     {
         return self::create(array_merge(
             $this->rules,
@@ -131,27 +150,20 @@ final class RuleSetFactory
         ));
     }
 
-    /**
-     * @param float|string $version
-     * @param bool         $risky
-     *
-     * @return RuleSetFactory
-     */
-    public function php($version, $risky = false)
+    public function php(float $version, bool $risky = false): self
     {
         $config = $this->migration('php', $version, $risky)->getRules();
 
-        switch (true) {
-            case $version >= 7.1:
-                $config = array_merge(['list_syntax' => ['syntax' => 'short']], $config);
+        $config['array_syntax'] = ['syntax' => 'long'];
+        $config['list_syntax']  = ['syntax' => 'long'];
 
-                // no break
-            case $version >= 5.4:
-                $config = array_merge(['array_syntax' => ['syntax' => 'short']], $config);
+        if ($version >= 7.1) {
+            $config['list_syntax'] = ['syntax' => 'short'];
         }
 
-        $config = array_merge(['list_syntax' => ['syntax' => 'long']], $config);
-        $config = array_merge(['array_syntax' => ['syntax' => 'long']], $config);
+        if ($version >= 5.4) {
+            $config['array_syntax'] = ['syntax' => 'short'];
+        }
 
         return self::create(array_merge(
             $this->rules,
@@ -159,23 +171,12 @@ final class RuleSetFactory
         ));
     }
 
-    /**
-     * @param float $version
-     * @param bool  $risky
-     *
-     * @return RuleSetFactory
-     */
-    public function phpUnit($version, $risky = false)
+    public function phpUnit(float $version, bool $risky = false): self
     {
         return $this->migration('phpunit', $version, $risky);
     }
 
-    /**
-     * @param bool $risky
-     *
-     * @return RuleSetFactory
-     */
-    public function pedrotroller($risky = false)
+    public function pedrotroller(bool $risky = false): self
     {
         $rules = [];
 
@@ -191,20 +192,13 @@ final class RuleSetFactory
             $rules[$fixer->getName()] = true;
         }
 
-        ksort($rules);
-
         return self::create(array_merge(
             $this->rules,
             $rules
         ));
     }
 
-    /**
-     * @param string $name
-     *
-     * @return RuleSetFactory
-     */
-    public function enable($name, array $config = null)
+    public function enable(string $name, array $config = null): self
     {
         return self::create(array_merge(
             $this->rules,
@@ -212,12 +206,7 @@ final class RuleSetFactory
         ));
     }
 
-    /**
-     * @param string $name
-     *
-     * @return RuleSetFactory
-     */
-    public function disable($name)
+    public function disable(string $name): self
     {
         return self::create(array_merge(
             $this->rules,
@@ -225,23 +214,17 @@ final class RuleSetFactory
         ));
     }
 
-    /**
-     * @param string $package
-     * @param float  $version
-     * @param bool   $risky
-     *
-     * @return RuleSetFactory
-     */
-    private function migration($package, $version, $risky)
+    private function migration(string $package, float $version, bool $risky): self
     {
-        $rules = (new RuleSets())->getSetDefinitionNames();
-        $rules = array_combine($rules, $rules);
+        $rules = array_combine($this->cache, $this->cache);
+        $rules = array_map(
+            static function ($name) {
+                preg_match('/^@([A-Za-z]+)(\d+)Migration(:risky|)$/', $name, $matches);
 
-        $rules = array_map(static function ($name) {
-            preg_match('/^@([A-Za-z]+)(\d+)Migration(:risky|)$/', $name, $matches);
-
-            return $matches;
-        }, $rules);
+                return $matches;
+            },
+            $rules
+        );
 
         $rules = array_filter($rules);
 

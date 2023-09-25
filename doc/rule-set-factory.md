@@ -11,7 +11,7 @@ return PhpCsFixer\Config::create()
     ->setRules(RuleSetFactory::create()
         ->symfony()                 // Activate the @Symfony ruleset
         ->phpCsFixer()              // Activate the @PhpCsFixer ruleset
-        ->php(5.6, true)            // Activate php 5.6 risky rules
+        ->php(8.2, true)            // Activate php 8.2 risky rules
         ->pedrotroller(true)        // Activate my own ruleset (with risky rules)
         ->enable('ordered_imports') // Add an other rule
         ->disable('yoda_style')     // Disable a rule
@@ -25,6 +25,10 @@ return PhpCsFixer\Config::create()
 ```
 
 ## Methods
+
+### `->per([int|float $version = null, [bool $risky = false]])`
+
+Activate the `@PER` (`@PER-CS1.0`, `@PER-CS1.0:risky`, `@PER-CS2.0`, `@PER-CS2.0:risky`, ...) rule.
 
 ### `->psr0()`
 

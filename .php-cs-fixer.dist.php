@@ -9,6 +9,7 @@ return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setRules(
         RuleSetFactory::create()
+            ->per(2, true)
             ->phpCsFixer(true)
             ->php(8.0, true)
             ->pedrotroller(true)
