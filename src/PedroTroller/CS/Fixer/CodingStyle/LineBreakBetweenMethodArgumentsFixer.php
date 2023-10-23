@@ -7,6 +7,7 @@ namespace PedroTroller\CS\Fixer\CodingStyle;
 use PedroTroller\CS\Fixer\AbstractFixer;
 use PedroTroller\CS\Fixer\Priority;
 use PhpCsFixer\Fixer\Basic\BracesFixer;
+use PhpCsFixer\Fixer\Basic\SingleLineEmptyBodyFixer;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\FunctionNotation\MethodArgumentSpaceFixer;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
@@ -26,6 +27,7 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
         return min(
             Priority::after(BracesFixer::class),
             Priority::after(MethodArgumentSpaceFixer::class),
+            Priority::after(SingleLineEmptyBodyFixer::class),
         );
     }
 
