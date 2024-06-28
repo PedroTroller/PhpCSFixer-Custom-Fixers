@@ -6,6 +6,7 @@ namespace PedroTroller\CS\Fixer;
 
 use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerTrait;
 use PhpCsFixer\Fixer\FunctionNotation\StaticLambdaFixer;
 use PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
@@ -17,6 +18,8 @@ use SplFileInfo;
 
 final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements ConfigurableFixerInterface
 {
+    use ConfigurableFixerTrait;
+
     public function getSampleConfigurations(): array
     {
         return [
@@ -101,7 +104,7 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
         );
     }
 
-    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
+    public function createConfigurationDefinition(): FixerConfigurationResolverInterface
     {
         return new FixerConfigurationResolver([
             (new FixerOptionBuilder('instanceof', 'Parent classes of your spec classes.'))

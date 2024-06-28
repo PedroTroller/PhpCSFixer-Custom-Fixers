@@ -8,6 +8,7 @@ use PedroTroller\CS\Fixer\AbstractOrderedClassElementsFixer;
 use PedroTroller\CS\Fixer\Priority;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerTrait;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
@@ -15,6 +16,8 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 final class OrderBehatStepsFixer extends AbstractOrderedClassElementsFixer implements ConfigurableFixerInterface
 {
+    use ConfigurableFixerTrait;
+
     public const ANNOTATION_PRIORITIES = [
         '@BeforeSuite',
         '@AfterSuite',
@@ -126,7 +129,7 @@ final class OrderBehatStepsFixer extends AbstractOrderedClassElementsFixer imple
         return 'Step definition methods in Behat contexts MUST BE ordered by annotation and method name.';
     }
 
-    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
+    public function createConfigurationDefinition(): FixerConfigurationResolverInterface
     {
         return new FixerConfigurationResolver([
             (new FixerOptionBuilder('instanceof', 'Parent class or interface of your behat context classes.'))
