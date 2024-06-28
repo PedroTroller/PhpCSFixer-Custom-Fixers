@@ -6,6 +6,7 @@ namespace PedroTroller\CS\Fixer;
 
 use PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerTrait;
 use PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer;
 use PhpCsFixer\Fixer\Whitespace\NoExtraBlankLinesFixer;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
@@ -17,6 +18,8 @@ use SplFileInfo;
 
 final class DoctrineMigrationsFixer extends AbstractFixer implements ConfigurableFixerInterface
 {
+    use ConfigurableFixerTrait;
+    
     /**
      * @var string[]
      */
@@ -100,7 +103,7 @@ final class DoctrineMigrationsFixer extends AbstractFixer implements Configurabl
         return Priority::before(ClassAttributesSeparationFixer::class, NoEmptyPhpdocFixer::class, NoExtraBlankLinesFixer::class);
     }
 
-    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
+    public function createConfigurationDefinition(): FixerConfigurationResolverInterface
     {
         return new FixerConfigurationResolver([
             (new FixerOptionBuilder('instanceof', 'The parent class of which Doctrine migrations extend'))
