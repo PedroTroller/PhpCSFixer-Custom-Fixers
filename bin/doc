@@ -1,7 +1,10 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 use PedroTroller\CS\Fixer\AbstractFixer;
+use PedroTroller\CS\Fixer\Fixers;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerOptionInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
@@ -80,7 +83,7 @@ $fixers = array_map(static function (AbstractFixer $fixer) {
             ];
         }, $samples),
     ];
-}, iterator_to_array(new PedroTroller\CS\Fixer\Fixers()));
+}, [...(new Fixers())]);
 
 $loader = new FilesystemLoader([__DIR__]);
 $twig   = new Environment($loader);

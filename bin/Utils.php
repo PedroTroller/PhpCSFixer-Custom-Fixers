@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 final class Utils
 {
-    public static function arrayToString(array $array = null)
+    public static function arrayToString(?array $array = null)
     {
         if (null === $array) {
             return;

@@ -6,6 +6,7 @@ namespace PedroTroller\CS\Fixer\CodingStyle;
 
 use PedroTroller\CS\Fixer\AbstractFixer;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerTrait;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
@@ -15,6 +16,8 @@ use SplFileInfo;
 
 final class ForbiddenFunctionsFixer extends AbstractFixer implements ConfigurableFixerInterface
 {
+    use ConfigurableFixerTrait;
+
     public function getSampleCode(): string
     {
         return <<<'PHP'
@@ -53,7 +56,7 @@ final class ForbiddenFunctionsFixer extends AbstractFixer implements Configurabl
         return 'Prohibited functions MUST BE commented on as prohibited';
     }
 
-    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
+    public function createConfigurationDefinition(): FixerConfigurationResolverInterface
     {
         return new FixerConfigurationResolver([
             (new FixerOptionBuilder('functions', 'The function names to be marked how prohibited'))
@@ -86,7 +89,7 @@ final class ForbiddenFunctionsFixer extends AbstractFixer implements Configurabl
 
             if (\in_array($token->getContent(), $this->configuration['functions'], true)) {
                 $end          = $this->analyze($tokens)->getEndOfTheLine($index);
-                $tokens[$end] = new Token([T_WHITESPACE, sprintf(' // %s%s', $this->configuration['comment'], $tokens[$end]->getContent())]);
+                $tokens[$end] = new Token([T_WHITESPACE, \sprintf(' // %s%s', $this->configuration['comment'], $tokens[$end]->getContent())]);
             }
         }
     }

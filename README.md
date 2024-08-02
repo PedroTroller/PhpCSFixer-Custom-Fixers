@@ -384,11 +384,11 @@ Prohibited functions MUST BE commented on as prohibited
 
 ### Available options
 
- - `functions` (*optional*): The function names to be marked how prohibited
-    - default: `var_dump`, `dump`, `die`
-
  - `comment` (*optional*): The prohibition message to put in the comment
     - default: `@TODO remove this line`
+
+ - `functions` (*optional*): The function names to be marked how prohibited
+    - default: `var_dump`, `dump`, `die`
 
 ### Configuration examples
 
@@ -511,17 +511,17 @@ If the declaration of a method is too long, the arguments of this method MUST BE
 
 ### Available options
 
- - `max-args` (*optional*): The maximum number of arguments allowed with splitting the arguments into several lines (use `false` to disable this feature)
-    - default: `3`
-
- - `max-length` (*optional*): The maximum number of characters allowed with splitting the arguments into several lines
-    - default: `120`
-
  - `automatic-argument-merge` (*optional*): If both conditions are met (the line is not too long and there are not too many arguments), then the arguments are put back inline
     - default: `true`
 
  - `inline-attributes` (*optional*): In the case of a split, the declaration of the attributes of the arguments of the method will be on the same line as the arguments themselves
     - default: `false`
+
+ - `max-args` (*optional*): The maximum number of arguments allowed with splitting the arguments into several lines (use `false` to disable this feature)
+    - default: `3`
+
+ - `max-length` (*optional*): The maximum number of characters allowed with splitting the arguments into several lines
+    - default: `120`
 
 ### Configuration examples
 

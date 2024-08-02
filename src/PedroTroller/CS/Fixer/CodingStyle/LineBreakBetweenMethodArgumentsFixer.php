@@ -8,6 +8,7 @@ use PedroTroller\CS\Fixer\AbstractFixer;
 use PedroTroller\CS\Fixer\Priority;
 use PhpCsFixer\Fixer\Basic\BracesFixer;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerTrait;
 use PhpCsFixer\Fixer\FunctionNotation\MethodArgumentSpaceFixer;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
@@ -19,6 +20,8 @@ use SplFileInfo;
 
 final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implements ConfigurableFixerInterface, WhitespacesAwareFixerInterface
 {
+    use ConfigurableFixerTrait;
+
     public const T_TYPEHINT_SEMI_COLON = 10025;
 
     public function getPriority(): int
@@ -81,7 +84,7 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
             SPEC;
     }
 
-    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
+    public function createConfigurationDefinition(): FixerConfigurationResolverInterface
     {
         return new FixerConfigurationResolver([
             (new FixerOptionBuilder('max-args', 'The maximum number of arguments allowed with splitting the arguments into several lines (use `false` to disable this feature)'))

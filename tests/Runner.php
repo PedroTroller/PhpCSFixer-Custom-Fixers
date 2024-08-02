@@ -19,7 +19,7 @@ final class Runner
 
         set_error_handler(
             static function ($type, $message, $file, $line) use (&$deprecations): void {
-                $deprecations[$message][] = sprintf('%s at line %d', $file, $line);
+                $deprecations[$message][] = \sprintf('%s at line %d', $file, $line);
                 $deprecations[$message]   = array_unique($deprecations[$message]);
 
                 sort($deprecations[$message]);
@@ -35,12 +35,12 @@ final class Runner
         if (false === empty($deprecations)) {
             ksort($deprecations);
 
-            $message = sprintf(
+            $message = \sprintf(
                 "Deprecations : \n\n%s",
                 implode(
                     "\n\n",
                     array_map(
-                        static fn ($message, array $files) => sprintf("%s\n%s", $message, implode("\n", $files)),
+                        static fn ($message, array $files) => \sprintf("%s\n%s", $message, implode("\n", $files)),
                         array_keys($deprecations),
                         $deprecations
                     )
@@ -53,7 +53,7 @@ final class Runner
 
     private static function runUseCases(): void
     {
-        $directory = sprintf('%s/UseCase', __DIR__);
+        $directory = \sprintf('%s/UseCase', __DIR__);
 
         $finder = new Finder();
         $finder
@@ -100,7 +100,7 @@ final class Runner
 
     private static function runAnalyzerIntegrations(): void
     {
-        $directory = sprintf('%s/TokensAnalyzerIntegration', __DIR__);
+        $directory = \sprintf('%s/TokensAnalyzerIntegration', __DIR__);
 
         $finder = new Finder();
         $finder

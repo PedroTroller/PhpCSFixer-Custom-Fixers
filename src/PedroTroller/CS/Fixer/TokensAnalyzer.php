@@ -186,7 +186,7 @@ final class TokensAnalyzer
     public function getReturnedType($index)
     {
         if (false === $this->tokens[$index]->isGivenKind(T_FUNCTION)) {
-            throw new Exception(sprintf('Expected token: T_FUNCTION Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
+            throw new Exception(\sprintf('Expected token: T_FUNCTION Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
         }
 
         $methodName       = $this->tokens->getNextMeaningfulToken($index);
@@ -317,7 +317,7 @@ final class TokensAnalyzer
     public function getClosingParenthesis($index)
     {
         if ('(' !== $this->tokens[$index]->getContent()) {
-            throw new Exception(sprintf('Expected token: (. Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
+            throw new Exception(\sprintf('Expected token: (. Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
         }
 
         for ($i = $index + 1; $i < $this->tokens->count(); ++$i) {
@@ -345,7 +345,7 @@ final class TokensAnalyzer
     public function getClosingBracket($index)
     {
         if ('[' !== $this->tokens[$index]->getContent()) {
-            throw new Exception(sprintf('Expected token: [. Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
+            throw new Exception(\sprintf('Expected token: [. Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
         }
 
         for ($i = $index + 1; $i < $this->tokens->count(); ++$i) {
@@ -373,7 +373,7 @@ final class TokensAnalyzer
     public function getClosingCurlyBracket($index)
     {
         if ('{' !== $this->tokens[$index]->getContent()) {
-            throw new Exception(sprintf('Expected token: {. Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
+            throw new Exception(\sprintf('Expected token: {. Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
         }
 
         for ($i = $index + 1; $i < $this->tokens->count(); ++$i) {
@@ -401,7 +401,7 @@ final class TokensAnalyzer
     public function getClosingAttribute($index)
     {
         if (false === $this->tokens[$index]->isGivenKind(T_ATTRIBUTE)) {
-            throw new Exception(sprintf('Expected token: T_ATTRIBUTE Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
+            throw new Exception(\sprintf('Expected token: T_ATTRIBUTE Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
         }
 
         for ($i = $index + 1; $i < $this->tokens->count(); ++$i) {
