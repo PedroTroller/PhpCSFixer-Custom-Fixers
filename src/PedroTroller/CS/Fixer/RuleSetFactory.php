@@ -55,7 +55,7 @@ final class RuleSetFactory implements IteratorAggregate
         );
     }
 
-    public function per(int|float $version = null, bool $risky = false): self
+    public function per(null|float|int $version = null, bool $risky = false): self
     {
         $candidates = null !== $version
             ? ['@PER-CS'.number_format($version, 1, '.', '')]
@@ -198,7 +198,7 @@ final class RuleSetFactory implements IteratorAggregate
         ));
     }
 
-    public function enable(string $name, array $config = null): self
+    public function enable(string $name, ?array $config = null): self
     {
         return self::create(array_merge(
             $this->rules,

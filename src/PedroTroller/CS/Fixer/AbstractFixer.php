@@ -45,7 +45,7 @@ abstract class AbstractFixer extends PhpCsFixer
         return new FixerDefinition(
             $this->getDocumentation(),
             array_map(
-                fn (array $configutation = null) => new CodeSample($this->getSampleCode(), $configutation),
+                fn (?array $configutation = null) => new CodeSample($this->getSampleCode(), $configutation),
                 $this->getSampleConfigurations()
             )
         );

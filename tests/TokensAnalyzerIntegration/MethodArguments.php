@@ -67,7 +67,7 @@ final class MethodArguments extends TokensAnalyzerIntegration
             $arguments,
             [
                 ($theFunction + 5) => [
-                    'type'      => 'Domain\\Model\\User',
+                    'type'      => 'Domain\Model\User',
                     'name'      => '$user',
                     'nullable'  => false,
                     'asDefault' => false,
