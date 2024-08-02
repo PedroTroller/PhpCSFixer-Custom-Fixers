@@ -152,6 +152,6 @@ final class ExceptionsPunctuationFixer extends AbstractFixer
                 return $token;
         }
 
-        return new Token([T_CONSTANT_ENCAPSED_STRING, sprintf('%s%s.%s', $quotes, implode('', $chars), $quotes)]);
+        return new Token([T_CONSTANT_ENCAPSED_STRING, \sprintf('%s%s.%s', $quotes, implode('', $chars), $quotes)]);
     }
 }

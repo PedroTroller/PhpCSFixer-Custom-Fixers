@@ -19,7 +19,7 @@ use SplFileInfo;
 final class DoctrineMigrationsFixer extends AbstractFixer implements ConfigurableFixerInterface
 {
     use ConfigurableFixerTrait;
-    
+
     /**
      * @var string[]
      */

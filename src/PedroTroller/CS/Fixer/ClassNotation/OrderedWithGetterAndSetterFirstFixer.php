@@ -152,11 +152,11 @@ final class OrderedWithGetterAndSetterFirstFixer extends AbstractOrderedClassEle
         $methods = [];
 
         foreach ($this->getPropertiesNames($elements) as $name) {
-            $methods[] = sprintf('get%s', ucfirst($name));
-            $methods[] = sprintf('is%s', ucfirst($name));
-            $methods[] = sprintf('has%s', ucfirst($name));
+            $methods[] = \sprintf('get%s', ucfirst($name));
+            $methods[] = \sprintf('is%s', ucfirst($name));
+            $methods[] = \sprintf('has%s', ucfirst($name));
             $methods[] = lcfirst($name);
-            $methods[] = sprintf('set%s', ucfirst($name));
+            $methods[] = \sprintf('set%s', ucfirst($name));
         }
 
         return $methods;

@@ -153,6 +153,6 @@ final class CommentLineToPhpdocBlockFixer extends AbstractFixer
         $comments = implode("\n", $comments);
         $comments = trim($comments, " \n");
 
-        return sprintf("/**\n%s %s\n%s */", $indentation, $comments, $indentation);
+        return \sprintf("/**\n%s %s\n%s */", $indentation, $comments, $indentation);
     }
 }

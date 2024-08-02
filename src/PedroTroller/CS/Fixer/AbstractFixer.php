@@ -23,7 +23,7 @@ abstract class AbstractFixer extends PhpCsFixer
 
     public function getName(): string
     {
-        return sprintf('PedroTroller/%s', parent::getName());
+        return \sprintf('PedroTroller/%s', parent::getName());
     }
 
     /**

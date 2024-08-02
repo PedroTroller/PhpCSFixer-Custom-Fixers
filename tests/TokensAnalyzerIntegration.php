@@ -53,7 +53,7 @@ abstract class TokensAnalyzerIntegration
         }
 
         if (empty($indexes)) {
-            throw new Exception(sprintf('There is no token containing %s.', $content));
+            throw new Exception(\sprintf('There is no token containing %s.', $content));
         }
 
         return $indexes;

@@ -265,7 +265,7 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
         $filter = [];
 
         foreach ($this->filterElementsByType('method', $elements) as $index => $method) {
-            if (0 !== preg_match(sprintf('/^%s$/', $regex), $method['methodName'])) {
+            if (0 !== preg_match(\sprintf('/^%s$/', $regex), $method['methodName'])) {
                 $filter[$index] = $method;
             }
         }
