@@ -101,7 +101,7 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
             (new FixerOptionBuilder('inline-attributes', 'In the case of a split, the declaration of the attributes of the arguments of the method will be on the same line as the arguments themselves'))
                 ->setDefault(false)
                 ->getOption(),
-            (new FixerOptionBuilder('force-for-construct', 'If true, the __construct method arguments will always be splitted into several lines'))
+            (new FixerOptionBuilder('force-for-construct', 'If true, the __construct method arguments will always be split into several lines'))
                 ->setDefault(false)
                 ->getOption(),
         ]);
