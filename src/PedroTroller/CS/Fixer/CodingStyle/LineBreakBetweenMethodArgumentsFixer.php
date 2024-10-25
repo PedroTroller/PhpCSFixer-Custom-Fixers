@@ -142,7 +142,7 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
                 continue;
             }
 
-            if (true === $this->configuration['force-for-construct'] && $next->getContent() === '__construct') {
+            if (true === $this->configuration['force-for-construct'] && '__construct' === $next->getContent()) {
                 $this->splitArgs($tokens, $index);
 
                 continue;
