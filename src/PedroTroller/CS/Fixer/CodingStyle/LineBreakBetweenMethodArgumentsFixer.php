@@ -235,10 +235,20 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
         $closeBraceIndex = $this->analyze($tokens)->getClosingParenthesis($openBraceIndex);
 
         foreach ($tokens->findGivenKind(T_WHITESPACE, $openBraceIndex, $closeBraceIndex) as $spaceIndex => $spaceToken) {
+            if ($tokens[$tokens->getPrevNonWhitespace($spaceIndex)]->isGivenKind([T_COMMENT, T_DOC_COMMENT])) {
+                continue;
+            }
+
+            if ($tokens[$tokens->getNextNonWhitespace($spaceIndex)]->isGivenKind([T_COMMENT, T_DOC_COMMENT])) {
+                continue;
+            }
+
             $tokens[$spaceIndex] = new Token([T_WHITESPACE, ' ']);
         }
 
-        $tokens->removeTrailingWhitespace($openBraceIndex);
+        if (!$tokens[$tokens->getNextNonWhitespace($openBraceIndex)]->isGivenKind([T_COMMENT, T_DOC_COMMENT])) {
+            $tokens->removeTrailingWhitespace($openBraceIndex);
+        }
         $tokens->removeLeadingWhitespace($closeBraceIndex);
 
         $end = $tokens->getNextTokenOfKind($closeBraceIndex, [';', '{']);
