@@ -28,16 +28,14 @@ $fixers = array_map(static function (AbstractFixer $fixer) {
         'deprecated'  => $fixer->isDeprecated(),
         'replacement' => $fixer->getDeprecationReplacement(),
         'options'     => array_map(
-            static function (FixerOptionInterface $option) {
-                return [
-                    'name'          => $option->getName(),
-                    'description'   => $option->getDescription(),
-                    'required'      => false === $option->hasDefault(),
-                    'allowedValues' => $option->getAllowedValues(),
-                    'allowedTypes'  => $option->getAllowedTypes(),
-                    'defaultValue'  => $option->getDefault(),
-                ];
-            },
+            static fn (FixerOptionInterface $option) => [
+                'name'          => $option->getName(),
+                'description'   => $option->getDescription(),
+                'required'      => false === $option->hasDefault(),
+                'allowedValues' => $option->getAllowedValues(),
+                'allowedTypes'  => $option->getAllowedTypes(),
+                'defaultValue'  => $option->getDefault(),
+            ],
             $fixer instanceof ConfigurableFixerInterface
                 ? $fixer->getConfigurationDefinition()->getOptions()
                 : []
