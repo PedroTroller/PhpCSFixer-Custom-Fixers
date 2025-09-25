@@ -58,7 +58,7 @@ final class RuleSetFactory implements IteratorAggregate
     public function per(float|int|null $version = null, bool $risky = false): self
     {
         $candidates = null !== $version
-            ? ['@PER-CS'.number_format($version, 1, '.', '')]
+            ? ['@PER-CS'.number_format($version, 1, 'x', '')]
             : ['@PER'];
 
         if (true === $risky) {
@@ -243,7 +243,7 @@ final class RuleSetFactory implements IteratorAggregate
         $rules = array_combine($this->cache, $this->cache);
         $rules = array_map(
             static function ($name) {
-                preg_match('/^@([A-Za-z]+)(\d+)Migration(:risky|)$/', $name, $matches);
+                preg_match('/^@([A-Za-z]+)(\d+)x(\d+)Migration(:risky|)$/', $name, $matches);
 
                 return $matches;
             },
@@ -255,7 +255,7 @@ final class RuleSetFactory implements IteratorAggregate
         $rules = array_filter(
             $rules,
             static function ($versionAndRisky) use ($package) {
-                [$rule, $rulePackage, $ruleVersion, $ruleRisky] = $versionAndRisky;
+                [$rule, $rulePackage, $ruleVersionMajor, $ruleVersionMinor, $ruleRisky] = $versionAndRisky;
 
                 return strtoupper($package) === strtoupper($rulePackage);
             }
@@ -264,16 +264,16 @@ final class RuleSetFactory implements IteratorAggregate
         $rules = array_filter(
             $rules,
             static function ($versionAndRisky) use ($version) {
-                [$rule, $rulePackage, $ruleVersion, $ruleRisky] = $versionAndRisky;
+                [$rule, $rulePackage, $ruleVersionMajor, $ruleVersionMinor, $ruleRisky] = $versionAndRisky;
 
-                return ((float) $ruleVersion / 10) <= $version;
+                return ((float) ($ruleVersionMajor.'.'.$ruleVersionMinor)) <= $version;
             }
         );
 
         $rules = array_filter(
             $rules,
             static function ($versionAndRisky) use ($risky) {
-                [$rule, $rulePackage, $ruleVersion, $ruleRisky] = $versionAndRisky;
+                [$rule, $rulePackage, $ruleVersionMajor, $ruleVersionMinor, $ruleRisky] = $versionAndRisky;
 
                 if ($risky) {
                     return true;

@@ -12,7 +12,7 @@ return (new Config())
     ->setRules(
         RuleSetFactory::create()
             ->phpCsFixer(true)
-            ->php(8.2, true)
+            ->php(8.3, true)
             ->pedrotroller(true)
             ->enable('align_multiline_comment')
             ->enable('array_indentation')
