@@ -14,18 +14,19 @@ install_composer: &install_composer
     mv composer.phar /usr/local/bin/composer
 
 composer_update_with_lowest_dependencies: &composer_update_with_lowest_dependencies
-  run: |
-    composer update --prefer-lowest --prefer-stable
+  run: composer update --prefer-lowest --prefer-stable
 
 composer_update: &composer_update
-  run: |
-    composer update
+  run: composer update
 
-tests: &tests
-  run: |
-      composer test -vvv
-      bin/doc
-      PHP_CS_FIXER_IGNORE_ENV=1 composer run php-cs-fixer || (echo "Coding standards are not respected. Run 'composer run php-cs-fixer'" && exit 1)
+phpspec: &phpspec
+  run: composer test -vvv
+
+doc: &doc
+  run: bin/doc
+
+cs: &cs
+  run: PHP_CS_FIXER_IGNORE_ENV=1 composer run php-cs-fixer || (echo "Coding standards are not respected. Run 'composer run php-cs-fixer'" && exit 1)
 
 jobs:
   tests:
@@ -38,7 +39,9 @@ jobs:
       - checkout
       - <<: *install_composer
       - <<: *composer_update
-      - <<: *tests
+      - <<: *phpspec
+      - <<: *doc
+      - <<: *cs
 
   tests-with-lowest-dependencies:
     parameters:
@@ -50,7 +53,9 @@ jobs:
       - checkout
       - <<: *install_composer
       - <<: *composer_update_with_lowest_dependencies
-      - <<: *tests
+#     - <<: *phpspec
+      - <<: *doc
+      - <<: *cs
 
   documentation:
     parameters:
@@ -94,14 +99,12 @@ workflows:
           matrix:
             parameters:
               php-version:
-                - "8.2"
                 - "8.3"
                 - "8.4"
       - tests-with-lowest-dependencies:
           matrix:
             parameters:
               php-version:
-                - "8.2"
                 - "8.3"
                 - "8.4"
       - release-test

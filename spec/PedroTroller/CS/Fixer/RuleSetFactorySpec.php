@@ -32,22 +32,22 @@ final class RuleSetFactorySpec extends ObjectBehavior
 
     function it_adds_a_per1_0_set()
     {
-        $this->per(1)->getRules()->shouldReturn(['@PER-CS1.0' => true]);
+        $this->per(1)->getRules()->shouldReturn(['@PER-CS1x0' => true]);
     }
 
     function it_adds_a_per1_0_risky_set()
     {
-        $this->per(1, true)->getRules()->shouldReturn(['@PER-CS1.0:risky' => true]);
+        $this->per(1, true)->getRules()->shouldReturn(['@PER-CS1x0:risky' => true]);
     }
 
     function it_adds_a_per2_0_set()
     {
-        $this->per(2)->getRules()->shouldReturn(['@PER-CS2.0' => true]);
+        $this->per(2)->getRules()->shouldReturn(['@PER-CS2x0' => true]);
     }
 
     function it_adds_a_per2_0_risky_set()
     {
-        $this->per(2, true)->getRules()->shouldReturn(['@PER-CS2.0:risky' => true]);
+        $this->per(2, true)->getRules()->shouldReturn(['@PER-CS2x0:risky' => true]);
     }
 
     function it_adds_a_psr0_set()
@@ -87,96 +87,120 @@ final class RuleSetFactorySpec extends ObjectBehavior
 
     function it_adds_a_symfony_strict_set()
     {
-        $this->symfony()->getRules()->shouldReturn([
-            '@Symfony' => true,
-        ]);
+        $this->symfony()->getRules()->shouldReturn(
+            [
+                '@Symfony' => true,
+            ]
+        );
 
-        $this->symfony(true)->getRules()->shouldReturn([
-            '@Symfony'       => true,
-            '@Symfony:risky' => true,
-        ]);
+        $this->symfony(true)->getRules()->shouldReturn(
+            [
+                '@Symfony'       => true,
+                '@Symfony:risky' => true,
+            ]
+        );
     }
 
     function it_adds_a_phpCsFixer_strict_set()
     {
-        $this->phpCsFixer()->getRules()->shouldReturn([
-            '@PhpCsFixer' => true,
-        ]);
+        $this->phpCsFixer()->getRules()->shouldReturn(
+            [
+                '@PhpCsFixer' => true,
+            ]
+        );
 
-        $this->phpCsFixer(true)->getRules()->shouldReturn([
-            '@PhpCsFixer'       => true,
-            '@PhpCsFixer:risky' => true,
-        ]);
+        $this->phpCsFixer(true)->getRules()->shouldReturn(
+            [
+                '@PhpCsFixer'       => true,
+                '@PhpCsFixer:risky' => true,
+            ]
+        );
     }
 
     function it_adds_a_php_version_support()
     {
-        $this->php(5.6)->getRules()->shouldReturn([
-            '@PHP54Migration' => true,
-            'array_syntax'    => ['syntax' => 'short'],
-            'list_syntax'     => ['syntax' => 'long'],
-        ]);
+        $this->php(5.6)->getRules()->shouldReturn(
+            [
+                '@PHP5x4Migration' => true,
+                'array_syntax'     => ['syntax' => 'short'],
+                'list_syntax'      => ['syntax' => 'long'],
+            ]
+        );
 
-        $this->php(5.6, true)->getRules()->shouldReturn([
-            '@PHP54Migration'       => true,
-            '@PHP56Migration:risky' => true,
-            'array_syntax'          => ['syntax' => 'short'],
-            'list_syntax'           => ['syntax' => 'long'],
-        ]);
+        $this->php(5.6, true)->getRules()->shouldReturn(
+            [
+                '@PHP5x4Migration'       => true,
+                '@PHP5x6Migration:risky' => true,
+                'array_syntax'           => ['syntax' => 'short'],
+                'list_syntax'            => ['syntax' => 'long'],
+            ]
+        );
 
-        $this->php(7.0)->getRules()->shouldReturn([
-            '@PHP54Migration' => true,
-            '@PHP70Migration' => true,
-            'array_syntax'    => ['syntax' => 'short'],
-            'list_syntax'     => ['syntax' => 'long'],
-        ]);
+        $this->php(7.0)->getRules()->shouldReturn(
+            [
+                '@PHP5x4Migration' => true,
+                '@PHP7x0Migration' => true,
+                'array_syntax'     => ['syntax' => 'short'],
+                'list_syntax'      => ['syntax' => 'long'],
+            ]
+        );
 
-        $this->php(7.0, true)->getRules()->shouldReturn([
-            '@PHP54Migration'       => true,
-            '@PHP56Migration:risky' => true,
-            '@PHP70Migration'       => true,
-            '@PHP70Migration:risky' => true,
-            'array_syntax'          => ['syntax' => 'short'],
-            'list_syntax'           => ['syntax' => 'long'],
-        ]);
+        $this->php(7.0, true)->getRules()->shouldReturn(
+            [
+                '@PHP5x4Migration'       => true,
+                '@PHP5x6Migration:risky' => true,
+                '@PHP7x0Migration'       => true,
+                '@PHP7x0Migration:risky' => true,
+                'array_syntax'           => ['syntax' => 'short'],
+                'list_syntax'            => ['syntax' => 'long'],
+            ]
+        );
 
-        $this->php(7.1)->getRules()->shouldReturn([
-            '@PHP54Migration' => true,
-            '@PHP70Migration' => true,
-            '@PHP71Migration' => true,
-            'array_syntax'    => ['syntax' => 'short'],
-            'list_syntax'     => ['syntax' => 'short'],
-        ]);
+        $this->php(7.1)->getRules()->shouldReturn(
+            [
+                '@PHP5x4Migration' => true,
+                '@PHP7x0Migration' => true,
+                '@PHP7x1Migration' => true,
+                'array_syntax'     => ['syntax' => 'short'],
+                'list_syntax'      => ['syntax' => 'short'],
+            ]
+        );
 
-        $this->php(7.1, true)->getRules()->shouldReturn([
-            '@PHP54Migration'       => true,
-            '@PHP56Migration:risky' => true,
-            '@PHP70Migration'       => true,
-            '@PHP70Migration:risky' => true,
-            '@PHP71Migration'       => true,
-            '@PHP71Migration:risky' => true,
-            'array_syntax'          => ['syntax' => 'short'],
-            'list_syntax'           => ['syntax' => 'short'],
-        ]);
+        $this->php(7.1, true)->getRules()->shouldReturn(
+            [
+                '@PHP5x4Migration'       => true,
+                '@PHP5x6Migration:risky' => true,
+                '@PHP7x0Migration'       => true,
+                '@PHP7x0Migration:risky' => true,
+                '@PHP7x1Migration'       => true,
+                '@PHP7x1Migration:risky' => true,
+                'array_syntax'           => ['syntax' => 'short'],
+                'list_syntax'            => ['syntax' => 'short'],
+            ]
+        );
 
-        $this->php(7.2)->getRules()->shouldReturn([
-            '@PHP54Migration' => true,
-            '@PHP70Migration' => true,
-            '@PHP71Migration' => true,
-            'array_syntax'    => ['syntax' => 'short'],
-            'list_syntax'     => ['syntax' => 'short'],
-        ]);
+        $this->php(7.2)->getRules()->shouldReturn(
+            [
+                '@PHP5x4Migration' => true,
+                '@PHP7x0Migration' => true,
+                '@PHP7x1Migration' => true,
+                'array_syntax'     => ['syntax' => 'short'],
+                'list_syntax'      => ['syntax' => 'short'],
+            ]
+        );
 
-        $this->php(7.2, true)->getRules()->shouldReturn([
-            '@PHP54Migration'       => true,
-            '@PHP56Migration:risky' => true,
-            '@PHP70Migration'       => true,
-            '@PHP70Migration:risky' => true,
-            '@PHP71Migration'       => true,
-            '@PHP71Migration:risky' => true,
-            'array_syntax'          => ['syntax' => 'short'],
-            'list_syntax'           => ['syntax' => 'short'],
-        ]);
+        $this->php(7.2, true)->getRules()->shouldReturn(
+            [
+                '@PHP5x4Migration'       => true,
+                '@PHP5x6Migration:risky' => true,
+                '@PHP7x0Migration'       => true,
+                '@PHP7x0Migration:risky' => true,
+                '@PHP7x1Migration'       => true,
+                '@PHP7x1Migration:risky' => true,
+                'array_syntax'           => ['syntax' => 'short'],
+                'list_syntax'            => ['syntax' => 'short'],
+            ]
+        );
     }
 
     function it_adds_a_phpunit_version_support()
@@ -187,141 +211,165 @@ final class RuleSetFactorySpec extends ObjectBehavior
 
         $this->phpUnit(3.0, false)->getRules()->shouldReturn([]);
 
-        $this->phpUnit(3.0, true)->getRules()->shouldReturn([
-            '@PHPUnit30Migration:risky' => true,
-        ]);
+        $this->phpUnit(3.0, true)->getRules()->shouldReturn(
+            [
+                '@PHPUnit3x0Migration:risky' => true,
+            ]
+        );
 
         $this->phpUnit(3.2, false)->getRules()->shouldReturn([]);
 
-        $this->phpUnit(3.2, true)->getRules()->shouldReturn([
-            '@PHPUnit30Migration:risky' => true,
-            '@PHPUnit32Migration:risky' => true,
-        ]);
+        $this->phpUnit(3.2, true)->getRules()->shouldReturn(
+            [
+                '@PHPUnit3x0Migration:risky' => true,
+                '@PHPUnit3x2Migration:risky' => true,
+            ]
+        );
 
         $this->phpUnit(3.5, false)->getRules()->shouldReturn([]);
 
-        $this->phpUnit(3.5, true)->getRules()->shouldReturn([
-            '@PHPUnit30Migration:risky' => true,
-            '@PHPUnit32Migration:risky' => true,
-            '@PHPUnit35Migration:risky' => true,
-        ]);
+        $this->phpUnit(3.5, true)->getRules()->shouldReturn(
+            [
+                '@PHPUnit3x0Migration:risky' => true,
+                '@PHPUnit3x2Migration:risky' => true,
+                '@PHPUnit3x5Migration:risky' => true,
+            ]
+        );
 
         $this->phpUnit(4.3, false)->getRules()->shouldReturn([]);
 
-        $this->phpUnit(4.3, true)->getRules()->shouldReturn([
-            '@PHPUnit30Migration:risky' => true,
-            '@PHPUnit32Migration:risky' => true,
-            '@PHPUnit35Migration:risky' => true,
-            '@PHPUnit43Migration:risky' => true,
-        ]);
+        $this->phpUnit(4.3, true)->getRules()->shouldReturn(
+            [
+                '@PHPUnit3x0Migration:risky' => true,
+                '@PHPUnit3x2Migration:risky' => true,
+                '@PHPUnit3x5Migration:risky' => true,
+                '@PHPUnit4x3Migration:risky' => true,
+            ]
+        );
 
         $this->phpUnit(4.8, false)->getRules()->shouldReturn([]);
 
-        $this->phpUnit(4.8, true)->getRules()->shouldReturn([
-            '@PHPUnit30Migration:risky' => true,
-            '@PHPUnit32Migration:risky' => true,
-            '@PHPUnit35Migration:risky' => true,
-            '@PHPUnit43Migration:risky' => true,
-            '@PHPUnit48Migration:risky' => true,
-        ]);
+        $this->phpUnit(4.8, true)->getRules()->shouldReturn(
+            [
+                '@PHPUnit3x0Migration:risky' => true,
+                '@PHPUnit3x2Migration:risky' => true,
+                '@PHPUnit3x5Migration:risky' => true,
+                '@PHPUnit4x3Migration:risky' => true,
+                '@PHPUnit4x8Migration:risky' => true,
+            ]
+        );
 
         $this->phpUnit(5.0, false)->getRules()->shouldReturn([]);
 
-        $this->phpUnit(5.0, true)->getRules()->shouldReturn([
-            '@PHPUnit30Migration:risky' => true,
-            '@PHPUnit32Migration:risky' => true,
-            '@PHPUnit35Migration:risky' => true,
-            '@PHPUnit43Migration:risky' => true,
-            '@PHPUnit48Migration:risky' => true,
-            '@PHPUnit50Migration:risky' => true,
-        ]);
+        $this->phpUnit(5.0, true)->getRules()->shouldReturn(
+            [
+                '@PHPUnit3x0Migration:risky' => true,
+                '@PHPUnit3x2Migration:risky' => true,
+                '@PHPUnit3x5Migration:risky' => true,
+                '@PHPUnit4x3Migration:risky' => true,
+                '@PHPUnit4x8Migration:risky' => true,
+                '@PHPUnit5x0Migration:risky' => true,
+            ]
+        );
 
         $this->phpUnit(5.2, false)->getRules()->shouldReturn([]);
 
-        $this->phpUnit(5.2, true)->getRules()->shouldReturn([
-            '@PHPUnit30Migration:risky' => true,
-            '@PHPUnit32Migration:risky' => true,
-            '@PHPUnit35Migration:risky' => true,
-            '@PHPUnit43Migration:risky' => true,
-            '@PHPUnit48Migration:risky' => true,
-            '@PHPUnit50Migration:risky' => true,
-            '@PHPUnit52Migration:risky' => true,
-        ]);
+        $this->phpUnit(5.2, true)->getRules()->shouldReturn(
+            [
+                '@PHPUnit3x0Migration:risky' => true,
+                '@PHPUnit3x2Migration:risky' => true,
+                '@PHPUnit3x5Migration:risky' => true,
+                '@PHPUnit4x3Migration:risky' => true,
+                '@PHPUnit4x8Migration:risky' => true,
+                '@PHPUnit5x0Migration:risky' => true,
+                '@PHPUnit5x2Migration:risky' => true,
+            ]
+        );
 
         $this->phpUnit(5.4, false)->getRules()->shouldReturn([]);
 
-        $this->phpUnit(5.4, true)->getRules()->shouldReturn([
-            '@PHPUnit30Migration:risky' => true,
-            '@PHPUnit32Migration:risky' => true,
-            '@PHPUnit35Migration:risky' => true,
-            '@PHPUnit43Migration:risky' => true,
-            '@PHPUnit48Migration:risky' => true,
-            '@PHPUnit50Migration:risky' => true,
-            '@PHPUnit52Migration:risky' => true,
-            '@PHPUnit54Migration:risky' => true,
-        ]);
+        $this->phpUnit(5.4, true)->getRules()->shouldReturn(
+            [
+                '@PHPUnit3x0Migration:risky' => true,
+                '@PHPUnit3x2Migration:risky' => true,
+                '@PHPUnit3x5Migration:risky' => true,
+                '@PHPUnit4x3Migration:risky' => true,
+                '@PHPUnit4x8Migration:risky' => true,
+                '@PHPUnit5x0Migration:risky' => true,
+                '@PHPUnit5x2Migration:risky' => true,
+                '@PHPUnit5x4Migration:risky' => true,
+            ]
+        );
 
         $this->phpUnit(5.5, false)->getRules()->shouldReturn([]);
 
-        $this->phpUnit(5.5, true)->getRules()->shouldReturn([
-            '@PHPUnit30Migration:risky' => true,
-            '@PHPUnit32Migration:risky' => true,
-            '@PHPUnit35Migration:risky' => true,
-            '@PHPUnit43Migration:risky' => true,
-            '@PHPUnit48Migration:risky' => true,
-            '@PHPUnit50Migration:risky' => true,
-            '@PHPUnit52Migration:risky' => true,
-            '@PHPUnit54Migration:risky' => true,
-            '@PHPUnit55Migration:risky' => true,
-        ]);
+        $this->phpUnit(5.5, true)->getRules()->shouldReturn(
+            [
+                '@PHPUnit3x0Migration:risky' => true,
+                '@PHPUnit3x2Migration:risky' => true,
+                '@PHPUnit3x5Migration:risky' => true,
+                '@PHPUnit4x3Migration:risky' => true,
+                '@PHPUnit4x8Migration:risky' => true,
+                '@PHPUnit5x0Migration:risky' => true,
+                '@PHPUnit5x2Migration:risky' => true,
+                '@PHPUnit5x4Migration:risky' => true,
+                '@PHPUnit5x5Migration:risky' => true,
+            ]
+        );
 
         $this->phpUnit(5.6, false)->getRules()->shouldReturn([]);
 
-        $this->phpUnit(5.6, true)->getRules()->shouldReturn([
-            '@PHPUnit30Migration:risky' => true,
-            '@PHPUnit32Migration:risky' => true,
-            '@PHPUnit35Migration:risky' => true,
-            '@PHPUnit43Migration:risky' => true,
-            '@PHPUnit48Migration:risky' => true,
-            '@PHPUnit50Migration:risky' => true,
-            '@PHPUnit52Migration:risky' => true,
-            '@PHPUnit54Migration:risky' => true,
-            '@PHPUnit55Migration:risky' => true,
-            '@PHPUnit56Migration:risky' => true,
-        ]);
+        $this->phpUnit(5.6, true)->getRules()->shouldReturn(
+            [
+                '@PHPUnit3x0Migration:risky' => true,
+                '@PHPUnit3x2Migration:risky' => true,
+                '@PHPUnit3x5Migration:risky' => true,
+                '@PHPUnit4x3Migration:risky' => true,
+                '@PHPUnit4x8Migration:risky' => true,
+                '@PHPUnit5x0Migration:risky' => true,
+                '@PHPUnit5x2Migration:risky' => true,
+                '@PHPUnit5x4Migration:risky' => true,
+                '@PHPUnit5x5Migration:risky' => true,
+                '@PHPUnit5x6Migration:risky' => true,
+            ]
+        );
 
         $this->phpUnit(5.7, false)->getRules()->shouldReturn([]);
 
-        $this->phpUnit(5.7, true)->getRules()->shouldReturn([
-            '@PHPUnit30Migration:risky' => true,
-            '@PHPUnit32Migration:risky' => true,
-            '@PHPUnit35Migration:risky' => true,
-            '@PHPUnit43Migration:risky' => true,
-            '@PHPUnit48Migration:risky' => true,
-            '@PHPUnit50Migration:risky' => true,
-            '@PHPUnit52Migration:risky' => true,
-            '@PHPUnit54Migration:risky' => true,
-            '@PHPUnit55Migration:risky' => true,
-            '@PHPUnit56Migration:risky' => true,
-            '@PHPUnit57Migration:risky' => true,
-        ]);
+        $this->phpUnit(5.7, true)->getRules()->shouldReturn(
+            [
+                '@PHPUnit3x0Migration:risky' => true,
+                '@PHPUnit3x2Migration:risky' => true,
+                '@PHPUnit3x5Migration:risky' => true,
+                '@PHPUnit4x3Migration:risky' => true,
+                '@PHPUnit4x8Migration:risky' => true,
+                '@PHPUnit5x0Migration:risky' => true,
+                '@PHPUnit5x2Migration:risky' => true,
+                '@PHPUnit5x4Migration:risky' => true,
+                '@PHPUnit5x5Migration:risky' => true,
+                '@PHPUnit5x6Migration:risky' => true,
+                '@PHPUnit5x7Migration:risky' => true,
+            ]
+        );
 
         $this->phpUnit(6.0, false)->getRules()->shouldReturn([]);
 
-        $this->phpUnit(6.0, true)->getRules()->shouldReturn([
-            '@PHPUnit30Migration:risky' => true,
-            '@PHPUnit32Migration:risky' => true,
-            '@PHPUnit35Migration:risky' => true,
-            '@PHPUnit43Migration:risky' => true,
-            '@PHPUnit48Migration:risky' => true,
-            '@PHPUnit50Migration:risky' => true,
-            '@PHPUnit52Migration:risky' => true,
-            '@PHPUnit54Migration:risky' => true,
-            '@PHPUnit55Migration:risky' => true,
-            '@PHPUnit56Migration:risky' => true,
-            '@PHPUnit57Migration:risky' => true,
-            '@PHPUnit60Migration:risky' => true,
-        ]);
+        $this->phpUnit(6.0, true)->getRules()->shouldReturn(
+            [
+                '@PHPUnit3x0Migration:risky' => true,
+                '@PHPUnit3x2Migration:risky' => true,
+                '@PHPUnit3x5Migration:risky' => true,
+                '@PHPUnit4x3Migration:risky' => true,
+                '@PHPUnit4x8Migration:risky' => true,
+                '@PHPUnit5x0Migration:risky' => true,
+                '@PHPUnit5x2Migration:risky' => true,
+                '@PHPUnit5x4Migration:risky' => true,
+                '@PHPUnit5x5Migration:risky' => true,
+                '@PHPUnit5x6Migration:risky' => true,
+                '@PHPUnit5x7Migration:risky' => true,
+                '@PHPUnit6x0Migration:risky' => true,
+            ]
+        );
     }
 
     function it_adds_my_own_fixer_set()
@@ -361,11 +409,13 @@ final class RuleSetFactorySpec extends ObjectBehavior
             ->enable('ordered_imports')
             ->enable('phpdoc_add_missing_param_annotation', ['only_untyped' => true])
             ->getRules()
-            ->shouldReturn([
-                'no_useless_else'                     => true,
-                'ordered_imports'                     => true,
-                'phpdoc_add_missing_param_annotation' => ['only_untyped' => true],
-            ])
+            ->shouldReturn(
+                [
+                    'no_useless_else'                     => true,
+                    'ordered_imports'                     => true,
+                    'phpdoc_add_missing_param_annotation' => ['only_untyped' => true],
+                ]
+            )
         ;
     }
 
@@ -377,11 +427,13 @@ final class RuleSetFactorySpec extends ObjectBehavior
             ->enable('phpdoc_add_missing_param_annotation', ['only_untyped' => true])
             ->disable('phpdoc_add_missing_param_annotation')
             ->getRules()
-            ->shouldReturn([
-                'no_useless_else'                     => true,
-                'ordered_imports'                     => true,
-                'phpdoc_add_missing_param_annotation' => false,
-            ])
+            ->shouldReturn(
+                [
+                    'no_useless_else'                     => true,
+                    'ordered_imports'                     => true,
+                    'phpdoc_add_missing_param_annotation' => false,
+                ]
+            )
         ;
     }
 }
