@@ -514,6 +514,9 @@ If the declaration of a method is too long, the arguments of this method MUST BE
  - `automatic-argument-merge` (*optional*): If both conditions are met (the line is not too long and there are not too many arguments), then the arguments are put back inline
     - default: `true`
 
+ - `force-for-construct` (*optional*): If true, the __construct method arguments will always be split into several lines
+    - default: `false`
+
  - `inline-attributes` (*optional*): In the case of a split, the declaration of the attributes of the arguments of the method will be on the same line as the arguments themselves
     - default: `false`
 
@@ -534,7 +537,7 @@ $config = new PhpCsFixer\Config();
 $config->setRules(
     [
         // ...
-        'PedroTroller/line_break_between_method_arguments' => [ 'max-args' => 4, 'max-length' => 120, 'automatic-argument-merge' => true, 'inline-attributes' => true ],
+        'PedroTroller/line_break_between_method_arguments' => [ 'max-args' => 4, 'max-length' => 120, 'automatic-argument-merge' => true, 'inline-attributes' => true, 'force-for-construct' => false ],
         // ...
     ]
 );
@@ -552,7 +555,7 @@ $config = new PhpCsFixer\Config();
 // ...
 $config->setRules(
     PedroTroller\CS\Fixer\RuleSetFactory::create()
-        ->enable('PedroTroller/line_break_between_method_arguments', [ 'max-args' => 4, 'max-length' => 120, 'automatic-argument-merge' => true, 'inline-attributes' => true ])
+        ->enable('PedroTroller/line_break_between_method_arguments', [ 'max-args' => 4, 'max-length' => 120, 'automatic-argument-merge' => true, 'inline-attributes' => true, 'force-for-construct' => false ])
         ->getRules()
 );
 $config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
@@ -604,7 +607,7 @@ $config = new PhpCsFixer\Config();
 $config->setRules(
     [
         // ...
-        'PedroTroller/line_break_between_method_arguments' => [ 'max-args' => false, 'max-length' => 120, 'automatic-argument-merge' => true, 'inline-attributes' => true ],
+        'PedroTroller/line_break_between_method_arguments' => [ 'max-args' => false, 'max-length' => 120, 'automatic-argument-merge' => true, 'inline-attributes' => true, 'force-for-construct' => false ],
         // ...
     ]
 );
@@ -622,7 +625,7 @@ $config = new PhpCsFixer\Config();
 // ...
 $config->setRules(
     PedroTroller\CS\Fixer\RuleSetFactory::create()
-        ->enable('PedroTroller/line_break_between_method_arguments', [ 'max-args' => false, 'max-length' => 120, 'automatic-argument-merge' => true, 'inline-attributes' => true ])
+        ->enable('PedroTroller/line_break_between_method_arguments', [ 'max-args' => false, 'max-length' => 120, 'automatic-argument-merge' => true, 'inline-attributes' => true, 'force-for-construct' => false ])
         ->getRules()
 );
 $config->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers());
