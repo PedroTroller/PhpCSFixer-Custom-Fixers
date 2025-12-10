@@ -8,6 +8,7 @@ use PedroTroller\CS\Fixer\ClassNotation\OrderedWithGetterAndSetterFirstFixer;
 use PedroTroller\CS\Fixer\CodingStyle\LineBreakBetweenMethodArgumentsFixer;
 use PedroTroller\CS\Fixer\DoctrineMigrationsFixer;
 use PhpCsFixer\Fixer\Basic\BracesFixer;
+use PhpCsFixer\Fixer\Basic\SingleLineEmptyBodyFixer;
 use PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Fixer\FixerInterface;
@@ -47,6 +48,7 @@ final class Orchestra
         self::assert(new LineBreakBetweenMethodArgumentsFixer())
             ->after(new BracesFixer())
             ->after(new MethodArgumentSpaceFixer())
+            ->after(new SingleLineEmptyBodyFixer())
         ;
 
         echo "\n";
