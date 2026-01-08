@@ -10,7 +10,7 @@
         "phpspec/phpspec": "^8.0",
         "sebastian/diff": "^4.0",
         "twig/twig": "^3.3",
-        "webmozart/assert": "^1.10"
+        "webmozart/assert": "^2.1"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
