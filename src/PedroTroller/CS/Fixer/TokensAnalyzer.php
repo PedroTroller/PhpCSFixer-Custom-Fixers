@@ -225,6 +225,8 @@ final class TokensAnalyzer
                     : $return;
             }
         } while (false === \in_array($this->tokens[$index]->getContent(), ['{', ';'], true));
+
+        return null;
     }
 
     /**
@@ -239,6 +241,8 @@ final class TokensAnalyzer
                 return $i;
             }
         }
+
+        return null;
     }
 
     /**
@@ -253,6 +257,8 @@ final class TokensAnalyzer
                 return $i;
             }
         }
+
+        return null;
     }
 
     /**
@@ -335,6 +341,8 @@ final class TokensAnalyzer
                 return $i;
             }
         }
+
+        return null;
     }
 
     /**
@@ -363,6 +371,8 @@ final class TokensAnalyzer
                 return $i;
             }
         }
+
+        return null;
     }
 
     /**
@@ -391,6 +401,8 @@ final class TokensAnalyzer
                 return $i;
             }
         }
+
+        return null;
     }
 
     /**
@@ -419,6 +431,8 @@ final class TokensAnalyzer
                 return $i;
             }
         }
+
+        return null;
     }
 
     /**
