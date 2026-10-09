@@ -1272,7 +1272,7 @@ No local PHP is needed: everything runs in Docker through `make`. Requirements: 
 ```bash
 make                         # list the available commands
 make test                    # run the test suite on PHP 8.4
-make test PHP_VERSION=8.3    # run the test suite on another PHP version
+make test PHP_VERSION=8.2    # run the test suite on another PHP version
 make readme                  # rebuild README.md
 make readme-check            # fail if README.md is not up to date
 make lint                    # check the coding standards

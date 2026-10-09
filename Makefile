@@ -20,7 +20,7 @@ TEST := docker compose -f compose.test.yaml run --rm --build test
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*## "} {printf "  %-14s %s\n", $$1, $$2}'
 
-test: ## Run the test suite in a fresh image (PHP_VERSION=8.4 by default, 8.3 supported)
+test: ## Run the test suite in a fresh image (PHP 8.4 by default, PHP_VERSION=8.2 or 8.3 to change)
 	$(TEST) composer tests
 
 readme: vendor/autoload.php ## Regenerate README.md from bin/doc.twig (PHP 8.4, FRESH=1 to re-resolve vendor)
