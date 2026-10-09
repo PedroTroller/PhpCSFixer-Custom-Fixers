@@ -1,0 +1,123 @@
+---
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  php-versions:
+    name: Supported PHP versions
+    runs-on: ubuntu-latest
+    outputs:
+      versions: ${{ steps.versions.outputs.versions }}
+    steps:
+      - id: versions
+        shell: bash
+        env:
+          PHP_RELEASES_URL: https://www.php.net/releases/active.php
+        run: |
+          versions=$(curl --fail --silent --show-error --retry 3 --retry-all-errors "$PHP_RELEASES_URL" \
+            | jq --compact-output '[.[] | keys[]] | sort_by(split(".") | map(tonumber))') \
+            || { echo "::error::Cannot read the supported PHP versions from $PHP_RELEASES_URL"; exit 1; }
+          if [ "$(jq length <<< "$versions")" -eq 0 ]; then
+            echo "::error::$PHP_RELEASES_URL lists no supported PHP version"
+            exit 1
+          fi
+          echo "Supported PHP versions: $versions"
+          echo "versions=$versions" >> "$GITHUB_OUTPUT"
+
+  tests:
+    name: Tests (PHP ${{ matrix.php }}, ${{ matrix.dependencies }} dependencies)
+    needs: php-versions
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ${{ fromJSON(needs.php-versions.outputs.versions) }}
+        dependencies:
+          - highest
+          - lowest
+    steps:
+      - uses: actions/checkout@v4
+      - run: make test
+        env:
+          PHP_VERSION: ${{ matrix.php }}
+          DEPENDENCIES: ${{ matrix.dependencies }}
+
+  php-min-version:
+    name: Minimum PHP version
+    needs: php-versions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - shell: bash
+        env:
+          VERSIONS: ${{ needs.php-versions.outputs.versions }}
+        run: |
+          min=$(jq --raw-output '.[0]' <<< "$VERSIONS")
+          env_min=$(sed -n 's/^PHP_MIN_VERSION=//p' .env)
+          composer_php=$(jq --raw-output '.require.php' composer.json)
+          status=0
+          if [ "$env_min" != "$min" ]; then
+            echo "::error file=.env::PHP_MIN_VERSION is '$env_min', the lowest PHP version supported by php.net is $min"
+            status=1
+          fi
+          if [ "$composer_php" != "^$min" ]; then
+            echo "::error file=composer.json::require.php is '$composer_php', expected ^$min (the lowest PHP version supported by php.net)"
+            status=1
+          fi
+          exit $status
+
+  quality:
+    name: Coding standards and documentation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: make lint
+      - run: make readme-check
+
+  release-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+      - run: npm ci
+      - run: npx semantic-release --dry-run
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs:
+      - tests
+      - php-min-version
+      - quality
+      - release-test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+      - run: npm ci
+      - run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
