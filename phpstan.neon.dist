@@ -15,3 +15,4 @@ parameters:
         requireParentConstructorCall: true
         strictArrayFilter: true
         strictFunctionCalls: true
+        switchConditionsMatchingType: true
