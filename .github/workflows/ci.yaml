@@ -11,15 +11,35 @@ permissions:
   contents: read
 
 jobs:
+  php-versions:
+    name: Supported PHP versions
+    runs-on: ubuntu-latest
+    outputs:
+      versions: ${{ steps.versions.outputs.versions }}
+    steps:
+      - id: versions
+        shell: bash
+        env:
+          PHP_RELEASES_URL: https://www.php.net/releases/active.php
+        run: |
+          versions=$(curl --fail --silent --show-error --retry 3 --retry-all-errors "$PHP_RELEASES_URL" \
+            | jq --compact-output '[.[] | keys[]] | sort_by(split(".") | map(tonumber))') \
+            || { echo "::error::Cannot read the supported PHP versions from $PHP_RELEASES_URL"; exit 1; }
+          if [ "$(jq length <<< "$versions")" -eq 0 ]; then
+            echo "::error::$PHP_RELEASES_URL lists no supported PHP version"
+            exit 1
+          fi
+          echo "Supported PHP versions: $versions"
+          echo "versions=$versions" >> "$GITHUB_OUTPUT"
+
   tests:
     name: Tests (PHP ${{ matrix.php }}, ${{ matrix.dependencies }} dependencies)
+    needs: php-versions
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        php:
-          - "8.3"
-          - "8.4"
+        php: ${{ fromJSON(needs.php-versions.outputs.versions) }}
         dependencies:
           - highest
           - lowest
@@ -43,9 +63,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - id: env
+        run: cat .env >> "$GITHUB_OUTPUT"
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.4"
+          php-version: ${{ steps.env.outputs.PHP_MIN_VERSION }}
           tools: composer:v2
           coverage: none
       - run: composer update --no-interaction --no-progress
