@@ -43,8 +43,8 @@ final class TokensAnalyzer
      */
     public function getMethodArguments(int $index): array
     {
-        $methodName       = $this->tokens->getNextMeaningfulToken($index);
-        $openParenthesis  = $this->tokens->getNextMeaningfulToken($methodName);
+        $methodName       = $this->getNextMeaningfulTokenOrFail($index);
+        $openParenthesis  = $this->getNextMeaningfulTokenOrFail($methodName);
         $closeParenthesis = $this->getClosingParenthesis($openParenthesis);
 
         $arguments = [];
@@ -195,9 +195,13 @@ final class TokensAnalyzer
             throw new Exception(\sprintf('Expected token: T_FUNCTION Token %d id contains %s.', $index, $this->tokens[$index]->getContent()));
         }
 
-        $methodName       = $this->tokens->getNextMeaningfulToken($index);
-        $openParenthesis  = $this->tokens->getNextMeaningfulToken($methodName);
+        $methodName       = $this->getNextMeaningfulTokenOrFail($index);
+        $openParenthesis  = $this->getNextMeaningfulTokenOrFail($methodName);
         $closeParenthesis = $this->getClosingParenthesis($openParenthesis);
+
+        if (null === $closeParenthesis) {
+            return null;
+        }
 
         $next = $this->tokens->getNextMeaningfulToken($closeParenthesis);
 
@@ -457,7 +461,12 @@ final class TokensAnalyzer
 
         foreach ($switches as $i => $switch) {
             $start = $this->tokens->getNextTokenOfKind($i, ['{']);
-            $end   = $this->getClosingCurlyBracket($start);
+
+            if (null === $start) {
+                continue;
+            }
+
+            $end = $this->getClosingCurlyBracket($start);
 
             $intervals[] = [$start, $end];
         }

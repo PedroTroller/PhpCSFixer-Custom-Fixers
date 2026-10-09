@@ -98,14 +98,14 @@ final class ForbiddenFunctionsFixer extends AbstractFixer implements Configurabl
                 continue;
             }
 
-            if (\in_array($token->getContent(), $this->configuration['functions'], true)) {
+            if (\in_array($token->getContent(), self::configured($this->configuration)['functions'], true)) {
                 $end = $this->analyze($tokens)->getEndOfTheLine($index);
 
                 if (null === $end) {
                     continue;
                 }
 
-                $tokens[$end] = new Token([T_WHITESPACE, \sprintf(' // %s%s', $this->configuration['comment'], $tokens[$end]->getContent())]);
+                $tokens[$end] = new Token([T_WHITESPACE, \sprintf(' // %s%s', self::configured($this->configuration)['comment'], $tokens[$end]->getContent())]);
             }
         }
     }

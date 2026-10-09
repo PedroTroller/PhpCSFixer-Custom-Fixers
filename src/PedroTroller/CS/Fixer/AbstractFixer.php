@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PedroTroller\CS\Fixer;
 
+use LogicException;
 use PhpCsFixer\AbstractFixer as PhpCsFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
@@ -61,6 +62,25 @@ abstract class AbstractFixer extends PhpCsFixer
         return null;
     }
 
+    /**
+     * php-cs-fixer configures every configurable fixer with its defaults in its constructor,
+     * so the configuration is only null if that contract is broken.
+     *
+     * @template TConfiguration of array<string, mixed>
+     *
+     * @param null|TConfiguration $configuration
+     *
+     * @return TConfiguration
+     */
+    protected static function configured(?array $configuration): array
+    {
+        if (null === $configuration) {
+            throw new LogicException(\sprintf('%s is used before being configured.', static::class));
+        }
+
+        return $configuration;
+    }
+
     protected function analyze(Tokens $tokens): TokensAnalyzer
     {
         return new TokensAnalyzer($tokens);
@@ -111,11 +131,17 @@ abstract class AbstractFixer extends PhpCsFixer
             return false;
         }
 
+        $class = array_pop($fqcn);
+
+        if (null === $class) {
+            return false;
+        }
+
         return null !== $tokens->findSequence([
             [T_CLASS],
             [T_STRING],
             [T_EXTENDS],
-            [T_STRING, array_pop($fqcn)],
+            [T_STRING, $class],
         ]);
     }
 
@@ -132,11 +158,17 @@ abstract class AbstractFixer extends PhpCsFixer
             return false;
         }
 
+        $interface = array_pop($fqcn);
+
+        if (null === $interface) {
+            return false;
+        }
+
         return null !== $tokens->findSequence([
             [T_CLASS],
             [T_STRING],
             [T_IMPLEMENTS],
-            [T_STRING, array_pop($fqcn)],
+            [T_STRING, $interface],
         ]);
     }
 
