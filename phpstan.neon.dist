@@ -8,3 +8,4 @@ parameters:
         booleansInLoopConditions: true
         closureUsesThis: true
         disallowedBacktick: true
+        disallowedImplicitArrayCreation: true
