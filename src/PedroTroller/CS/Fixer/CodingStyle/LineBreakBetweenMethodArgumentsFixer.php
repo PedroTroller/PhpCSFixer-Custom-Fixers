@@ -18,8 +18,8 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
 /**
- * @phpstan-type _InputConfiguration array{'max-args'?: false|int, 'max-length'?: int, 'automatic-argument-merge'?: bool, 'inline-attributes'?: bool}
- * @phpstan-type _ComputedConfiguration array{'max-args': false|int, 'max-length': int, 'automatic-argument-merge': bool, 'inline-attributes': bool}
+ * @phpstan-type _InputConfiguration array{'max-args'?: false|int, 'max-length'?: int, 'automatic-argument-merge'?: bool, 'inline-attributes'?: bool, 'force-for-construct'?: bool}
+ * @phpstan-type _ComputedConfiguration array{'max-args': false|int, 'max-length': int, 'automatic-argument-merge': bool, 'inline-attributes': bool, 'force-for-construct': bool}
  *
  * @implements ConfigurableFixerInterface<_InputConfiguration, _ComputedConfiguration>
  */
@@ -43,12 +43,14 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
                 'max-length'               => 120,
                 'automatic-argument-merge' => true,
                 'inline-attributes'        => true,
+                'force-for-construct'      => false,
             ],
             [
                 'max-args'                 => false,
                 'max-length'               => 120,
                 'automatic-argument-merge' => true,
                 'inline-attributes'        => true,
+                'force-for-construct'      => false,
             ],
         ];
     }
@@ -102,6 +104,9 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
             (new FixerOptionBuilder('inline-attributes', 'In the case of a split, the declaration of the attributes of the arguments of the method will be on the same line as the arguments themselves'))
                 ->setDefault(false)
                 ->getOption(),
+            (new FixerOptionBuilder('force-for-construct', 'If true, the __construct method arguments will always be split into several lines'))
+                ->setDefault(false)
+                ->getOption(),
         ]);
     }
 
@@ -134,6 +139,12 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
 
             if (0 === $this->analyze($tokens)->getNumberOfArguments($index)) {
                 $this->mergeArgs($tokens, $index);
+
+                continue;
+            }
+
+            if (true === self::configured($this->configuration)['force-for-construct'] && '__construct' === strtolower($tokens[$nextIndex]->getContent())) {
+                $this->splitArgs($tokens, $index);
 
                 continue;
             }
@@ -217,7 +228,8 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
                 }
             }
 
-            if (',' === $tokens[$i]->getContent()) {
+            // A trailing comma is already followed by the closing line break.
+            if (',' === $tokens[$i]->getContent() && $closeBraceIndex !== $tokens->getNextMeaningfulToken($i)) {
                 $linebreaks[] = $i;
             }
 
