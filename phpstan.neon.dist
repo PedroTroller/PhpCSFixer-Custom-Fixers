@@ -6,3 +6,4 @@ parameters:
     strictRules:
         allRules: false
         booleansInLoopConditions: true
+        closureUsesThis: true
