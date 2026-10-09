@@ -50,6 +50,30 @@ jobs:
           PHP_VERSION: ${{ matrix.php }}
           DEPENDENCIES: ${{ matrix.dependencies }}
 
+  php-min-version:
+    name: Minimum PHP version
+    needs: php-versions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - shell: bash
+        env:
+          VERSIONS: ${{ needs.php-versions.outputs.versions }}
+        run: |
+          min=$(jq --raw-output '.[0]' <<< "$VERSIONS")
+          env_min=$(sed -n 's/^PHP_MIN_VERSION=//p' .env)
+          composer_php=$(jq --raw-output '.require.php' composer.json)
+          status=0
+          if [ "$env_min" != "$min" ]; then
+            echo "::error file=.env::PHP_MIN_VERSION is '$env_min', the lowest PHP version supported by php.net is $min"
+            status=1
+          fi
+          if [ "$composer_php" != "^$min" ]; then
+            echo "::error file=composer.json::require.php is '$composer_php', expected ^$min (the lowest PHP version supported by php.net)"
+            status=1
+          fi
+          exit $status
+
   quality:
     name: Coding standards and documentation
     runs-on: ubuntu-latest
@@ -77,6 +101,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     needs:
       - tests
+      - php-min-version
       - quality
       - release-test
     runs-on: ubuntu-latest
