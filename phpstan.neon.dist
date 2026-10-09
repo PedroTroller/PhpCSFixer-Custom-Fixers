@@ -4,23 +4,4 @@ parameters:
         - src
         - tests
     strictRules:
-        allRules: false
-        booleansInLoopConditions: true
-        closureUsesThis: true
-        disallowedBacktick: true
-        disallowedImplicitArrayCreation: true
-        disallowedLooseComparison: true
-        illegalConstructorMethodCall: true
-        matchingInheritedMethodNames: true
-        requireParentConstructorCall: true
-        strictArrayFilter: true
-        strictFunctionCalls: true
-        switchConditionsMatchingType: true
-        disallowedShortTernary: true
-        dynamicCallOnStaticMethod: true
-        numericOperandsInArithmeticOperators: true
-        overwriteVariablesWithLoop: true
-        uselessCast: true
-        noVariableVariables: true
-        booleansInConditions: true
-        disallowedEmpty: true
+        allRules: true
