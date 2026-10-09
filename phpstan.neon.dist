@@ -20,3 +20,4 @@ parameters:
         dynamicCallOnStaticMethod: true
         numericOperandsInArithmeticOperators: true
         overwriteVariablesWithLoop: true
+        uselessCast: true

@@ -513,7 +513,7 @@ final class TokensAnalyzer
             $index = $start ?? 0;
 
             do {
-                $extract = $this->tokens->findSequence($seq, (int) $index, $end);
+                $extract = $this->tokens->findSequence($seq, $index, $end);
 
                 if (null !== $extract) {
                     $keys                    = array_keys($extract);
