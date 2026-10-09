@@ -501,11 +501,10 @@ final class TokensAnalyzer
 
     /**
      * @param list<non-empty-list<array{0: int, 1?: string}|string|Token>> $seqs
-     * @param null|int                                                     $start
      *
      * @return array<int, array<int, Token>>
      */
-    public function findAllSequences(array $seqs, $start = null, ?int $end = null): array
+    public function findAllSequences(array $seqs, ?int $start = null, ?int $end = null): array
     {
         $sequences = [];
 
@@ -513,7 +512,7 @@ final class TokensAnalyzer
             $index = $start ?? 0;
 
             do {
-                $extract = $this->tokens->findSequence($seq, (int) $index, $end);
+                $extract = $this->tokens->findSequence($seq, $index, $end);
 
                 if (null !== $extract) {
                     $keys                    = array_keys($extract);
