@@ -11,3 +11,4 @@ parameters:
         disallowedImplicitArrayCreation: true
         disallowedLooseComparison: true
         illegalConstructorMethodCall: true
+        matchingInheritedMethodNames: true
