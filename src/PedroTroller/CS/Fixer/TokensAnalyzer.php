@@ -11,8 +11,6 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer as PhpCsFixerTokensAnalyzer;
 
 /**
- * @method array<int, array{classIndex: int, token: Token, type: string}> getClassyElements()
- *
  * @phpstan-type MethodArgument array{type: null|string, name: string, nullable: bool, asDefault: bool}
  * @phpstan-type ClassElementType 'use_trait'|'constant'|'property'|'construct'|'destruct'|'magic'|'method'|array{'phpunit', string}
  * @phpstan-type ClassElement (
@@ -31,11 +29,11 @@ final class TokensAnalyzer
     }
 
     /**
-     * @param list<mixed> $arguments
+     * @return array<int, array{classIndex: int, token: Token, type: string}>
      */
-    public function __call(string $name, array $arguments): mixed
+    public function getClassyElements(): array
     {
-        return $this->analyzer->{$name}(...$arguments);
+        return $this->analyzer->getClassyElements();
     }
 
     /**

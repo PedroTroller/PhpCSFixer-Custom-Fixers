@@ -63,7 +63,10 @@ final class LineBreakBetweenStatementsFixer extends AbstractFixer
     protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($tokens->findGivenKind(array_keys(self::HANDLERS)) as $kind => $matchedTokens) {
-            $this->{'handle'.ucfirst(self::HANDLERS[$kind])}($matchedTokens, $tokens);
+            match (self::HANDLERS[$kind]) {
+                'do'     => $this->handleDo($matchedTokens, $tokens),
+                'common' => $this->handleCommon($matchedTokens, $tokens),
+            };
         }
     }
 

@@ -21,3 +21,4 @@ parameters:
         numericOperandsInArithmeticOperators: true
         overwriteVariablesWithLoop: true
         uselessCast: true
+        noVariableVariables: true
