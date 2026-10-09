@@ -93,7 +93,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: make lint
+      - run: make fix
+      - name: Check that make fix has nothing left to do
+        shell: bash
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "::error::make fix changed the files below: run it locally and commit the result"
+            git status --short
+            git diff
+            exit 1
+          fi
       - run: make readme-check
 
   release-test:
