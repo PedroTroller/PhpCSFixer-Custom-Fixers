@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := help
-.PHONY: help test stan readme readme-check lint fix update-php
+.PHONY: help test stan readme readme-check lint fix cs-fix rector-fix update-php
 
 -include .env
 
@@ -38,8 +38,15 @@ readme-check: vendor/autoload.php ## Fail if README.md is not up to date (FRESH=
 lint: vendor/autoload.php ## Check coding standards, dry run as in CI
 	$(DEV) env PHP_CS_FIXER_IGNORE_ENV=1 composer run php-cs-fixer
 
-fix: vendor/autoload.php ## Fix coding standards in place
+fix: ## Run rector-fix then cs-fix
+	$(MAKE) rector-fix
+	$(MAKE) cs-fix
+
+cs-fix: vendor/autoload.php ## Fix coding standards in place
 	$(DEV) env PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix -vvv --diff
+
+rector-fix: vendor/autoload.php ## Apply Rector refactorings in place
+	$(DEV) vendor/bin/rector process
 
 update-php: ## Align the minimum PHP version with php.net, then run fix, readme and test
 	$(DEV) php bin/update-php

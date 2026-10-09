@@ -34,7 +34,7 @@ final class Runner
         self::runAnalyzerIntegrations();
         self::runUseCases();
 
-        if (false === empty($deprecations)) {
+        if ([] !== $deprecations) {
             ksort($deprecations);
 
             $message = \sprintf(
@@ -42,7 +42,7 @@ final class Runner
                 implode(
                     "\n\n",
                     array_map(
-                        static fn ($message, array $files) => \sprintf("%s\n%s", $message, implode("\n", $files)),
+                        static fn (string $message, array $files): string => \sprintf("%s\n%s", $message, implode("\n", $files)),
                         array_keys($deprecations),
                         $deprecations
                     )

@@ -6,8 +6,7 @@ namespace PedroTroller\CS\Fixer;
 
 final class TokenSignatures
 {
-    public const TYPINT_OPTIONAL    = 10022;
-    public const TYPINT_DOUBLE_DOTS = 10025;
+    public const TYPINT_OPTIONAL = 10022;
 
-    public function __construct() {}
+    public const TYPINT_DOUBLE_DOTS = 10025;
 }

@@ -1278,7 +1278,9 @@ Run `make` to list the available commands:
   readme         Regenerate README.md from bin/doc.twig (FRESH=1 to re-resolve vendor)
   readme-check   Fail if README.md is not up to date (FRESH=1 to re-resolve vendor)
   lint           Check coding standards, dry run as in CI
-  fix            Fix coding standards in place
+  fix            Run rector-fix then cs-fix
+  cs-fix         Fix coding standards in place
+  rector-fix     Apply Rector refactorings in place
   update-php     Align the minimum PHP version with php.net, then run fix, readme and test
 ```
 

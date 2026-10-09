@@ -45,7 +45,7 @@ abstract class AbstractFixer extends PhpCsFixer
         return new FixerDefinition(
             $this->getDocumentation(),
             array_map(
-                fn (?array $configutation = null) => new CodeSample($this->getSampleCode(), $configutation),
+                fn (?array $configutation = null): CodeSample => new CodeSample($this->getSampleCode(), $configutation),
                 $this->getSampleConfigurations()
             )
         );
@@ -84,6 +84,7 @@ abstract class AbstractFixer extends PhpCsFixer
         if (false === \is_array($fqcn)) {
             $fqcn = explode('\\', $fqcn);
         }
+
         $sequence = [[T_USE]];
         foreach ($fqcn as $component) {
             $sequence = array_merge(
@@ -91,6 +92,7 @@ abstract class AbstractFixer extends PhpCsFixer
                 [[T_STRING, $component], [T_NS_SEPARATOR]]
             );
         }
+
         $sequence[\count($sequence) - 1] = ';';
 
         return $tokens->findSequence($sequence);

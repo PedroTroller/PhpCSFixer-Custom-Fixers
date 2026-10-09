@@ -12,27 +12,13 @@ use Traversable;
 /**
  * @implements IteratorAggregate<string, array<mixed>|bool>
  */
-final class RuleSetFactory implements IteratorAggregate
+final readonly class RuleSetFactory implements IteratorAggregate
 {
-    /**
-     * @var array<string, array<mixed>|bool>
-     */
-    private $rules;
-
-    /**
-     * @var array<string>
-     */
-    private array $cache;
-
     /**
      * @param array<string, array<mixed>|bool> $rules
      * @param array<string>                    $cache
      */
-    private function __construct(array $rules, array $cache)
-    {
-        $this->rules = $rules;
-        $this->cache = $cache;
-    }
+    private function __construct(private array $rules, private array $cache) {}
 
     /**
      * @return array<string, array<mixed>|bool>
@@ -67,7 +53,7 @@ final class RuleSetFactory implements IteratorAggregate
             ? ['@PER-CS'.number_format($version, 1, 'x', '')]
             : ['@PER-CS'];
 
-        if (true === $risky) {
+        if ($risky) {
             $candidates = [
                 $candidates[0].':risky',
                 ...$candidates,
@@ -286,7 +272,7 @@ final class RuleSetFactory implements IteratorAggregate
     {
         $rules = array_combine($this->cache, $this->cache);
         $rules = array_map(
-            static function ($name) {
+            static function (string $name): array {
                 preg_match('/^@([A-Za-z]+)(\d+)x(\d+)Migration(:risky|)$/', $name, $matches);
 
                 return $matches;
@@ -298,7 +284,7 @@ final class RuleSetFactory implements IteratorAggregate
 
         $rules = array_filter(
             $rules,
-            static function ($versionAndRisky) use ($package) {
+            static function (array $versionAndRisky) use ($package): bool {
                 [$rule, $rulePackage, $ruleVersionMajor, $ruleVersionMinor, $ruleRisky] = $versionAndRisky;
 
                 return strtoupper($package) === strtoupper($rulePackage);
@@ -307,7 +293,7 @@ final class RuleSetFactory implements IteratorAggregate
 
         $rules = array_filter(
             $rules,
-            static function ($versionAndRisky) use ($version) {
+            static function (array $versionAndRisky) use ($version): bool {
                 [$rule, $rulePackage, $ruleVersionMajor, $ruleVersionMinor, $ruleRisky] = $versionAndRisky;
 
                 return ((float) ($ruleVersionMajor.'.'.$ruleVersionMinor)) <= $version;
@@ -316,7 +302,7 @@ final class RuleSetFactory implements IteratorAggregate
 
         $rules = array_filter(
             $rules,
-            static function ($versionAndRisky) use ($risky) {
+            static function (array $versionAndRisky) use ($risky): bool {
                 [$rule, $rulePackage, $ruleVersionMajor, $ruleVersionMinor, $ruleRisky] = $versionAndRisky;
 
                 if ($risky) {
@@ -330,7 +316,7 @@ final class RuleSetFactory implements IteratorAggregate
         return self::create(
             array_merge(
                 $this->rules,
-                array_map(static fn () => true, $rules)
+                array_map(static fn (): true => true, $rules)
             )
         );
     }

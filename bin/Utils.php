@@ -13,9 +13,9 @@ final class Utils
         $string = '[ ';
 
         if (array_values($array) === $array) {
-            $string .= implode(', ', array_map([self::class, 'valueToString'], $array));
+            $string .= implode(', ', array_map(self::valueToString(...), $array));
         } else {
-            $string .= implode(', ', array_map(static fn ($value, $key) => '\''.$key.'\' => '.self::valueToString($value), $array, array_keys($array)));
+            $string .= implode(', ', array_map(static fn ($value, $key): string => "'".$key."' => ".self::valueToString($value), $array, array_keys($array)));
         }
 
         $string .= ' ]';
@@ -26,7 +26,7 @@ final class Utils
     private static function valueToString($value = null)
     {
         if (is_string($value)) {
-            return sprintf('\'%s\'', $value);
+            return sprintf("'%s'", $value);
         }
 
         if (is_bool($value)) {

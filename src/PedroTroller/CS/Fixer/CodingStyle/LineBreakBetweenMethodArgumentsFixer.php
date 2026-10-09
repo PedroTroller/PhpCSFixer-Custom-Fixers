@@ -241,17 +241,10 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
         foreach (array_reverse($linebreaks, false) as $iteration => $linebreak) {
             $tokens->removeTrailingWhitespace($linebreak);
 
-            switch ($iteration) {
-                case 0:
-                    $whitespace = "\n".$this->analyze($tokens)->getLineIndentation($index);
-
-                    break;
-
-                default:
-                    $whitespace = "\n".$this->analyze($tokens)->getLineIndentation($index).'    ';
-
-                    break;
-            }
+            $whitespace = match ($iteration) {
+                0       => "\n".$this->analyze($tokens)->getLineIndentation($index),
+                default => "\n".$this->analyze($tokens)->getLineIndentation($index).'    ',
+            };
 
             $tokens->ensureWhitespaceAtIndex($linebreak, 1, $whitespace);
         }
@@ -286,6 +279,7 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
         if (!$this->isComment($tokens, $tokens->getNextNonWhitespace($openBraceIndex))) {
             $tokens->removeTrailingWhitespace($openBraceIndex);
         }
+
         $tokens->removeLeadingWhitespace($closeBraceIndex);
 
         $end = $tokens->getNextTokenOfKind($closeBraceIndex, [';', '{']);

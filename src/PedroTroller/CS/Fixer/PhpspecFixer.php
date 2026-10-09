@@ -14,6 +14,7 @@ use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use PhpSpec\ObjectBehavior;
 use SplFileInfo;
 
 /**
@@ -33,7 +34,7 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
     {
         return [
             [],
-            ['instanceof' => ['PhpSpec\ObjectBehavior']],
+            ['instanceof' => [ObjectBehavior::class]],
         ];
     }
 
@@ -117,7 +118,7 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
     {
         return new FixerConfigurationResolver([
             (new FixerOptionBuilder('instanceof', 'Parent classes of your spec classes.'))
-                ->setDefault(['PhpSpec\ObjectBehavior'])
+                ->setDefault([ObjectBehavior::class])
                 ->getOption(),
         ]);
     }
@@ -154,14 +155,14 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
 
     protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
-        $this->removeScope($file, $tokens);
-        $this->removeReturn($file, $tokens);
-        $this->removeStaticLambda($file, $tokens);
+        $this->removeScope($tokens);
+        $this->removeReturn($tokens);
+        $this->removeStaticLambda($tokens);
 
         parent::applyFix($file, $tokens);
     }
 
-    private function removeScope(SplFileInfo $file, Tokens $tokens): void
+    private function removeScope(Tokens $tokens): void
     {
         foreach ($tokens as $index => $token) {
             if (T_FUNCTION !== $token->getId()) {
@@ -193,7 +194,7 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
         }
     }
 
-    private function removeReturn(SplFileInfo $file, Tokens $tokens): void
+    private function removeReturn(Tokens $tokens): void
     {
         foreach ($tokens as $index => $token) {
             if (T_FUNCTION !== $token->getId()) {
@@ -239,7 +240,7 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
         }
     }
 
-    private function removeStaticLambda(SplFileInfo $file, Tokens $tokens): void
+    private function removeStaticLambda(Tokens $tokens): void
     {
         $sequences = [
             [

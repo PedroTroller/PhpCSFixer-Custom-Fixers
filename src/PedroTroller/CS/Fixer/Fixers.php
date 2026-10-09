@@ -8,6 +8,7 @@ use Generator;
 use IteratorAggregate;
 use ReflectionClass;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * @implements IteratorAggregate<int, AbstractFixer>
@@ -25,7 +26,7 @@ final class Fixers implements IteratorAggregate
         ;
 
         $files = array_map(
-            static fn ($file) => $file->getPathname(),
+            static fn (SplFileInfo $file) => $file->getPathname(),
             iterator_to_array($finder)
         );
 
