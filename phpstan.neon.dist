@@ -17,3 +17,4 @@ parameters:
         strictFunctionCalls: true
         switchConditionsMatchingType: true
         disallowedShortTernary: true
+        dynamicCallOnStaticMethod: true
