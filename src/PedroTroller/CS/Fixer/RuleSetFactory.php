@@ -309,7 +309,7 @@ final readonly class RuleSetFactory implements IteratorAggregate
                     return true;
                 }
 
-                return empty($ruleRisky);
+                return '' === $ruleRisky;
             }
         );
 

@@ -93,7 +93,7 @@ final class LineBreakBetweenStatementsFixer extends AbstractFixer
                 '{',
             ], $index);
 
-            if (empty($curlyBracket)) {
+            if (null === $curlyBracket) {
                 continue;
             }
 

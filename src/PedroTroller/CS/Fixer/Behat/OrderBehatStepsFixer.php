@@ -161,7 +161,7 @@ final class OrderBehatStepsFixer extends AbstractOrderedClassElementsFixer imple
                 continue;
             }
 
-            if (empty($element['comment'])) {
+            if (null === $element['comment']) {
                 continue;
             }
 
