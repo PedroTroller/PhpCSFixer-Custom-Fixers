@@ -5,3 +5,4 @@ parameters:
         - tests
     strictRules:
         allRules: false
+        booleansInLoopConditions: true
