@@ -3,3 +3,4 @@
 !src
 !spec
 !tests
+!phpstan.neon.dist

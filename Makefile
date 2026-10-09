@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := help
-.PHONY: help test readme readme-check lint fix update-php
+.PHONY: help test stan readme readme-check lint fix update-php
 
 -include .env
 
@@ -25,6 +25,9 @@ help: ## Show this help
 
 test: ## Run the test suite in a fresh image (PHP_VERSION=x.y, DEPENDENCIES=lowest)
 	$(TEST) composer tests
+
+stan: ## Run PHPStan in a fresh image (PHP_VERSION=x.y, DEPENDENCIES=lowest)
+	$(TEST) composer phpstan
 
 readme: vendor/autoload.php ## Regenerate README.md from bin/doc.twig (FRESH=1 to re-resolve vendor)
 	$(DEV) sh -c 'tmp=$$(mktemp) && php bin/doc > "$$tmp" && cat "$$tmp" > README.md'

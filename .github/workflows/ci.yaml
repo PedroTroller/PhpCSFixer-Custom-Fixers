@@ -50,6 +50,20 @@ jobs:
           PHP_VERSION: ${{ matrix.php }}
           DEPENDENCIES: ${{ matrix.dependencies }}
 
+  phpstan:
+    name: PHPStan (PHP ${{ matrix.php }})
+    needs: php-versions
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ${{ fromJSON(needs.php-versions.outputs.versions) }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: make stan
+        env:
+          PHP_VERSION: ${{ matrix.php }}
+
   php-min-version:
     name: Minimum PHP version
     needs: php-versions
@@ -101,6 +115,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     needs:
       - tests
+      - phpstan
       - php-min-version
       - quality
       - release-test

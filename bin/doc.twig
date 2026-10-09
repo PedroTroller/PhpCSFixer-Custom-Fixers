@@ -143,7 +143,7 @@ Run `make` to list the available commands:
 {{ make_help|raw }}
 ```
 
-`make test` runs in an image that contains the code and its dependencies, rebuilt on each call. The other commands work on your working copy, always on the minimum supported PHP version. That version is set once, in `.env`.
+`make test` and `make stan` run in an image that contains the code and its dependencies, rebuilt on each call. The other commands work on your working copy, always on the minimum supported PHP version. That version is set once, in `.env`.
 
 `vendor/` is installed on your machine the first time, then again whenever `composer.json` changes. There is no lock file, so it can fall behind what CI resolves: `make readme-check FRESH=1` (or `rm -rf vendor`) resolves the dependencies again before the check.
 
