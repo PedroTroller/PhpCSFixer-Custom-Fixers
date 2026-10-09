@@ -14,8 +14,15 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
+/**
+ * @phpstan-type _InputConfiguration array{functions?: list<string>, comment?: string}
+ * @phpstan-type _ComputedConfiguration array{functions: list<string>, comment: string}
+ *
+ * @implements ConfigurableFixerInterface<_InputConfiguration, _ComputedConfiguration>
+ */
 final class ForbiddenFunctionsFixer extends AbstractFixer implements ConfigurableFixerInterface
 {
+    /** @use ConfigurableFixerTrait<_InputConfiguration, _ComputedConfiguration> */
     use ConfigurableFixerTrait;
 
     public function getSampleCode(): string

@@ -14,8 +14,17 @@ use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\Tokenizer\Tokens;
 
+/**
+ * @phpstan-type _InputConfiguration array{instanceof?: list<string>}
+ * @phpstan-type _ComputedConfiguration array{instanceof: list<string>}
+ *
+ * @phpstan-import-type ClassElement from AbstractOrderedClassElementsFixer
+ *
+ * @implements ConfigurableFixerInterface<_InputConfiguration, _ComputedConfiguration>
+ */
 final class OrderBehatStepsFixer extends AbstractOrderedClassElementsFixer implements ConfigurableFixerInterface
 {
+    /** @use ConfigurableFixerTrait<_InputConfiguration, _ComputedConfiguration> */
     use ConfigurableFixerTrait;
 
     public const ANNOTATION_PRIORITIES = [

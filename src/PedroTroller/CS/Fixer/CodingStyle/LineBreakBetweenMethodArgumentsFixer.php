@@ -18,8 +18,15 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
+/**
+ * @phpstan-type _InputConfiguration array{'max-args'?: false|int, 'max-length'?: int, 'automatic-argument-merge'?: bool, 'inline-attributes'?: bool}
+ * @phpstan-type _ComputedConfiguration array{'max-args': false|int, 'max-length': int, 'automatic-argument-merge': bool, 'inline-attributes': bool}
+ *
+ * @implements ConfigurableFixerInterface<_InputConfiguration, _ComputedConfiguration>
+ */
 final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implements ConfigurableFixerInterface, WhitespacesAwareFixerInterface
 {
+    /** @use ConfigurableFixerTrait<_InputConfiguration, _ComputedConfiguration> */
     use ConfigurableFixerTrait;
 
     public const T_TYPEHINT_SEMI_COLON = 10025;
@@ -160,7 +167,7 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
         }
     }
 
-    private function splitArgs(Tokens $tokens, $index): void
+    private function splitArgs(Tokens $tokens, int $index): void
     {
         $this->mergeArgs($tokens, $index);
 
@@ -229,7 +236,7 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
         }
     }
 
-    private function mergeArgs(Tokens $tokens, $index): void
+    private function mergeArgs(Tokens $tokens, int $index): void
     {
         $openBraceIndex  = $tokens->getNextTokenOfKind($index, ['(']);
         $closeBraceIndex = $this->analyze($tokens)->getClosingParenthesis($openBraceIndex);
