@@ -184,7 +184,7 @@ final class DoctrineMigrationsFixer extends AbstractFixer implements Configurabl
                 continue;
             }
 
-            if (empty(trim(implode("\n", $lines), " /*\n"))) {
+            if ('' === trim(implode("\n", $lines), " /*\n")) {
                 $tokens->clearAt($position);
                 $tokens->removeTrailingWhitespace($position);
 

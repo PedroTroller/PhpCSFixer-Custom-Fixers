@@ -140,11 +140,11 @@ final class CommentLineToPhpdocBlockFixer extends AbstractFixer
     {
         $comments = array_map(trim(...), $comments);
 
-        while (empty(current($comments))) {
+        while ('' === current($comments)) {
             array_shift($comments);
         }
 
-        while (empty(end($comments))) {
+        while ('' === end($comments)) {
             array_pop($comments);
         }
 
