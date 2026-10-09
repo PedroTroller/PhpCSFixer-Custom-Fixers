@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace spec\PedroTroller\CS\Fixer;
 
+use Exception;
 use PedroTroller\CS\Fixer\Fixers;
 use PedroTroller\CS\Fixer\RuleSetFactory;
+use PhpCsFixer\RuleSet\DeprecatedRuleSetDefinitionInterface;
+use PhpCsFixer\RuleSet\RuleSets;
+use PhpSpec\Exception\Example\FailureException;
 use PhpSpec\ObjectBehavior;
 
 final class RuleSetFactorySpec extends ObjectBehavior
@@ -22,12 +26,12 @@ final class RuleSetFactorySpec extends ObjectBehavior
 
     function it_adds_a_per_set()
     {
-        $this->per()->getRules()->shouldReturn(['@PER' => true]);
+        $this->per()->getRules()->shouldReturn(['@PER-CS' => true]);
     }
 
     function it_adds_a_per_risky_set()
     {
-        $this->per(risky: true)->getRules()->shouldReturn(['@PER:risky' => true]);
+        $this->per(risky: true)->getRules()->shouldReturn(['@PER-CS:risky' => true]);
     }
 
     function it_adds_a_per1_0_set()
@@ -50,24 +54,38 @@ final class RuleSetFactorySpec extends ObjectBehavior
         $this->per(2, true)->getRules()->shouldReturn(['@PER-CS2x0:risky' => true]);
     }
 
-    function it_adds_a_psr0_set()
-    {
-        $this->psr0()->getRules()->shouldReturn(['@psr0' => true]);
-    }
-
     function it_adds_a_psr1_set()
     {
-        $this->psr1()->getRules()->shouldReturn(['@psr1' => true]);
+        $this->psr1()->getRules()->shouldReturn(['@PSR1' => true]);
     }
 
     function it_adds_a_psr2_set()
     {
-        $this->psr2()->getRules()->shouldReturn(['@psr2' => true]);
+        $this->psr2()->getRules()->shouldReturn(['@PSR2' => true]);
     }
 
-    function it_adds_a_psr4_set()
+    function it_adds_a_psr12_set()
     {
-        $this->psr4()->getRules()->shouldReturn(['@psr4' => true]);
+        $this->psr12()->getRules()->shouldReturn(['@PSR12' => true]);
+
+        $this->psr12(risky: true)->getRules()->shouldReturn(
+            [
+                '@PSR12'       => true,
+                '@PSR12:risky' => true,
+            ]
+        );
+    }
+
+    function it_adds_an_auto_set()
+    {
+        $this->auto()->getRules()->shouldReturn(['@auto' => true]);
+
+        $this->auto(risky: true)->getRules()->shouldReturn(
+            [
+                '@auto'       => true,
+                '@auto:risky' => true,
+            ]
+        );
     }
 
     function it_adds_a_symfony_set()
@@ -201,6 +219,33 @@ final class RuleSetFactorySpec extends ObjectBehavior
                 'list_syntax'            => ['syntax' => 'short'],
             ]
         );
+    }
+
+    function it_adds_an_auto_php_version_support()
+    {
+        $this->php()->getRules()->shouldReturn(
+            [
+                '@autoPHPMigration' => true,
+                'array_syntax'      => ['syntax' => 'short'],
+                'list_syntax'       => ['syntax' => 'short'],
+            ]
+        );
+
+        $this->php(risky: true)->getRules()->shouldReturn(
+            [
+                '@autoPHPMigration'       => true,
+                '@autoPHPMigration:risky' => true,
+                'array_syntax'            => ['syntax' => 'short'],
+                'list_syntax'             => ['syntax' => 'short'],
+            ]
+        );
+    }
+
+    function it_adds_an_auto_phpunit_version_support()
+    {
+        $this->phpUnit()->getRules()->shouldReturn([]);
+
+        $this->phpUnit(risky: true)->getRules()->shouldReturn(['@autoPHPUnitMigration:risky' => true]);
     }
 
     function it_adds_a_phpunit_version_support()
@@ -435,5 +480,74 @@ final class RuleSetFactorySpec extends ObjectBehavior
                 ]
             )
         ;
+    }
+
+    function it_only_emits_existing_rule_sets()
+    {
+        $unknown = array_diff(self::emittedRuleSets(), RuleSets::getSetDefinitionNames());
+
+        if ([] !== $unknown) {
+            throw new FailureException('Unknown rule sets emitted: '.implode(', ', $unknown));
+        }
+    }
+
+    function it_reaches_every_non_deprecated_rule_set()
+    {
+        $available = array_keys(
+            array_filter(
+                RuleSets::getSetDefinitions(),
+                fn ($definition) => false === $definition instanceof DeprecatedRuleSetDefinitionInterface,
+            )
+        );
+
+        $unreachable = array_diff($available, self::emittedRuleSets());
+
+        if ([] !== $unreachable) {
+            throw new FailureException('Rule sets not reachable through RuleSetFactory: '.implode(', ', $unreachable));
+        }
+    }
+
+    /**
+     * @return array<string>
+     */
+    private static function emittedRuleSets(): array
+    {
+        $factories = [
+            RuleSetFactory::create()->per(),
+            RuleSetFactory::create()->per(risky: true),
+            RuleSetFactory::create()->psr1(),
+            RuleSetFactory::create()->psr2(),
+            RuleSetFactory::create()->psr12(risky: true),
+            RuleSetFactory::create()->symfony(risky: true),
+            RuleSetFactory::create()->phpCsFixer(risky: true),
+            RuleSetFactory::create()->doctrineAnnotation(),
+            RuleSetFactory::create()->auto(risky: true),
+            RuleSetFactory::create()->php(risky: true),
+            RuleSetFactory::create()->php(PHP_FLOAT_MAX, true),
+            RuleSetFactory::create()->phpUnit(risky: true),
+            RuleSetFactory::create()->phpUnit(PHP_FLOAT_MAX, true),
+        ];
+
+        foreach (range(1, 9) as $version) {
+            foreach ([false, true] as $risky) {
+                try {
+                    $factories[] = RuleSetFactory::create()->per($version, $risky);
+                } catch (Exception) {
+                    // PER-CS version not released (yet).
+                }
+            }
+        }
+
+        $sets = [];
+
+        foreach ($factories as $factory) {
+            foreach (array_keys($factory->getRules()) as $name) {
+                if (str_starts_with($name, '@')) {
+                    $sets[$name] = $name;
+                }
+            }
+        }
+
+        return array_values($sets);
     }
 }
