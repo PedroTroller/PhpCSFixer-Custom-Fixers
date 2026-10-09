@@ -1,6 +1,8 @@
 # Set by compose from PHP_MIN_VERSION in .env
 ARG PHP_DEFAULT_VERSION
 
+################################################################################
+
 FROM php:${PHP_DEFAULT_VERSION}-cli AS base
 RUN apt-get update \
  && apt-get install -y --no-install-recommends git make unzip \
@@ -12,8 +14,12 @@ ENV HOME=/tmp \
     COMPOSER_ROOT_VERSION=dev-master
 WORKDIR /app
 
+################################################################################
+
 FROM base AS dev
 # No code here: compose.dev.yaml bind-mounts the repository.
+
+################################################################################
 
 FROM base AS test
 ARG DEPENDENCIES
