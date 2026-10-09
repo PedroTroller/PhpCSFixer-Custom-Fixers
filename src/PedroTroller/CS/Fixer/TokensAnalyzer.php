@@ -501,11 +501,10 @@ final class TokensAnalyzer
 
     /**
      * @param list<non-empty-list<array{0: int, 1?: string}|string|Token>> $seqs
-     * @param null|int                                                     $start
      *
      * @return array<int, array<int, Token>>
      */
-    public function findAllSequences(array $seqs, $start = null, ?int $end = null): array
+    public function findAllSequences(array $seqs, ?int $start = null, ?int $end = null): array
     {
         $sequences = [];
 
