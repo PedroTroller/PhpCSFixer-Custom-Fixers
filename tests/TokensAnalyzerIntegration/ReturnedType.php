@@ -14,7 +14,7 @@ final class ReturnedType extends TokensAnalyzerIntegration
     /**
      * {@inheritdoc}
      */
-    public function getCode()
+    public function getCode(): string
     {
         return <<<'PHP'
             <?php
@@ -85,7 +85,7 @@ final class ReturnedType extends TokensAnalyzerIntegration
     /**
      * {@inheritdoc}
      */
-    public function getMinSupportedPhpVersion()
+    public function getMinSupportedPhpVersion(): int
     {
         return 70100;
     }

@@ -14,7 +14,7 @@ final class InSwitch extends TokensAnalyzerIntegration
     /**
      * {@inheritdoc}
      */
-    public function getCode()
+    public function getCode(): string
     {
         return <<<'PHP'
             <?php

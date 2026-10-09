@@ -178,8 +178,8 @@ final class OrderedWithGetterAndSetterFirstFixer extends AbstractOrderedClassEle
      */
     private function getPropertiesNames(array $elements): array
     {
-        $properties = array_filter($elements, static fn ($element) => 'property' === $element['type']);
+        $properties = array_filter($elements, static fn (array $element): bool => 'property' === $element['type']);
 
-        return array_map(static fn ($element) => ltrim($element['propertyName'], '$'), $properties);
+        return array_map(static fn (array $element): string => ltrim($element['propertyName'], '$'), $properties);
     }
 }

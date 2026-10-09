@@ -23,20 +23,11 @@ use PhpCsFixer\Tokenizer\TokensAnalyzer as PhpCsFixerTokensAnalyzer;
  */
 final class TokensAnalyzer
 {
-    /**
-     * @var Tokens
-     */
-    private $tokens;
+    private readonly PhpCsFixerTokensAnalyzer $analyzer;
 
-    /**
-     * @var PhpCsFixerTokensAnalyzer
-     */
-    private $analyzer;
-
-    public function __construct(Tokens $tokens)
+    public function __construct(private Tokens $tokens)
     {
-        $this->tokens   = $tokens;
-        $this->analyzer = new PhpCsFixerTokensAnalyzer($tokens);
+        $this->analyzer = new PhpCsFixerTokensAnalyzer($this->tokens);
     }
 
     /**
@@ -48,11 +39,9 @@ final class TokensAnalyzer
     }
 
     /**
-     * @param int $index
-     *
      * @return array<int, MethodArgument>
      */
-    public function getMethodArguments($index)
+    public function getMethodArguments(int $index): array
     {
         $methodName       = $this->tokens->getNextMeaningfulToken($index);
         $openParenthesis  = $this->tokens->getNextMeaningfulToken($methodName);
@@ -109,12 +98,7 @@ final class TokensAnalyzer
         return $arguments;
     }
 
-    /**
-     * @param int $index
-     *
-     * @return int
-     */
-    public function getNumberOfArguments($index)
+    public function getNumberOfArguments(int $index): int
     {
         return \count($this->getMethodArguments($index));
     }
@@ -263,7 +247,7 @@ final class TokensAnalyzer
     public function getBeginningOfTheLine($index)
     {
         for ($i = $index; $i >= 0; --$i) {
-            if (false !== mb_strpos($this->tokens[$i]->getContent(), "\n")) {
+            if (str_contains($this->tokens[$i]->getContent(), "\n")) {
                 return $i;
             }
         }
@@ -279,7 +263,7 @@ final class TokensAnalyzer
     public function getEndOfTheLine($index)
     {
         for ($i = $index; $i < $this->tokens->count(); ++$i) {
-            if (false !== mb_strpos($this->tokens[$i]->getContent(), "\n")) {
+            if (str_contains($this->tokens[$i]->getContent(), "\n")) {
                 return $i;
             }
         }
@@ -289,10 +273,8 @@ final class TokensAnalyzer
 
     /**
      * @param int $index
-     *
-     * @return int
      */
-    public function getSizeOfTheLine($index)
+    public function getSizeOfTheLine($index): int
     {
         $start = $this->getBeginningOfTheLine($index) ?? 0;
         $end   = $this->getEndOfTheLine($index) ?? $this->tokens->count() - 1;
@@ -467,14 +449,9 @@ final class TokensAnalyzer
 
     /**
      * @param int $index
-     *
-     * @return bool
      */
-    public function isInsideSwitchCase($index)
+    public function isInsideSwitchCase($index): bool
     {
-        $switch = null;
-        $ids    = array_keys($this->tokens->toArray());
-
         $switches  = $this->findAllSequences([[[T_SWITCH]]]);
         $intervals = [];
 
@@ -498,10 +475,8 @@ final class TokensAnalyzer
 
     /**
      * @param int $index
-     *
-     * @return string
      */
-    public function getLineIndentation($index)
+    public function getLineIndentation($index): string
     {
         $start = $this->getBeginningOfTheLine($index);
 
@@ -517,12 +492,11 @@ final class TokensAnalyzer
 
     /**
      * @param list<non-empty-list<array{0: int, 1?: string}|string|Token>> $seqs
-     * @param null|mixed                                                   $start
-     * @param null|mixed                                                   $end
+     * @param null|int                                                     $start
      *
      * @return array<int, array<int, Token>>
      */
-    public function findAllSequences(array $seqs, $start = null, $end = null)
+    public function findAllSequences(array $seqs, $start = null, ?int $end = null): array
     {
         $sequences = [];
 

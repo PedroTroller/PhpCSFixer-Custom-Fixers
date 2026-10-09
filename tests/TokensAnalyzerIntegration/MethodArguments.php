@@ -14,7 +14,7 @@ final class MethodArguments extends TokensAnalyzerIntegration
     /**
      * {@inheritdoc}
      */
-    public function getCode()
+    public function getCode(): string
     {
         return <<<'PHP'
             <?php
@@ -49,7 +49,7 @@ final class MethodArguments extends TokensAnalyzerIntegration
     {
         $methods = array_filter(
             $analyzer->getClassyElements(),
-            static fn ($element) => 'method' === $element['type']
+            static fn (array $element): bool => 'method' === $element['type']
         );
 
         Assert::count($methods, 3);

@@ -8,6 +8,7 @@ use Exception;
 use PedroTroller\CS\Fixer\Fixers;
 use PedroTroller\CS\Fixer\RuleSetFactory;
 use PhpCsFixer\RuleSet\DeprecatedRuleSetDefinitionInterface;
+use PhpCsFixer\RuleSet\RuleSetDefinitionInterface;
 use PhpCsFixer\RuleSet\RuleSets;
 use PhpSpec\Exception\Example\FailureException;
 use PhpSpec\ObjectBehavior;
@@ -484,7 +485,7 @@ final class RuleSetFactorySpec extends ObjectBehavior
 
     function it_only_emits_existing_rule_sets()
     {
-        $unknown = array_diff(self::emittedRuleSets(), RuleSets::getSetDefinitionNames());
+        $unknown = array_diff($this->emittedRuleSets(), RuleSets::getSetDefinitionNames());
 
         if ([] !== $unknown) {
             throw new FailureException('Unknown rule sets emitted: '.implode(', ', $unknown));
@@ -496,11 +497,11 @@ final class RuleSetFactorySpec extends ObjectBehavior
         $available = array_keys(
             array_filter(
                 RuleSets::getSetDefinitions(),
-                fn ($definition) => false === $definition instanceof DeprecatedRuleSetDefinitionInterface,
+                fn (RuleSetDefinitionInterface $definition): bool => false === $definition instanceof DeprecatedRuleSetDefinitionInterface,
             )
         );
 
-        $unreachable = array_diff($available, self::emittedRuleSets());
+        $unreachable = array_diff($available, $this->emittedRuleSets());
 
         if ([] !== $unreachable) {
             throw new FailureException('Rule sets not reachable through RuleSetFactory: '.implode(', ', $unreachable));
@@ -510,7 +511,7 @@ final class RuleSetFactorySpec extends ObjectBehavior
     /**
      * @return array<string>
      */
-    private static function emittedRuleSets(): array
+    private function emittedRuleSets(): array
     {
         $factories = [
             RuleSetFactory::create()->per(),

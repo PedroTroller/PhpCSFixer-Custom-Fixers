@@ -157,7 +157,7 @@ final class DoctrineMigrationsFixer extends AbstractFixer implements Configurabl
                 $element['end']
             );
 
-            if (empty($sequences)) {
+            if ([] === $sequences) {
                 return;
             }
 

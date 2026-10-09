@@ -9,6 +9,7 @@
     "require-dev": {
         "phpspec/phpspec": "^8.0",
         "phpstan/phpstan": "^2.3",
+        "rector/rector": "^2.7",
         "sebastian/diff": "^4.0",
         "twig/twig": "^3.3",
         "webmozart/assert": "^1.10"

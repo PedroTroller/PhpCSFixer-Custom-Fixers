@@ -142,20 +142,16 @@ final class ExceptionsPunctuationFixer extends AbstractFixer
 
     private function cleanupMessage(Token $token): Token
     {
-        $content     = $token->getContent();
-        $chars       = str_split($content);
-        $quotes      = array_shift($chars);
-        $quotes      = array_pop($chars);
+        $content = $token->getContent();
+        $chars   = str_split($content);
+        $quotes  = array_shift($chars);
+        $quotes  = array_pop($chars);
+
         $ponctuation = end($chars);
 
-        switch ($ponctuation) {
-            case '.':
-            case '…':
-            case '?':
-            case '!':
-                return $token;
-        }
-
-        return new Token([T_CONSTANT_ENCAPSED_STRING, \sprintf('%s%s.%s', $quotes, implode('', $chars), $quotes)]);
+        return match ($ponctuation) {
+            '.', '…', '?', '!' => $token,
+            default            => new Token([T_CONSTANT_ENCAPSED_STRING, \sprintf('%s%s.%s', $quotes, implode('', $chars), $quotes)]),
+        };
     }
 }

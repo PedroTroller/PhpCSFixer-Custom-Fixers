@@ -192,6 +192,7 @@ final class OrderBehatStepsFixer extends AbstractOrderedClassElementsFixer imple
                         $result[] = $method;
                     }
                 }
+
                 $ordered = [];
             }
 

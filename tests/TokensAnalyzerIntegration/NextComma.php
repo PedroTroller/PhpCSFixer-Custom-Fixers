@@ -11,7 +11,7 @@ use Webmozart\Assert\Assert;
 
 final class NextComma extends TokensAnalyzerIntegration
 {
-    public function getCode()
+    public function getCode(): string
     {
         return <<<'PHP'
             <?php
