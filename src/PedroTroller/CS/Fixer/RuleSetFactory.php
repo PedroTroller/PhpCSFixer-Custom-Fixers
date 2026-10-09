@@ -43,7 +43,7 @@ final readonly class RuleSetFactory implements IteratorAggregate
     {
         return new self(
             $rules,
-            (new RuleSets())->getSetDefinitionNames(),
+            RuleSets::getSetDefinitionNames(),
         );
     }
 
