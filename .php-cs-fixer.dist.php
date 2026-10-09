@@ -38,6 +38,6 @@ return (new Config())
     ->setFinder(
         Finder::create()
             ->in(__DIR__)
-            ->append([__FILE__, __DIR__.'/bin/doc'])
+            ->append([__FILE__, __DIR__.'/bin/doc', __DIR__.'/bin/update-php'])
     )
 ;

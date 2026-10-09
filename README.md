@@ -1278,6 +1278,7 @@ Run `make` to list the available commands:
   readme-check   Fail if README.md is not up to date (FRESH=1 to re-resolve vendor)
   lint           Check coding standards, dry run as in CI
   fix            Fix coding standards in place
+  update-php     Align the minimum PHP version with php.net, then run fix, readme and test
 ```
 
 `make test` runs in an image that contains the code and its dependencies, rebuilt on each call. The other commands work on your working copy, always on the minimum supported PHP version. That version is set once, in `.env`.

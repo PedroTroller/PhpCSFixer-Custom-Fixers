@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := help
-.PHONY: help test readme readme-check lint fix
+.PHONY: help test readme readme-check lint fix update-php
 
 -include .env
 
@@ -37,6 +37,10 @@ lint: vendor/autoload.php ## Check coding standards, dry run as in CI
 
 fix: vendor/autoload.php ## Fix coding standards in place
 	$(DEV) env PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix -vvv --diff
+
+update-php: ## Align the minimum PHP version with php.net, then run fix, readme and test
+	$(DEV) php bin/update-php
+	env -u PHP_VERSION $(MAKE) fix readme test
 
 vendor/autoload.php: composer.json .env
 	$(DEV) composer update --no-interaction --no-progress
