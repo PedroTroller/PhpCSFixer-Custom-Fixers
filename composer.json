@@ -3,8 +3,8 @@
     "description": "PHP-CS-FIXER : my custom fixers",
     "license": "MIT",
     "require": {
-        "php": "^8.3",
-        "friendsofphp/php-cs-fixer": "^3.87"
+        "php": "^8.2",
+        "friendsofphp/php-cs-fixer": "^3.88"
     },
     "require-dev": {
         "phpspec/phpspec": "^8.0",

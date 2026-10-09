@@ -99,12 +99,14 @@ workflows:
           matrix:
             parameters:
               php-version:
+                - "8.2"
                 - "8.3"
                 - "8.4"
       - tests-with-lowest-dependencies:
           matrix:
             parameters:
               php-version:
+                - "8.2"
                 - "8.3"
                 - "8.4"
       - release-test

@@ -7,12 +7,14 @@ use PedroTroller\CS\Fixer\RuleSetFactory;
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 
+$env = parse_ini_file(__DIR__.'/.env');
+
 return (new Config())
     ->setRiskyAllowed(true)
     ->setRules(
         RuleSetFactory::create()
             ->phpCsFixer(true)
-            ->php(8.3, true)
+            ->php((float) $env['PHP_MIN_VERSION'], true)
             ->pedrotroller(true)
             ->enable('align_multiline_comment')
             ->enable('array_indentation')
@@ -36,6 +38,6 @@ return (new Config())
     ->setFinder(
         Finder::create()
             ->in(__DIR__)
-            ->append([__FILE__, __DIR__.'/bin/doc'])
+            ->append([__FILE__, __DIR__.'/bin/doc', __DIR__.'/bin/update-php'])
     )
 ;

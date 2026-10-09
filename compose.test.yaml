@@ -1,0 +1,10 @@
+services:
+  test:
+    build:
+      context: .
+      target: test
+      args:
+        PHP_DEFAULT_VERSION: ${PHP_VERSION:-${PHP_MIN_VERSION}}
+        DEPENDENCIES: ${DEPENDENCIES:-highest}
+    image: php-cs-custom-fixer:${PHP_VERSION:-${PHP_MIN_VERSION}}-${DEPENDENCIES:-highest}-test
+    network_mode: none

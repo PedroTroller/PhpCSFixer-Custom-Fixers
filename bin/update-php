@@ -1,0 +1,50 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+$root = dirname(__DIR__);
+
+$releases = file_get_contents('https://www.php.net/releases/active.php');
+
+if (false === $releases) {
+    throw new RuntimeException('Cannot read the supported PHP versions from php.net.');
+}
+
+$versions = [];
+
+foreach (json_decode($releases, true, flags: JSON_THROW_ON_ERROR) as $minors) {
+    foreach (array_keys($minors) as $version) {
+        $versions[] = (string) $version;
+    }
+}
+
+if ([] === $versions) {
+    throw new RuntimeException('php.net lists no supported PHP version.');
+}
+
+usort($versions, 'version_compare');
+$min = $versions[0];
+
+$env     = file_get_contents($root.'/.env');
+$updated = preg_replace('/^PHP_MIN_VERSION=.*$/m', 'PHP_MIN_VERSION='.$min, $env, -1, $count);
+
+if (1 !== $count) {
+    throw new RuntimeException('.env has no PHP_MIN_VERSION line.');
+}
+
+if ($updated !== $env) {
+    file_put_contents($root.'/.env', $updated);
+}
+
+$composer = json_decode(file_get_contents($root.'/composer.json'), true, flags: JSON_THROW_ON_ERROR);
+
+if ('^'.$min !== ($composer['require']['php'] ?? null)) {
+    passthru(sprintf('composer require --working-dir=%s --no-update --no-interaction %s', escapeshellarg($root), escapeshellarg('php:^'.$min)), $exitCode);
+
+    if (0 !== $exitCode) {
+        throw new RuntimeException('Cannot update the php constraint in composer.json.');
+    }
+}
+
+echo sprintf('Minimum PHP version: %s', $min).PHP_EOL;
