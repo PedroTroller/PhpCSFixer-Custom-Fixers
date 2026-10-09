@@ -1264,3 +1264,23 @@ composer tests
 ```bash
 bin/doc > README.md
 ```
+
+## Development with Docker
+
+No local PHP is needed: everything runs in Docker through `make`. Requirements: Docker with Compose 2.13 or later, and GNU make.
+
+```bash
+make                         # list the available commands
+make test                    # run the test suite on PHP 8.4
+make test PHP_VERSION=8.3    # run the test suite on another PHP version
+make readme                  # rebuild README.md
+make readme-check            # fail if README.md is not up to date
+make lint                    # check the coding standards
+make fix                     # fix the coding standards
+```
+
+`make test` runs in an image that contains the code and its dependencies, rebuilt on each call. The other commands work on your working copy, always on PHP 8.4, the version CI uses to check the documentation.
+
+`vendor/` is installed on your machine the first time, then again whenever `composer.json` changes. There is no lock file, so it can fall behind what CI resolves: `make readme-check FRESH=1` (or `rm -rf vendor`) resolves the dependencies again before the check.
+
+README.md is generated: edit `bin/doc.twig`, then run `make readme`.
