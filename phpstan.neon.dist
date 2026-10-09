@@ -12,3 +12,4 @@ parameters:
         disallowedLooseComparison: true
         illegalConstructorMethodCall: true
         matchingInheritedMethodNames: true
+        requireParentConstructorCall: true
