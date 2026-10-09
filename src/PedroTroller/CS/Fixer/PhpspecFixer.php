@@ -20,7 +20,7 @@ use SplFileInfo;
  * @phpstan-type _InputConfiguration array{instanceof?: list<string>}
  * @phpstan-type _ComputedConfiguration array{instanceof: list<string>}
  *
- * @phpstan-import-type ClassElement from AbstractOrderedClassElementsFixer
+ * @phpstan-import-type ClassElement from TokensAnalyzer
  *
  * @implements ConfigurableFixerInterface<_InputConfiguration, _ComputedConfiguration>
  */
@@ -169,13 +169,14 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
             }
 
             $nextIndex     = $tokens->getNextMeaningfulToken($index);
-            $next          = $tokens[$nextIndex];
             $previousIndex = $tokens->getPrevMeaningfulToken($index);
-            $previous      = $tokens[$previousIndex];
 
             if (null === $nextIndex || null === $previousIndex) {
                 continue;
             }
+
+            $next     = $tokens[$nextIndex];
+            $previous = $tokens[$previousIndex];
 
             if (T_STRING !== $next->getId()) {
                 continue;
@@ -278,9 +279,13 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
     {
         $filter = [];
 
-        foreach ($this->filterElementsByType('method', $elements) as $index => $method) {
-            if (0 !== preg_match(\sprintf('/^%s$/', $regex), $method['methodName'])) {
-                $filter[$index] = $method;
+        foreach ($elements as $index => $element) {
+            if ('method' !== $element['type']) {
+                continue;
+            }
+
+            if (0 !== preg_match(\sprintf('/^%s$/', $regex), $element['methodName'])) {
+                $filter[$index] = $element;
             }
         }
 

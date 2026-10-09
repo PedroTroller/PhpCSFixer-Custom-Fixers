@@ -86,16 +86,25 @@ final class ForbiddenFunctionsFixer extends AbstractFixer implements Configurabl
         }
 
         foreach (array_reverse($calls, true) as $index => $token) {
-            if (false === $tokens[$tokens->getNextMeaningfulToken($index)]->equals('(')) {
+            $nextIndex = $tokens->getNextMeaningfulToken($index);
+
+            if (null === $nextIndex || false === $tokens[$nextIndex]->equals('(')) {
                 continue;
             }
 
-            if ($tokens[$tokens->getPrevMeaningfulToken($index)]->isGivenKind([T_FUNCTION, T_DOUBLE_COLON, T_OBJECT_OPERATOR])) {
+            $previousIndex = $tokens->getPrevMeaningfulToken($index);
+
+            if (null !== $previousIndex && $tokens[$previousIndex]->isGivenKind([T_FUNCTION, T_DOUBLE_COLON, T_OBJECT_OPERATOR])) {
                 continue;
             }
 
             if (\in_array($token->getContent(), $this->configuration['functions'], true)) {
-                $end          = $this->analyze($tokens)->getEndOfTheLine($index);
+                $end = $this->analyze($tokens)->getEndOfTheLine($index);
+
+                if (null === $end) {
+                    continue;
+                }
+
                 $tokens[$end] = new Token([T_WHITESPACE, \sprintf(' // %s%s', $this->configuration['comment'], $tokens[$end]->getContent())]);
             }
         }

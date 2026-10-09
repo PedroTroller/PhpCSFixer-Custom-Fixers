@@ -85,9 +85,9 @@ final class CommentLineToPhpdocBlockFixer extends AbstractFixer
 
             do {
                 $commentIndex = $tokens->getPrevNonWhitespace($commentIndex);
-            } while ($tokens[$commentIndex]->isGivenKind([T_PRIVATE, T_PROTECTED, T_PUBLIC, T_ABSTRACT, T_STATIC]));
+            } while (null !== $commentIndex && $tokens[$commentIndex]->isGivenKind([T_PRIVATE, T_PROTECTED, T_PUBLIC, T_ABSTRACT, T_STATIC]));
 
-            if (false === $tokens[$commentIndex]->isComment()) {
+            if (null === $commentIndex || false === $tokens[$commentIndex]->isComment()) {
                 continue;
             }
 

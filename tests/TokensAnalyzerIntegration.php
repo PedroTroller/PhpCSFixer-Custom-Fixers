@@ -40,7 +40,7 @@ abstract class TokensAnalyzerIntegration
     /**
      * @param string $content
      *
-     * @return int[]
+     * @return non-empty-list<int>
      */
     protected function tokensContaining(Tokens $tokens, $content)
     {

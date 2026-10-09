@@ -38,13 +38,11 @@ final class Fixers implements IteratorAggregate
                 continue;
             }
 
-            $rfl = new ReflectionClass($class);
-
-            if (false === $rfl->isSubclassOf(AbstractFixer::class)) {
+            if (false === is_subclass_of($class, AbstractFixer::class)) {
                 continue;
             }
 
-            if ($rfl->isAbstract()) {
+            if ((new ReflectionClass($class))->isAbstract()) {
                 continue;
             }
 
