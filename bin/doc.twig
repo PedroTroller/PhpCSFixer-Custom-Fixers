@@ -147,7 +147,7 @@ make lint                    # check the coding standards
 make fix                     # fix the coding standards
 ```
 
-`make test` runs in an image that contains the code and its dependencies, rebuilt on each call. The other commands work on your working copy, always on the default PHP version, the one CI uses to check the documentation.
+`make test` runs in an image that contains the code and its dependencies, rebuilt on each call. The other commands work on your working copy, always on the default PHP version, the one CI uses to check the documentation. The default PHP version is set once, in `.env`.
 
 `vendor/` is installed on your machine the first time, then again whenever `composer.json` changes. There is no lock file, so it can fall behind what CI resolves: `make readme-check FRESH=1` (or `rm -rf vendor`) resolves the dependencies again before the check.
 

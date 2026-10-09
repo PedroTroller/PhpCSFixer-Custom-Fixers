@@ -1,4 +1,5 @@
-ARG PHP_VERSION=8.4
+# Passed by compose, the default lives in .env
+ARG PHP_VERSION
 
 FROM php:${PHP_VERSION}-cli AS base
 RUN apt-get update \

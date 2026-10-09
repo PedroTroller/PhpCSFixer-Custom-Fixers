@@ -4,6 +4,6 @@ services:
       context: .
       target: test
       args:
-        PHP_VERSION: ${PHP_VERSION:-8.4}
-    image: php-cs-custom-fixer:${PHP_VERSION:-8.4}-test
+        PHP_VERSION: ${PHP_VERSION:-${PHP_DEFAULT_VERSION}}
+    image: php-cs-custom-fixer:${PHP_VERSION:-${PHP_DEFAULT_VERSION}}-test
     network_mode: none

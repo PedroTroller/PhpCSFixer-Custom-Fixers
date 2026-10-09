@@ -1,7 +1,9 @@
 .DEFAULT_GOAL := help
 .PHONY: help test readme readme-check lint fix
 
-PHP_VERSION ?= 8.4
+-include .env
+
+PHP_VERSION ?= $(PHP_DEFAULT_VERSION)
 UID ?= $(shell id -u)
 GID ?= $(shell id -g)
 

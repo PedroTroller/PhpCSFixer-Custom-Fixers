@@ -12,5 +12,6 @@ composer.lock
 .php-cs-fixer.php
 Dockerfile
 .dockerignore
+.env
 compose.*.yaml
 Makefile

@@ -4,8 +4,8 @@ services:
       context: .
       target: dev
       args:
-        PHP_VERSION: "8.4"
-    image: php-cs-custom-fixer:8.4-dev
+        PHP_VERSION: ${PHP_DEFAULT_VERSION}
+    image: php-cs-custom-fixer:${PHP_DEFAULT_VERSION}-dev
     network_mode: bridge
     user: "${HOST_UID:?run through make or export HOST_UID}:${HOST_GID:?run through make or export HOST_GID}"
     working_dir: /app
