@@ -4,11 +4,13 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "friendsofphp/php-cs-fixer": "^3.95"
+        "friendsofphp/php-cs-fixer": "^3.95.5"
     },
     "require-dev": {
         "phpspec/phpspec": "^8.0",
+        "phpstan/extension-installer": "^1.4",
         "phpstan/phpstan": "^2.3",
+        "phpstan/phpstan-deprecation-rules": "^2.0",
         "rector/rector": "^2.7",
         "sebastian/diff": "^4.0",
         "twig/twig": "^3.3",
@@ -28,7 +30,10 @@
         }
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
     },
     "extra": {
         "branch-alias": {
