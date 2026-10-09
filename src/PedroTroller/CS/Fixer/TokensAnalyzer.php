@@ -533,7 +533,7 @@ final class TokensAnalyzer
      *
      * @return list<ClassElement>
      */
-    public function getElements($startIndex = null)
+    public function getElements($startIndex = null): array
     {
         if (null === $startIndex) {
             foreach ($this->tokens as $startIndex => $token) {
@@ -554,7 +554,9 @@ final class TokensAnalyzer
             $visibility = 'public';
             $static     = false;
 
-            for ($i = $startIndex;; ++$i) {
+            $i = $startIndex;
+
+            while (!$this->tokens[$i]->isGivenKind([CT::T_USE_TRAIT, T_CONST, T_VARIABLE, T_FUNCTION])) {
                 $token = $this->tokens[$i];
 
                 if ('}' === $token->getContent()) {
@@ -563,20 +565,14 @@ final class TokensAnalyzer
 
                 if ($token->isGivenKind(T_STATIC)) {
                     $static = true;
-
-                    continue;
-                }
-
-                if ($token->isGivenKind([T_PROTECTED, T_PRIVATE])) {
+                } elseif ($token->isGivenKind([T_PROTECTED, T_PRIVATE])) {
                     $visibility = mb_strtolower($token->getContent());
-
-                    continue;
                 }
 
-                if ($token->isGivenKind([CT::T_USE_TRAIT, T_CONST, T_VARIABLE, T_FUNCTION])) {
-                    break;
-                }
+                ++$i;
             }
+
+            $token = $this->tokens[$i];
 
             $type    = $this->detectElementType($i);
             $end     = $this->findElementEnd($i);

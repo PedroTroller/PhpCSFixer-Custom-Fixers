@@ -271,7 +271,7 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
                     }
                 }
 
-                $found = $tokens->findSequence($sequence, $index);
+                $found = $tokens->findSequence($sequence, array_key_last($found));
             }
         }
     }
