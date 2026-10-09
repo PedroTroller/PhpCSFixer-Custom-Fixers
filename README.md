@@ -1274,6 +1274,7 @@ Run `make` to list the available commands:
 ```
   help           Show this help
   test           Run the test suite in a fresh image (PHP_VERSION=x.y, DEPENDENCIES=lowest)
+  stan           Run PHPStan in a fresh image (PHP_VERSION=x.y, DEPENDENCIES=lowest)
   readme         Regenerate README.md from bin/doc.twig (FRESH=1 to re-resolve vendor)
   readme-check   Fail if README.md is not up to date (FRESH=1 to re-resolve vendor)
   lint           Check coding standards, dry run as in CI
@@ -1281,7 +1282,7 @@ Run `make` to list the available commands:
   update-php     Align the minimum PHP version with php.net, then run fix, readme and test
 ```
 
-`make test` runs in an image that contains the code and its dependencies, rebuilt on each call. The other commands work on your working copy, always on the minimum supported PHP version. That version is set once, in `.env`.
+`make test` and `make stan` run in an image that contains the code and its dependencies, rebuilt on each call. The other commands work on your working copy, always on the minimum supported PHP version. That version is set once, in `.env`.
 
 `vendor/` is installed on your machine the first time, then again whenever `composer.json` changes. There is no lock file, so it can fall behind what CI resolves: `make readme-check FRESH=1` (or `rm -rf vendor`) resolves the dependencies again before the check.
 
