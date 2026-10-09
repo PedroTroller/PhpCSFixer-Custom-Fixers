@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace tests\UseCase\LineBreakBetweenMethods\Regression;
 
 use PedroTroller\CS\Fixer\CodingStyle\LineBreakBetweenMethodArgumentsFixer;
+use tests\Fixture;
 use tests\UseCase;
 
 final class Case1 implements UseCase
@@ -23,12 +24,12 @@ final class Case1 implements UseCase
 
     public function getRawScript(): string
     {
-        return file_get_contents(\sprintf('%s/Case1/CamelizeNamingStrategy.php.text', __DIR__));
+        return Fixture::read(\sprintf('%s/Case1/CamelizeNamingStrategy.php.text', __DIR__));
     }
 
     public function getExpectation(): string
     {
-        return file_get_contents(\sprintf('%s/Case1/CamelizeNamingStrategy.php.text', __DIR__));
+        return Fixture::read(\sprintf('%s/Case1/CamelizeNamingStrategy.php.text', __DIR__));
     }
 
     public function getMinSupportedPhpVersion(): int

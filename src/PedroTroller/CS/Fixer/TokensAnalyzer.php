@@ -11,18 +11,15 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer as PhpCsFixerTokensAnalyzer;
 
 /**
- * @method getClassyElements()
+ * @method array<int, array{classIndex: int, token: Token, type: string}> getClassyElements()
  *
  * @phpstan-type MethodArgument array{type: null|string, name: string, nullable: bool, asDefault: bool}
- * @phpstan-type ClassElement array{
- *     start: int,
- *     visibility: string,
- *     static: bool,
- *     type: string|array{string, string},
- *     methodName?: string,
- *     propertyName?: string,
- *     end: int,
- * }
+ * @phpstan-type ClassElementType 'use_trait'|'constant'|'property'|'construct'|'destruct'|'magic'|'method'|array{'phpunit', string}
+ * @phpstan-type ClassElement (
+ *     array{start: int, visibility: string, static: bool, type: 'method', methodName: string, end: int, comment: null|string}
+ *     | array{start: int, visibility: string, static: bool, type: 'property', propertyName: string, end: int, comment: null|string}
+ *     | array{start: int, visibility: string, static: bool, type: 'use_trait'|'constant'|'construct'|'destruct'|'magic'|array{'phpunit', string}, end: int, comment: null|string}
+ * )
  */
 final class TokensAnalyzer
 {
@@ -47,7 +44,7 @@ final class TokensAnalyzer
      */
     public function __call(string $name, array $arguments): mixed
     {
-        return \call_user_func_array([$this->analyzer, $name], $arguments);
+        return $this->analyzer->{$name}(...$arguments);
     }
 
     /**
@@ -87,10 +84,10 @@ final class TokensAnalyzer
 
             $next = $this->tokens->getNextMeaningfulToken($argumentName);
 
-            if ('=' === $this->tokens[$next]->getContent()) {
+            if (null !== $next && '=' === $this->tokens[$next]->getContent()) {
                 $argumentAsDefault = true;
                 $value             = $this->tokens->getNextMeaningfulToken($next);
-                $argumentNullable  = 'null' === $this->tokens[$value]->getContent();
+                $argumentNullable  = null !== $value && 'null' === $this->tokens[$value]->getContent();
             }
 
             $arguments[$position] = [
@@ -155,6 +152,10 @@ final class TokensAnalyzer
                 case ';' === $this->tokens[$index]->getContent():
                     return null;
             }
+
+            if (null === $index) {
+                return null;
+            }
         } while (',' !== $this->tokens[$index]->getContent());
 
         return $index;
@@ -189,6 +190,10 @@ final class TokensAnalyzer
                     $index = $this->getClosingCurlyBracket($index);
 
                     break;
+            }
+
+            if (null === $index) {
+                return null;
             }
         } while (';' !== $this->tokens[$index]->getContent());
 
@@ -231,6 +236,10 @@ final class TokensAnalyzer
         $next = $optionnal
             ? $this->tokens->getNextMeaningfulToken($next)
             : $next;
+
+        if (null === $next) {
+            return null;
+        }
 
         do {
             $return = $this->tokens[$next]->getContent();
@@ -285,8 +294,8 @@ final class TokensAnalyzer
      */
     public function getSizeOfTheLine($index)
     {
-        $start = $this->getBeginningOfTheLine($index);
-        $end   = $this->getEndOfTheLine($index);
+        $start = $this->getBeginningOfTheLine($index) ?? 0;
+        $end   = $this->getEndOfTheLine($index) ?? $this->tokens->count() - 1;
         $size  = 0;
 
         $parts = explode("\n", $this->tokens[$start]->getContent());
@@ -326,6 +335,10 @@ final class TokensAnalyzer
                     $index = $this->getClosingCurlyBracket($index);
 
                     break;
+            }
+
+            if (null === $index) {
+                return null;
             }
         } while ('}' !== $this->tokens[$index]->getContent());
 
@@ -491,6 +504,11 @@ final class TokensAnalyzer
     public function getLineIndentation($index)
     {
         $start = $this->getBeginningOfTheLine($index);
+
+        if (null === $start) {
+            return '';
+        }
+
         $token = $this->tokens[$start];
         $parts = explode("\n", $token->getContent());
 
@@ -498,9 +516,9 @@ final class TokensAnalyzer
     }
 
     /**
-     * @param list<list<array{0: int, 1?: string}|string|Token>> $seqs
-     * @param null|mixed                                         $start
-     * @param null|mixed                                         $end
+     * @param list<non-empty-list<array{0: int, 1?: string}|string|Token>> $seqs
+     * @param null|mixed                                                   $start
+     * @param null|mixed                                                   $end
      *
      * @return array<int, array<int, Token>>
      */
@@ -528,14 +546,12 @@ final class TokensAnalyzer
     }
 
     /**
-     * @param int $startIndex
+     * @param null|int $startIndex index of the opening curly brace of the class body, or null for the first class of the file
      *
      * @return list<ClassElement>
      */
     public function getElements($startIndex = null)
     {
-        static $elementTokenKinds = [CT::T_USE_TRAIT, T_CONST, T_VARIABLE, T_FUNCTION];
-
         if (null === $startIndex) {
             foreach ($this->tokens as $startIndex => $token) {
                 if (!$token->isClassy()) {
@@ -552,11 +568,8 @@ final class TokensAnalyzer
         $elements = [];
 
         while (true) {
-            $element = [
-                'start'      => $startIndex,
-                'visibility' => 'public',
-                'static'     => false,
-            ];
+            $visibility = 'public';
+            $static     = false;
 
             for ($i = $startIndex;; ++$i) {
                 $token = $this->tokens[$i];
@@ -566,53 +579,67 @@ final class TokensAnalyzer
                 }
 
                 if ($token->isGivenKind(T_STATIC)) {
-                    $element['static'] = true;
+                    $static = true;
 
                     continue;
                 }
 
                 if ($token->isGivenKind([T_PROTECTED, T_PRIVATE])) {
-                    $element['visibility'] = mb_strtolower($token->getContent());
+                    $visibility = mb_strtolower($token->getContent());
 
                     continue;
                 }
 
-                if (!$token->isGivenKind([CT::T_USE_TRAIT, T_CONST, T_VARIABLE, T_FUNCTION])) {
-                    continue;
+                if ($token->isGivenKind([CT::T_USE_TRAIT, T_CONST, T_VARIABLE, T_FUNCTION])) {
+                    break;
                 }
-
-                $type            = $this->detectElementType($this->tokens, $i);
-                $element['type'] = $type;
-
-                switch ($type) {
-                    case 'method':
-                        $element['methodName'] = $this->tokens[$this->tokens->getNextMeaningfulToken($i)]->getContent();
-
-                        break;
-
-                    case 'property':
-                        $element['propertyName'] = $token->getContent();
-
-                        break;
-                }
-                $element['end'] = $this->findElementEnd($this->tokens, $i);
-
-                break;
             }
 
-            $elements[] = $element;
-            $startIndex = $element['end'] + 1;
+            $type    = $this->detectElementType($i);
+            $end     = $this->findElementEnd($i);
+            $comment = isset($this->tokens[$startIndex + 1]) && $this->tokens[$startIndex + 1]->isComment()
+                ? $this->tokens[$startIndex + 1]->getContent()
+                : null;
+
+            $elements[] = match ($type) {
+                'method' => [
+                    'start'      => $startIndex,
+                    'visibility' => $visibility,
+                    'static'     => $static,
+                    'type'       => $type,
+                    'methodName' => $this->tokens[$this->getNextMeaningfulTokenOrFail($i)]->getContent(),
+                    'end'        => $end,
+                    'comment'    => $comment,
+                ],
+                'property' => [
+                    'start'        => $startIndex,
+                    'visibility'   => $visibility,
+                    'static'       => $static,
+                    'type'         => $type,
+                    'propertyName' => $token->getContent(),
+                    'end'          => $end,
+                    'comment'      => $comment,
+                ],
+                default => [
+                    'start'      => $startIndex,
+                    'visibility' => $visibility,
+                    'static'     => $static,
+                    'type'       => $type,
+                    'end'        => $end,
+                    'comment'    => $comment,
+                ],
+            };
+
+            $startIndex = $end + 1;
         }
     }
 
     /**
-     * @param int $index
-     *
-     * @return array{string, string}|string type or array of type and name
+     * @return ClassElementType
      */
-    private function detectElementType(Tokens $tokens, $index)
+    private function detectElementType(int $index): array|string
     {
-        $token = $tokens[$index];
+        $token = $this->tokens[$index];
 
         if ($token->isGivenKind(CT::T_USE_TRAIT)) {
             return 'use_trait';
@@ -626,7 +653,7 @@ final class TokensAnalyzer
             return 'property';
         }
 
-        $nameToken = $tokens[$tokens->getNextMeaningfulToken($index)];
+        $nameToken = $this->tokens[$this->getNextMeaningfulTokenOrFail($index)];
 
         if ($nameToken->equals([T_STRING, '__construct'], false)) {
             return 'construct';
@@ -654,23 +681,35 @@ final class TokensAnalyzer
         return 'method';
     }
 
-    /**
-     * @param int $index
-     *
-     * @return int
-     */
-    private function findElementEnd(Tokens $tokens, $index)
+    private function findElementEnd(int $index): int
     {
-        $index = $tokens->getNextTokenOfKind($index, ['{', ';']);
+        $next = $this->tokens->getNextTokenOfKind($index, ['{', ';']);
 
-        if ('{' === $tokens[$index]->getContent()) {
-            $index = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $index);
+        if (null === $next) {
+            throw new Exception(\sprintf('Expected token: { or ; after class element at index %d.', $index));
         }
 
-        for (++$index; $tokens[$index]->isWhitespace(" \t") || $tokens[$index]->isComment(); ++$index);
+        $index = $next;
+
+        if ('{' === $this->tokens[$index]->getContent()) {
+            $index = $this->tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $index);
+        }
+
+        for (++$index; $this->tokens[$index]->isWhitespace(" \t") || $this->tokens[$index]->isComment(); ++$index);
 
         --$index;
 
-        return $tokens[$index]->isWhitespace() ? $index - 1 : $index;
+        return $this->tokens[$index]->isWhitespace() ? $index - 1 : $index;
+    }
+
+    private function getNextMeaningfulTokenOrFail(int $index): int
+    {
+        $next = $this->tokens->getNextMeaningfulToken($index);
+
+        if (null === $next) {
+            throw new Exception(\sprintf('Expected a meaningful token after index %d.', $index));
+        }
+
+        return $next;
     }
 }

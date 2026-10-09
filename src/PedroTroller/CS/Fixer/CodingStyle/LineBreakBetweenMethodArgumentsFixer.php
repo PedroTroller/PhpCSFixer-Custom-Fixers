@@ -121,20 +121,18 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
 
         foreach (array_reverse($functions, true) as $index => $token) {
             $nextIndex = $tokens->getNextMeaningfulToken($index);
-            $next      = $tokens[$nextIndex];
 
             if (null === $nextIndex) {
                 continue;
             }
 
-            if (T_STRING !== $next->getId()) {
+            if (T_STRING !== $tokens[$nextIndex]->getId()) {
                 continue;
             }
 
             $openBraceIndex = $tokens->getNextMeaningfulToken($nextIndex);
-            $openBrace      = $tokens[$openBraceIndex];
 
-            if ('(' !== $openBrace->getContent()) {
+            if (null === $openBraceIndex || '(' !== $tokens[$openBraceIndex]->getContent()) {
                 continue;
             }
 
@@ -171,25 +169,36 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
     {
         $this->mergeArgs($tokens, $index);
 
-        $openBraceIndex  = $tokens->getNextTokenOfKind($index, ['(']);
-        $closeBraceIndex = $this->analyze($tokens)->getClosingParenthesis($openBraceIndex);
+        $openBraceIndex = $tokens->getNextTokenOfKind($index, ['(']);
 
-        if (0 === $closeBraceIndex) {
+        if (null === $openBraceIndex) {
             return;
         }
 
-        if ('{' === $tokens[$tokens->getNextMeaningfulToken($closeBraceIndex)]->getContent()) {
+        $closeBraceIndex = $this->analyze($tokens)->getClosingParenthesis($openBraceIndex);
+
+        if (null === $closeBraceIndex) {
+            return;
+        }
+
+        $afterCloseBraceIndex = $tokens->getNextMeaningfulToken($closeBraceIndex);
+
+        if (null !== $afterCloseBraceIndex && '{' === $tokens[$afterCloseBraceIndex]->getContent()) {
             $tokens->removeTrailingWhitespace($closeBraceIndex);
             $tokens->ensureWhitespaceAtIndex($closeBraceIndex, 1, ' ');
         }
 
-        if ($tokens[$tokens->getNextMeaningfulToken($closeBraceIndex)]->isGivenKind(self::T_TYPEHINT_SEMI_COLON)) {
+        $afterCloseBraceIndex = $tokens->getNextMeaningfulToken($closeBraceIndex);
+
+        if (null !== $afterCloseBraceIndex && $tokens[$afterCloseBraceIndex]->isGivenKind(self::T_TYPEHINT_SEMI_COLON)) {
             $end = $tokens->getNextTokenOfKind($closeBraceIndex, [';', '{']);
 
-            $tokens->removeLeadingWhitespace($end);
+            if (null !== $end) {
+                $tokens->removeLeadingWhitespace($end);
 
-            if (';' !== $tokens[$end]->getContent()) {
-                $tokens->ensureWhitespaceAtIndex($end, 0, ' ');
+                if (';' !== $tokens[$end]->getContent()) {
+                    $tokens->ensureWhitespaceAtIndex($end, 0, ' ');
+                }
             }
         }
 
@@ -198,10 +207,18 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
         for ($i = $openBraceIndex + 1; $i < $closeBraceIndex; ++$i) {
             if ('(' === $tokens[$i]->getContent()) {
                 $i = $this->analyze($tokens)->getClosingParenthesis($i);
+
+                if (null === $i) {
+                    return;
+                }
             }
 
             if ('[' === $tokens[$i]->getContent()) {
                 $i = $this->analyze($tokens)->getClosingBracket($i);
+
+                if (null === $i) {
+                    return;
+                }
             }
 
             if (',' === $tokens[$i]->getContent()) {
@@ -210,6 +227,10 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
 
             if (false === $this->configuration['inline-attributes'] && $tokens[$i]->isGivenKind(T_ATTRIBUTE)) {
                 $i = $this->analyze($tokens)->getClosingAttribute($i);
+
+                if (null === $i) {
+                    return;
+                }
 
                 $linebreaks[] = $i;
             }
@@ -238,31 +259,45 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
 
     private function mergeArgs(Tokens $tokens, int $index): void
     {
-        $openBraceIndex  = $tokens->getNextTokenOfKind($index, ['(']);
+        $openBraceIndex = $tokens->getNextTokenOfKind($index, ['(']);
+
+        if (null === $openBraceIndex) {
+            return;
+        }
+
         $closeBraceIndex = $this->analyze($tokens)->getClosingParenthesis($openBraceIndex);
 
+        if (null === $closeBraceIndex) {
+            return;
+        }
+
         foreach ($tokens->findGivenKind(T_WHITESPACE, $openBraceIndex, $closeBraceIndex) as $spaceIndex => $spaceToken) {
-            if ($tokens[$tokens->getPrevNonWhitespace($spaceIndex)]->isGivenKind([T_COMMENT, T_DOC_COMMENT])) {
+            if ($this->isComment($tokens, $tokens->getPrevNonWhitespace($spaceIndex))) {
                 continue;
             }
 
-            if ($tokens[$tokens->getNextNonWhitespace($spaceIndex)]->isGivenKind([T_COMMENT, T_DOC_COMMENT])) {
+            if ($this->isComment($tokens, $tokens->getNextNonWhitespace($spaceIndex))) {
                 continue;
             }
 
             $tokens[$spaceIndex] = new Token([T_WHITESPACE, ' ']);
         }
 
-        if (!$tokens[$tokens->getNextNonWhitespace($openBraceIndex)]->isGivenKind([T_COMMENT, T_DOC_COMMENT])) {
+        if (!$this->isComment($tokens, $tokens->getNextNonWhitespace($openBraceIndex))) {
             $tokens->removeTrailingWhitespace($openBraceIndex);
         }
         $tokens->removeLeadingWhitespace($closeBraceIndex);
 
         $end = $tokens->getNextTokenOfKind($closeBraceIndex, [';', '{']);
 
-        if ('{' === $tokens[$end]->getContent()) {
+        if (null !== $end && '{' === $tokens[$end]->getContent()) {
             $tokens->removeLeadingWhitespace($end);
             $tokens->ensureWhitespaceAtIndex($end, -1, "\n".$this->analyze($tokens)->getLineIndentation($index));
         }
+    }
+
+    private function isComment(Tokens $tokens, ?int $index): bool
+    {
+        return null !== $index && $tokens[$index]->isGivenKind([T_COMMENT, T_DOC_COMMENT]);
     }
 }

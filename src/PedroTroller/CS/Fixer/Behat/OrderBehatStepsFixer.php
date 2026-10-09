@@ -6,6 +6,7 @@ namespace PedroTroller\CS\Fixer\Behat;
 
 use PedroTroller\CS\Fixer\AbstractOrderedClassElementsFixer;
 use PedroTroller\CS\Fixer\Priority;
+use PedroTroller\CS\Fixer\TokensAnalyzer;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\ConfigurableFixerTrait;
@@ -18,7 +19,7 @@ use PhpCsFixer\Tokenizer\Tokens;
  * @phpstan-type _InputConfiguration array{instanceof?: list<string>}
  * @phpstan-type _ComputedConfiguration array{instanceof: list<string>}
  *
- * @phpstan-import-type ClassElement from AbstractOrderedClassElementsFixer
+ * @phpstan-import-type ClassElement from TokensAnalyzer
  *
  * @implements ConfigurableFixerInterface<_InputConfiguration, _ComputedConfiguration>
  */

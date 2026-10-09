@@ -6,12 +6,13 @@ namespace PedroTroller\CS\Fixer\ClassNotation;
 
 use PedroTroller\CS\Fixer\AbstractOrderedClassElementsFixer;
 use PedroTroller\CS\Fixer\Priority;
+use PedroTroller\CS\Fixer\TokensAnalyzer;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
 /**
- * @phpstan-import-type ClassElement from AbstractOrderedClassElementsFixer
+ * @phpstan-import-type ClassElement from TokensAnalyzer
  */
 final class OrderedWithGetterAndSetterFirstFixer extends AbstractOrderedClassElementsFixer
 {

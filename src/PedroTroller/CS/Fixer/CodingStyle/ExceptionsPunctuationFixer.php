@@ -129,10 +129,14 @@ final class ExceptionsPunctuationFixer extends AbstractFixer
         ]);
 
         foreach ($cases as $case) {
-            $keys = array_keys($case);
-            array_pop($keys);
             array_pop($case);
-            $tokens[end($keys)] = $this->cleanupMessage(end($case));
+            $messageIndex = array_key_last($case);
+
+            if (null === $messageIndex) {
+                continue;
+            }
+
+            $tokens[$messageIndex] = $this->cleanupMessage($case[$messageIndex]);
         }
     }
 
