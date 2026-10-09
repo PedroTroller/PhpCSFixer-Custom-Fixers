@@ -4,10 +4,11 @@
 -include .env
 
 PHP_VERSION ?= $(PHP_MIN_VERSION)
+DEPENDENCIES ?= highest
 UID ?= $(shell id -u)
 GID ?= $(shell id -g)
 
-export PHP_VERSION
+export PHP_VERSION DEPENDENCIES
 export HOST_UID := $(UID)
 export HOST_GID := $(GID)
 
@@ -20,9 +21,9 @@ DEV  := docker compose -f compose.dev.yaml run --rm --build dev
 TEST := docker compose -f compose.test.yaml run --rm --build test
 
 help: ## Show this help
-	@grep -E '^[a-zA-Z_-]+:.*## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*## "} {printf "  %-14s %s\n", $$1, $$2}'
+	@grep -hE '^[a-zA-Z_-]+:.*## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*## "} {printf "  %-14s %s\n", $$1, $$2}'
 
-test: ## Run the test suite in a fresh image (PHP_VERSION=x.y to pick another PHP version)
+test: ## Run the test suite in a fresh image (PHP_VERSION=x.y, DEPENDENCIES=lowest)
 	$(TEST) composer tests
 
 readme: vendor/autoload.php ## Regenerate README.md from bin/doc.twig (FRESH=1 to re-resolve vendor)
