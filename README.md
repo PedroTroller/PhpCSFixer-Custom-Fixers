@@ -1286,3 +1286,11 @@ Run `make` to list the available commands:
 `vendor/` is installed on your machine the first time, then again whenever `composer.json` changes. There is no lock file, so it can fall behind what CI resolves: `make readme-check FRESH=1` (or `rm -rf vendor`) resolves the dependencies again before the check.
 
 README.md is generated: edit `bin/doc.twig`, then run `make readme`.
+
+## Updating the minimum PHP version
+
+The minimum PHP version follows the oldest PHP version php.net still supports, and CI fails when it falls behind. To update it:
+
+1. Fork the repository and clone your fork.
+2. Run `make update-php`: it reads the supported versions from php.net, updates `PHP_MIN_VERSION` in `.env` and the `php` constraint in `composer.json`, then runs `make fix`, `make readme` and `make test`.
+3. If `git status` shows changes, commit them and open a pull request with a `feat:` title (for example `feat: drop support of php 8.2`). If nothing changed, the minimum PHP version is already up to date.
