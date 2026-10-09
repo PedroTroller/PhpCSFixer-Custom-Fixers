@@ -18,8 +18,8 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
 /**
- * @phpstan-type _InputConfiguration array{'max-args'?: false|int, 'max-length'?: int, 'automatic-argument-merge'?: bool, 'inline-attributes'?: bool}
- * @phpstan-type _ComputedConfiguration array{'max-args': false|int, 'max-length': int, 'automatic-argument-merge': bool, 'inline-attributes': bool}
+ * @phpstan-type _InputConfiguration array{'max-args'?: false|int, 'max-length'?: int, 'automatic-argument-merge'?: bool, 'inline-attributes'?: bool, 'force-for-construct'?: bool}
+ * @phpstan-type _ComputedConfiguration array{'max-args': false|int, 'max-length': int, 'automatic-argument-merge': bool, 'inline-attributes': bool, 'force-for-construct': bool}
  *
  * @implements ConfigurableFixerInterface<_InputConfiguration, _ComputedConfiguration>
  */
@@ -143,7 +143,7 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
                 continue;
             }
 
-            if (true === self::configured($this->configuration)['force-for-construct'] && '__construct' === $tokens[$nextIndex]->getContent()) {
+            if (true === self::configured($this->configuration)['force-for-construct'] && '__construct' === strtolower($tokens[$nextIndex]->getContent())) {
                 $this->splitArgs($tokens, $index);
 
                 continue;
