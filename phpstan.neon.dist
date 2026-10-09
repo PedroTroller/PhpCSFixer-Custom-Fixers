@@ -9,3 +9,4 @@ parameters:
         closureUsesThis: true
         disallowedBacktick: true
         disallowedImplicitArrayCreation: true
+        disallowedLooseComparison: true
