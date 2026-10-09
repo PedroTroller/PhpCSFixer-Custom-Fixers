@@ -14,3 +14,4 @@ parameters:
         matchingInheritedMethodNames: true
         requireParentConstructorCall: true
         strictArrayFilter: true
+        strictFunctionCalls: true
