@@ -13,3 +13,4 @@ parameters:
         illegalConstructorMethodCall: true
         matchingInheritedMethodNames: true
         requireParentConstructorCall: true
+        strictArrayFilter: true
