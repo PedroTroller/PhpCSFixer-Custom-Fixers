@@ -18,3 +18,4 @@ parameters:
         switchConditionsMatchingType: true
         disallowedShortTernary: true
         dynamicCallOnStaticMethod: true
+        numericOperandsInArithmeticOperators: true

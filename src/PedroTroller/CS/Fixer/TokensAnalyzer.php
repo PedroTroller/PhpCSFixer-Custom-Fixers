@@ -547,6 +547,10 @@ final class TokensAnalyzer
             }
         }
 
+        if (null === $startIndex) {
+            return [];
+        }
+
         ++$startIndex;
         $elements = [];
 
