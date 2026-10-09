@@ -45,34 +45,18 @@ jobs:
           - lowest
     steps:
       - uses: actions/checkout@v4
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          tools: composer:v2
-          coverage: none
-      - run: composer update --no-interaction --no-progress ${{ matrix.dependencies == 'lowest' && '--prefer-lowest --prefer-stable' || '' }}
-      # Not run with the lowest dependencies, as it was not on CircleCI.
-      - if: matrix.dependencies == 'highest'
-        run: composer tests -vvv
-      - run: bin/doc > /dev/null
-      - run: composer run php-cs-fixer
+      - run: make test
         env:
-          PHP_CS_FIXER_IGNORE_ENV: 1
+          PHP_VERSION: ${{ matrix.php }}
+          DEPENDENCIES: ${{ matrix.dependencies }}
 
-  documentation:
+  quality:
+    name: Coding standards and documentation
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - id: env
-        run: cat .env >> "$GITHUB_OUTPUT"
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ steps.env.outputs.PHP_MIN_VERSION }}
-          tools: composer:v2
-          coverage: none
-      - run: composer update --no-interaction --no-progress
-      - name: Check that README.md is up to date
-        run: bin/doc | diff -u README.md - || (echo "Documentation is outdated. Run 'bin/doc > README.md'" && exit 1)
+      - run: make lint
+      - run: make readme-check
 
   release-test:
     runs-on: ubuntu-latest
@@ -93,7 +77,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     needs:
       - tests
-      - documentation
+      - quality
       - release-test
     runs-on: ubuntu-latest
     permissions:
