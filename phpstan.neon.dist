@@ -19,3 +19,4 @@ parameters:
         disallowedShortTernary: true
         dynamicCallOnStaticMethod: true
         numericOperandsInArithmeticOperators: true
+        overwriteVariablesWithLoop: true
