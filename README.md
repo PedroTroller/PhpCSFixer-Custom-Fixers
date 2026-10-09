@@ -1269,15 +1269,15 @@ bin/doc > README.md
 
 No local PHP is needed: everything runs in Docker through `make`. Requirements: Docker with Compose, and GNU make.
 
-```bash
-make                             # list the available commands
-make test                        # run the test suite on the minimum supported PHP version
-make test PHP_VERSION=x.y        # run the test suite on another PHP version
-make test DEPENDENCIES=lowest    # run the test suite with the lowest allowed dependencies
-make readme                      # rebuild README.md
-make readme-check                # fail if README.md is not up to date
-make lint                        # check the coding standards
-make fix                         # fix the coding standards
+Run `make` to list the available commands:
+
+```
+  help           Show this help
+  test           Run the test suite in a fresh image (PHP_VERSION=x.y, DEPENDENCIES=lowest)
+  readme         Regenerate README.md from bin/doc.twig (FRESH=1 to re-resolve vendor)
+  readme-check   Fail if README.md is not up to date (FRESH=1 to re-resolve vendor)
+  lint           Check coding standards, dry run as in CI
+  fix            Fix coding standards in place
 ```
 
 `make test` runs in an image that contains the code and its dependencies, rebuilt on each call. The other commands work on your working copy, always on the minimum supported PHP version. That version is set once, in `.env`.

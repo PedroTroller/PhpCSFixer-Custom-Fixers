@@ -3,7 +3,7 @@ ARG PHP_DEFAULT_VERSION
 
 FROM php:${PHP_DEFAULT_VERSION}-cli AS base
 RUN apt-get update \
- && apt-get install -y --no-install-recommends git unzip \
+ && apt-get install -y --no-install-recommends git make unzip \
  && rm -rf /var/lib/apt/lists/* \
  && git config --system --add safe.directory '*'
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer

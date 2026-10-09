@@ -83,7 +83,16 @@ $fixers = array_map(static function (AbstractFixer $fixer) {
     ];
 }, [...(new Fixers())]);
 
+exec(sprintf('make --no-print-directory --silent -C %s help 2>&1', escapeshellarg(dirname(__DIR__))), $makeHelp, $exitCode);
+
+if (0 !== $exitCode) {
+    throw new RuntimeException(sprintf("%s\n\n`make help` failed with exit code %d.", implode("\n", $makeHelp), $exitCode));
+}
+
 $loader = new FilesystemLoader([__DIR__]);
 $twig   = new Environment($loader);
 
-echo $twig->render('doc.twig', ['fixers' => json_decode(json_encode($fixers))]);
+echo $twig->render('doc.twig', [
+    'fixers'    => json_decode(json_encode($fixers)),
+    'make_help' => implode("\n", $makeHelp),
+]);
