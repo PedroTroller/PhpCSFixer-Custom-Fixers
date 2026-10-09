@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace tests\UseCase;
 
 use PedroTroller\CS\Fixer\PhpspecFixer;
-use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
+use PhpCsFixer\Fixer\ClassNotation\ModifierKeywordsFixer;
 use PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer;
 use tests\UseCase;
 
@@ -13,7 +13,7 @@ final class Phpspec implements UseCase
 {
     public function getFixers(): iterable
     {
-        yield new VisibilityRequiredFixer();
+        yield new ModifierKeywordsFixer();
 
         yield new VoidReturnFixer();
 

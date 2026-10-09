@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PedroTroller\CS\Fixer;
 
-use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
+use PhpCsFixer\Fixer\ClassNotation\ModifierKeywordsFixer;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\ConfigurableFixerTrait;
 use PhpCsFixer\Fixer\FunctionNotation\StaticLambdaFixer;
@@ -109,7 +109,7 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
     {
         return Priority::after(
             StaticLambdaFixer::class,
-            VisibilityRequiredFixer::class,
+            ModifierKeywordsFixer::class,
             VoidReturnFixer::class,
         );
     }

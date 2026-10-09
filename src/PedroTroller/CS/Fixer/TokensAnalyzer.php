@@ -675,7 +675,7 @@ final class TokensAnalyzer
         $index = $next;
 
         if ('{' === $this->tokens[$index]->getContent()) {
-            $index = $this->tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $index);
+            $index = $this->tokens->findBlockEnd(Tokens::BLOCK_TYPE_BRACE, $index);
         }
 
         for (++$index; $this->tokens[$index]->isWhitespace(" \t") || $this->tokens[$index]->isComment(); ++$index);

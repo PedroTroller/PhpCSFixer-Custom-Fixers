@@ -7,7 +7,6 @@ namespace tests;
 use PedroTroller\CS\Fixer\ClassNotation\OrderedWithGetterAndSetterFirstFixer;
 use PedroTroller\CS\Fixer\CodingStyle\LineBreakBetweenMethodArgumentsFixer;
 use PedroTroller\CS\Fixer\DoctrineMigrationsFixer;
-use PhpCsFixer\Fixer\Basic\BracesFixer;
 use PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Fixer\FixerInterface;
@@ -37,7 +36,6 @@ final readonly class Orchestra
         ;
 
         self::assert(new LineBreakBetweenMethodArgumentsFixer())
-            ->after(new BracesFixer())
             ->after(new MethodArgumentSpaceFixer())
         ;
 
