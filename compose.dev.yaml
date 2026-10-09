@@ -1,0 +1,13 @@
+services:
+  dev:
+    build:
+      context: .
+      target: dev
+      args:
+        PHP_VERSION: "8.4"
+    image: php-cs-custom-fixer:8.4-dev
+    network_mode: bridge
+    user: "${HOST_UID:?run through make or export HOST_UID}:${HOST_GID:?run through make or export HOST_GID}"
+    working_dir: /app
+    volumes:
+      - .:/app
