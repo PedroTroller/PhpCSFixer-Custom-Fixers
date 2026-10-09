@@ -90,10 +90,6 @@ final class LineBreakBetweenStatementsFixer extends AbstractFixer
 
             $openCurlyBracket = current(array_keys($curlyBracket));
 
-            if (false === $openCurlyBracket) {
-                continue;
-            }
-
             $closeCurlyBracket = $this->analyze($tokens)->getClosingCurlyBracket($openCurlyBracket);
 
             if (null === $closeCurlyBracket) {
