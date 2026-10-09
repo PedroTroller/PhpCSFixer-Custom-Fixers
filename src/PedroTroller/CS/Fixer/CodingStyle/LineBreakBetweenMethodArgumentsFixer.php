@@ -228,7 +228,8 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
                 }
             }
 
-            if (',' === $tokens[$i]->getContent()) {
+            // A trailing comma is already followed by the closing line break.
+            if (',' === $tokens[$i]->getContent() && $closeBraceIndex !== $tokens->getNextMeaningfulToken($i)) {
                 $linebreaks[] = $i;
             }
 
