@@ -7,3 +7,4 @@ parameters:
         allRules: false
         booleansInLoopConditions: true
         closureUsesThis: true
+        disallowedBacktick: true
