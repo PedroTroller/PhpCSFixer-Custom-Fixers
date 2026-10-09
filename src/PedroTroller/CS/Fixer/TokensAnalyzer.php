@@ -510,7 +510,7 @@ final class TokensAnalyzer
         $sequences = [];
 
         foreach ($seqs as $seq) {
-            $index = $start ?: 0;
+            $index = $start ?? 0;
 
             do {
                 $extract = $this->tokens->findSequence($seq, (int) $index, $end);

@@ -16,3 +16,4 @@ parameters:
         strictArrayFilter: true
         strictFunctionCalls: true
         switchConditionsMatchingType: true
+        disallowedShortTernary: true
