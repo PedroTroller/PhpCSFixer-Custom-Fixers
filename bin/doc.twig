@@ -1,6 +1,6 @@
 # PHP-CS-FIXER : Custom fixers
 
-[![CircleCI](https://circleci.com/gh/PedroTroller/PhpCSFixer-Custom-Fixers.svg?style=shield)](https://circleci.com/gh/PedroTroller/PhpCSFixer-Custom-Fixers)
+[![CI](https://github.com/PedroTroller/PhpCSFixer-Custom-Fixers/actions/workflows/ci.yaml/badge.svg)](https://github.com/PedroTroller/PhpCSFixer-Custom-Fixers/actions/workflows/ci.yaml)
 [![Latest Stable Version](https://poser.pugx.org/pedrotroller/php-cs-custom-fixer/v/stable)](https://packagist.org/packages/pedrotroller/php-cs-custom-fixer)
 [![License](https://poser.pugx.org/pedrotroller/php-cs-custom-fixer/license)](https://packagist.org/packages/pedrotroller/php-cs-custom-fixer)
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=PedroTroller/PhpCSFixer-Custom-Fixers)](https://dependabot.com)
