@@ -127,7 +127,9 @@ final class LineBreakBetweenStatementsFixer extends AbstractFixer
             return;
         }
 
-        if (false === \array_key_exists($tokens[$nextMeaningful]->getId(), self::HANDLERS)) {
+        $nextMeaningfulId = $tokens[$nextMeaningful]->getId();
+
+        if (null === $nextMeaningfulId || false === \array_key_exists($nextMeaningfulId, self::HANDLERS)) {
             return;
         }
 

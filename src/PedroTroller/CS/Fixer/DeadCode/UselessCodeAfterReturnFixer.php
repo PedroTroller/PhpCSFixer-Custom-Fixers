@@ -91,7 +91,7 @@ final class UselessCodeAfterReturnFixer extends AbstractFixer
 
             $end = $tokens->getPrevMeaningfulToken(min($possible));
 
-            if (($start + 1) > $end) {
+            if (null === $end || ($start + 1) > $end) {
                 continue;
             }
 

@@ -40,7 +40,7 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
 
     public function isCandidate(Tokens $tokens): bool
     {
-        foreach ($this->configuration['instanceof'] as $parent) {
+        foreach (self::configured($this->configuration)['instanceof'] as $parent) {
             if ($this->extendsClass($tokens, $parent)) {
                 return true;
             }
@@ -217,7 +217,12 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
                 continue;
             }
 
-            $openBraceIndex    = $tokens->getNextTokenOfKind($index, ['(']);
+            $openBraceIndex = $tokens->getNextTokenOfKind($index, ['(']);
+
+            if (null === $openBraceIndex) {
+                continue;
+            }
+
             $closeBraceIndex   = $this->analyze($tokens)->getClosingParenthesis($openBraceIndex);
             $openCurlyBracket  = $tokens->getNextTokenOfKind($index, ['{']);
             $returnDeclaration = $this->analyze($tokens)->getReturnedType($index);

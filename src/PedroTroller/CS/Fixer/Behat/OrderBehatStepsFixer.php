@@ -50,7 +50,7 @@ final class OrderBehatStepsFixer extends AbstractOrderedClassElementsFixer imple
 
     public function isCandidate(Tokens $tokens): bool
     {
-        foreach ($this->configuration['instanceof'] as $parent) {
+        foreach (self::configured($this->configuration)['instanceof'] as $parent) {
             if ($this->extendsClass($tokens, $parent)) {
                 return true;
             }

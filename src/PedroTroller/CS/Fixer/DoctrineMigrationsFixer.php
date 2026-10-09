@@ -46,7 +46,7 @@ final class DoctrineMigrationsFixer extends AbstractFixer implements Configurabl
 
     public function isCandidate(Tokens $tokens): bool
     {
-        foreach ($this->configuration['instanceof'] as $parent) {
+        foreach (self::configured($this->configuration)['instanceof'] as $parent) {
             if ($this->extendsClass($tokens, $parent)) {
                 return true;
             }

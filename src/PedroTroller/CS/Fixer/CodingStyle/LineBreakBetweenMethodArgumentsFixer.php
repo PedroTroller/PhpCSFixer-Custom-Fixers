@@ -142,13 +142,13 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
                 continue;
             }
 
-            if ($this->analyze($tokens)->getSizeOfTheLine($index) > $this->configuration['max-length']) {
+            if ($this->analyze($tokens)->getSizeOfTheLine($index) > self::configured($this->configuration)['max-length']) {
                 $this->splitArgs($tokens, $index);
 
                 continue;
             }
 
-            if (false !== $this->configuration['max-args'] && $this->analyze($tokens)->getNumberOfArguments($index) > $this->configuration['max-args']) {
+            if (false !== self::configured($this->configuration)['max-args'] && $this->analyze($tokens)->getNumberOfArguments($index) > self::configured($this->configuration)['max-args']) {
                 $this->splitArgs($tokens, $index);
 
                 continue;
@@ -157,9 +157,9 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
             $clonedTokens = clone $tokens;
             $this->mergeArgs($clonedTokens, $index);
 
-            if ($this->analyze($clonedTokens)->getSizeOfTheLine($index) > $this->configuration['max-length']) {
+            if ($this->analyze($clonedTokens)->getSizeOfTheLine($index) > self::configured($this->configuration)['max-length']) {
                 $this->splitArgs($tokens, $index);
-            } elseif ($this->configuration['automatic-argument-merge']) {
+            } elseif (self::configured($this->configuration)['automatic-argument-merge']) {
                 $this->mergeArgs($tokens, $index);
             }
         }
@@ -225,7 +225,7 @@ final class LineBreakBetweenMethodArgumentsFixer extends AbstractFixer implement
                 $linebreaks[] = $i;
             }
 
-            if (false === $this->configuration['inline-attributes'] && $tokens[$i]->isGivenKind(T_ATTRIBUTE)) {
+            if (false === self::configured($this->configuration)['inline-attributes'] && $tokens[$i]->isGivenKind(T_ATTRIBUTE)) {
                 $i = $this->analyze($tokens)->getClosingAttribute($i);
 
                 if (null === $i) {
