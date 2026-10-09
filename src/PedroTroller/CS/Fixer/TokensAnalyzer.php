@@ -6,10 +6,24 @@ namespace PedroTroller\CS\Fixer;
 
 use Exception;
 use PhpCsFixer\Tokenizer\CT;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer as PhpCsFixerTokensAnalyzer;
 
-/** @method getClassyElements() */
+/**
+ * @method getClassyElements()
+ *
+ * @phpstan-type MethodArgument array{type: null|string, name: string, nullable: bool, asDefault: bool}
+ * @phpstan-type ClassElement array{
+ *     start: int,
+ *     visibility: string,
+ *     static: bool,
+ *     type: string|array{string, string},
+ *     methodName?: string,
+ *     propertyName?: string,
+ *     end: int,
+ * }
+ */
 final class TokensAnalyzer
 {
     /**
@@ -28,7 +42,10 @@ final class TokensAnalyzer
         $this->analyzer = new PhpCsFixerTokensAnalyzer($tokens);
     }
 
-    public function __call($name, $arguments)
+    /**
+     * @param list<mixed> $arguments
+     */
+    public function __call(string $name, array $arguments): mixed
     {
         return \call_user_func_array([$this->analyzer, $name], $arguments);
     }
@@ -36,7 +53,7 @@ final class TokensAnalyzer
     /**
      * @param int $index
      *
-     * @return array
+     * @return array<int, MethodArgument>
      */
     public function getMethodArguments($index)
     {
@@ -181,7 +198,7 @@ final class TokensAnalyzer
     /**
      * @param int $index
      *
-     * @return null|array|string
+     * @return null|array{string, null}|string
      */
     public function getReturnedType($index)
     {
@@ -481,10 +498,11 @@ final class TokensAnalyzer
     }
 
     /**
-     * @param null|mixed $start
-     * @param null|mixed $end
+     * @param list<list<array{0: int, 1?: string}|string|Token>> $seqs
+     * @param null|mixed                                         $start
+     * @param null|mixed                                         $end
      *
-     * @return array
+     * @return array<int, array<int, Token>>
      */
     public function findAllSequences(array $seqs, $start = null, $end = null)
     {
@@ -512,7 +530,7 @@ final class TokensAnalyzer
     /**
      * @param int $startIndex
      *
-     * @return array[]
+     * @return list<ClassElement>
      */
     public function getElements($startIndex = null)
     {
@@ -590,7 +608,7 @@ final class TokensAnalyzer
     /**
      * @param int $index
      *
-     * @return array|string type or array of type and name
+     * @return array{string, string}|string type or array of type and name
      */
     private function detectElementType(Tokens $tokens, $index)
     {

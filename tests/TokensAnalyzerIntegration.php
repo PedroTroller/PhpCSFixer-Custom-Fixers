@@ -15,7 +15,7 @@ abstract class TokensAnalyzerIntegration
      */
     abstract public function getCode();
 
-    abstract public function assertions(TokensAnalyzer $analyzer, Tokens $tokens);
+    abstract public function assertions(TokensAnalyzer $analyzer, Tokens $tokens): void;
 
     /**
      * @return int

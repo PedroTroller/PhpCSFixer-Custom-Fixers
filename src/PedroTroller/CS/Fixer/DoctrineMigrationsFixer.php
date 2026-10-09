@@ -16,8 +16,15 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
+/**
+ * @phpstan-type _InputConfiguration array{instanceof?: list<string>}
+ * @phpstan-type _ComputedConfiguration array{instanceof: list<string>}
+ *
+ * @implements ConfigurableFixerInterface<_InputConfiguration, _ComputedConfiguration>
+ */
 final class DoctrineMigrationsFixer extends AbstractFixer implements ConfigurableFixerInterface
 {
+    /** @use ConfigurableFixerTrait<_InputConfiguration, _ComputedConfiguration> */
     use ConfigurableFixerTrait;
 
     /**

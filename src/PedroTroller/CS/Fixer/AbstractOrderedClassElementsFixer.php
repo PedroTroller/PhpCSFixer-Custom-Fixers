@@ -8,6 +8,18 @@ use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
+/**
+ * @phpstan-type ClassElement array{
+ *     start: int,
+ *     visibility: string,
+ *     static: bool,
+ *     type: string|array{string, string},
+ *     methodName?: string,
+ *     propertyName?: string,
+ *     end: int,
+ *     comment: null|string,
+ * }
+ */
 abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
 {
     protected function applyFix(SplFileInfo $file, Tokens $tokens): void
@@ -36,16 +48,16 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
     }
 
     /**
-     * @param array[] $elements
+     * @param list<ClassElement> $elements
      *
-     * @return array[]
+     * @return list<ClassElement>
      */
     abstract protected function sortElements(array $elements): array;
 
     /**
      * @param int $startIndex
      *
-     * @return array[]
+     * @return list<ClassElement>
      */
     private function getElements(Tokens $tokens, $startIndex)
     {
@@ -119,7 +131,7 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
     /**
      * @param int $index
      *
-     * @return array|string type or array of type and name
+     * @return array{string, string}|string type or array of type and name
      */
     private function detectElementType(Tokens $tokens, $index)
     {
@@ -186,9 +198,9 @@ abstract class AbstractOrderedClassElementsFixer extends AbstractFixer
     }
 
     /**
-     * @param int     $startIndex
-     * @param int     $endIndex
-     * @param array[] $elements
+     * @param int                $startIndex
+     * @param int                $endIndex
+     * @param list<ClassElement> $elements
      */
     private function sortTokens(
         Tokens $tokens,

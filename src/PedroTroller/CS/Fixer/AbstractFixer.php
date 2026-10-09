@@ -27,7 +27,7 @@ abstract class AbstractFixer extends PhpCsFixer
     }
 
     /**
-     * @return array<null|array>
+     * @return list<null|array<string, mixed>>
      */
     public function getSampleConfigurations(): array
     {
@@ -76,6 +76,8 @@ abstract class AbstractFixer extends PhpCsFixer
 
     /**
      * @param string|string[] $fqcn
+     *
+     * @return null|array<int, Token>
      */
     protected function getUseStatements(Tokens $tokens, $fqcn): ?array
     {

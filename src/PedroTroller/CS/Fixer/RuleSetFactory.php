@@ -10,7 +10,7 @@ use PhpCsFixer\RuleSet\RuleSets;
 use Traversable;
 
 /**
- * @IteratorAggregate<string, bool|array<mixed>>
+ * @implements IteratorAggregate<string, array<mixed>|bool>
  */
 final class RuleSetFactory implements IteratorAggregate
 {
@@ -42,11 +42,17 @@ final class RuleSetFactory implements IteratorAggregate
         return $this->rules;
     }
 
+    /**
+     * @return Traversable<string, array<mixed>|bool>
+     */
     public function getIterator(): Traversable
     {
         yield from $this->rules;
     }
 
+    /**
+     * @param array<string, array<mixed>|bool> $rules
+     */
     public static function create(array $rules = []): self
     {
         return new self(
@@ -253,6 +259,9 @@ final class RuleSetFactory implements IteratorAggregate
         );
     }
 
+    /**
+     * @param null|array<mixed> $config
+     */
     public function enable(string $name, ?array $config = null): self
     {
         return self::create(

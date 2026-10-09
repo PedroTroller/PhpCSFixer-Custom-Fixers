@@ -10,6 +10,9 @@ use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
+/**
+ * @phpstan-import-type ClassElement from AbstractOrderedClassElementsFixer
+ */
 final class OrderedWithGetterAndSetterFirstFixer extends AbstractOrderedClassElementsFixer
 {
     public function isCandidate(Tokens $tokens): bool
@@ -147,6 +150,11 @@ final class OrderedWithGetterAndSetterFirstFixer extends AbstractOrderedClassEle
         return $result;
     }
 
+    /**
+     * @param list<ClassElement> $elements
+     *
+     * @return list<string>
+     */
     private function getMethodsNames(array $elements): array
     {
         $methods = [];
@@ -162,6 +170,11 @@ final class OrderedWithGetterAndSetterFirstFixer extends AbstractOrderedClassEle
         return $methods;
     }
 
+    /**
+     * @param list<ClassElement> $elements
+     *
+     * @return array<int, string>
+     */
     private function getPropertiesNames(array $elements): array
     {
         $properties = array_filter($elements, static fn ($element) => 'property' === $element['type']);

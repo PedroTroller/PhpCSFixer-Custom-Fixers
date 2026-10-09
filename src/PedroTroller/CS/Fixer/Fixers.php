@@ -6,14 +6,16 @@ namespace PedroTroller\CS\Fixer;
 
 use Generator;
 use IteratorAggregate;
-use PhpCsFixer\Fixer\FixerInterface;
 use ReflectionClass;
 use Symfony\Component\Finder\Finder;
 
+/**
+ * @implements IteratorAggregate<int, AbstractFixer>
+ */
 final class Fixers implements IteratorAggregate
 {
     /**
-     * {@inheritdoc}
+     * @return Generator<int, AbstractFixer>
      */
     public function getIterator(): Generator
     {
@@ -38,7 +40,7 @@ final class Fixers implements IteratorAggregate
 
             $rfl = new ReflectionClass($class);
 
-            if (false === $rfl->implementsInterface(FixerInterface::class)) {
+            if (false === $rfl->isSubclassOf(AbstractFixer::class)) {
                 continue;
             }
 

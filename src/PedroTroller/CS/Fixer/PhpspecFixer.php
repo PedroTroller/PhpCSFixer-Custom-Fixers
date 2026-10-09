@@ -16,8 +16,17 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
+/**
+ * @phpstan-type _InputConfiguration array{instanceof?: list<string>}
+ * @phpstan-type _ComputedConfiguration array{instanceof: list<string>}
+ *
+ * @phpstan-import-type ClassElement from AbstractOrderedClassElementsFixer
+ *
+ * @implements ConfigurableFixerInterface<_InputConfiguration, _ComputedConfiguration>
+ */
 final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements ConfigurableFixerInterface
 {
+    /** @use ConfigurableFixerTrait<_InputConfiguration, _ComputedConfiguration> */
     use ConfigurableFixerTrait;
 
     public function getSampleConfigurations(): array
@@ -260,6 +269,11 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
         }
     }
 
+    /**
+     * @param list<ClassElement> $elements
+     *
+     * @return array<int, ClassElement>
+     */
     private function filterElementsByMethodName(string $regex, array $elements): array
     {
         $filter = [];
@@ -273,6 +287,11 @@ final class PhpspecFixer extends AbstractOrderedClassElementsFixer implements Co
         return $filter;
     }
 
+    /**
+     * @param list<ClassElement> $elements
+     *
+     * @return array<int, ClassElement>
+     */
     private function filterElementsByType(string $type, array $elements): array
     {
         $filter = [];
