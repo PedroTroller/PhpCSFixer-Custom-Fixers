@@ -10,3 +10,4 @@ parameters:
         disallowedBacktick: true
         disallowedImplicitArrayCreation: true
         disallowedLooseComparison: true
+        illegalConstructorMethodCall: true
