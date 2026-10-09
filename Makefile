@@ -3,7 +3,7 @@
 
 -include .env
 
-PHP_VERSION ?= $(PHP_DEFAULT_VERSION)
+PHP_VERSION ?= $(PHP_MIN_VERSION)
 UID ?= $(shell id -u)
 GID ?= $(shell id -g)
 
@@ -37,6 +37,6 @@ lint: vendor/autoload.php ## Check coding standards, dry run as in CI
 fix: vendor/autoload.php ## Fix coding standards in place
 	$(DEV) env PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix -vvv --diff
 
-vendor/autoload.php: composer.json
+vendor/autoload.php: composer.json .env
 	$(DEV) composer update --no-interaction --no-progress
 	@touch $@

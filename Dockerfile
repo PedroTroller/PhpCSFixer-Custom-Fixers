@@ -1,7 +1,7 @@
-# Passed by compose, the default lives in .env
-ARG PHP_VERSION
+# Set by compose from PHP_MIN_VERSION in .env
+ARG PHP_DEFAULT_VERSION
 
-FROM php:${PHP_VERSION}-cli AS base
+FROM php:${PHP_DEFAULT_VERSION}-cli AS base
 RUN apt-get update \
  && apt-get install -y --no-install-recommends git unzip \
  && rm -rf /var/lib/apt/lists/* \

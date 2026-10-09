@@ -7,12 +7,14 @@ use PedroTroller\CS\Fixer\RuleSetFactory;
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 
+$env = parse_ini_file(__DIR__.'/.env');
+
 return (new Config())
     ->setRiskyAllowed(true)
     ->setRules(
         RuleSetFactory::create()
             ->phpCsFixer(true)
-            ->php(8.2, true)
+            ->php((float) $env['PHP_MIN_VERSION'], true)
             ->pedrotroller(true)
             ->enable('align_multiline_comment')
             ->enable('array_indentation')
