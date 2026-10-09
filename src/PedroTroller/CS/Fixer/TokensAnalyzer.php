@@ -536,12 +536,12 @@ final class TokensAnalyzer
     public function getElements($startIndex = null): array
     {
         if (null === $startIndex) {
-            foreach ($this->tokens as $startIndex => $token) {
+            foreach ($this->tokens as $index => $token) {
                 if (!$token->isClassy()) {
                     continue;
                 }
 
-                $startIndex = $this->tokens->getNextTokenOfKind($startIndex, ['{']);
+                $startIndex = $this->tokens->getNextTokenOfKind($index, ['{']);
 
                 break;
             }
