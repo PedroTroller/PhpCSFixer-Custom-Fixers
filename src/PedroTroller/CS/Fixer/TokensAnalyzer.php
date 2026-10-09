@@ -59,14 +59,14 @@ final class TokensAnalyzer
             $argumentAsDefault = false;
             $argumentNullable  = false;
 
-            if (!preg_match('/^\$.+/', $this->tokens[$argumentName]->getContent())) {
+            if (1 !== preg_match('/^\$.+/', $this->tokens[$argumentName]->getContent())) {
                 do {
                     if (false === $this->tokens[$argumentName]->isWhitespace()) {
                         $argumentType .= $this->tokens[$argumentName]->getContent();
                     }
 
                     ++$argumentName;
-                } while (!preg_match('/^\$.+/', $this->tokens[$argumentName]->getContent()));
+                } while (1 !== preg_match('/^\$.+/', $this->tokens[$argumentName]->getContent()));
             }
 
             $next = $this->tokens->getNextMeaningfulToken($argumentName);

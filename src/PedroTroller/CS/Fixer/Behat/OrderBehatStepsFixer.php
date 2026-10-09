@@ -168,7 +168,7 @@ final class OrderBehatStepsFixer extends AbstractOrderedClassElementsFixer imple
             foreach (self::ANNOTATION_PRIORITIES as $search) {
                 $regex = "/^ *(\\/\\/|\\*).* {$search}( .+|$)/m";
 
-                if (!preg_match($regex, $element['comment'])) {
+                if (1 !== preg_match($regex, $element['comment'])) {
                     continue;
                 }
 
